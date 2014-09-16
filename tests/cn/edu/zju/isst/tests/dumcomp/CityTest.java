@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.v2.event.city.data.CSTCity;
-import cn.edu.zju.isst.v2.event.city.data.CSTCityDataDelegate;
-import cn.edu.zju.isst.v2.event.city.data.CSTCityProvider;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityDataDelegate;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityProvider;
 import cn.edu.zju.isst.v2.user.data.CSTUser;
 
 public class CityTest extends Activity {
@@ -68,7 +68,7 @@ public class CityTest extends Activity {
                 city.id = 1;
                 city.name = "宁波";
                 city.cityMaster = user;
-                CSTCityDataDelegate.saveCampusActivity(getApplicationContext(), city);
+                CSTCityDataDelegate.saveCity(getApplicationContext(), city);
                 show();
             }
         });

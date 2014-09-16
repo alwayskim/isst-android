@@ -332,7 +332,7 @@ public class ContactListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_alumni_filter:
                 Intent intent = new Intent(getActivity(),
-                        ContactFilterActivity.class);
+                        cn.edu.zju.isst.v2.contact.ContactFilterActivity.class);
                 startActivityForResult(intent, 20);
                 return true;
             default:

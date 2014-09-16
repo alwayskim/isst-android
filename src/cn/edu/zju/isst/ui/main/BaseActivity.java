@@ -163,9 +163,9 @@ public class BaseActivity extends Activity implements LoginSimulation,
     }
 
     protected void requestGlobalData() {
-        GlobalDataCache.cacheCityList(null);
-        GlobalDataCache.cacheClassList(null);
-        GlobalDataCache.cacheMajorList(null);
+        cn.edu.zju.isst.v2.globaldata.GlobalDataCache.cacheCityList(this);
+        cn.edu.zju.isst.v2.globaldata.GlobalDataCache.cacheClassList(this);
+        cn.edu.zju.isst.v2.globaldata.GlobalDataCache.cacheMajorList(this);
     }
 
 }

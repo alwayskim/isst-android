@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/contact_filter_drawer_fragment_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="?android:attr/dividerHorizontal"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <ScrollView
+            android:id="@+id/contact_filter_activity_filter_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_middle">
+
+                <RelativeLayout
+                    android:id="@+id/contact_filter_activity_name_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_line_middle_height"
+                    android:layout_alignParentTop="true">
+
+                    <TextView
+                        android:id="@+id/contact_filter_activity_final_name_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/filter_name"
+                        android:textSize="@dimen/text_size_middle" />
+
+                    <EditText
+                        android:id="@+id/contact_filter_activity_name_edtx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/contact_filter_activity_final_name_txv"
+                        android:inputType="text"
+                        android:padding="@dimen/padding_small"
+                        android:textSize="@dimen/text_size_middle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contact_filter_activity_gender_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_line_middle_height"
+                    android:layout_below="@+id/contact_filter_activity_name_area">
+
+                    <TextView
+                        android:id="@+id/contact_filter_activity_final_gender_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/filter_gender"
+                        android:textSize="@dimen/text_size_middle" />
+
+                    <RadioGroup
+                        android:id="@+id/contact_filter_activity_gender_rdg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/contact_filter_activity_final_gender_txv"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/contact_filter_activity_gender_unset_rdbtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/filter_gender_default"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <RadioButton
+                            android:id="@+id/contact_filter_activity_gender_male_rdbtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/filter_male"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <RadioButton
+                            android:id="@+id/contact_filter_activity_gender_female_rdbtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/filter_female"
+                            android:textSize="@dimen/text_size_small" />
+                    </RadioGroup>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contact_filter_activity_grade_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_line_middle_height"
+                    android:layout_below="@+id/contact_filter_activity_gender_area">
+
+                    <TextView
+                        android:id="@+id/contact_filter_activity_final_grade_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/filter_grade"
+                        android:textSize="@dimen/text_size_middle" />
+
+                    <!--                 <EditText
+                                        android:id="@+id/contact_filter_activity_grade_edtx"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_toRightOf="@+id/contact_filter_activity_final_grade_txv"
+                                        android:inputType="text"
+                                        android:padding="@dimen/padding_small"
+                                        android:textSize="@dimen/text_size_middle" /> -->
+                    <Spinner
+                        android:id="@+id/contact_filter_activity_grade_spn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/contact_filter_activity_final_grade_txv"
+                        android:padding="@dimen/padding_small"
+                        android:textSize="@dimen/text_size_middle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contact_filter_activity_major_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_line_middle_height"
+                    android:layout_below="@+id/contact_filter_activity_grade_area">
+
+                    <TextView
+                        android:id="@+id/contact_filter_activity_final_major_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/filter_major"
+                        android:textSize="@dimen/text_size_middle" />
+
+                    <Spinner
+                        android:id="@+id/contact_filter_activity_major_spn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/contact_filter_activity_final_major_txv"
+                        android:padding="@dimen/padding_small" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contact_filter_activity_city_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_line_middle_height"
+                    android:layout_below="@+id/contact_filter_activity_major_area">
+
+                    <TextView
+                        android:id="@+id/contact_filter_activity_final_city_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/filter_city"
+                        android:textSize="@dimen/text_size_middle" />
+
+                    <Spinner
+                        android:id="@+id/contact_filter_activity_city_spn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/contact_filter_activity_final_city_txv"
+                        android:padding="@dimen/padding_small" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/contact_filter_activity_company_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_line_middle_height"
+                    android:layout_below="@+id/contact_filter_activity_city_area">
+
+                    <TextView
+                        android:id="@+id/contact_filter_activity_final_company_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/filter_company"
+                        android:textSize="@dimen/text_size_middle" />
+
+                    <EditText
+                        android:id="@+id/contact_filter_activity_company_edtx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/contact_filter_activity_final_company_txv"
+                        android:inputType="text"
+                        android:padding="@dimen/padding_small"
+                        android:textSize="@dimen/text_size_middle" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/contact_filter_activity_action_area"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="?android:attr/dividerVertical"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/contact_filter_activity_cancel_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/contact_filter_activity_confirm_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/OK" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--<ListView-->
+    <!--android:id="@+id/contact_filter_right_drawer"-->
+    <!--android:layout_width="240dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="end"-->
+    <!--android:background="#fff"-->
+    <!--android:choiceMode="singleChoice"-->
+    <!--android:divider="?android:attr/dividerHorizontal"-->
+    <!--android:paddingBottom="10dp" />-->
+
+    <RelativeLayout
+        android:id="@+id/contact_filter_right_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end">
+
+        <ListView
+            android:id="@+id/contact_filter_right_drawer_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:choiceMode="singleChoice"
+            android:divider="?android:attr/dividerHorizontal"
+            android:paddingBottom="10dp" />
+
+        <TextView
+            android:id="@+id/footer_delete_all_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#fff"
+            android:padding="8dp"
+            android:text="@string/filter_delete_all_filter_history"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

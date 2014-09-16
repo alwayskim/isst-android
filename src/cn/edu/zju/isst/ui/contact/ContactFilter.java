@@ -27,6 +27,8 @@ public class ContactFilter implements Serializable {
 
     public String company;
 
+    public String filterString;
+
     //以下是现实的字符串
     public String genderString;
 

@@ -1,9 +1,12 @@
-package cn.edu.zju.isst.v2.event.city.data;
+package cn.edu.zju.isst.v2.globaldata.citylist;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.edu.zju.isst.v2.db.util.CSTSerialUtil;
 import cn.edu.zju.isst.v2.user.data.CSTUser;
@@ -41,7 +44,7 @@ public class CSTCityDataDelegate {
         return null;//Should throw exception to avoid null pointer?
     }
 
-    public static void saveCampusActivity(Context context, CSTCity city) {
+    public static void saveCity(Context context, CSTCity city) {
         ContentResolver resolver = context.getContentResolver();
         resolver.insert(CSTCityProvider.CONTENT_URI, getCityValue(city));
     }
@@ -58,5 +61,31 @@ public class CSTCityDataDelegate {
         values.put(CSTCityProvider.Columns.CITY_MASTER.key,
                 CSTSerialUtil.serialize(city.cityMaster));
         return values;
+    }
+
+    private static ContentValues[] getCityListValues(CSTCity cstCity) {
+        List<ContentValues> valuesList = new ArrayList<>();
+        for (CSTCity singleCity : cstCity.itemList) {
+            valuesList.add(getCityValue(singleCity));
+        }
+        return valuesList.toArray(new ContentValues[valuesList.size()]);
+    }
+
+    public static void saveCityList(Context context, CSTCity cstCity) {
+        ContentResolver resolver = context.getContentResolver();
+        resolver.bulkInsert(CSTCityProvider.CONTENT_URI, getCityListValues(
+                cstCity));
+    }
+
+    public static List<CSTCity> getCityList(Context context) {
+        Cursor cursor = context.getContentResolver().query(CSTCityProvider.CONTENT_URI, null,
+                null, null, null);
+        List<CSTCity> mCityList = new ArrayList<CSTCity>();;
+        cursor.moveToFirst();
+        while (cursor.moveToNext()){
+            CSTCity city = CSTCityDataDelegate.getCity(cursor);
+            mCityList.add(city);
+        }
+        return mCityList;
     }
 }

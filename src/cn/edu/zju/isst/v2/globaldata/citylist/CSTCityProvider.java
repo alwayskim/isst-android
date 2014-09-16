@@ -1,4 +1,4 @@
-package cn.edu.zju.isst.v2.event.city.data;
+package cn.edu.zju.isst.v2.globaldata.citylist;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -11,7 +11,7 @@ import java.util.List;
 import cn.edu.zju.isst.tests.util.CSTFileUtil;
 import cn.edu.zju.isst.tests.util.CSTPrinter;
 import cn.edu.zju.isst.v2.event.campus.data.CSTCampusEvent;
-import cn.edu.zju.isst.v2.event.city.data.CSTCity;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
 import cn.edu.zju.isst.v2.event.city.event.data.CSTCityEvent;
 import cn.edu.zju.isst.v2.event.city.event.data.CSTCityParticipant;
 import cn.edu.zju.isst.v2.comment.data.CSTComment;

@@ -10,7 +10,7 @@ import cn.edu.zju.isst.v2.model.CSTDataItem;
 public class CSTMajor extends CSTDataItem<CSTMajor> {
 
     @JsonProperty("id")
-    public String id;
+    public int id;
 
     @JsonProperty("name")
     public String name;
