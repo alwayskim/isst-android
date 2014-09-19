@@ -74,7 +74,6 @@ public class CSTMajorDataDelegate {
         Cursor cursor = context.getContentResolver().query(CSTMajorProvider.CONTENT_URI, null,
                 null, null, null);
         List<CSTMajor> majorList = new ArrayList<CSTMajor>();
-        cursor.moveToFirst();
         while (cursor.moveToNext()){
             CSTMajor major = CSTMajorDataDelegate.getMajor(cursor);
             majorList.add(major);

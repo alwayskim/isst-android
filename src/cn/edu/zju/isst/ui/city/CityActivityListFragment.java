@@ -38,6 +38,7 @@ import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.util.Judge;
 import cn.edu.zju.isst.util.Lgr;
 import cn.edu.zju.isst.util.TSUtil;
+import cn.edu.zju.isst.v2.event.city.gui.CityEventDetailActivity;
 
 import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -98,7 +99,7 @@ public class CityActivityListFragment extends ListFragment implements
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(getActivity(), CityActivityDetailActivity.class);
+        Intent intent = new Intent(getActivity(), CityEventDetailActivity.class);
         intent.putExtra("id", mCityActivities.get(position).id);
         intent.putExtra("cityId", mCityActivities.get(position).cityId);
         getActivity().startActivity(intent);

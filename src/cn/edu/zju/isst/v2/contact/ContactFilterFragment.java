@@ -8,6 +8,8 @@ import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -26,18 +28,26 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.constant.Constants;
 import cn.edu.zju.isst.ui.contact.ContactFilter;
+import cn.edu.zju.isst.util.CroMan;
 import cn.edu.zju.isst.util.Judge;
 import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.v2.contact.contact.data.CSTAlumni;
+import cn.edu.zju.isst.v2.contact.contact.data.Pinyin4j;
+import cn.edu.zju.isst.v2.contact.contact.gui.CSTSearchedAlumniActivity;
 import cn.edu.zju.isst.v2.data.CSTMajor;
 import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
 import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityDataDelegate;
 import cn.edu.zju.isst.v2.globaldata.majorlist.CSTMajorDataDelegate;
 import cn.edu.zju.isst.v2.gui.CSTBaseFragment;
+import cn.edu.zju.isst.v2.net.CSTNetworkEngine;
+
+import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
+import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 /**
  * Created by always on 9/11/2014.
@@ -55,6 +65,12 @@ public class ContactFilterFragment extends CSTBaseFragment
     private RelativeLayout mDrawerRelative;
 
     private AlertDialog.Builder mAldDelete;
+
+    private CSTAlumni mAlumni;
+
+    private ContactFilter contactFilter = new ContactFilter();
+
+    private List<CSTAlumni> mListAlumni = new ArrayList<CSTAlumni>();
 
     private List<CSTCity> mListCity = new ArrayList<CSTCity>();
 
@@ -88,7 +104,14 @@ public class ContactFilterFragment extends CSTBaseFragment
     private TextView mDeleteAllHistory;
 
     private boolean mIsDefaultSet = true;
-    private final static String DATA = "data";
+
+    private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
+
+    private Handler mHandler;
+
+    private final static String ALUMNI_RESULT = "alumniResult";
+
+    private final static String CONTACT_FILTER = "contactFilter";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,6 +141,7 @@ public class ContactFilterFragment extends CSTBaseFragment
         getMajorList();
         //获取年级列表
         getGradeList();
+        initHandler();
 
         // 设置下拉框
         initSpanner(mSpinner, mArrayListCity);
@@ -174,7 +198,7 @@ public class ContactFilterFragment extends CSTBaseFragment
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                getActivity().getActionBar().setTitle(R.string.filter_filter_conditon);
+                getActivity().getActionBar().setTitle(R.string.action_filter);
                 getActivity().invalidateOptionsMenu();
             }
         };
@@ -329,13 +353,35 @@ public class ContactFilterFragment extends CSTBaseFragment
         });
     }
 
+    private void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case STATUS_REQUEST_SUCCESS:
+                        Collections.sort(mListAlumni, new Pinyin4j.PinyinComparator());
+                        Intent intent = new Intent(getActivity(), CSTSearchedAlumniActivity.class);
+                        intent.putExtra(ALUMNI_RESULT, (java.io.Serializable) mListAlumni);
+                        intent.putExtra(CONTACT_FILTER, contactFilter);
+                        startActivity(intent);
+                        // 关闭掉这个Activity
+                        getActivity().finish();
+                        break;
+                    case NETWORK_NOT_CONNECTED:
+                        CroMan.showAlert(getActivity(), R.string.network_not_connected);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+    }
+
     class onBtnOkClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             mIsDefaultSet = true;
-            Intent data = new Intent();
-            ContactFilter uf = new ContactFilter();
 
             // 姓名
             String name = mEdtName.getText().toString().trim();
@@ -386,32 +432,32 @@ public class ContactFilterFragment extends CSTBaseFragment
                 mIsDefaultSet = false;
             }
 
-            uf.name = name;
-            uf.gender = genderId;
-            uf.cityId = cityId;
-            uf.grade = grade;
-            uf.major = major;
-            uf.company = company;
-            uf.cityString = cityString;
-            uf.genderString = genderString;
+            contactFilter.name = name;
+            contactFilter.gender = genderId;
+            contactFilter.cityId = cityId;
+            contactFilter.grade = grade;
+            contactFilter.major = major;
+            contactFilter.company = company;
+            contactFilter.cityString = cityString;
+            contactFilter.genderString = genderString;
 
             StringBuilder filter = new StringBuilder();
             filter.append(
                     name + String.valueOf(genderId) + String.valueOf(cityId) + String.valueOf(grade)
                             + major + company
             );
-            uf.filterString = filter.toString();
+            contactFilter.filterString = filter.toString();
 
             if (!mIsDefaultSet) {
-                CSTContactFilterDelegate.saveFilter(getActivity(), uf);
+                CSTContactFilterDelegate.saveFilter(getActivity(), contactFilter);
                 mDeleteAllHistory.setVisibility(View.VISIBLE);
             }
-
-            data.putExtra(DATA, uf);
-            getActivity().setResult(Constants.RESULT_CODE_BETWEEN_CONTACT, data);
-
+            Intent intent = new Intent(getActivity(), CSTSearchedAlumniActivity.class);
+            intent.putExtra(CONTACT_FILTER, contactFilter);
+            startActivity(intent);
             // 关闭掉这个Activity
             getActivity().finish();
+
         }
     }
 
@@ -427,7 +473,8 @@ public class ContactFilterFragment extends CSTBaseFragment
      * 初始化城市列表
      */
     private void getCityList() {
-        mArrayListCity.add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
+        mArrayListCity
+                .add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
         mListCity = CSTCityDataDelegate.getCityList(getActivity());
 
         if (!Judge.isNullOrEmpty(mListCity)) {
@@ -442,7 +489,8 @@ public class ContactFilterFragment extends CSTBaseFragment
      * 初始化专业列表
      */
     private void getMajorList() {
-        mArrayListMajor.add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
+        mArrayListMajor
+                .add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
         mListMajor = CSTMajorDataDelegate.getMajorList(getActivity());
         if (!Judge.isNullOrEmpty(mListMajor)) {
             for (CSTMajor major : mListMajor) {
@@ -458,7 +506,8 @@ public class ContactFilterFragment extends CSTBaseFragment
     private void getGradeList() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        mArrayListGrade.add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
+        mArrayListGrade
+                .add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
         for (int i = 2009; i < year; i++) {
             mArrayListGrade.add(String.valueOf(i));
         }

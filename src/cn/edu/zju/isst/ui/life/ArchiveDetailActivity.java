@@ -210,6 +210,7 @@ public class ArchiveDetailActivity extends BaseActivity {
         m_txvPublisher.setText(m_archiveCurrent.getPublisher().getName());
         m_webvContent.loadDataWithBaseURL(null, m_archiveCurrent.getContent(),
                 "text/html", "utf-8", null);
+        Lgr.i(m_archiveCurrent.getContent());
 
     }
 

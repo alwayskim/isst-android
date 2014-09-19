@@ -25,7 +25,6 @@ import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.settings.CSTSettings;
 import cn.edu.zju.isst.ui.city.CastellanFragment;
 import cn.edu.zju.isst.ui.contact.ContactListFragment;
-import cn.edu.zju.isst.ui.contact.ContactListFragment.FilterType;
 import cn.edu.zju.isst.ui.job.EmploymentListFragment;
 import cn.edu.zju.isst.ui.job.ExperienceListFragment;
 import cn.edu.zju.isst.ui.job.InternshipListFragment;
@@ -33,6 +32,7 @@ import cn.edu.zju.isst.ui.job.RecommedListFragment;
 import cn.edu.zju.isst.ui.life.RestaurantListFragment;
 import cn.edu.zju.isst.ui.life.StudyListFragment;
 import cn.edu.zju.isst.ui.life.WikGridFragment;
+import cn.edu.zju.isst.v2.contact.contact.gui.BaseContactListFragment;
 import cn.edu.zju.isst.v2.event.city.gui.CSTCityEventListFragment;
 import cn.edu.zju.isst.v2.archive.gui.BaseArchiveListFragment;
 import cn.edu.zju.isst.v2.event.campus.gui.CSTCampusEventListFragment;
@@ -252,12 +252,12 @@ public class NewMainActivity extends BaseActivity {
                     switchContent(CSTCityEventListFragment.getInstance());
                     break;
                 case CIAL:
-                    switchContent(ContactListFragment
-                            .getInstance(FilterType.MY_CITY));
+                    switchContent(BaseContactListFragment
+                            .getInstance(BaseContactListFragment.FilterType.MY_CITY));
                     break;
                 case CONT:
-                    switchContent(ContactListFragment
-                            .getInstance(FilterType.MY_CLASS));
+                    switchContent(BaseContactListFragment
+                            .getInstance(BaseContactListFragment.FilterType.MY_CLASS));
                     break;
                 case USCE:
                     switchContent(UserCenterFragment.getInstance());

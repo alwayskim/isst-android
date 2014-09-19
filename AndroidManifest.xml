@@ -49,9 +49,12 @@
         <activity android:name=".ui.usercenter.PushMessagesActivity" />
         <activity android:name=".ui.contact.ContactDetailActivity" />
         <activity android:name=".ui.contact.ContactFilterActivity" />
-        <activity android:name=".ui.city.CityActivityDetailActivity" />
+        <activity android:name=".v2.event.city.gui.CityEventDetailActivity" />
         <activity android:name=".v2.event.city.gui.CityEventParticipantsListActivity" />
         <activity android:name=".v2.contact.ContactFilterActivity"/>
+        <activity android:name=".v2.contact.contact.gui.CSTContactDetailActivity"/>
+        <activity android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity"/>
+
 
         <provider
             android:name=".v2.db.CSTProvider"

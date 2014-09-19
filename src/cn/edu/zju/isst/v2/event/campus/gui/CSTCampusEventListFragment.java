@@ -24,6 +24,7 @@ import android.widget.TextView;
 import cn.edu.zju.isst.R;
 import cn.edu.zju.isst.net.NetworkConnection;
 import cn.edu.zju.isst.ui.life.CampusActivityDetailActivity;
+import cn.edu.zju.isst.util.CroMan;
 import cn.edu.zju.isst.util.Lgr;
 import cn.edu.zju.isst.v2.event.base.BaseEventListAdapter;
 import cn.edu.zju.isst.v2.event.base.EventCategory;
@@ -194,6 +195,8 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
                     case STATUS_REQUEST_SUCCESS:
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
+                    case NETWORK_NOT_CONNECTED:
+                        CroMan.showAlert(getActivity(), R.string.network_not_connected);
                     default:
                         break;
                 }

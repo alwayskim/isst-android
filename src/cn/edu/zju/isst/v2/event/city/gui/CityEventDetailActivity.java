@@ -1,7 +1,7 @@
 /**
  *
  */
-package cn.edu.zju.isst.ui.city;
+package cn.edu.zju.isst.v2.event.city.gui;
 
 import com.android.volley.VolleyError;
 
@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.edu.zju.isst.R;
+import cn.edu.zju.isst.net.NetworkConnection;
 import cn.edu.zju.isst.ui.main.BaseActivity;
 import cn.edu.zju.isst.util.CroMan;
 import cn.edu.zju.isst.util.Lgr;
@@ -28,7 +29,6 @@ import cn.edu.zju.isst.util.TSUtil;
 import cn.edu.zju.isst.v2.data.CSTJsonParser;
 import cn.edu.zju.isst.v2.event.base.EventRequest;
 import cn.edu.zju.isst.v2.event.city.event.data.CSTCityEvent;
-import cn.edu.zju.isst.v2.event.city.gui.CityEventParticipantsListActivity;
 import cn.edu.zju.isst.v2.event.city.net.CityEventDetailResponse;
 import cn.edu.zju.isst.v2.event.city.net.CityEventParticipateResponse;
 import cn.edu.zju.isst.v2.net.CSTJsonRequest;
@@ -36,13 +36,14 @@ import cn.edu.zju.isst.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst.v2.net.CSTRequest;
 import cn.edu.zju.isst.v2.net.CSTStatusInfo;
 
+import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 /**
  * @author theasir
  */
-public class CityActivityDetailActivity extends BaseActivity {
+public class CityEventDetailActivity extends BaseActivity {
 
     private final ViewHolder mViewHolder = new ViewHolder();
 
@@ -94,7 +95,7 @@ public class CityActivityDetailActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                CityActivityDetailActivity.this.finish();
+                CityEventDetailActivity.this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -143,7 +144,7 @@ public class CityActivityDetailActivity extends BaseActivity {
                 mPgdWaiting.dismiss();
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
-                        CroMan.showConfirm(CityActivityDetailActivity.this,
+                        CroMan.showConfirm(CityEventDetailActivity.this,
                                 R.string.participate_commit_success);
                         mCSTCityEvent.isParticipate = !mCSTCityEvent.isParticipate;
                         showDetail();
@@ -152,7 +153,7 @@ public class CityActivityDetailActivity extends BaseActivity {
                     case STATUS_NOT_LOGIN:
                         break;
                     default:
-                        CroMan.showAlert(CityActivityDetailActivity.this, msg.obj.toString());
+                        CroMan.showInfo(CityEventDetailActivity.this, msg.obj.toString());
                         break;
                 }
             }
@@ -172,7 +173,7 @@ public class CityActivityDetailActivity extends BaseActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(CityActivityDetailActivity.this,
+                        Intent intent = new Intent(CityEventDetailActivity.this,
                                 CityEventParticipantsListActivity.class);
                         intent.putExtra(EVENT_ID, mId);
                         intent.putExtra(CITY_ID, mCityId);
@@ -216,49 +217,55 @@ public class CityActivityDetailActivity extends BaseActivity {
     }
 
     private void performParticipateAction() {
-        mPgdWaiting = ProgressDialog.show(CityActivityDetailActivity.this,
-                getString(R.string.loading), getString(R.string.please_wait),
-                true, false);
-        CityEventParticipateResponse participateResponse = new CityEventParticipateResponse(
-                this) {
-            @Override
-            public void onResponse(JSONObject response) {
-                Message msg = mBtnHandler.obtainMessage();
-                Lgr.i(response.toString());
-                mCSTCityEvent = (CSTCityEvent) CSTJsonParser
-                        .parseJson(response, new CSTCityEvent());
-                final int status = mCSTCityEvent.getStatusInfo().status;
-                msg.what = status;
-                msg.obj = mCSTCityEvent.getStatusInfo().message;
-                mBtnHandler.sendMessage(msg);
+        if (NetworkConnection.isNetworkConnected(this)) {
+            mPgdWaiting = ProgressDialog.show(CityEventDetailActivity.this,
+                    getString(R.string.loading), getString(R.string.please_wait),
+                    true, false);
+            CityEventParticipateResponse participateResponse = new CityEventParticipateResponse(
+                    this) {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Message msg = mBtnHandler.obtainMessage();
+                    Lgr.i(response.toString());
+                    mCSTCityEvent = (CSTCityEvent) CSTJsonParser
+                            .parseJson(response, new CSTCityEvent());
+                    final int status = mCSTCityEvent.getStatusInfo().status;
+                    msg.what = status;
+                    msg.obj = mCSTCityEvent.getStatusInfo().message;
+                    mBtnHandler.sendMessage(msg);
+                }
+
+                @Override
+                public Object onErrorStatus(CSTStatusInfo statusInfo) {
+                    return super.onErrorStatus(statusInfo);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                }
+            };
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(SUB_URL).append("/" + mCityId).append("/activities")
+                    .append("/" + mId);
+
+            if (mCSTCityEvent.isParticipate) {
+                sb.append("/unparticipate");
+            } else {
+                sb.append("/participate");
             }
+            Lgr.i(sb.toString());
 
-            @Override
-            public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                return super.onErrorStatus(statusInfo);
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-            }
-        };
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(SUB_URL).append("/" + mCityId).append("/activities")
-                .append("/" + mId);
-
-        if (mCSTCityEvent.isParticipate) {
-            sb.append("/unparticipate");
+            CSTJsonRequest participateRequest = new CSTJsonRequest(CSTRequest.Method.POST,
+                    sb.toString(), null,
+                    participateResponse);
+            mEngine.requestJson(participateRequest);
         } else {
-            sb.append("/participate");
+            Message msg = mBtnHandler.obtainMessage();
+            msg.what = NETWORK_NOT_CONNECTED;
+            mHandler.sendMessage(msg);
         }
-        Lgr.i(sb.toString());
-
-        CSTJsonRequest participateRequest = new CSTJsonRequest(CSTRequest.Method.POST,
-                sb.toString(), null,
-                participateResponse);
-        mEngine.requestJson(participateRequest);
 
     }
 

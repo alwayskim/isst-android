@@ -1,28 +1,22 @@
-package cn.edu.zju.isst.ui.contact;
+package cn.edu.zju.isst.v2.contact.contact.data;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 import java.util.Comparator;
 import java.util.Locale;
 
-import cn.edu.zju.isst.db.User;
-
-
+/**
+ * Created by tan on 2014/8/28.
+ */
 public class Pinyin4j {
 
     /**
      * 获取一个汉字的拼音，大写
      */
     public static String getHanyuPinyi(char word) {
-        String contactPinYinString;
-        if (word >= 'a' && word <= 'z') {
-            contactPinYinString = String.valueOf(word);
-        } else {
-            contactPinYinString = concatPinyinStringArray(
-                    PinyinHelper.toHanyuPinyinStringArray(word));
-        }
+        String contactPinYinString = concatPinyinStringArray(
+                PinyinHelper.toHanyuPinyinStringArray(word));
         return String.valueOf(contactPinYinString.charAt(0)).toUpperCase(Locale.ENGLISH);
-
     }
 
     /**
@@ -46,8 +40,8 @@ public class Pinyin4j {
     public static class PinyinComparator implements Comparator<Object> {
 
         public int compare(Object o1, Object o2) {
-            char c1 = (((User) o1).getName()).charAt(0);
-            char c2 = (((User) o2).getName()).charAt(0);
+            char c1 = (((CSTAlumni) o1).name).charAt(0);
+            char c2 = (((CSTAlumni) o2).name).charAt(0);
             return concatPinyinStringArray(
                     PinyinHelper.toHanyuPinyinStringArray(c1)).compareTo(
                     concatPinyinStringArray(PinyinHelper
@@ -55,5 +49,5 @@ public class Pinyin4j {
             );
         }
     }
-}
 
+}

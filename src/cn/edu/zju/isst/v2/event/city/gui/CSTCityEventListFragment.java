@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import cn.edu.zju.isst.R;
 import cn.edu.zju.isst.net.NetworkConnection;
-import cn.edu.zju.isst.ui.city.CityActivityDetailActivity;
 import cn.edu.zju.isst.util.CroMan;
 import cn.edu.zju.isst.util.Lgr;
 import cn.edu.zju.isst.v2.event.base.EventCategory;
@@ -169,7 +168,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), CityActivityDetailActivity.class);
+        Intent intent = new Intent(getActivity(), CityEventDetailActivity.class);
 
         intent.putExtra(EVENT_ID, ((CSTCityEvent) view.getTag()).id);
         intent.putExtra(CITY_ID, ((CSTCityEvent) view.getTag()).cityId);

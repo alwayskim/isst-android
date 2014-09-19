@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.edu.zju.isst.v2.contact.CSTContactFilterProvider;
+import cn.edu.zju.isst.v2.contact.contact.data.CSTAlumniProvider;
 import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityProvider;
 import cn.edu.zju.isst.v2.event.city.event.data.CSTCityEventProvider;
 import cn.edu.zju.isst.v2.archive.data.CSTArchiveProvider;
@@ -43,11 +44,16 @@ public class CSTProvider extends ContentProvider {
 //
 //    private static final int TABLE_COMMENT_CODE = 7;
 
+
+
     private static final int TABLE_CONTACTFilter_CODE = 8;
 
     private static final int TABLE_MAJORList_CODE = 9;
 
     private static final int TABLE_KLASSList_CODE = 10;
+
+    private static final int TABLE_ALUMNI_CODE = 11;
+
 
 
     private static final String AUTHORITY = "cn.edu.zju.isst.v2.db.cstprovider";
@@ -69,6 +75,7 @@ public class CSTProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, CSTCityProvider.TABLE_NAME, TABLE_CITY_CODE);
         sURIMatcher.addURI(AUTHORITY, CSTKlassProvider.TABLE_NAME, TABLE_KLASSList_CODE);
         sURIMatcher.addURI(AUTHORITY, CSTMajorProvider.TABLE_NAME, TABLE_MAJORList_CODE);
+        sURIMatcher.addURI(AUTHORITY, CSTAlumniProvider.TABLE_NAME, TABLE_ALUMNI_CODE);
 //        sURIMatcher.addURI(AUTHORITY, CSTPublisherProvider.TABLE_NAME, TABLE_PUBLISHER_CODE);
         sURIMatcher.addURI(AUTHORITY, CSTCityEventProvider.TABLE_NAME, TABLE_CITYEVENT_CODE);
 //        sURIMatcher.addURI(AUTHORITY, CSTCityParticipantProvider.TABLE_NAME,
@@ -99,6 +106,8 @@ public class CSTProvider extends ContentProvider {
 //        mProviderMap.put(CSTPublisherProvider.TABLE_NAME, new CSTPublisherProvider(getContext()));
         mProviderMap
                 .put(CSTCityEventProvider.TABLE_NAME, new CSTCityEventProvider(getContext()));
+        mProviderMap
+                .put(CSTAlumniProvider.TABLE_NAME, new CSTAlumniProvider(getContext()));
 //        mProviderMap.put(CSTCityParticipantProvider.TABLE_NAME,
 //                new CSTCityParticipantProvider(getContext()));
 //        mProviderMap.put(CSTCommentProvider.TABLE_NAME, new CSTCommentProvider(getContext()));
@@ -169,6 +178,8 @@ public class CSTProvider extends ContentProvider {
 //                return CSTPublisherProvider.TABLE_NAME;
             case TABLE_CITYEVENT_CODE:
                 return CSTCityEventProvider.TABLE_NAME;
+            case TABLE_ALUMNI_CODE:
+                return CSTAlumniProvider.TABLE_NAME;
 //            case TABLE_CITYPARTICIPANT_CODE:
 //                return CSTCityParticipantProvider.TABLE_NAME;
 //            case TABLE_COMMENT_CODE:

@@ -75,7 +75,6 @@ public class CSTKlassDataDelegate {
         Cursor cursor = context.getContentResolver().query(CSTKlassProvider.CONTENT_URI, null,
                 null, null, null);
         List<CSTKlass> klassList = new ArrayList<CSTKlass>();
-        cursor.moveToFirst();
         while (cursor.moveToNext()) {
             CSTKlass cstKlass = CSTKlassDataDelegate.getKlass(cursor);
             klassList.add(cstKlass);

@@ -153,7 +153,7 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
                         if (mParticipantsList.size() == LIST_EMPTY) {
-                            CroMan.showAlert(getActivity(), R.string.participate_empty);
+                            CroMan.showConfirm(getActivity(), R.string.participate_empty);
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;

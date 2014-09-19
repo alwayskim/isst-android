@@ -81,7 +81,6 @@ public class CSTCityDataDelegate {
         Cursor cursor = context.getContentResolver().query(CSTCityProvider.CONTENT_URI, null,
                 null, null, null);
         List<CSTCity> mCityList = new ArrayList<CSTCity>();;
-        cursor.moveToFirst();
         while (cursor.moveToNext()){
             CSTCity city = CSTCityDataDelegate.getCity(cursor);
             mCityList.add(city);

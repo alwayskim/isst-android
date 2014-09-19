@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="cn.edu.zju.isst.v2.contact.gui.CSTSearchedAlumniActivity">
+
+    <RelativeLayout
+        android:id="@+id/filter_show_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/filter_theme_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="筛选条件： " />
+
+        <TextView
+            android:id="@+id/filter_show_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/filter_theme_txv" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/currentNameFirstSpell"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_show_area">
+
+
+        <ListView
+            android:id="@+id/list_Alumni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+    </RelativeLayout>
+
+
+</RelativeLayout>
