@@ -42,7 +42,7 @@ import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
 public class CityEventParticipantsListFragment extends CSTBaseFragment implements
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
-    private final List<CSTUser> mParticipantsList = new ArrayList<>();
+    private final List<CSTUser> mParticipantsList = new ArrayList<CSTUser>();
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 

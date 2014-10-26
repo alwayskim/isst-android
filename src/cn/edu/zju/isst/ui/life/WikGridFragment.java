@@ -40,6 +40,7 @@ import cn.edu.zju.isst.net.NetworkConnection;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.util.Judge;
 import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.v2.archive.gui.ArchiveDetailActivity;
 import cn.edu.zju.isst.v2.archive.net.ArchiveApi;
 
 import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;

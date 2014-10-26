@@ -84,7 +84,7 @@ public class CSTProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, CSTContactFilterProvider.TABLE_NAME, TABLE_CONTACTFilter_CODE);
     }
 
-    private Map<String, Provider> mProviderMap = new HashMap<>();
+    private Map<String, Provider> mProviderMap = new HashMap<String, Provider>();
 
     private DatabaseHelper mDatabaseHelper;
 

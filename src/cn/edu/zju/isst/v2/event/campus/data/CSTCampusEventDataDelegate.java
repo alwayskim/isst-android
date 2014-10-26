@@ -90,7 +90,7 @@ public class CSTCampusEventDataDelegate {
 
 
     private static ContentValues[] getCampusEventListValues(CSTCampusEvent campusEvent) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTCampusEvent singleCampusEvent : campusEvent.itemList) {
             valuesList.add(getCampusEventValue(singleCampusEvent));
         }

@@ -58,7 +58,7 @@ public class CSTKlassDataDelegate {
     }
 
     private static ContentValues[] getKlassListValues(CSTKlass cstKlass) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTKlass singleKlass : cstKlass.itemList) {
             valuesList.add(getKlassValue(singleKlass));
         }

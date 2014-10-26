@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.android.volley.VolleyError;
+
 import cn.edu.zju.isst.R;
 import cn.edu.zju.isst.api.LoginApi;
 import cn.edu.zju.isst.db.DataManager;
@@ -39,6 +41,10 @@ import cn.edu.zju.isst.ui.main.BaseActivity;
 import cn.edu.zju.isst.ui.main.NewMainActivity;
 import cn.edu.zju.isst.util.CroMan;
 import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.v2.data.CSTJsonParser;
+import cn.edu.zju.isst.v2.net.CSTStatusInfo;
+import cn.edu.zju.isst.v2.user.data.CSTUser;
+import cn.edu.zju.isst.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst.v2.user.net.UserResponse;
 
 import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
@@ -250,55 +256,11 @@ public class LoginActivity extends BaseActivity {
                         getString(R.string.loading),
                         getString(R.string.please_wait), true, false);
 
-//                            String.valueOf(m_strPassword), 0.0, 0.0,
-//                            new RequestListener() {
-//
-//                                @Override
-//                                public void onComplete(Object result) {
-//                                    Message msg = m_handlerLogin
-//                                            .obtainMessage();
-//
-//                                    try {
-//                                        msg.what = ((JSONObject) result)
-//                                                .getInt("status");
-//                                        msg.obj = (JSONObject) result;
-//                                        Lgr.i("Msg = " + msg.what);
-//                                    } catch (Exception e) {
-//                                        Lgr.e("Login Requestlistener onComplete Exception!");
-//                                        onException(e);
-//                                    }
-//
-//                                    m_handlerLogin.sendMessage(msg);
-//
-//                                }
-//
-//                                @Override
-//                                public void onHttpError(CSTResponse response) {
-//                                    Lgr.w("Login Requestlistener onHttpError!");
-//                                    Message msg = m_handlerLogin
-//                                            .obtainMessage();
-//                                    HttpErrorWeeder.fckHttpError(response, msg);
-//                                    m_handlerLogin.sendMessage(msg);
-//                                }
-//
-//                                @Override
-//                                public void onException(Exception e) {
-//                                    Lgr.e("Login Requestlistener onException!");
-//                                    e.printStackTrace();
-//                                    Message msg = m_handlerLogin
-//                                            .obtainMessage();
-//                                    ExceptionWeeder.fckException(e, msg);
-//                                    m_handlerLogin.sendMessage(msg);
-//                                }
-//
-//                            }
                 if (NetworkConnection.isNetworkConnected(LoginActivity.this)){
                     UserResponse logResponse = new UserResponse(LoginActivity.this, true){
                         @Override
                         public void onResponse(JSONObject response) {
-                            super.onResponse(response);
-//                            CSTUser login = (CSTUser) CSTJsonParser
-//                                    .parseJson(response, new CSTUser());
+
                             Lgr.i(response.toString());
                             Message msg = m_handlerLogin.obtainMessage();
                             try {
@@ -307,8 +269,24 @@ public class LoginActivity extends BaseActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            if(msg.what == STATUS_REQUEST_SUCCESS){
+                                CSTUser user = (CSTUser) CSTJsonParser
+                                    .parseJson(response, new CSTUser());
+                                CSTUserDataDelegate.deleteAllUsers(mContext);
+                                CSTUserDataDelegate.saveUser(mContext, user);
+                            }
 //                            msg.obj = login;
                             m_handlerLogin.sendMessage(msg);
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            super.onErrorResponse(error);
+                        }
+
+                        @Override
+                        public Object onErrorStatus(CSTStatusInfo statusInfo) {
+                            return super.onErrorStatus(statusInfo);
                         }
                     };
                     cn.edu.zju.isst.v2.login.net.LoginApi.validate(m_strUserName,

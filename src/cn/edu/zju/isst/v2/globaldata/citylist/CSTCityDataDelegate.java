@@ -64,7 +64,7 @@ public class CSTCityDataDelegate {
     }
 
     private static ContentValues[] getCityListValues(CSTCity cstCity) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTCity singleCity : cstCity.itemList) {
             valuesList.add(getCityValue(singleCity));
         }
@@ -80,7 +80,7 @@ public class CSTCityDataDelegate {
     public static List<CSTCity> getCityList(Context context) {
         Cursor cursor = context.getContentResolver().query(CSTCityProvider.CONTENT_URI, null,
                 null, null, null);
-        List<CSTCity> mCityList = new ArrayList<CSTCity>();;
+        List<CSTCity> mCityList = new ArrayList<CSTCity>();
         while (cursor.moveToNext()){
             CSTCity city = CSTCityDataDelegate.getCity(cursor);
             mCityList.add(city);

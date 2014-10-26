@@ -36,7 +36,9 @@ public class ArchiveListAdapter extends CursorAdapter {
         ViewHolder holder = getBindViewHolder(view);
         holder.titleTxv.setText(archive.title);
         holder.dateTxv.setText(TSUtil.toYMD(archive.updateTime));
-        holder.publisherTxv.setText("" + archive.publisherId);
+        if (archive.publisherId != 0) {
+            holder.publisherTxv.setText(archive.publisher.name);
+        }
         holder.descriptionTxv.setText(archive.description);
     }
 

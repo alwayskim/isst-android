@@ -1,10 +1,7 @@
 /**
  *
  */
-package cn.edu.zju.isst.ui.life;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package cn.edu.zju.isst.v2.archive.gui;
 
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -15,6 +12,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.edu.zju.isst.R;
 import cn.edu.zju.isst.db.Archive;
@@ -193,7 +193,8 @@ public class ArchiveDetailActivity extends BaseActivity {
         WebSettings settings = m_webvContent.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
+        settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+        settings.setSupportZoom(true);// 支持缩放
         settings.setDefaultFontSize(48);
         // settings.setTextSize(TextSize.NORMAL);
     }
@@ -210,7 +211,6 @@ public class ArchiveDetailActivity extends BaseActivity {
         m_txvPublisher.setText(m_archiveCurrent.getPublisher().getName());
         m_webvContent.loadDataWithBaseURL(null, m_archiveCurrent.getContent(),
                 "text/html", "utf-8", null);
-        Lgr.i(m_archiveCurrent.getContent());
 
     }
 

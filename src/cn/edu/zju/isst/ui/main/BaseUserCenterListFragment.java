@@ -42,7 +42,7 @@ import cn.edu.zju.isst.ui.job.RecommendDetailActivity;
 import cn.edu.zju.isst.util.Judge;
 import cn.edu.zju.isst.util.Lgr;
 import cn.edu.zju.isst.util.TSUtil;
-import cn.edu.zju.isst.ui.life.ArchiveDetailActivity;
+import cn.edu.zju.isst.v2.archive.gui.ArchiveDetailActivity;
 
 import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst.constant.Constants.STATUS_NOT_LOGIN;

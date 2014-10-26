@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import cn.edu.zju.isst.util.Lgr;
+
 /**
  * Created by i308844 on 8/18/14.
  */
@@ -30,11 +32,11 @@ public class CSTJsonResponse extends CSTResponse<JSONObject> implements CSTRespo
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        Lgr.i(error.toString());
     }
 
     @Override
     public void onResponse(JSONObject response) {
-
+        Lgr.i("aaaa");
     }
 }

@@ -12,11 +12,10 @@ import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.util.Lgr;
 
 /**
- * 归档接口
- *
  * @author theasir
  *         <p/>
  *         TODO WIP
+ * @deprecated 归档接口
  */
 public class ArchiveApi extends CSTApi {
 

@@ -44,6 +44,11 @@ public class CSTArchiveDataDelegate {
         resolver.bulkInsert(CSTArchiveProvider.CONTENT_URI, getArchiveListValues(archive));
     }
 
+    public static void delete(Context context, String selection, String[] selectionArgs) {
+        ContentResolver resolver = context.getContentResolver();
+        resolver.delete(CSTArchiveProvider.CONTENT_URI, selection, selectionArgs);
+    }
+
     public static Loader<Cursor> getDataCursor(Context context, String[] projection,
             String selection, String[] selectionArgs, String sortOrder) {
         return new CursorLoader(context, CSTArchiveProvider.CONTENT_URI, projection, selection,
@@ -51,7 +56,7 @@ public class CSTArchiveDataDelegate {
     }
 
     private static ContentValues[] getArchiveListValues(CSTArchive archive) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTArchive singleArchive : archive.itemList) {
             valuesList.add(getArchiveValue(singleArchive));
         }

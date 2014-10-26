@@ -11,7 +11,7 @@ import cn.edu.zju.isst.v2.net.CSTStatusInfo;
  */
 public abstract class CSTDataItem<T> implements Serializable {
 
-    public final List<T> itemList = new ArrayList<>();
+    public final List<T> itemList = new ArrayList<T>();
 
     private CSTStatusInfo statusInfo;
 

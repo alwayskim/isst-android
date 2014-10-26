@@ -24,6 +24,8 @@ public class CSTContactFilter implements Serializable {
 
     public int clazzId;
 
+    public String clazzName;
+
     public String major;
 
     public int cityId;

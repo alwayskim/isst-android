@@ -21,12 +21,9 @@ public class NewsListFragment extends cn.edu.zju.isst.v2.archive.gui.BaseArchive
 //        super.setArchiveCategory(ArchiveCategory.CAMPUS);
     }
 
-    public static NewsListFragment getInstance() {
-        return INSTANCE;
-    }
-
     @Override
-    protected void setCategory(int categoryId) {
+    protected void setCategory() {
 
     }
+
 }

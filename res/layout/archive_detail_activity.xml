@@ -1,51 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/archive_detail_activity_title_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/archive_detail_activity_title_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:id="@+id/archive_detail_activity_txv"
+        android:background="@color/black"
+        android:layout_below="@+id/archive_detail_activity_title_txv">
 
         <TextView
             android:id="@+id/archive_detail_activity_date_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/archive_detail_activity_title_txv"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/archive_detail_activity_publisher_txv"
             android:layout_width="wrap_content"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/archive_detail_activity_date_txv"
             android:layout_alignParentRight="true"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/archive_detail_activity_content_txv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/archive_detail_activity_date_txv"
-            android:layout_centerHorizontal="true" />
-
-        <WebView
-            android:id="@+id/archive_detail_activity_content_webv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/archive_detail_activity_date_txv"
-            android:layout_centerHorizontal="true"
-            android:fitsSystemWindows="true" />
     </RelativeLayout>
 
-</ScrollView>
+
+    <!--<TextView-->
+        <!--android:id="@+id/archive_detail_activity_content_txv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/archive_detail_activity_date_txv"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
+    <WebView
+        android:id="@+id/archive_detail_activity_content_webv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/archive_detail_activity_txv"
+        android:layout_centerHorizontal="true"
+        android:fitsSystemWindows="true" />
+</RelativeLayout>
+

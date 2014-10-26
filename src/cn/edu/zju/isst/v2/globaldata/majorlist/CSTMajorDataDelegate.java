@@ -57,7 +57,7 @@ public class CSTMajorDataDelegate {
     }
 
     private static ContentValues[] getMajorListValues(CSTMajor cstMajor) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTMajor singleMajor : cstMajor.itemList) {
             valuesList.add(getMajorValue(singleMajor));
         }

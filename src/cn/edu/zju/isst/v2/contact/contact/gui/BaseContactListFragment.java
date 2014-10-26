@@ -50,6 +50,8 @@ import cn.edu.zju.isst.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst.v2.net.CSTRequest;
 import cn.edu.zju.isst.constant.Constants;
 import cn.edu.zju.isst.v2.user.data.CSTUser;
+import cn.edu.zju.isst.v2.user.data.CSTUserDataDelegate;
+import cn.edu.zju.isst.v2.user.data.CSTUserProvider;
 
 
 /**
@@ -172,7 +174,7 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         Lgr.d("BaseContactListFragment", "——onCreateView");
         return inflater.inflate(R.layout.classmates_list_fragment, container, false);
     }
@@ -226,16 +228,22 @@ public class BaseContactListFragment extends CSTBaseFragment
                 R.color.lightbluetheme_color_half_alpha);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
-
-       /* Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
+        Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
                 null, null, null, null);
+        mCursor.moveToFirst();
         mUser = CSTUserDataDelegate.getUser(mCursor);
-        mFilter.clazzId = mUser.clazzId;
-        mFilter.grade = mUser.grade;
-        clazzTvx.setText(mUser.grade+"级"+mUser.clazzId+"班");*/
-        mFilter.clazzId = 15;
-        mFilter.grade = 2013;
-        clazzTvx.setText(mFilter.grade + "级" + mFilter.clazzId + "班");
+        mCursor.close();
+        if (m_ft == FilterType.MY_CLASS) {
+            mFilter.clazzName = mUser.clazzName;
+            mFilter.clazzId = mUser.clazzId;
+            mFilter.grade = mUser.grade;
+            clazzTvx.setText(mUser.grade + "级" + mUser.clazzName + "班");
+        }
+        else if(m_ft == FilterType.MY_CITY){
+            mFilter.cityId = mUser.cityId;
+            clazzTvx.setText(mUser.cityName);
+        }
+
         initHandler();
 
         bindAdapter();

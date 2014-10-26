@@ -29,12 +29,15 @@ import cn.edu.zju.isst.ui.job.EmploymentListFragment;
 import cn.edu.zju.isst.ui.job.ExperienceListFragment;
 import cn.edu.zju.isst.ui.job.InternshipListFragment;
 import cn.edu.zju.isst.ui.job.RecommedListFragment;
+
 import cn.edu.zju.isst.ui.life.RestaurantListFragment;
 import cn.edu.zju.isst.ui.life.StudyListFragment;
 import cn.edu.zju.isst.ui.life.WikGridFragment;
+import cn.edu.zju.isst.v2.archive.gui.ExperienceFragment;
+import cn.edu.zju.isst.v2.archive.gui.StudyFragment;
 import cn.edu.zju.isst.v2.contact.contact.gui.BaseContactListFragment;
 import cn.edu.zju.isst.v2.event.city.gui.CSTCityEventListFragment;
-import cn.edu.zju.isst.v2.archive.gui.BaseArchiveListFragment;
+import cn.edu.zju.isst.v2.archive.gui.NewsFragment;
 import cn.edu.zju.isst.v2.event.campus.gui.CSTCampusEventListFragment;
 import cn.edu.zju.isst.v2.login.gui.LoginActivity;
 import cn.edu.zju.isst.ui.usercenter.UserCenterFragment;
@@ -66,12 +69,7 @@ public class NewMainActivity extends BaseActivity {
         mCurrentFragment = null;
 
         if (savedInstanceState == null) {
-            mCurrentFragment = new BaseArchiveListFragment() {
-                @Override
-                protected void setCategory(int categoryId) {
-
-                }
-            };
+            mCurrentFragment = NewsFragment.getInstance();
 //            mCurrentFragment = new CSTCampusActivityListFragment();
             getFragmentManager().beginTransaction()
                     .add(R.id.content_frame, mCurrentFragment).commit();
@@ -219,7 +217,7 @@ public class NewMainActivity extends BaseActivity {
 
             switch (nav) {
                 case NEWS:
-                    switchContent(NewsListFragment.getInstance());
+                    switchContent(NewsFragment.getInstance());
                     break;
                 case WIKI:
                     switchContent(WikGridFragment.getInstance());
@@ -231,7 +229,7 @@ public class NewMainActivity extends BaseActivity {
                     switchContent(RestaurantListFragment.getInstance());
                     break;
                 case STUD:
-                    switchContent(StudyListFragment.getInstance());
+                    switchContent(StudyFragment.getInstance());
                     break;
                 case INTE:
                     switchContent(InternshipListFragment.getInstance());
@@ -243,7 +241,7 @@ public class NewMainActivity extends BaseActivity {
                     switchContent(RecommedListFragment.getInstance());
                     break;
                 case EXPE:
-                    switchContent(ExperienceListFragment.getInstance());
+                    switchContent(ExperienceFragment.getInstance());
                     break;
                 case CIMA:
                     switchContent(CastellanFragment.GetInstance());

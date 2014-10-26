@@ -102,7 +102,7 @@ public class CSTCityEventDataDelegate {
     }
 
     private static ContentValues[] getCityEventListValues(CSTCityEvent archive) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTCityEvent singleArchive : archive.itemList) {
             valuesList.add(getCityValue(singleArchive));
         }
