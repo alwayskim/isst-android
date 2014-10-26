@@ -40,7 +40,6 @@ import cn.edu.zju.isst.util.Lgr;
 import cn.edu.zju.isst.ui.life.NewsListFragment;
 import cn.edu.zju.isst.v2.archive.gui.BaseArchiveListFragment;
 import cn.edu.zju.isst.v2.restaurant.gui.NewRestaurantListFragment;
-import cn.edu.zju.isst.v2.restaurant.gui.RestaurantListFragmentDev;
 
 /**
  * @author theasir

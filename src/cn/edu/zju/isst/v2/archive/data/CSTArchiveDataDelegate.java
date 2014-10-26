@@ -51,7 +51,7 @@ public class CSTArchiveDataDelegate {
     }
 
     private static ContentValues[] getArchiveListValues(CSTArchive archive) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTArchive singleArchive : archive.itemList) {
             valuesList.add(getArchiveValue(singleArchive));
         }

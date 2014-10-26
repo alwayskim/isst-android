@@ -162,7 +162,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                 mHandler.sendMessage(msg);
             }
         };
-        Map<String, String> paramsMap = new HashMap<>();
+        Map<String, String> paramsMap = new HashMap<String, String>();
         paramsMap.put("page", "" + 1);
         paramsMap.put("pageSize", "" + 20);
         paramsMap.put("keywords", null);

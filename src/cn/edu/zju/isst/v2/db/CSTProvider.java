@@ -69,7 +69,7 @@ public class CSTProvider extends ContentProvider {
 //        sURIMatcher.addURI(AUTHORITY, CSTCommentProvider.TABLE_NAME, TABLE_COMMENT_CODE);
     }
 
-    private Map<String, Provider> mProviderMap = new HashMap<>();
+    private Map<String, Provider> mProviderMap = new HashMap<String, Provider>();
 
     private DatabaseHelper mDatabaseHelper;
 

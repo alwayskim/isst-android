@@ -81,7 +81,7 @@ public class CSTRestaurantDataDelegate {
     }
 
     private static ContentValues[] getRestaurantListValues(CSTRestaurant restaurant) {
-        List<ContentValues> valuesList = new ArrayList<>();
+        List<ContentValues> valuesList = new ArrayList<ContentValues>();
         for (CSTRestaurant singleRestaurant : restaurant.itemList) {
             valuesList.add(getRestaurantValues(singleRestaurant));
         }
