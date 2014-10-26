@@ -204,8 +204,8 @@ public class JobDetailActivity extends BaseActivity {
         WebSettings settings = m_webvContent.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
-        settings.setDefaultFontSize(48);
+        settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+        settings.setDefaultFontSize(38);
 
         // settings.setTextSize(TextSize.NORMAL);
     }

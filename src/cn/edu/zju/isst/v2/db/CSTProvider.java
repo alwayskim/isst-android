@@ -65,7 +65,7 @@ public class CSTProvider extends ContentProvider {
 
     private static final String DATABASE_NAME = "isst_database.db";
 
-    private static final int VER_03_ALPHA = 1;
+    private static final int VER_03_ALPHA = 2;
 
     private static final int DB_VERSION = VER_03_ALPHA;
 

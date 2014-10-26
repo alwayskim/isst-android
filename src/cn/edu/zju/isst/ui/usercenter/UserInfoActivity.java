@@ -19,6 +19,8 @@ import cn.edu.zju.isst.db.DataManager;
 import cn.edu.zju.isst.db.User;
 import cn.edu.zju.isst.ui.main.BaseActivity;
 import cn.edu.zju.isst.util.CroMan;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityDataDelegate;
 
 /**
  * @author theasir
@@ -146,11 +148,11 @@ public class UserInfoActivity extends BaseActivity {
                 .setImageResource(currentUser.getGender() == 1 ? R.drawable.ic_male
                         : R.drawable.ic_female);
 
-        List<City> cityList = DataManager.getCityList();
+        List<CSTCity> cityList = CSTCityDataDelegate.getCityList(this);
         String cityName = "";
-        for (City city : cityList) {
-            if (city.getId() == currentUser.getCityId()) {
-                cityName = city.getName();
+        for (CSTCity city : cityList) {
+            if (city.id == currentUser.getCityId()) {
+                cityName = city.name;
             }
         }
         m_viewHolder.cityTxv.setText(cityName);

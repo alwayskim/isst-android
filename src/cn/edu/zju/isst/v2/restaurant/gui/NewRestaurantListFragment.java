@@ -79,6 +79,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
         initComponent(view);
 
         getLoaderManager().initLoader(0, null, this);
+        requestData();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cn.edu.zju.isst.v2.restaurant.gui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -88,6 +89,12 @@ public class NewRestaurantDetailActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setUpActionbar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void initComponent() {
