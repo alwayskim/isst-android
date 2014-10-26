@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.edu.zju.isst"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="3"
     android:versionName="0.3-alpha">
 
@@ -50,11 +49,11 @@
         <activity android:name=".ui.contact.ContactFilterActivity" />
         <activity android:name=".v2.event.city.gui.CityEventDetailActivity" />
         <activity android:name=".v2.event.city.gui.CityEventParticipantsListActivity" />
-        <activity android:name=".v2.contact.ContactFilterActivity"/>
-        <activity android:name=".v2.contact.contact.gui.CSTContactDetailActivity"/>
-        <activity android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity"/>
-        <activity android:name=".v2.archive.gui.ArchiveDetailActivity"/>
-
+        <activity android:name=".v2.contact.ContactFilterActivity" />
+        <activity android:name=".v2.contact.contact.gui.CSTContactDetailActivity" />
+        <activity android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity" />
+        <activity android:name=".v2.archive.gui.ArchiveDetailActivity" />
+        <activity android:name=".v2.restaurant.gui.NewRestaurantDetailActivity" />
 
         <provider
             android:name=".v2.db.CSTProvider"
