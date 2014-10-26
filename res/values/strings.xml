@@ -51,6 +51,9 @@
     <string name="restaurant_imageview_icon">商家图标</string>
     <string name="restaurant_imagebutton_call">拨打外卖电话</string>
     <string name="restaurant_hotline">外卖电话：</string>
+    <string name="restaurant_description">简介：</string>
+    <string name="restaurant_address">地址：</string>
+    <string name="restaurant_business_hours">营业时间：</string>
     <string name="sm_group_item_indicator">展开收起图标</string>
     <string name="sm_child_item_icon">侧拉栏图标</string>
     <string name="job_detail_activity_publisher_btn">发布者联系人</string>
@@ -91,6 +94,7 @@
     <string name="title_activity_city_event_test">CityEventTest</string>
     <string name="title_activity_city_participant_test">CityParticipantTest</string>
     <string name="title_activity_comment_test">CommentTest</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="footer_loading_hint">加载更多</string>
     <string name="footer_loading_hint_no_more_data">没有更多数据</string>

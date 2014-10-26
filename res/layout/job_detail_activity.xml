@@ -1,72 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <LinearLayout
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/job_detail_activity_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:padding="10dp">
 
-        <RelativeLayout
-            android:id="@+id/job_detail_activity_title"
+        <TextView
+            android:id="@+id/job_detail_activity_title_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/job_detail_activity_date_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/job_detail_activity_title_txv"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/job_detail_activity_content_txv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_below="@+id/job_detail_activity_date_txv"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/job_detail_activity_title_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <LinearLayout
+        android:id="@+id/job_detail_activity_publisher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/job_detail_activity_date_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/job_detail_activity_title_txv"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
-                android:id="@+id/job_detail_activity_content_txv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/job_detail_activity_date_txv"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/job_detail_activity_publisher"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/job_detail_activity_publisher_txv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/light_gray" />
 
-            <TextView
-                android:id="@+id/job_detail_activity_publisher_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/light_gray" />
-
-            <ImageButton
-                android:id="@+id/job_detail_activity_publisher_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/job_detail_activity_publisher_btn"
-                android:paddingLeft="20dp" />
-        </LinearLayout>
-
-        <WebView
-            android:id="@+id/job_detail_activity_content_webv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:padding="10dp" />
+        <ImageButton
+            android:id="@+id/job_detail_activity_publisher_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/job_detail_activity_publisher_btn" />
     </LinearLayout>
 
-</ScrollView>
+    <WebView
+        android:id="@+id/job_detail_activity_content_webv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:padding="10dp" />
+</LinearLayout>
+

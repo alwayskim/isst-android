@@ -135,7 +135,7 @@ public class RestaurantDetailActivity extends BaseActivity {
     }
 
     private void initComponent() {
-        m_txvContent = (TextView) findViewById(R.id.restaurant_detail_activity_content_txv);
+        m_txvContent = (TextView) findViewById(R.id.restaurant_detail_activity_description_txv);
         m_txvHotline = (TextView) findViewById(R.id.restaurant_detail_activity_hotline_txv);
         m_ibtnDial = (ImageButton) findViewById(R.id.restaurant_detail_activity_dial_ibtn);
         m_lsvMenu = (ListView) findViewById(R.id.restaurant_detail_activity_menu_lsv);

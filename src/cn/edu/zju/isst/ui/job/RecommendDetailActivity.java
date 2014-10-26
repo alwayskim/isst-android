@@ -230,9 +230,8 @@ public class RecommendDetailActivity extends BaseActivity {
         WebSettings settings = m_webvContent.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
-        settings.setDefaultFontSize(48);
-        // settings.setTextSize(TextSize.NORMAL);
+        settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+        settings.setDefaultFontSize(38);
     }
 
     /**
