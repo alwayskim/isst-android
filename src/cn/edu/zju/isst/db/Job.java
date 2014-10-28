@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * @author theasir
  */
 public class Job implements Serializable {
@@ -67,34 +68,34 @@ public class Job implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("title", jsonObject)) {
+            if (Judge.isValidJsonValue("title", jsonObject)) {
                 title = jsonObject.getString("title");
             }
-            if (J.isValidJsonValue("title", jsonObject)) {
+            if (Judge.isValidJsonValue("title", jsonObject)) {
                 title = jsonObject.getString("title");
             }
-            if (J.isValidJsonValue("company", jsonObject)) {
+            if (Judge.isValidJsonValue("company", jsonObject)) {
                 company = jsonObject.getString("company");
             }
-            if (J.isValidJsonValue("position", jsonObject)) {
+            if (Judge.isValidJsonValue("position", jsonObject)) {
                 position = jsonObject.getString("position");
             }
-            if (J.isValidJsonValue("updatedAt", jsonObject)) {
+            if (Judge.isValidJsonValue("updatedAt", jsonObject)) {
                 updatedAt = jsonObject.getLong("updatedAt");
             }
-            if (J.isValidJsonValue("user", jsonObject)) {
+            if (Judge.isValidJsonValue("user", jsonObject)) {
                 publisher = new Publisher(jsonObject.getJSONObject("user"));
             }
-            if (J.isValidJsonValue("userId", jsonObject)) {
+            if (Judge.isValidJsonValue("userId", jsonObject)) {
                 publisherId = jsonObject.getInt("userId");
             } else {
                 publisherId = publisher.getId();
             }
-            if (J.isValidJsonValue("content", jsonObject)) {
+            if (Judge.isValidJsonValue("content", jsonObject)) {
                 content = jsonObject.getString("content");
             }
         }

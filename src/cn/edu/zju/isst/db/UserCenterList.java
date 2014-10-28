@@ -5,8 +5,11 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
+/**
+ * @deprecated
+ */
 public class UserCenterList implements Serializable {
 
     /**
@@ -43,14 +46,14 @@ public class UserCenterList implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("title", jsonObject)) {
+            if (Judge.isValidJsonValue("title", jsonObject)) {
                 title = jsonObject.getString("title");
             }
-            if (J.isValidJsonValue("updatedAt", jsonObject)) {
+            if (Judge.isValidJsonValue("updatedAt", jsonObject)) {
                 updatedAt = jsonObject.getLong("updatedAt");
             }
         }

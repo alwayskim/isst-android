@@ -1,19 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">ISST</string>
-
     <string name="dummy_text">Dummy Text</string>
     <string name="dummy_item">Dummy Item</string>
-
     <string name="autologin">自动登录</string>
     <string name="login">登录</string>
     <string name="username_input_hint">用户名</string>
     <string name="password_input_hint">密码</string>
-
     <string name="action_refresh">刷新</string>
     <string name="action_logout">注销</string>
     <string name="action_edit">修改</string>
-
     <string name="action_filter">筛选</string>
     <string name="filter_name">姓名</string>
     <string name="filter_gender">性别</string>
@@ -26,10 +23,13 @@
     <string name="filter_city">城市</string>
     <string name="filter_company">公司</string>
     <string name="filter_filter_conditon">筛选条件:</string>
+    <string name="filter_filter_history">筛选历史</string>
+    <string name="filter_delete_all_filter_history">删除所有历史记录</string>
+    <string name="filter_delete_all_alert_title">删除所有历史记录</string>
+    <string name="filter_delete_all_alert_message">此操作将删除所有历史筛选记录，是否继续？</string>
+    <string name="filter_close_filter_history">关闭</string>
     <string name="cancel">取消</string>
-
     <string name="castellan_fragment_city">城市</string>
-
     <string name="contact_detail_mobile">手机</string>
     <string name="contact_detail_email">Email</string>
     <string name="contact_detail_city">所在城市</string>
@@ -38,33 +38,26 @@
     <string name="contact_detail_imagebutton_call">拨打联系人电话</string>
     <string name="contact_detail_imagebutton_message">给联系人发送短信</string>
     <string name="contact_detail_imagebutton_email">给联系人发送邮件</string>
-
     <string name="back_twice_to_exit">再按一次返回退出</string>
-
     <string name="network_not_connected">网络错误，请检查您的网络连接。</string>
     <string name="loading">载入中……</string>
     <string name="please_wait">请稍候……</string>
-
     <string name="login_alertdialog_title">提示</string>
     <string name="login_alertdialog_message">用户名和密码不能为空！</string>
     <string name="OK">确定</string>
-
     <string name="http_error">HTTP请求错误，尝试重试</string>
-
     <string name="exception_socket_timeout">服务器故障</string>
-
     <string name="exception">程序发生异常</string>
-
     <string name="restaurant_imageview_icon">商家图标</string>
     <string name="restaurant_imagebutton_call">拨打外卖电话</string>
     <string name="restaurant_hotline">外卖电话：</string>
-
+    <string name="restaurant_description">简介：</string>
+    <string name="restaurant_address">地址：</string>
+    <string name="restaurant_business_hours">营业时间：</string>
     <string name="sm_group_item_indicator">展开收起图标</string>
     <string name="sm_child_item_icon">侧拉栏图标</string>
-
     <string name="job_detail_activity_publisher_btn">发布者联系人</string>
-    <string name="job_waiting_for_comment">发布评论&#8230;</string>
-
+    <string name="job_waiting_for_comment">发布评论…</string>
     <string name="pull_to_refresh_ic_description">下拉刷新箭头</string>
     <string name="pull_to_refresh">下拉可以刷新</string>
     <string name="release_to_refresh">释放立即刷新</string>
@@ -73,17 +66,12 @@
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
-
     <string name="done">完成</string>
-
     <string name="publik">公开</string>
-
     <string name="new_update_avaliable">有可用的新版本</string>
     <string name="update_detail">检测到有新版本，立即更新吗？</string>
-
     <string name="drawer_open">打开抽屉</string>
     <string name="drawer_close">关闭抽屉</string>
-
     <string name="student_affair">学生事务</string>
     <string name="task_center">任务中心</string>
     <string name="my_recommend">我的内推</string>
@@ -93,11 +81,32 @@
     <string name="personal_setting">个人设置</string>
     <string name="message_center">消息中心</string>
     <string name="usercenter_public">发布</string>
-
     <string name="publish_recommend_title">标题</string>
     <string name="publish_recommend_content">内容</string>
     <string name="publish_recommend_company">公司</string>
     <string name="publish_recommend_position">职位</string>
     <string name="publish_recommend_city">城市</string>
+    <string name="title_activity_campus_activity_test">CampusActivityTest</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_city_test">CityTest</string>
+    <string name="title_activity_publisher_test">PublisherTest</string>
+    <string name="title_activity_city_event_test">CityEventTest</string>
+    <string name="title_activity_city_participant_test">CityParticipantTest</string>
+    <string name="title_activity_comment_test">CommentTest</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="footer_loading_hint">加载更多</string>
+    <string name="footer_loading_hint_no_more_data">没有更多数据</string>
+    <string name="note_event_location">地点：</string>
+    <string name="note_event_duration">活动时间：</string>
+    <string name="note_publisher">发布者：</string>
+    <string name="participate_event">报名参加</string>
+    <string name="participate_event_cancel">取消报名</string>
+    <string name="participate_commit_success">提交成功！</string>
+    <string name="participate_show_list">参与列表</string>
+    <string name="participate_empty">还没有同学报名，赶紧参加吧！</string>
+    <string name="note_participants_list">报名列表</string>
+
 
 </resources>

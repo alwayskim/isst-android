@@ -13,11 +13,11 @@ import cn.edu.zju.isst.R;
 
 public class NoteBookadapter extends BaseAdapter {
 
+    List<NoteBookItem> list;
+
     private Context ctx;
 
     private ViewHolder holder;
-
-    List<NoteBookItem> list;
 
     public NoteBookadapter(Context context, List<NoteBookItem> list) {
         this.ctx = context;

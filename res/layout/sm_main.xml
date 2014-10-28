@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ExpandableListView
-            android:id="@+id/sm_main_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:groupIndicator="@null"
-            android:choiceMode="singleChoice"
-            android:listSelector="@null"/>
+        android:id="@+id/sm_main_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:groupIndicator="@null"
+        android:listSelector="@null" />
 
     <ListView
-            android:id="@+id/sm_main_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sm_main_group"/>
+        android:id="@+id/sm_main_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sm_main_group" />
 
 </RelativeLayout>

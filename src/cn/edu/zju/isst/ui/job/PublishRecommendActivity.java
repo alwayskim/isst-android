@@ -23,8 +23,8 @@ import cn.edu.zju.isst.db.DataManager;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.ui.main.BaseActivity;
-import cn.edu.zju.isst.util.CM;
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.CroMan;
+import cn.edu.zju.isst.util.Judge;
 
 public class PublishRecommendActivity extends BaseActivity {
 
@@ -102,12 +102,12 @@ public class PublishRecommendActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 0:
-                        CM.showInfo(PublishRecommendActivity.this, msg.obj.toString());
+                        CroMan.showInfo(PublishRecommendActivity.this, msg.obj.toString());
                         PublishRecommendActivity.this.finish();
                         break;
 
                     default:
-                        CM.showInfo(PublishRecommendActivity.this, msg.obj.toString());
+                        CroMan.showInfo(PublishRecommendActivity.this, msg.obj.toString());
                         break;
                 }
             }
@@ -126,7 +126,7 @@ public class PublishRecommendActivity extends BaseActivity {
 
     private void initCityList() {
         List<City> dbList = DataManager.getCityList();
-        if (!J.isNullOrEmpty(dbList)) {
+        if (!Judge.isNullOrEmpty(dbList)) {
             for (City city : dbList) {
                 m_listCity.add(city);
                 m_listCityString.add(city.getName());
@@ -153,18 +153,6 @@ public class PublishRecommendActivity extends BaseActivity {
                         new RequestListener() {
 
                             @Override
-                            public void onHttpError(CSTResponse response) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void onException(Exception e) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
                             public void onComplete(Object result) {
                                 // TODO Auto-generated method stub
                                 Message msg = m_handler.obtainMessage();
@@ -178,6 +166,18 @@ public class PublishRecommendActivity extends BaseActivity {
                                 }
 
                                 m_handler.sendMessage(msg);
+                            }
+
+                            @Override
+                            public void onHttpError(CSTResponse response) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            @Override
+                            public void onException(Exception e) {
+                                // TODO Auto-generated method stub
+
                             }
                         }
                 );

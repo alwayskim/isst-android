@@ -8,13 +8,14 @@ import android.os.Message;
 import java.net.HttpURLConnection;
 
 import cn.edu.zju.isst.net.CSTResponse;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.HTTPERROR_CLIENTERROR;
 import static cn.edu.zju.isst.constant.Constants.HTTPERROR_SERVERERROR;
 import static cn.edu.zju.isst.constant.Constants.HTTPERROR_UNKNOWN;
 
 /**
+ * @deprecated
  * HTTP错误处理机
  *
  * @author theasir
@@ -28,7 +29,7 @@ public class HttpErrorWeeder {
      * @param msg      消息
      */
     public static void fckHttpError(CSTResponse response, Message msg) {
-        L.i("HttpErrorWeeder Response Code: " + response.getStatus());
+        Lgr.i("HttpErrorWeeder Response Code: " + response.getStatus());
 
         switch (response.getStatus()) {
             case HttpURLConnection.HTTP_BAD_REQUEST:

@@ -7,9 +7,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
+ * @deprecated
  * 数据库辅助类
  *
  * @author theasir
@@ -61,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists main (name TEXT PRIMARY KEY, object BLOB)");
-        L.i("Creat DB!");
+        Lgr.i("Creat DB!");
 
     }
 

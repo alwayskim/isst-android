@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * 商家解析类
  *
  * @author theasir
@@ -66,29 +67,29 @@ public class Restaurant implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("name", jsonObject)) {
+            if (Judge.isValidJsonValue("name", jsonObject)) {
                 name = jsonObject.getString("name");
             }
-            if (J.isValidJsonValue("picture", jsonObject)) {
+            if (Judge.isValidJsonValue("picture", jsonObject)) {
                 picture = jsonObject.getString("picture");
             }
-            if (J.isValidJsonValue("address", jsonObject)) {
+            if (Judge.isValidJsonValue("address", jsonObject)) {
                 address = jsonObject.getString("address");
             }
-            if (J.isValidJsonValue("hotline", jsonObject)) {
+            if (Judge.isValidJsonValue("hotline", jsonObject)) {
                 hotline = jsonObject.getString("hotline");
             }
-            if (J.isValidJsonValue("businessHours", jsonObject)) {
+            if (Judge.isValidJsonValue("businessHours", jsonObject)) {
                 businessHours = jsonObject.getString("businessHours");
             }
-            if (J.isValidJsonValue("description", jsonObject)) {
+            if (Judge.isValidJsonValue("description", jsonObject)) {
                 description = jsonObject.getString("description");
             }
-            if (J.isValidJsonValue("content", jsonObject)) {
+            if (Judge.isValidJsonValue("content", jsonObject)) {
                 content = jsonObject.getString("content");
             }
         }

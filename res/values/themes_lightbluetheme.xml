@@ -3,7 +3,7 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="LightBlueTheme" parent="@style/_LightBlueTheme"/>
+    <style name="LightBlueTheme" parent="@style/_LightBlueTheme" />
 
     <style name="_LightBlueTheme" parent="android:Theme.Holo.Light.DarkActionBar">
 

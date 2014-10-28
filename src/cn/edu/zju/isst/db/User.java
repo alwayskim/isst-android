@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * 用户解析类
  *
  * @author theasir
@@ -105,68 +106,68 @@ public class User implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("username", jsonObject)) {
+            if (Judge.isValidJsonValue("username", jsonObject)) {
                 username = jsonObject.getString("username");
             }
-            if (J.isValidJsonValue("password", jsonObject)) {
+            if (Judge.isValidJsonValue("password", jsonObject)) {
                 password = jsonObject.getString("password");
             }
-            if (J.isValidJsonValue("name", jsonObject)) {
+            if (Judge.isValidJsonValue("name", jsonObject)) {
                 name = jsonObject.getString("name");
             }
-            if (J.isValidJsonValue("gender", jsonObject)) {
+            if (Judge.isValidJsonValue("gender", jsonObject)) {
                 gender = jsonObject.getInt("gender");
             }
-            if (J.isValidJsonValue("grade", jsonObject)) {
+            if (Judge.isValidJsonValue("grade", jsonObject)) {
                 grade = jsonObject.getInt("grade");
             }
-            if (J.isValidJsonValue("classId", jsonObject)) {
+            if (Judge.isValidJsonValue("classId", jsonObject)) {
                 classId = jsonObject.getInt("classId");
             }
-            if (J.isValidJsonValue("major", jsonObject)) {
+            if (Judge.isValidJsonValue("major", jsonObject)) {
                 major = jsonObject.getString("major");
             }
-            if (J.isValidJsonValue("cityId", jsonObject)) {
+            if (Judge.isValidJsonValue("cityId", jsonObject)) {
                 cityId = jsonObject.getInt("cityId");
             }
-            if (J.isValidJsonValue("email", jsonObject)) {
+            if (Judge.isValidJsonValue("email", jsonObject)) {
                 email = jsonObject.getString("email");
             }
-            if (J.isValidJsonValue("phone", jsonObject)) {
+            if (Judge.isValidJsonValue("phone", jsonObject)) {
                 phone = jsonObject.getString("phone");
             }
-            if (J.isValidJsonValue("qq", jsonObject)) {
+            if (Judge.isValidJsonValue("qq", jsonObject)) {
                 qq = jsonObject.getString("qq");
             }
-            if (J.isValidJsonValue("company", jsonObject)) {
+            if (Judge.isValidJsonValue("company", jsonObject)) {
                 company = jsonObject.getString("company");
             }
-            if (J.isValidJsonValue("position", jsonObject)) {
+            if (Judge.isValidJsonValue("position", jsonObject)) {
                 position = jsonObject.getString("position");
             }
-            if (J.isValidJsonValue("signature", jsonObject)) {
+            if (Judge.isValidJsonValue("signature", jsonObject)) {
                 signature = jsonObject.getString("signature");
             }
-            if (J.isValidJsonValue("cityPrincipal", jsonObject)) {
+            if (Judge.isValidJsonValue("cityPrincipal", jsonObject)) {
                 cityPrincipal = jsonObject.getBoolean("cityPrincipal");
             }
-            if (J.isValidJsonValue("privateQQ", jsonObject)) {
+            if (Judge.isValidJsonValue("privateQQ", jsonObject)) {
                 privateQQ = jsonObject.getBoolean("privateQQ");
             }
-            if (J.isValidJsonValue("privateEmail", jsonObject)) {
+            if (Judge.isValidJsonValue("privateEmail", jsonObject)) {
                 privateEmail = jsonObject.getBoolean("privateEmail");
             }
-            if (J.isValidJsonValue("privatePhone", jsonObject)) {
+            if (Judge.isValidJsonValue("privatePhone", jsonObject)) {
                 privatePhone = jsonObject.getBoolean("privatePhone");
             }
-            if (J.isValidJsonValue("privateCompany", jsonObject)) {
+            if (Judge.isValidJsonValue("privateCompany", jsonObject)) {
                 privateCompany = jsonObject.getBoolean("privateCompany");
             }
-            if (J.isValidJsonValue("privatePosition", jsonObject)) {
+            if (Judge.isValidJsonValue("privatePosition", jsonObject)) {
                 privatePosition = jsonObject.getBoolean("privatePosition");
             }
         }
@@ -236,10 +237,24 @@ public class User implements Serializable {
     }
 
     /**
+     * @param cityId the cityId to set
+     */
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    /**
      * @return the email
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -250,10 +265,24 @@ public class User implements Serializable {
     }
 
     /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
      * @return the qq
      */
     public String getQq() {
         return qq;
+    }
+
+    /**
+     * @param qq the qq to set
+     */
+    public void setQq(String qq) {
+        this.qq = qq;
     }
 
     /**
@@ -264,6 +293,13 @@ public class User implements Serializable {
     }
 
     /**
+     * @param company the company to set
+     */
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    /**
      * @return the position
      */
     public String getPosition() {
@@ -271,10 +307,24 @@ public class User implements Serializable {
     }
 
     /**
+     * @param position the position to set
+     */
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    /**
      * @return the signature
      */
     public String getSignature() {
         return signature;
+    }
+
+    /**
+     * @param signature the signature to set
+     */
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     /**
@@ -292,87 +342,17 @@ public class User implements Serializable {
     }
 
     /**
-     * @return the privateEmail
-     */
-    public boolean isPrivateEmail() {
-        return privateEmail;
-    }
-
-    /**
-     * @return the privatePhone
-     */
-    public boolean isPrivatePhone() {
-        return privatePhone;
-    }
-
-    /**
-     * @return the privateCompany
-     */
-    public boolean isPrivateCompany() {
-        return privateCompany;
-    }
-
-    /**
-     * @return the privatePosition
-     */
-    public boolean isPrivatePosition() {
-        return privatePosition;
-    }
-
-    /**
-     * @param cityId the cityId to set
-     */
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @param phone the phone to set
-     */
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    /**
-     * @param qq the qq to set
-     */
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-    /**
-     * @param company the company to set
-     */
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    /**
-     * @param position the position to set
-     */
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    /**
-     * @param signature the signature to set
-     */
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    /**
      * @param privateQQ the privateQQ to set
      */
     public void setPrivateQQ(boolean privateQQ) {
         this.privateQQ = privateQQ;
+    }
+
+    /**
+     * @return the privateEmail
+     */
+    public boolean isPrivateEmail() {
+        return privateEmail;
     }
 
     /**
@@ -383,6 +363,13 @@ public class User implements Serializable {
     }
 
     /**
+     * @return the privatePhone
+     */
+    public boolean isPrivatePhone() {
+        return privatePhone;
+    }
+
+    /**
      * @param privatePhone the privatePhone to set
      */
     public void setPrivatePhone(boolean privatePhone) {
@@ -390,10 +377,24 @@ public class User implements Serializable {
     }
 
     /**
+     * @return the privateCompany
+     */
+    public boolean isPrivateCompany() {
+        return privateCompany;
+    }
+
+    /**
      * @param privateCompany the privateCompany to set
      */
     public void setPrivateCompany(boolean privateCompany) {
         this.privateCompany = privateCompany;
+    }
+
+    /**
+     * @return the privatePosition
+     */
+    public boolean isPrivatePosition() {
+        return privatePosition;
     }
 
     /**

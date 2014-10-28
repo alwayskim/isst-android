@@ -2,9 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/action_alumni_filter"
-            android:title="@string/action_filter"
-            android:showAsAction="always"/>
+        android:id="@+id/action_alumni_filter"
+        android:showAsAction="always"
+        android:icon="@drawable/searchbtn"
+        android:title="搜索" />
 
 
 </menu>

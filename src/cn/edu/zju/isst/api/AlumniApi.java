@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
+ *
+ * @deprecated
  * 归档接口
  *
  * @author theasir
@@ -43,7 +45,7 @@ public class AlumniApi extends CSTApi {
         StringBuilder sb = new StringBuilder();
         sb.append(SUB_URL).append("/classes");
 
-        L.i("yyy --- getClassesList:" + sb.toString());
+        Lgr.i("yyy --- getClassesList:" + sb.toString());
 
         request("GET", sb.toString(), null, listener);
     }
@@ -52,7 +54,7 @@ public class AlumniApi extends CSTApi {
         StringBuilder sb = new StringBuilder();
         sb.append(SUB_URL).append("/majors");
 
-        L.i("yyy --- getMajorList:" + sb.toString());
+        Lgr.i("yyy --- getMajorList:" + sb.toString());
 
         request("GET", sb.toString(), null, listener);
     }
@@ -61,7 +63,7 @@ public class AlumniApi extends CSTApi {
         StringBuilder sb = new StringBuilder();
         sb.append(SUB_URL).append("/cities");
 
-        L.i("yyy --- getCityList:" + sb.toString());
+        Lgr.i("yyy --- getCityList:" + sb.toString());
 
         request("GET", sb.toString(), null, listener);
     }
@@ -70,7 +72,7 @@ public class AlumniApi extends CSTApi {
         StringBuilder sb = new StringBuilder();
         sb.append(SUB_URL).append("/alumni").append("/" + id);
 
-        L.i("yyy --- getUser:" + sb.toString());
+        Lgr.i("yyy --- getUser:" + sb.toString());
 
         request("GET", sb.toString(), null, listener);
     }

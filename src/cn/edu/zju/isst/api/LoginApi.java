@@ -11,9 +11,10 @@ import java.util.Map;
 
 import cn.edu.zju.isst.db.User;
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
+ * @deprecated
  * 登录接口
  *
  * @author theasir
@@ -56,10 +57,10 @@ public class LoginApi extends CSTApi {
         paramsMap.put("longitude", String.valueOf(longitude));
         paramsMap.put("latitude", String.valueOf(latitude));
 
-        L.i("yyy:" + "username=" + paramsMap.get("username") + "&password=" + paramsMap
+        Lgr.i("yyy:" + "username=" + paramsMap.get("username") + "&password=" + paramsMap
                 .get("password") + "&" + "token=" + paramsMap.get("token") + "&"
                 + "timestamp=" + paramsMap.get("timestamp"));
-        L.i("LoginToken", "token=" + paramsMap.get("token") + "&"
+        Lgr.i("LoginToken", "token=" + paramsMap.get("token") + "&"
                 + "timestamp=" + paramsMap.get("timestamp"));
 
         request("POST", SUB_URL, paramsMap, listener);
@@ -90,9 +91,9 @@ public class LoginApi extends CSTApi {
         paramsMap.put("longitude", String.valueOf(longitude));
         paramsMap.put("latitude", String.valueOf(latitude));
 
-        L.i("" + currentUser.getId());
+        Lgr.i("" + currentUser.getId());
 
-        L.i("TEST", "token=" + paramsMap.get("token") + "&" + "timestamp="
+        Lgr.i("TEST", "token=" + paramsMap.get("token") + "&" + "timestamp="
                 + paramsMap.get("timestamp"));
 
         request("POST", SUB_URL + "/update", paramsMap, listener);

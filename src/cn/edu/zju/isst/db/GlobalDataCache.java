@@ -14,32 +14,33 @@ import java.util.List;
 import cn.edu.zju.isst.api.AlumniApi;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 /**
+ * @deprecated
  * @author theasir
  */
 public class GlobalDataCache {
 
 
     public static void cacheCityList(Object o) {
-        L.i("cache", "CITY");
+        Lgr.i("cache", "CITY");
         List<City> cityList = new ArrayList<City>();
         AlumniApi.getCityList(new BaseListRequestListener<City>(cityList,
                 City.class));
     }
 
     public static void cacheClassList(Object o) {
-        L.i("cache", "CLASS");
+        Lgr.i("cache", "CLASS");
         List<Klass> classList = new ArrayList<Klass>();
         AlumniApi.getClassesList(new BaseListRequestListener<Klass>(classList,
                 Klass.class));
     }
 
     public static void cacheMajorList(Object o) {
-        L.i("cache", "MAJOR");
+        Lgr.i("cache", "MAJOR");
         List<Major> majorList = new ArrayList<Major>();
         AlumniApi.getMajorList(new BaseListRequestListener<Major>(majorList,
                 Major.class));
@@ -61,7 +62,7 @@ public class GlobalDataCache {
         @SuppressWarnings("unchecked")
         @Override
         public void onComplete(Object result) {
-            L.i("cache", result.toString());
+            Lgr.i("cache", result.toString());
             try {
                 status = ((JSONObject) result).getInt("status");
                 if (status == STATUS_REQUEST_SUCCESS) {

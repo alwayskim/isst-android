@@ -13,12 +13,6 @@ package cn.edu.zju.isst.constant;
 public final class Constants {
 
     /**
-     * 私有构造方法，防止对象实例化
-     */
-    private Constants() {
-    }
-
-    /**
      * 成功返回
      */
     public static final int STATUS_REQUEST_SUCCESS = 0;
@@ -113,5 +107,11 @@ public final class Constants {
      * this is the code between ContactFilter and ContactListFragment
      */
     public static final int RESULT_CODE_BETWEEN_CONTACT = 20;
+
+    /**
+     * 私有构造方法，防止对象实例化
+     */
+    private Constants() {
+    }
 
 }

@@ -28,11 +28,11 @@ import cn.edu.zju.isst.ui.main.NewMainActivity;
  */
 public class UserCenterFragment extends Fragment {
 
+    private static UserCenterFragment INSTANCE = new UserCenterFragment();
+
     private User m_userCurrent;
 
     private ViewHolder mViewHolder = new ViewHolder();
-
-    private static UserCenterFragment INSTANCE = new UserCenterFragment();
 
     public UserCenterFragment() {
     }
@@ -101,34 +101,6 @@ public class UserCenterFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private class ViewHolder {
-
-        View userView;
-
-        ImageView avatarImgv;
-
-        TextView nameTxv;
-
-        TextView signTxv;
-
-        Button logoutBtn;
-
-        View stAffairView;
-
-        View taskCenterView;
-
-        View myRecomView;
-
-        View myExpView;
-
-        View myActivityView;
-
-        View peopleNearbyView;
-
-        View personalSettingvView;
-
     }
 
     private void initComponent(View view) {
@@ -247,6 +219,34 @@ public class UserCenterFragment extends Fragment {
     private void show() {
         mViewHolder.nameTxv.setText(m_userCurrent.getName());
         mViewHolder.signTxv.setText(m_userCurrent.getSignature());
+    }
+
+    private class ViewHolder {
+
+        View userView;
+
+        ImageView avatarImgv;
+
+        TextView nameTxv;
+
+        TextView signTxv;
+
+        Button logoutBtn;
+
+        View stAffairView;
+
+        View taskCenterView;
+
+        View myRecomView;
+
+        View myExpView;
+
+        View myActivityView;
+
+        View peopleNearbyView;
+
+        View personalSettingvView;
+
     }
 
 }

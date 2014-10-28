@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @deprecated
  * 响应类
  *
  * @see {@link https://code.google.com/p/aerc/}

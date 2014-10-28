@@ -32,8 +32,8 @@ import cn.edu.zju.isst.db.RestaurantMenu;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.ui.main.BaseActivity;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -43,11 +43,11 @@ import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
  */
 public class RestaurantDetailActivity extends BaseActivity {
 
+    private final List<RestaurantMenu> m_listRestaurantMenu = new ArrayList<RestaurantMenu>();
+
     private int m_nId;
 
     private Restaurant m_restaurantCurrent;
-
-    private final List<RestaurantMenu> m_listRestaurantMenu = new ArrayList<RestaurantMenu>();
 
     private Handler m_handlerRestaurantDetail;
 
@@ -90,12 +90,12 @@ public class RestaurantDetailActivity extends BaseActivity {
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
                         // TODO 优化策略
-                        if (!J.isNullOrEmpty(m_restaurantCurrent)) {
-                            L.i("Handler Success Restaurant id = "
+                        if (!Judge.isNullOrEmpty(m_restaurantCurrent)) {
+                            Lgr.i("Handler Success Restaurant id = "
                                     + m_restaurantCurrent.getId());
                             showRestaurantDetail();
                         }
-                        if (!J.isNullOrEmpty(m_listRestaurantMenu)) {
+                        if (!Judge.isNullOrEmpty(m_listRestaurantMenu)) {
                             m_adapterMenu.notifyDataSetChanged();
                         }
                         break;
@@ -135,7 +135,7 @@ public class RestaurantDetailActivity extends BaseActivity {
     }
 
     private void initComponent() {
-        m_txvContent = (TextView) findViewById(R.id.restaurant_detail_activity_content_txv);
+        m_txvContent = (TextView) findViewById(R.id.restaurant_detail_activity_description_txv);
         m_txvHotline = (TextView) findViewById(R.id.restaurant_detail_activity_hotline_txv);
         m_ibtnDial = (ImageButton) findViewById(R.id.restaurant_detail_activity_dial_ibtn);
         m_lsvMenu = (ListView) findViewById(R.id.restaurant_detail_activity_menu_lsv);
@@ -151,10 +151,10 @@ public class RestaurantDetailActivity extends BaseActivity {
                 m_listRestaurantMenu.add(new RestaurantMenu(
                         (JSONObject) jsonArray.get(i)));
             }
-            L.i(this.getClass().getName() + " updateMenu: "
+            Lgr.i(this.getClass().getName() + " updateMenu: "
                     + "Added menu to menuList!");
         } catch (JSONException e) {
-            L.i(this.getClass().getName() + " updateMenu!");
+            Lgr.i(this.getClass().getName() + " updateMenu!");
             e.printStackTrace();
         }
     }
@@ -258,7 +258,7 @@ public class RestaurantDetailActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                if (!J.isNullOrEmpty(dialNumber)) {
+                if (!Judge.isNullOrEmpty(dialNumber)) {
                     Intent intent = new Intent(Intent.ACTION_DIAL, Uri
                             .parse("tel://" + dialNumber));
                     RestaurantDetailActivity.this.startActivity(intent);

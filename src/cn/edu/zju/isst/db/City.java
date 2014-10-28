@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * @author xyj
  */
 public class City implements Serializable {
@@ -40,14 +41,14 @@ public class City implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("name", jsonObject)) {
+            if (Judge.isValidJsonValue("name", jsonObject)) {
                 name = jsonObject.getString("name");
             }
-            if (J.isValidJsonValue("user", jsonObject)) {
+            if (Judge.isValidJsonValue("user", jsonObject)) {
                 cityMaster = new User(jsonObject.getJSONObject("user"));
             }
         }

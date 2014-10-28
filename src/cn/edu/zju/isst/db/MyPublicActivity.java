@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * @author theasir
  */
 public class MyPublicActivity implements Serializable {
@@ -55,35 +56,35 @@ public class MyPublicActivity implements Serializable {
     }
 
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("title", jsonObject)) {
+            if (Judge.isValidJsonValue("title", jsonObject)) {
                 title = jsonObject.getString("title");
             }
-            if (J.isValidJsonValue("picture", jsonObject)) {
+            if (Judge.isValidJsonValue("picture", jsonObject)) {
                 imgUrl = jsonObject.getString("picture");
             }
-            if (J.isValidJsonValue("cityId", jsonObject)) {
+            if (Judge.isValidJsonValue("cityId", jsonObject)) {
                 cityId = jsonObject.getInt("cityId");
             }
-            if (J.isValidJsonValue("location", jsonObject)) {
+            if (Judge.isValidJsonValue("location", jsonObject)) {
                 location = jsonObject.getString("location");
             }
-            if (J.isValidJsonValue("user", jsonObject)) {
+            if (Judge.isValidJsonValue("user", jsonObject)) {
                 publisher.update(jsonObject.getJSONObject("user"));
             }
-            if (J.isValidJsonValue("updatedAt", jsonObject)) {
+            if (Judge.isValidJsonValue("updatedAt", jsonObject)) {
                 updatedAt = jsonObject.getLong("updatedAt");
             }
-            if (J.isValidJsonValue("startTime", jsonObject)) {
+            if (Judge.isValidJsonValue("startTime", jsonObject)) {
                 updatedAt = jsonObject.getLong("startTime");
             }
-            if (J.isValidJsonValue("expireTime", jsonObject)) {
+            if (Judge.isValidJsonValue("expireTime", jsonObject)) {
                 updatedAt = jsonObject.getLong("expireTime");
             }
-            if (J.isValidJsonValue("content", jsonObject)) {
+            if (Judge.isValidJsonValue("content", jsonObject)) {
                 content = jsonObject.getString("content");
             }
         }

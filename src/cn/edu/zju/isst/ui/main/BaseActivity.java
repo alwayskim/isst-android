@@ -19,9 +19,9 @@ import cn.edu.zju.isst.db.GlobalDataCache;
 import cn.edu.zju.isst.db.User;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.ui.login.LoginActivity;
-import cn.edu.zju.isst.util.CM;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.v2.login.gui.LoginActivity;
+import cn.edu.zju.isst.util.CroMan;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.EXCEPTION_CLASSCAST;
 import static cn.edu.zju.isst.constant.Constants.EXCEPTION_IO;
@@ -69,7 +69,7 @@ public class BaseActivity extends Activity implements LoginSimulation,
                     msg.what = ((JSONObject) result).getInt("status");
                     msg.obj = (JSONObject) result;
                 } catch (Exception e) {
-                    L.i(this.getClass().getName() + " onComplete Exception!");
+                    Lgr.i(this.getClass().getName() + " onComplete Exception!");
                     onException(e);
                 }
                 m_handlerUpdateLogin.sendMessage(msg);
@@ -78,13 +78,13 @@ public class BaseActivity extends Activity implements LoginSimulation,
 
             @Override
             public void onHttpError(CSTResponse response) {
-                L.i(this.getClass().getName() + " onHttpError!");
+                Lgr.i(this.getClass().getName() + " onHttpError!");
 
             }
 
             @Override
             public void onException(Exception e) {
-                L.i(this.getClass().getName() + " onException!");
+                Lgr.i(this.getClass().getName() + " onException!");
                 e.printStackTrace();
 
             }
@@ -122,7 +122,7 @@ public class BaseActivity extends Activity implements LoginSimulation,
                                 LoginActivity.class);
                         intent.putExtra("isLoginAgain", true);
                         BaseActivity.this.startActivity(intent);
-                        L.i("TesT", "Login Again");
+                        Lgr.i("TesT", "Login Again");
                         break;
                     default:
                         break;
@@ -136,24 +136,24 @@ public class BaseActivity extends Activity implements LoginSimulation,
     public int dispose(Message msg) {
         switch (msg.what) {
             case NETWORK_NOT_CONNECTED:
-                CM.showAlert(BaseActivity.this, R.string.network_not_connected);
+                CroMan.showAlert(BaseActivity.this, R.string.network_not_connected);
                 break;
 
             case HTTPERROR_UNKNOWN:
             case HTTPERROR_CLIENTERROR:
             case HTTPERROR_SERVERERROR:
-                CM.showAlert(BaseActivity.this, R.string.http_error);
+                CroMan.showAlert(BaseActivity.this, R.string.http_error);
                 break;
 
             case EXCEPTION_SOCKETTIMEOUT:
-                CM.showAlert(BaseActivity.this, R.string.exception_socket_timeout);
+                CroMan.showAlert(BaseActivity.this, R.string.exception_socket_timeout);
                 break;
 
             case EXCEPTION_UNKNOWN:
             case EXCEPTION_IO:
             case EXCEPTION_JSON:
             case EXCEPTION_CLASSCAST:
-                CM.showAlert(BaseActivity.this, R.string.exception);
+                CroMan.showAlert(BaseActivity.this, R.string.exception);
                 break;
 
             default:
@@ -163,9 +163,9 @@ public class BaseActivity extends Activity implements LoginSimulation,
     }
 
     protected void requestGlobalData() {
-        GlobalDataCache.cacheCityList(null);
-        GlobalDataCache.cacheClassList(null);
-        GlobalDataCache.cacheMajorList(null);
+        cn.edu.zju.isst.v2.globaldata.GlobalDataCache.cacheCityList(this);
+        cn.edu.zju.isst.v2.globaldata.GlobalDataCache.cacheClassList(this);
+        cn.edu.zju.isst.v2.globaldata.GlobalDataCache.cacheMajorList(this);
     }
 
 }

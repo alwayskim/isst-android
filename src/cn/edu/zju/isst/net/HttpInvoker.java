@@ -16,8 +16,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.HTTP_CONNECT_TIMEOUT;
 
@@ -37,7 +37,7 @@ public class HttpInvoker {
                     @Override
                     public String call() throws Exception {
                         StringBuilder sbParams = new StringBuilder();
-                        if (!J.isNullOrEmpty(params)) {
+                        if (!Judge.isNullOrEmpty(params)) {
                             for (Map.Entry<String, String> entry : params
                                     .entrySet()) {
                                 sbParams.append(entry.getKey()).append('=');
@@ -69,22 +69,22 @@ public class HttpInvoker {
                                 .getInstance();
                         String cookie = cookieManager.getCookie(conn.getURL()
                                 .toString());
-                        if (!J.isNullOrEmpty(cookie)) {
+                        if (!Judge.isNullOrEmpty(cookie)) {
                             conn.setRequestProperty("Cookie", cookie);
                         }
 
-                        L.i("HttpInvoker POST cookie: " + cookie);
-                        L.i("HttpInvoker Before POST getOutputStream!");
+                        Lgr.i("HttpInvoker POST cookie: " + cookie);
+                        Lgr.i("HttpInvoker Before POST getOutputStream!");
 
                         conn.getOutputStream().write(entity);
 
-                        L.i("HttpInvoker ResponseCode: "
+                        Lgr.i("HttpInvoker ResponseCode: "
                                 + conn.getResponseCode());
 
                         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                             List<String> cookieList = conn.getHeaderFields()
                                     .get("Set-Cookie");
-                            if (!J.isNullOrEmpty(cookieList)) {
+                            if (!Judge.isNullOrEmpty(cookieList)) {
                                 for (String cookieTemp : cookieList) {
                                     cookieManager.setCookie(conn.getURL()
                                             .toString(), cookieTemp);
@@ -95,14 +95,14 @@ public class HttpInvoker {
                                     new InputStreamReader(conn.getInputStream()));
                             StringBuilder sbResult = new StringBuilder();
                             String line = br.readLine();
-                            while (!J.isNullOrEmpty(line)) {
+                            while (!Judge.isNullOrEmpty(line)) {
                                 sbResult.append(line + "\n");
                             }
                             br.close();
 
                             conn.disconnect();
 
-                            L.i(sbResult.toString());
+                            Lgr.i(sbResult.toString());
                             return sbResult.toString();
                         }
 
@@ -138,22 +138,22 @@ public class HttpInvoker {
                                 .getInstance();
                         String cookie = cookieManager.getCookie(conn.getURL()
                                 .toString());
-                        if (!J.isNullOrEmpty(cookie)) {
+                        if (!Judge.isNullOrEmpty(cookie)) {
                             conn.setRequestProperty("Cookie", cookie);
                         }
 
-                        L.i("HttpInvoker GET cookie: " + cookie);
-                        L.i("HttpInvoker Before GET connect!");
+                        Lgr.i("HttpInvoker GET cookie: " + cookie);
+                        Lgr.i("HttpInvoker Before GET connect!");
 
                         conn.connect();
 
-                        L.i("HttpInvoker ResponseCode: "
+                        Lgr.i("HttpInvoker ResponseCode: "
                                 + conn.getResponseCode());
 
                         if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                             List<String> cookieList = conn.getHeaderFields()
                                     .get("Set-Cookie");
-                            if (!J.isNullOrEmpty(cookieList)) {
+                            if (!Judge.isNullOrEmpty(cookieList)) {
                                 for (String cookieTemp : cookieList) {
                                     cookieManager.setCookie(conn.getURL()
                                             .toString(), cookieTemp);
@@ -164,14 +164,14 @@ public class HttpInvoker {
                                     new InputStreamReader(conn.getInputStream()));
                             StringBuilder sbResult = new StringBuilder();
                             String line = br.readLine();
-                            while (!J.isNullOrEmpty(line)) {
+                            while (!Judge.isNullOrEmpty(line)) {
                                 sbResult.append(line + "\n");
                             }
                             br.close();
 
                             conn.disconnect();
 
-                            L.i(sbResult.toString());
+                            Lgr.i(sbResult.toString());
                             return sbResult.toString();
                         }
 

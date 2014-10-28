@@ -39,10 +39,10 @@ import cn.edu.zju.isst.net.NetworkConnection;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.ui.job.PublishRecommendActivity;
 import cn.edu.zju.isst.ui.job.RecommendDetailActivity;
-import cn.edu.zju.isst.ui.life.ArchiveDetailActivity;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
-import cn.edu.zju.isst.util.TimeString;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.util.TSUtil;
+import cn.edu.zju.isst.v2.archive.gui.ArchiveDetailActivity;
 
 import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst.constant.Constants.STATUS_NOT_LOGIN;
@@ -56,6 +56,8 @@ import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
 public class BaseUserCenterListFragment extends ListFragment implements
         OnScrollListener {
 
+    private final List<UserCenterList> m_listAchive = new ArrayList<UserCenterList>();
+
     private int m_nVisibleLastIndex;
 
     private int m_nCurrentPage;
@@ -65,8 +67,6 @@ public class BaseUserCenterListFragment extends ListFragment implements
     private UserCenterCategory m_userCenterCategory;
 
     private LoadType m_loadType;
-
-    private final List<UserCenterList> m_listAchive = new ArrayList<UserCenterList>();
 
     private Handler m_handlerUserCenterList;
 
@@ -91,47 +91,6 @@ public class BaseUserCenterListFragment extends ListFragment implements
         super.onCreate(savedInstanceState);
         // action_bar_activities_item
         setHasOptionsMenu(true);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.ListFragment#onCreateView(android.view.LayoutInflater
-     * , android.view.ViewGroup, android.os.Bundle)
-     */
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.usercenter_list_fragment, null);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.support.v4.app.ListFragment#onViewCreated(android.view.View,
-     * android.os.Bundle)
-     */
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        initComponent(view);
-
-        if (m_bIsFirstTime) {
-            initUserCenterList();
-            m_bIsFirstTime = false;
-        }
-
-        initHandler();
-
-        setUpAdapter();
-
-        setUpListener();
-
-        if (m_listAchive.size() == 0) {
-            requestData(LoadType.REFRESH);
-        }
     }
 
     /*
@@ -180,12 +139,53 @@ public class BaseUserCenterListFragment extends ListFragment implements
      * (non-Javadoc)
      *
      * @see
+     * android.support.v4.app.ListFragment#onCreateView(android.view.LayoutInflater
+     * , android.view.ViewGroup, android.os.Bundle)
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.usercenter_list_fragment, null);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see android.support.v4.app.ListFragment#onViewCreated(android.view.View,
+     * android.os.Bundle)
+     */
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initComponent(view);
+
+        if (m_bIsFirstTime) {
+            initUserCenterList();
+            m_bIsFirstTime = false;
+        }
+
+        initHandler();
+
+        setUpAdapter();
+
+        setUpListener();
+
+        if (m_listAchive.size() == 0) {
+            requestData(LoadType.REFRESH);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
      * android.support.v4.app.ListFragment#onListItemClick(android.widget.ListView
      * , android.view.View, int, long)
      */
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        L.i(this.getClass().getName() + " onListItemClick postion = "
+        Lgr.i(this.getClass().getName() + " onListItemClick postion = "
                 + position);
         Intent intent = null;
         switch (m_userCenterCategory) {
@@ -250,7 +250,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
     protected void initUserCenterList() {
         m_listAchive.clear();
         List<UserCenterList> dbUserCenterList = getUserCenterList();
-        if (!J.isNullOrEmpty(dbUserCenterList)) {
+        if (!Judge.isNullOrEmpty(dbUserCenterList)) {
             for (UserCenterList userCenterList : dbUserCenterList) {
                 m_listAchive.add(userCenterList);
             }
@@ -313,7 +313,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
             m_listAchive.clear();
         }
         try {
-            if (!J.isValidJsonValue("body", jsonObject)) {
+            if (!Judge.isValidJsonValue("body", jsonObject)) {
                 return;
             }
             JSONArray jsonArray = jsonObject.getJSONArray("body");
@@ -336,7 +336,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
     protected void loadMore(JSONObject jsonObject) {
         JSONArray jsonArray;
         try {
-            if (!J.isValidJsonValue("body", jsonObject)) {
+            if (!Judge.isValidJsonValue("body", jsonObject)) {
                 return;
             }
             jsonArray = jsonObject.getJSONArray("body");
@@ -407,13 +407,13 @@ public class BaseUserCenterListFragment extends ListFragment implements
         public void onComplete(Object result) {
             Message msg = m_handlerUserCenterList.obtainMessage();
             try {
-                if (!J.isValidJsonValue("status", (JSONObject) result)) {
+                if (!Judge.isValidJsonValue("status", (JSONObject) result)) {
                     return;
                 }
                 msg.what = ((JSONObject) result).getInt("status");
                 msg.obj = (JSONObject) result;
             } catch (JSONException e) {
-                L.i(this.getClass().getName() + " onComplete!");
+                Lgr.i(this.getClass().getName() + " onComplete!");
                 e.printStackTrace();
             }
 
@@ -422,7 +422,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
 
         @Override
         public void onHttpError(CSTResponse response) {
-            L.i(this.getClass().getName() + " onHttpError!");
+            Lgr.i(this.getClass().getName() + " onHttpError!");
             Message msg = m_handlerUserCenterList.obtainMessage();
             HttpErrorWeeder.fckHttpError(response, msg);
             m_handlerUserCenterList.sendMessage(msg);
@@ -430,7 +430,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
 
         @Override
         public void onException(Exception e) {
-            L.i(this.getClass().getName() + " onException!");
+            Lgr.i(this.getClass().getName() + " onException!");
             Message msg = m_handlerUserCenterList.obtainMessage();
             ExceptionWeeder.fckException(e, msg);
             m_handlerUserCenterList.sendMessage(msg);
@@ -504,7 +504,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
             }
 
             holder.titleTxv.setText(m_listAchive.get(position).getTitle());
-            holder.dateTxv.setText(TimeString.toYMD(m_listAchive.get(position)
+            holder.dateTxv.setText(TSUtil.toYMD(m_listAchive.get(position)
                     .getUpdatedAt()));
 
             // holder.indicatorView.setBackgroundColor(Color.BLUE);

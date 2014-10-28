@@ -43,11 +43,11 @@ import cn.edu.zju.isst.exception.HttpErrorWeeder;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.NetworkConnection;
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.ui.city.CityActivityDetailActivity;
+import cn.edu.zju.isst.v2.event.city.gui.CityEventDetailActivity;
 import cn.edu.zju.isst.ui.main.NewMainActivity;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
-import cn.edu.zju.isst.util.TimeString;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.util.TSUtil;
 import cn.edu.zju.isst.widget.PullToRefeshView;
 import cn.edu.zju.isst.widget.PullToRefeshView.PullToRefreshListener;
 
@@ -63,9 +63,10 @@ public class MyActivitiesFragment extends ListFragment implements
 
     private static MyActivitiesFragment INSTANCE = new MyActivitiesFragment();
 
-    public static MyActivitiesFragment getInstance() {
-        return INSTANCE;
-    }
+    private final List<MyPublicActivity> m_listPublic = new ArrayList<MyPublicActivity>();
+
+    private final List<MyParticipatedActivity> m_listParticipated
+            = new ArrayList<MyParticipatedActivity>();
 
     private int m_nVisibleLastIndex;
 
@@ -78,11 +79,6 @@ public class MyActivitiesFragment extends ListFragment implements
     private ArrayList<String> m_arrayListType = new ArrayList<String>();
 
     private LoadType m_loadType;
-
-    private final List<MyPublicActivity> m_listPublic = new ArrayList<MyPublicActivity>();
-
-    private final List<MyParticipatedActivity> m_listParticipated
-            = new ArrayList<MyParticipatedActivity>();
 
     private Handler m_handlerArchiveList;
 
@@ -104,6 +100,10 @@ public class MyActivitiesFragment extends ListFragment implements
 
     }
 
+    public static MyActivitiesFragment getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(),
@@ -117,70 +117,6 @@ public class MyActivitiesFragment extends ListFragment implements
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.my_activties_list_fragment, null);
-    }
-
-    @Override
-    public void onDestroyView() {
-        // 得到ActionBar
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        // 控件
-
-        m_type = 0;
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setSelectedNavigationItem(m_type);
-        initComponent(view);
-
-        if (m_bIsFirstTime) {
-            initArchiveList();
-            m_bIsFirstTime = false;
-        }
-
-        initHandler();
-
-        setUpAdapter();
-
-        setUpListener();
-
-        // L.d(tag, msg)
-        m_ptrView.setOnRefreshListener(new PullToRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                L.i(this.getClass().getName()
-                        + "-----enter onViewCreated---onRefresh---");
-                requestData(LoadType.REFRESH);
-            }
-        }, 0);
-
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    /**
-     * 实现 ActionBar.OnNavigationListener接口
-     */
-    private class DropDownListenser implements OnNavigationListener {
-
-        @Override
-        public boolean onNavigationItemSelected(int arg0, long arg1) {
-            L.i("arg0 = " + arg0 + " ; m_type = " + m_type);
-            if (arg0 != m_type) {
-                m_type = arg0;
-                requestData(LoadType.REFRESH);
-            }
-            return false;
-        }
     }
 
     /*
@@ -211,6 +147,54 @@ public class MyActivitiesFragment extends ListFragment implements
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.my_activties_list_fragment, null);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // 控件
+
+        m_type = 0;
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setSelectedNavigationItem(m_type);
+        initComponent(view);
+
+        if (m_bIsFirstTime) {
+            initArchiveList();
+            m_bIsFirstTime = false;
+        }
+
+        initHandler();
+
+        setUpAdapter();
+
+        setUpListener();
+
+        // L.d(tag, msg)
+        m_ptrView.setOnRefreshListener(new PullToRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                Lgr.i(this.getClass().getName()
+                        + "-----enter onViewCreated---onRefresh---");
+                requestData(LoadType.REFRESH);
+            }
+        }, 0);
+
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        // 得到ActionBar
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        super.onDestroyView();
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -220,10 +204,10 @@ public class MyActivitiesFragment extends ListFragment implements
      */
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        L.i(this.getClass().getName() + " onListItemClick postion = "
+        Lgr.i(this.getClass().getName() + " onListItemClick postion = "
                 + position);
         Intent intent = new Intent(getActivity(),
-                CityActivityDetailActivity.class);
+                CityEventDetailActivity.class);
         if (m_type == 0) {
             intent.putExtra("id", m_listPublic.get(position).id);
             intent.putExtra("cityId", m_listPublic.get(position).cityId);
@@ -262,23 +246,23 @@ public class MyActivitiesFragment extends ListFragment implements
     protected void initArchiveList() {
         List<MyPublicActivity> dbPublicList = getPublicList();
         m_listPublic.clear();
-        if (!J.isNullOrEmpty(dbPublicList)) {
+        if (!Judge.isNullOrEmpty(dbPublicList)) {
             for (MyPublicActivity publicActivity : dbPublicList) {
                 m_listPublic.add(publicActivity);
             }
         }
-        if (J.isNullOrEmpty(m_listPublic)) {
+        if (Judge.isNullOrEmpty(m_listPublic)) {
             requestData(LoadType.REFRESH);
         }
         // /
         List<MyParticipatedActivity> dbParticipatedList = getParticipatedList();
         m_listParticipated.clear();
-        if (!J.isNullOrEmpty(dbParticipatedList)) {
+        if (!Judge.isNullOrEmpty(dbParticipatedList)) {
             for (MyParticipatedActivity participatedActivity : dbParticipatedList) {
                 m_listParticipated.add(participatedActivity);
             }
         }
-        if (J.isNullOrEmpty(m_listParticipated)) {
+        if (Judge.isNullOrEmpty(m_listParticipated)) {
             requestData(LoadType.REFRESH);
         }
     }
@@ -344,7 +328,7 @@ public class MyActivitiesFragment extends ListFragment implements
             m_listParticipated.clear();
         }
         try {
-            if (!J.isValidJsonValue("body", jsonObject)) {
+            if (!Judge.isValidJsonValue("body", jsonObject)) {
                 return;
             }
             JSONArray jsonArray = jsonObject.getJSONArray("body");
@@ -374,7 +358,7 @@ public class MyActivitiesFragment extends ListFragment implements
     protected void loadMore(JSONObject jsonObject) {
         JSONArray jsonArray;
         try {
-            if (!J.isValidJsonValue("body", jsonObject)) {
+            if (!Judge.isValidJsonValue("body", jsonObject)) {
                 return;
             }
             jsonArray = jsonObject.getJSONArray("body");
@@ -462,6 +446,22 @@ public class MyActivitiesFragment extends ListFragment implements
     }
 
     /**
+     * 实现 ActionBar.OnNavigationListener接口
+     */
+    private class DropDownListenser implements OnNavigationListener {
+
+        @Override
+        public boolean onNavigationItemSelected(int arg0, long arg1) {
+            Lgr.i("arg0 = " + arg0 + " ; m_type = " + m_type);
+            if (arg0 != m_type) {
+                m_type = arg0;
+                requestData(LoadType.REFRESH);
+            }
+            return false;
+        }
+    }
+
+    /**
      * 归档列表RequestListener类
      *
      * @author theasir
@@ -472,13 +472,13 @@ public class MyActivitiesFragment extends ListFragment implements
         public void onComplete(Object result) {
             Message msg = m_handlerArchiveList.obtainMessage();
             try {
-                if (!J.isValidJsonValue("status", (JSONObject) result)) {
+                if (!Judge.isValidJsonValue("status", (JSONObject) result)) {
                     return;
                 }
                 msg.what = ((JSONObject) result).getInt("status");
                 msg.obj = (JSONObject) result;
             } catch (JSONException e) {
-                L.i(this.getClass().getName() + " onComplete!");
+                Lgr.i(this.getClass().getName() + " onComplete!");
                 e.printStackTrace();
             }
 
@@ -487,7 +487,7 @@ public class MyActivitiesFragment extends ListFragment implements
 
         @Override
         public void onHttpError(CSTResponse response) {
-            L.i(this.getClass().getName() + " onHttpError!");
+            Lgr.i(this.getClass().getName() + " onHttpError!");
             Message msg = m_handlerArchiveList.obtainMessage();
             HttpErrorWeeder.fckHttpError(response, msg);
             m_handlerArchiveList.sendMessage(msg);
@@ -495,7 +495,7 @@ public class MyActivitiesFragment extends ListFragment implements
 
         @Override
         public void onException(Exception e) {
-            L.i(this.getClass().getName() + " onException!");
+            Lgr.i(this.getClass().getName() + " onException!");
             Message msg = m_handlerArchiveList.obtainMessage();
             ExceptionWeeder.fckException(e, msg);
             m_handlerArchiveList.sendMessage(msg);
@@ -563,9 +563,9 @@ public class MyActivitiesFragment extends ListFragment implements
                 convertView = inflater
                         .inflate(R.layout.archive_list_item, null);
                 holder.titleTxv = (TextView) convertView
-                        .findViewById(R.id.archive_list_item_title_txv);
+                        .findViewById(R.id.title_txv);
                 holder.dateTxv = (TextView) convertView
-                        .findViewById(R.id.archive_list_item_date_txv);
+                        .findViewById(R.id.date_txv);
 
                 convertView.setTag(holder);
             } else {
@@ -573,12 +573,12 @@ public class MyActivitiesFragment extends ListFragment implements
             }
             if (m_type == 0) {
                 holder.titleTxv.setText(m_listPublic.get(position).getTitle());
-                holder.dateTxv.setText(TimeString.toYMD(m_listPublic.get(
+                holder.dateTxv.setText(TSUtil.toYMD(m_listPublic.get(
                         position).getUpdatedAt()));
             } else {
                 holder.titleTxv.setText(m_listParticipated.get(position)
                         .getTitle());
-                holder.dateTxv.setText(TimeString.toYMD(m_listParticipated.get(
+                holder.dateTxv.setText(TSUtil.toYMD(m_listParticipated.get(
                         position).getUpdatedAt()));
 
             }

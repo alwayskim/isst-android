@@ -7,9 +7,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
+ * @deprecated
  * 数据库管理类
  *
  * @author theasir
@@ -18,9 +19,9 @@ public class DBManager {
 
     private static final String MAIN_TABLE = "main";
 
-    private SQLiteDatabase db;
-
     private static DBManager INSTANCE = new DBManager();
+
+    private SQLiteDatabase db;
 
     private DBManager() {
     }
@@ -41,15 +42,15 @@ public class DBManager {
         try {
             Cursor cursor = db.rawQuery("select * from " + MAIN_TABLE
                     + " where name = '" + name + "'", null);
-            L.i("cursor count = " + cursor.getCount());
+            Lgr.i("cursor count = " + cursor.getCount());
             if (cursor.getCount() == 0) {
                 cursor.close();
-                L.i("DB add!");
+                Lgr.i("DB add!");
                 ContentValues cv = new ContentValues();
                 cv.put("name", name);
                 cv.put("object", data);
                 db.insert(MAIN_TABLE, null, cv);
-                L.i("DB add success!");
+                Lgr.i("DB add success!");
                 db.setTransactionSuccessful(); // 设置事务成功完成
             } else {
                 cursor.close();
@@ -72,12 +73,12 @@ public class DBManager {
     private void update(String name, byte[] data) {
         db.beginTransaction(); // 开始事务
         try {
-            L.i("Query for update!");
+            Lgr.i("Query for update!");
             ContentValues cv = new ContentValues();
             cv.put("name", name);
             cv.put("object", data);
             db.update(MAIN_TABLE, cv, "name = '" + name + "'", null);
-            L.i("DB update success!");
+            Lgr.i("DB update success!");
             db.setTransactionSuccessful(); // 设置事务成功完成
         } finally {
             // db.endTransaction(); // 结束事务
@@ -88,13 +89,13 @@ public class DBManager {
         db = DBHelper.getInstance().getWritableDatabase();
         db.beginTransaction(); // 开始事务
         try {
-            L.i("DB delete!");
+            Lgr.i("DB delete!");
             Cursor cursor = db.rawQuery("select * from " + MAIN_TABLE
                     + " where name = '" + name + "'", null);
-            L.i("cursor count = " + cursor.getCount());
+            Lgr.i("cursor count = " + cursor.getCount());
             if (cursor.getCount() > 0) {
                 db.delete(MAIN_TABLE, "name = '" + name + "'", null);
-                L.i("DB delete success!");
+                Lgr.i("DB delete success!");
             }
             cursor.close();
             db.setTransactionSuccessful(); // 设置事务成功完成
@@ -115,14 +116,14 @@ public class DBManager {
         byte[] data = null;
         db.beginTransaction(); // 开始事务
         try {
-            L.i("DB get!");
+            Lgr.i("DB get!");
             Cursor cursor = db.rawQuery("select * from " + MAIN_TABLE
                     + " where name = '" + name + "'", null);
-            L.i("cursor count = " + cursor.getCount());
+            Lgr.i("cursor count = " + cursor.getCount());
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 data = cursor.getBlob(cursor.getColumnIndex("object"));
-                L.i("DB get successful!");
+                Lgr.i("DB get successful!");
             }
             cursor.close();
             db.setTransactionSuccessful(); // 设置事务成功完成

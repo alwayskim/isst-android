@@ -1,6 +1,7 @@
 package cn.edu.zju.isst.net;
 
 /**
+ * @deprecated
  * 编写的Request请求的listener接口
  *
  * @author kbeta

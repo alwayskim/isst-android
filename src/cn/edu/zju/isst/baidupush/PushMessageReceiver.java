@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import cn.edu.zju.isst.ui.loading.LoadingActivity;
+import cn.edu.zju.isst.v2.splash.gui.LoadingActivity;
 
 /**
  * Push消息处理receiver

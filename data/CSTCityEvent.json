@@ -1,0 +1,24 @@
+{
+ "message":null,
+ "status":0,
+ "body":
+        {
+            "id": 3,
+            "title": "\u4e0a\u6d77",
+            "imgUrl": "/wang.jpg",
+            "cityId": 23,
+            "location": "ningbo",
+            "publisher": {
+                             "id": 3,
+                             "name": "wangzhizhi",
+                             "phone": 13732227031,
+                             "qq": 815196746,
+                             "email": "tan0010022008@126.com"
+                         },
+            "updatedAt": 176899020374,
+            "startTime": 176899011111,
+            "expireTime": 17689902222,
+            "content": "content",
+            "isParticipate": true
+        }
+}

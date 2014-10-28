@@ -46,8 +46,8 @@ import cn.edu.zju.isst.exception.HttpErrorWeeder;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.NetworkConnection;
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst.constant.Constants.STATUS_NOT_LOGIN;
@@ -61,6 +61,10 @@ import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
  *         TODO WIP
  */
 public class ContactListFragment extends Fragment {
+
+    private static ContactListFragment INSTANCE_MYCLASS = new ContactListFragment();
+
+    private static ContactListFragment INSTANCE_MYCITY = new ContactListFragment();
 
     private final List<User> m_listUser = new ArrayList<User>();
 
@@ -78,17 +82,9 @@ public class ContactListFragment extends Fragment {
 
     private NoteBookadapter m_noteBookAdapter;
 
-    public enum FilterType {
-        MY_CLASS, MY_CITY, MY_FILTER
-    }
-
     //表示实例的调用类型，显示本班还是本城市
     //private static FilterType m_flag;
     private FilterType m_ft;
-
-    private static ContactListFragment INSTANCE_MYCLASS = new ContactListFragment();
-
-    private static ContactListFragment INSTANCE_MYCITY = new ContactListFragment();
 
     public ContactListFragment() {
     }
@@ -102,8 +98,165 @@ public class ContactListFragment extends Fragment {
         return INSTANCE_MYCITY;
     }
 
+    /**
+     * 获取当前城市的名字
+     */
+    private static String getCityName(Context context) {
+        LocationManager locationManager;
+        String contextString = Context.LOCATION_SERVICE;
+        locationManager = (LocationManager) context.getSystemService(contextString);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_LOW);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(false);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        String cityName = null;
+        //
+        String provider = locationManager.getBestProvider(criteria, true);
+        if (provider == null) {
+            return null;
+        }
+        // 得到坐标相关的信息
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location == null) {
+            return null;
+        }
+
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            // 更具地理环境来确定编码
+            Geocoder gc = new Geocoder(context, Locale.CHINA);
+            try {
+                // 取得地址相关的一些信息\经度、纬度
+                List<Address> addresses = gc.getFromLocation(latitude, longitude, 1);
+                StringBuilder sb = new StringBuilder();
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    sb.append(address.getLocality()).append("\n");
+                    cityName = sb.toString();
+                    int index = cityName.indexOf("市");
+                    cityName = (String) cityName.subSequence(0, index);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return cityName;
+    }
+
     public void setM_ft(FilterType m_ft) {
         this.m_ft = m_ft;
+    }
+
+    /**
+     * 初始化本班通讯录列表，若有缓存则读取缓存，无缓存请求数据
+     */
+    private void initDate() {
+        // 获取用户班级ID
+        User user = DataManager.getCurrentUser();
+        m_userFilter.classId = user.getClassId();
+
+        // 初始化通讯录列表
+        List<User> dbAlumniList = DataManager.getClassMateList();
+        if (!m_listUser.isEmpty()) {
+            m_listUser.clear();
+        }
+        if (!Judge.isNullOrEmpty(dbAlumniList)) {
+            for (User Alumni : dbAlumniList) {
+                m_listUser.add(Alumni);
+            }
+            getNoteBookData();
+        } else {
+            requestData();
+        }
+    }
+
+    /**
+     * 请求数据
+     *
+     * @param type 加载方式
+     */
+    private void requestData() {
+        if (NetworkConnection.isNetworkConnected(getActivity())) {
+            getUserListFromApi(m_userFilter);
+
+        } else {
+            Message msg = m_handlerAlumniList.obtainMessage();
+            msg.what = NETWORK_NOT_CONNECTED;
+            m_handlerAlumniList.sendMessage(msg);
+        }
+    }
+
+    /**
+     * 填充m_noteBookList数据
+     */
+    private void getNoteBookData() {
+        if (m_noteBookList.size() != 0) {
+            m_noteBookList.clear();
+        }
+        for (int i = 0; i < m_listUser.size(); i++) {
+            NoteBookItem n = new NoteBookItem();
+            if (m_listUser.get(i).getName() != null) {
+                n.name = m_listUser.get(i).getName();
+                n.index = Pinyin4j.getHanyuPinyi(n.name.charAt(0));
+                m_noteBookList.add(n);
+            }
+        }
+    }
+
+    /**
+     * 显示筛选条件
+     */
+    private void showFilterConditon() {
+        StringBuilder sb = new StringBuilder();
+
+        if (m_ft == FilterType.MY_CLASS) {
+            sb.append(" 班级：" + "本班");
+        }
+        if (!Judge.isNullOrEmpty(m_userFilter.name)) {
+            sb.append(" 姓名：" + m_userFilter.name);
+        }
+        if (m_userFilter.gender != 0) {
+            sb.append(" 性别：" + m_userFilter.genderString);
+        }
+        if (m_userFilter.grade != 0) {
+            sb.append(" 年级：" + m_userFilter.grade);
+        }
+        if (!Judge.isNullOrEmpty(m_userFilter.major)) {
+            sb.append(" 方向：" + m_userFilter.major);
+        }
+        if (!Judge.isNullOrEmpty(m_userFilter.company)) {
+            sb.append(" 公司：" + m_userFilter.company);
+        }
+        if (m_userFilter.cityId != 0) {
+            sb.append(" 城市：" + m_userFilter.cityString);
+        }
+        m_tvFilterCondition.setText(sb.toString());
+    }
+
+    /**
+     * 调用AlumniApi.getUserList
+     */
+    private void getUserListFromApi(ContactFilter uf) {
+        AlumniApi.getUserList(uf.id, uf.name, uf.gender, uf.grade, uf.classId,
+                uf.major, uf.cityId, uf.company, new BaseListRequestListener());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.RESULT_CODE_BETWEEN_CONTACT) {
+            m_noteBookList.clear();
+            m_noteBookAdapter.notifyDataSetChanged();
+            m_userFilter = (ContactFilter) data.getExtras().getSerializable(
+                    "data");
+            m_ft = FilterType.MY_FILTER;
+            getUserListFromApi(m_userFilter);
+            HideClearFilterButtonOrNot();
+            showFilterConditon();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -143,7 +296,7 @@ public class ContactListFragment extends Fragment {
         //筛选同城
         else if (m_ft == FilterType.MY_CITY) {
             m_userFilter.cityId = DataManager.getCurrentUser().getCityId();
-            L.i("yyy" + m_userFilter.cityId);
+            Lgr.i("yyy" + m_userFilter.cityId);
             m_userFilter.cityString = "同城";
             getUserListFromApi(m_userFilter);
         }
@@ -179,7 +332,7 @@ public class ContactListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_alumni_filter:
                 Intent intent = new Intent(getActivity(),
-                        ContactFilterActivity.class);
+                        cn.edu.zju.isst.v2.contact.ContactFilterActivity.class);
                 startActivityForResult(intent, 20);
                 return true;
             default:
@@ -187,43 +340,16 @@ public class ContactListFragment extends Fragment {
         }
     }
 
-    /**
-     * 初始化本班通讯录列表，若有缓存则读取缓存，无缓存请求数据
-     */
-    private void initDate() {
-        // 获取用户班级ID
-        User user = DataManager.getCurrentUser();
-        m_userFilter.classId = user.getClassId();
-
-        // 初始化通讯录列表
-        List<User> dbAlumniList = DataManager.getClassMateList();
-        if (!m_listUser.isEmpty()) {
-            m_listUser.clear();
-        }
-        if (!J.isNullOrEmpty(dbAlumniList)) {
-            for (User Alumni : dbAlumniList) {
-                m_listUser.add(Alumni);
-            }
-            getNoteBookData();
+    private void HideClearFilterButtonOrNot() {
+        if (m_ft != FilterType.MY_FILTER) {
+            m_btnClearFilter.setVisibility(View.GONE);
         } else {
-            requestData();
+            m_btnClearFilter.setVisibility(View.VISIBLE);
         }
     }
 
-    /**
-     * 请求数据
-     *
-     * @param type 加载方式
-     */
-    private void requestData() {
-        if (NetworkConnection.isNetworkConnected(getActivity())) {
-            getUserListFromApi(m_userFilter);
-
-        } else {
-            Message msg = m_handlerAlumniList.obtainMessage();
-            msg.what = NETWORK_NOT_CONNECTED;
-            m_handlerAlumniList.sendMessage(msg);
-        }
+    public enum FilterType {
+        MY_CLASS, MY_CITY, MY_FILTER
     }
 
     private class BaseListRequestListener implements RequestListener {
@@ -244,7 +370,7 @@ public class ContactListFragment extends Fragment {
                     }
                 }
             } catch (JSONException e) {
-                L.i(this.getClass().getName() + " onComplete!");
+                Lgr.i(this.getClass().getName() + " onComplete!");
                 e.printStackTrace();
             }
 
@@ -253,7 +379,7 @@ public class ContactListFragment extends Fragment {
 
         @Override
         public void onHttpError(CSTResponse response) {
-            L.i(this.getClass().getName() + " onHttpError!");
+            Lgr.i(this.getClass().getName() + " onHttpError!");
             Message msg = m_handlerAlumniList.obtainMessage();
             HttpErrorWeeder.fckHttpError(response, msg);
             m_handlerAlumniList.sendMessage(msg);
@@ -261,27 +387,10 @@ public class ContactListFragment extends Fragment {
 
         @Override
         public void onException(Exception e) {
-            L.i(this.getClass().getName() + " onException!");
+            Lgr.i(this.getClass().getName() + " onException!");
             Message msg = m_handlerAlumniList.obtainMessage();
             ExceptionWeeder.fckException(e, msg);
             m_handlerAlumniList.sendMessage(msg);
-        }
-    }
-
-    /**
-     * 填充m_noteBookList数据
-     */
-    private void getNoteBookData() {
-        if (m_noteBookList.size() != 0) {
-            m_noteBookList.clear();
-        }
-        for (int i = 0; i < m_listUser.size(); i++) {
-            NoteBookItem n = new NoteBookItem();
-            if (m_listUser.get(i).getName() != null) {
-                n.name = m_listUser.get(i).getName();
-                n.index = Pinyin4j.getHanyuPinyi(n.name.charAt(0));
-                m_noteBookList.add(n);
-            }
         }
     }
 
@@ -295,59 +404,6 @@ public class ContactListFragment extends Fragment {
             intent.putExtra("user", m_listUser.get(arg2));
             ContactListFragment.this.getActivity().startActivity(intent);
         }
-    }
-
-    /**
-     * 显示筛选条件
-     */
-    private void showFilterConditon() {
-        StringBuilder sb = new StringBuilder();
-
-        if (m_ft == FilterType.MY_CLASS) {
-            sb.append(" 班级：" + "本班");
-        }
-        if (!J.isNullOrEmpty(m_userFilter.name)) {
-            sb.append(" 姓名：" + m_userFilter.name);
-        }
-        if (m_userFilter.gender != 0) {
-            sb.append(" 性别：" + m_userFilter.genderString);
-        }
-        if (m_userFilter.grade != 0) {
-            sb.append(" 年级：" + m_userFilter.grade);
-        }
-        if (!J.isNullOrEmpty(m_userFilter.major)) {
-            sb.append(" 方向：" + m_userFilter.major);
-        }
-        if (!J.isNullOrEmpty(m_userFilter.company)) {
-            sb.append(" 公司：" + m_userFilter.company);
-        }
-        if (m_userFilter.cityId != 0) {
-            sb.append(" 城市：" + m_userFilter.cityString);
-        }
-        m_tvFilterCondition.setText(sb.toString());
-    }
-
-    /**
-     * 调用AlumniApi.getUserList
-     */
-    private void getUserListFromApi(ContactFilter uf) {
-        AlumniApi.getUserList(uf.id, uf.name, uf.gender, uf.grade, uf.classId,
-                uf.major, uf.cityId, uf.company, new BaseListRequestListener());
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Constants.RESULT_CODE_BETWEEN_CONTACT) {
-            m_noteBookList.clear();
-            m_noteBookAdapter.notifyDataSetChanged();
-            m_userFilter = (ContactFilter) data.getExtras().getSerializable(
-                    "data");
-            m_ft = FilterType.MY_FILTER;
-            getUserListFromApi(m_userFilter);
-            HideClearFilterButtonOrNot();
-            showFilterConditon();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private class HandlerAlumniList extends Handler {
@@ -384,61 +440,5 @@ public class ContactListFragment extends Fragment {
             HideClearFilterButtonOrNot();
         }
 
-    }
-
-    private void HideClearFilterButtonOrNot() {
-        if (m_ft != FilterType.MY_FILTER) {
-            m_btnClearFilter.setVisibility(View.GONE);
-        } else {
-            m_btnClearFilter.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * 获取当前城市的名字
-     */
-    private static String getCityName(Context context) {
-        LocationManager locationManager;
-        String contextString = Context.LOCATION_SERVICE;
-        locationManager = (LocationManager) context.getSystemService(contextString);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(false);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        String cityName = null;
-        // 
-        String provider = locationManager.getBestProvider(criteria, true);
-        if (provider == null) {
-            return null;
-        }
-        // 得到坐标相关的信息 
-        Location location = locationManager.getLastKnownLocation(provider);
-        if (location == null) {
-            return null;
-        }
-
-        if (location != null) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            // 更具地理环境来确定编码 
-            Geocoder gc = new Geocoder(context, Locale.CHINA);
-            try {
-                // 取得地址相关的一些信息\经度、纬度 
-                List<Address> addresses = gc.getFromLocation(latitude, longitude, 1);
-                StringBuilder sb = new StringBuilder();
-                if (addresses.size() > 0) {
-                    Address address = addresses.get(0);
-                    sb.append(address.getLocality()).append("\n");
-                    cityName = sb.toString();
-                    int index = cityName.indexOf("市");
-                    cityName = (String) cityName.subSequence(0, index);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return cityName;
     }
 }

@@ -1,429 +1,429 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
-                android:id="@+id/user_info_activity_user_avatar_imgv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/user_avatar"
-                android:src="@drawable/avatar_default"/>
+            android:id="@+id/user_info_activity_user_avatar_imgv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/user_avatar"
+            android:src="@drawable/avatar_default" />
 
         <TextView
-                android:id="@+id/user_info_activity_signature_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:layout_toRightOf="@+id/user_info_activity_user_avatar_imgv"
-                android:gravity="center"
-                android:text="@string/user_signature"
-                android:textSize="@dimen/text_size_middle"/>
+            android:id="@+id/user_info_activity_signature_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/user_info_activity_user_avatar_imgv"
+            android:gravity="center"
+            android:text="@string/user_signature"
+            android:textSize="@dimen/text_size_middle" />
 
         <LinearLayout
-                android:id="@+id/user_info_activity_name_area"
-                android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_signature_txv"
-                android:layout_toLeftOf="@+id/user_info_activity_middle_devider"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_name_area"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_signature_txv"
+            android:layout_toLeftOf="@+id/user_info_activity_middle_devider"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_name_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_name"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_name_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_name_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_name_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_username_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_name_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_username_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_name_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_username_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_username"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_username_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_username"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_username_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_username_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <View
-                android:id="@+id/user_info_activity_middle_devider"
-                android:layout_width="1dp"
+            android:id="@+id/user_info_activity_middle_devider"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:id="@+id/user_info_activity_grade_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_username_area"
+            android:layout_toLeftOf="@+id/user_info_activity_middle_devider"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_info_activity_final_grade_txv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"/>
-
-        <LinearLayout
-                android:id="@+id/user_info_activity_grade_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_username_area"
-                android:layout_toLeftOf="@+id/user_info_activity_middle_devider"
-                android:orientation="vertical">
-
-            <TextView
-                    android:id="@+id/user_info_activity_final_grade_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_garde"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_garde"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_grade_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_grade_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_class_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/user_info_activity_username_area"
-                android:layout_toRightOf="@+id/user_info_activity_grade_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_class_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/user_info_activity_username_area"
+            android:layout_toRightOf="@+id/user_info_activity_grade_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_class_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_class"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_class_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_class"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_class_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_class_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_major_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_grade_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_major_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_grade_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_major_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_major"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_major_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_major"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_major_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_major_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_phone_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_major_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_phone_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_major_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_phone_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_phone"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_phone_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_phone"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_phone_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_phone_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_email_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_phone_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_email_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_phone_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_email_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_email"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_email_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_email"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_email_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_email_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_qq_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_email_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_qq_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_email_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_qq_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_qq"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_qq_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_qq"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_qq_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_qq_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_company_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_qq_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_company_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_qq_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_company_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_company"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_company_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_company"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_company_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_company_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_position_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_activity_company_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_activity_position_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_activity_company_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_activity_final_position_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_position"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_final_position_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_position"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <TextView
-                    android:id="@+id/user_info_activity_position_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/user_info_activity_position_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_activity_other_area"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/user_info_activity_signature_txv"
-                android:layout_toRightOf="@+id/user_info_activity_name_area"
-                android:orientation="horizontal">
+            android:id="@+id/user_info_activity_other_area"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/user_info_activity_signature_txv"
+            android:layout_toRightOf="@+id/user_info_activity_name_area"
+            android:orientation="horizontal">
 
             <ImageView
-                    android:id="@+id/user_info_activity_gender_imgv"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/user_info_imageview_gender"
-                    android:padding="@dimen/padding_small"/>
+                android:id="@+id/user_info_activity_gender_imgv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/user_info_imageview_gender"
+                android:padding="@dimen/padding_small" />
 
             <ImageView
-                    android:id="@+id/user_info_activity_city_imgv"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_location"
-                    android:contentDescription="@string/user_info_imageview_location"
-                    android:padding="@dimen/padding_small"/>
+                android:id="@+id/user_info_activity_city_imgv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/user_info_imageview_location"
+                android:padding="@dimen/padding_small"
+                android:src="@drawable/ic_location" />
 
             <TextView
-                    android:id="@+id/user_info_activity_city_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="5dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="@dimen/text_size_middle"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_activity_city_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/text_size_middle"
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 

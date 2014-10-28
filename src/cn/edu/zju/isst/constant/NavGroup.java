@@ -4,6 +4,7 @@
 package cn.edu.zju.isst.constant;
 
 /**
+ * @deprecated
  * 导航组常量类
  *
  * @author theasir

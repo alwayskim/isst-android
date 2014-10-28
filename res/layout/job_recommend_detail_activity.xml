@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/container_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<RelativeLayout
+    android:id="@+id/container_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/job_recommend_imgbtn_container">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/job_recommend_imgbtn_container">
 
-        <include layout="@layout/job_detail_activity"/>
+        <include layout="@layout/job_detail_activity" />
     </LinearLayout>
 
     <LinearLayout
-            style="?android:attr/buttonBarStyle"
-            android:id="@+id/job_recommend_imgbtn_container"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+        android:id="@+id/job_recommend_imgbtn_container"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <Button
-                android:id="@+id/job_recommend_imgbtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:text="@string/job_waiting_for_comment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+            android:id="@+id/job_recommend_imgbtn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/job_waiting_for_comment" />
     </LinearLayout>
 
 </RelativeLayout>

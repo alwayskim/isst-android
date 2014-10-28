@@ -12,10 +12,11 @@ import java.util.Map;
 import cn.edu.zju.isst.net.BetterAsyncWebServiceRunner;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
+ * @deprecated
  * 接口基类
  *
  * @author theasir
@@ -46,7 +47,7 @@ public class CSTApi {
                     .request(methodName, requestUrl, params, listener);
         } else {
             try {
-                requestUrl = requestUrl + (J.isNullOrEmpty(params) ? ""
+                requestUrl = requestUrl + (Judge.isNullOrEmpty(params) ? ""
                         : ("?" + BetterAsyncWebServiceRunner.getInstance().paramsToString(params)));
             } catch (UnsupportedEncodingException e) {
                 // TODO Auto-generated catch block
@@ -55,7 +56,7 @@ public class CSTApi {
             BetterAsyncWebServiceRunner.getInstance()
                     .request(methodName, requestUrl, null, listener);
         }
-        L.i("CSTApi Request URL = " + requestUrl);
+        Lgr.i("CSTApi Request URL = " + requestUrl);
     }
 
     protected static CSTResponse responseOfRequest(final String methodName, final String subUrl,

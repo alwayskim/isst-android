@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
  * 设置管理类
@@ -35,7 +35,7 @@ public class CSTSettings {
     }
 
     public static void setAutoLogin(boolean isAutoLogin, Activity activity) {
-        L.i("CSTSettings setAutoLogin: " + isAutoLogin);
+        Lgr.i("CSTSettings setAutoLogin: " + isAutoLogin);
         writeValueForKey(IS_AUTO_LOGIN, isAutoLogin, activity);
     }
 

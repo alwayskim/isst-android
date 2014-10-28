@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * @author theasir
  */
 public class PushMessage implements Serializable {
@@ -37,17 +38,17 @@ public class PushMessage implements Serializable {
     }
 
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("title", jsonObject)) {
+            if (Judge.isValidJsonValue("title", jsonObject)) {
                 title = jsonObject.getString("title");
             }
-            if (J.isValidJsonValue("createdAt", jsonObject)) {
+            if (Judge.isValidJsonValue("createdAt", jsonObject)) {
                 createdTime = jsonObject.getLong("createdAt");
             }
-            if (J.isValidJsonValue("content", jsonObject)) {
+            if (Judge.isValidJsonValue("content", jsonObject)) {
                 content = jsonObject.getString("content");
             }
         }

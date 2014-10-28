@@ -4,23 +4,26 @@
 package cn.edu.zju.isst.ui.life;
 
 import cn.edu.zju.isst.api.ArchiveCategory;
-import cn.edu.zju.isst.ui.main.BaseArchiveListFragment;
+import cn.edu.zju.isst.v2.archive.gui.*;
+
 
 /**
  * 新闻列表页
  *
  * @author theasir
  */
-public class NewsListFragment extends BaseArchiveListFragment {
+public class NewsListFragment extends cn.edu.zju.isst.v2.archive.gui.BaseArchiveListFragment {
 
     private static NewsListFragment INSTANCE = new NewsListFragment();
 
     public NewsListFragment() {
         super();
-        super.setArchiveCategory(ArchiveCategory.CAMPUS);
+//        super.setArchiveCategory(ArchiveCategory.CAMPUS);
     }
 
-    public static NewsListFragment getInstance() {
-        return INSTANCE;
+    @Override
+    protected void setCategory() {
+
     }
+
 }

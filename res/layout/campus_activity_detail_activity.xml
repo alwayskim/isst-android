@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
-            android:id="@+id/campus_activity_detail_activity_picture_imgv"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp"
-            android:src="@android:color/darker_gray"
-            android:contentDescription="@string/campus_activity_imageview_picture"/>
+        android:id="@+id/campus_activity_detail_activity_picture_imgv"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/campus_activity_imageview_picture"
+        android:padding="10dp"
+        android:src="@android:color/darker_gray" />
 
     <TextView
-            android:id="@+id/campus_activity_detail_activity_duration_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:padding="10dp"
-            android:layout_below="@+id/campus_activity_detail_activity_picture_imgv"/>
+        android:id="@+id/campus_activity_detail_activity_duration_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/campus_activity_detail_activity_picture_imgv"
+        android:padding="10dp" />
 
     <TextView
-            android:id="@+id/campus_activity_detail_activity_loaction_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:padding="10dp"
-            android:layout_alignTop="@+id/campus_activity_detail_activity_duration_txv"/>
+        android:id="@+id/campus_activity_detail_activity_loaction_txv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/campus_activity_detail_activity_duration_txv"
+        android:padding="10dp" />
 
     <WebView
-            android:id="@+id/campus_activity_detail_activity_content_webv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/campus_activity_detail_activity_duration_txv"
-            android:layout_centerHorizontal="true"/>
+        android:id="@+id/campus_activity_detail_activity_content_webv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/campus_activity_detail_activity_duration_txv"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

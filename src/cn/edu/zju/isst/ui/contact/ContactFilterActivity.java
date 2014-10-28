@@ -24,8 +24,8 @@ import cn.edu.zju.isst.db.City;
 import cn.edu.zju.isst.db.DataManager;
 import cn.edu.zju.isst.db.Major;
 import cn.edu.zju.isst.ui.main.BaseActivity;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
  * @author yyy
@@ -120,13 +120,13 @@ public class ContactFilterActivity extends BaseActivity {
         List<City> dbList = DataManager.getCityList();
         m_arrayListCity.add("不限");
 
-        if (!J.isNullOrEmpty(dbList)) {
+        if (!Judge.isNullOrEmpty(dbList)) {
             for (City city : dbList) {
                 m_listCity.add(city);
                 m_arrayListCity.add(city.getName());
             }
         }
-        L.i(" yyy getCityList");
+        Lgr.i(" yyy getCityList");
     }
 
     /**
@@ -135,13 +135,13 @@ public class ContactFilterActivity extends BaseActivity {
     private void getMajorList() {
         List<Major> dbList = DataManager.getMajorList();
         m_arrayListMajor.add("不限");
-        if (!J.isNullOrEmpty(dbList)) {
+        if (!Judge.isNullOrEmpty(dbList)) {
             for (Major major : dbList) {
                 m_listMajor.add(major);
                 m_arrayListMajor.add(major.getName());
             }
         }
-        L.i(" yyy getMajorList");
+        Lgr.i(" yyy getMajorList");
     }
 
     /**

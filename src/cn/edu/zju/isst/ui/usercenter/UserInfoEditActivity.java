@@ -25,15 +25,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.api.UserApi;
 import cn.edu.zju.isst.db.City;
 import cn.edu.zju.isst.db.DataManager;
 import cn.edu.zju.isst.db.User;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.ui.main.BaseActivity;
-import cn.edu.zju.isst.util.CM;
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.CroMan;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.v2.user.net.UserApi;
 
 import static cn.edu.zju.isst.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -187,9 +187,9 @@ public class UserInfoEditActivity extends BaseActivity {
                     retriveData();
                     sendRequest(m_userCurrent);
                 } else if (!isValidEmail(m_edtxEmail.getText().toString())) {
-                    CM.showInfo(UserInfoEditActivity.this, "请输入有效的电子邮箱地址！");
+                    CroMan.showInfo(UserInfoEditActivity.this, "请输入有效的电子邮箱地址！");
                 } else {
-                    CM.showInfo(UserInfoEditActivity.this, "请输入有效的移动电话号码！");
+                    CroMan.showInfo(UserInfoEditActivity.this, "请输入有效的移动电话号码！");
                 }
             }
         });
@@ -214,7 +214,7 @@ public class UserInfoEditActivity extends BaseActivity {
 
     private void initCityList() {
         List<City> dbList = DataManager.getCityList();
-        if (!J.isNullOrEmpty(dbList)) {
+        if (!Judge.isNullOrEmpty(dbList)) {
             for (City city : dbList) {
                 m_listCity.add(city);
                 m_listCityString.add(city.getName());

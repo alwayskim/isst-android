@@ -18,10 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
+ * @deprecated
  * 异步请求类
  *
  * @author theasir
@@ -64,46 +65,20 @@ public class BetterAsyncWebServiceRunner {
             @Override
             public void run() {
                 try {
-                    // JSONObject result = null;
-                    // String resultString = null;
-                    // CSTResponse response = null;
-                    // if (methodName.equalsIgnoreCase("GET")) {
-                    // L.i("BetterAsyncWebServiceRunner_____get");
-                    // response = BetterHttpInvoker.getInstance().get(
-                    // new URL(url), getHeaders(url));
-                    // } else if (methodName.equalsIgnoreCase("POST")) {
-                    // L.i("BetterAsyncWebServiceRunner_____post");
-                    // response = BetterHttpInvoker.getInstance().post(
-                    // new URL(url), getHeaders(url),
-                    // paramsToBytes(params));
-                    // } else {
-                    // L.i("BetterAsyncWebServiceRunner Unsupported Method: "
-                    // + (Judgement.isNullOrEmpty(methodName) ? "null"
-                    // : methodName));
-                    // }
-                    //
-                    // if (!Judgement.isNullOrEmpty(response)
-                    // && response.getStatus() == HttpURLConnection.HTTP_OK) {
-                    // refreshCookies(url, response.getHeaders());
-                    // resultString = readByte(response.getBody());
-                    // if (!Judgement.isNullOrEmpty(resultString)) {
-                    // result = new JSONObject(resultString);
-                    // }
-                    // }
                     JSONObject result = null;
                     CSTResponse response = responseOfRequest(methodName, url,
                             params);
-                    if (!J.isNullOrEmpty(response)
+                    if (!Judge.isNullOrEmpty(response)
                             && response.getStatus() == HttpURLConnection.HTTP_OK) {
                         refreshCookies(url, response.getHeaders());
                     }
                     result = resultOfResponse(response);
 
-                    if (!J.isNullOrEmpty(result)
-                            && !J.isNullOrEmpty(response)) {
-                        L.i(result.toString());
+                    if (!Judge.isNullOrEmpty(result)
+                            && !Judge.isNullOrEmpty(response)) {
+                        Lgr.i(result.toString());
                         listener.onComplete(result);
-                    } else if (!J.isNullOrEmpty(response)) {
+                    } else if (!Judge.isNullOrEmpty(response)) {
                         listener.onHttpError(response);
                     }
                 } catch (Exception e) {
@@ -120,16 +95,16 @@ public class BetterAsyncWebServiceRunner {
             throws MalformedURLException, IOException {
         CSTResponse response = null;
         if (methodName.equalsIgnoreCase("GET")) {
-            L.i("BetterAsyncWebServiceRunner_____get");
+            Lgr.i("BetterAsyncWebServiceRunner_____get");
             response = BetterHttpInvoker.getInstance().get(new URL(url),
                     getHeaders(url));
         } else if (methodName.equalsIgnoreCase("POST")) {
-            L.i("BetterAsyncWebServiceRunner_____post");
+            Lgr.i("BetterAsyncWebServiceRunner_____post");
             response = BetterHttpInvoker.getInstance().post(new URL(url),
                     getHeaders(url), paramsToString(params).getBytes());
         } else {
-            L.i("BetterAsyncWebServiceRunner Unsupported Method: "
-                    + (J.isNullOrEmpty(methodName) ? "null"
+            Lgr.i("BetterAsyncWebServiceRunner Unsupported Method: "
+                    + (Judge.isNullOrEmpty(methodName) ? "null"
                     : methodName));
         }
         return response;
@@ -138,10 +113,10 @@ public class BetterAsyncWebServiceRunner {
     public JSONObject resultOfResponse(final CSTResponse response)
             throws Exception {
         JSONObject result = null;
-        if (!J.isNullOrEmpty(response)
+        if (!Judge.isNullOrEmpty(response)
                 && response.getStatus() == HttpURLConnection.HTTP_OK) {
             String resultString = readByte(response.getBody());
-            if (!J.isNullOrEmpty(resultString)) {
+            if (!Judge.isNullOrEmpty(resultString)) {
                 result = new JSONObject(resultString);
             }
         }
@@ -158,9 +133,9 @@ public class BetterAsyncWebServiceRunner {
     public String paramsToString(Map<String, String> params)
             throws UnsupportedEncodingException {
         StringBuilder sbParams = new StringBuilder();
-        if (!J.isNullOrEmpty(params)) {
+        if (!Judge.isNullOrEmpty(params)) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
-                if (!J.isNullOrEmpty(entry.getValue())) {
+                if (!Judge.isNullOrEmpty(entry.getValue())) {
                     sbParams.append(entry.getKey()).append('=');
                     sbParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
                     sbParams.append('&');
@@ -169,7 +144,7 @@ public class BetterAsyncWebServiceRunner {
             sbParams.deleteCharAt(sbParams.length() - 1);
         }
 
-        L.i("Params", sbParams.toString());
+        Lgr.i("Params", sbParams.toString());
 
         return sbParams.toString();
     }
@@ -181,13 +156,13 @@ public class BetterAsyncWebServiceRunner {
      * @return Http Headers
      */
     private Map<String, List<String>> getHeaders(String url) {
-        if (J.isNullOrEmpty(url)) {
+        if (Judge.isNullOrEmpty(url)) {
             return null;
         }
         Map<String, List<String>> headers = new HashMap<String, List<String>>();
         List<String> cookieList = new ArrayList<String>();
         String cookieString = CookieManager.getInstance().getCookie(url);
-        if (!J.isNullOrEmpty(cookieString)) {
+        if (!Judge.isNullOrEmpty(cookieString)) {
             String[] cookieArray = cookieString.split(";");
             for (String cookie : cookieArray) {
                 cookieList.add(cookie);
@@ -207,7 +182,7 @@ public class BetterAsyncWebServiceRunner {
      */
     private void refreshCookies(String url, Map<String, List<String>> headers) {
         List<String> cookieList = headers.get("Set-Cookie");
-        if (!J.isNullOrEmpty(cookieList)) {
+        if (!Judge.isNullOrEmpty(cookieList)) {
             for (String cookie : cookieList) {
                 CookieManager.getInstance().setCookie(url, cookie);
             }

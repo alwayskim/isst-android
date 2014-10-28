@@ -17,10 +17,7 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"
-          android:drawable="@drawable/btn_cab_done_pressed_isst_color_ab_style"/>
-    <item android:state_focused="true" android:state_enabled="true"
-          android:drawable="@drawable/btn_cab_done_focused_isst_color_ab_style"/>
-    <item android:state_enabled="true"
-          android:drawable="@drawable/btn_cab_done_default_isst_color_ab_style"/>
+    <item android:drawable="@drawable/btn_cab_done_pressed_isst_color_ab_style" android:state_pressed="true" />
+    <item android:drawable="@drawable/btn_cab_done_focused_isst_color_ab_style" android:state_enabled="true" android:state_focused="true" />
+    <item android:drawable="@drawable/btn_cab_done_default_isst_color_ab_style" android:state_enabled="true" />
 </selector>

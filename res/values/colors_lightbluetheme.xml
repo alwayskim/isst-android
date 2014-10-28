@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="lightbluetheme_color">#3a589c</color>
+    <color name="lightbluetheme_color_half_alpha">#803a589c</color>
 </resources>

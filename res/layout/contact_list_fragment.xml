@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-            android:layout_width="match_parent"
+        android:id="@+id/contact_filter_activity_filter_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/contact_list_fragment_conditon_txv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/contact_filter_activity_filter_area"
-            android:padding="@dimen/padding_small">
+            android:paddingRight="20dp"
+            android:text="@string/filter_filter_conditon" />
 
         <TextView
-                android:id="@+id/contact_list_fragment_conditon_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_filter_conditon"
-                android:paddingRight="20dp"/>
-
-        <TextView
-                android:id="@+id/contact_list_fragment_conditon_content_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/contact_list_fragment_conditon_txv"
-                android:layout_toLeftOf="@+id/contact_list_fragment_clear_condition_btn"/>
+            android:id="@+id/contact_list_fragment_conditon_content_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/contact_list_fragment_clear_condition_btn"
+            android:layout_toRightOf="@+id/contact_list_fragment_conditon_txv" />
 
         <Button
-                android:id="@+id/contact_list_fragment_clear_condition_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:layout_alignParentRight="true"/>
+            android:id="@+id/contact_list_fragment_clear_condition_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/cancel" />
     </RelativeLayout>
 
     <ListView
-            android:id="@+id/contact_list_fragment_contacts_lsv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contact_filter_activity_filter_area"></ListView>
+        android:id="@+id/contact_list_fragment_contacts_lsv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_filter_activity_filter_area"></ListView>
 
 </RelativeLayout>

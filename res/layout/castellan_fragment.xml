@@ -1,200 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-            android:id="@+id/castellan_fragment_name_area"
-            android:layout_width="match_parent"
+        android:id="@+id/castellan_fragment_name_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/castellan_fragment_name_txv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
-            android:padding="@dimen/padding_small">
+            android:layout_margin="@dimen/margin_small" />
 
         <TextView
-                android:id="@+id/castellan_fragment_name_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"/>
+            android:id="@+id/castellan_fragment_gender_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_toRightOf="@id/castellan_fragment_name_txv" />
 
         <TextView
-                android:id="@+id/castellan_fragment_gender_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_toRightOf="@id/castellan_fragment_name_txv"/>
+            android:id="@+id/castellan_fragment_grade_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_toRightOf="@id/castellan_fragment_gender_txv" />
 
         <TextView
-                android:id="@+id/castellan_fragment_grade_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_toRightOf="@id/castellan_fragment_gender_txv"/>
-
-        <TextView
-                android:id="@+id/castellan_fragment_major_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_toRightOf="@id/castellan_fragment_grade_txv"/>
+            android:id="@+id/castellan_fragment_major_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_toRightOf="@id/castellan_fragment_grade_txv" />
     </RelativeLayout>
 
     <RelativeLayout
-            android:id="@+id/castellan_fragment_number_area"
-            android:layout_width="match_parent"
+        android:id="@+id/castellan_fragment_number_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/castellan_fragment_name_area"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/castellan_fragment_mobile"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/castellan_fragment_name_area"
-            android:padding="@dimen/padding_small">
+            android:text="@string/contact_detail_mobile" />
 
         <TextView
-                android:id="@+id/castellan_fragment_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_detail_mobile"/>
-
-        <TextView
-                android:id="@+id/castellan_fragment_mobile_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/castellan_fragment_mobile"/>
+            android:id="@+id/castellan_fragment_mobile_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/castellan_fragment_mobile" />
 
         <ImageButton
-                android:id="@+id/castellan_fragment_mobile_ibtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/castellan_fragment_message_ibtn"
-                android:contentDescription="@string/contact_detail_imagebutton_call"
-                android:src="@android:drawable/ic_menu_call"/>
+            android:id="@+id/castellan_fragment_mobile_ibtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/castellan_fragment_message_ibtn"
+            android:contentDescription="@string/contact_detail_imagebutton_call"
+            android:src="@android:drawable/ic_menu_call" />
 
         <ImageButton
-                android:id="@+id/castellan_fragment_message_ibtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/contact_detail_imagebutton_message"
-                android:src="@android:drawable/sym_action_chat"/>
+            android:id="@+id/castellan_fragment_message_ibtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/contact_detail_imagebutton_message"
+            android:src="@android:drawable/sym_action_chat" />
     </RelativeLayout>
 
     <View
-            android:id="@+id/castellan_fragment_dividerOne"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/castellan_fragment_number_area"
-            android:background="?android:attr/dividerHorizontal"/>
+        android:id="@+id/castellan_fragment_dividerOne"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/castellan_fragment_number_area"
+        android:background="?android:attr/dividerHorizontal" />
 
     <RelativeLayout
-            android:id="@+id/castellan_fragment_email_area"
-            android:layout_width="match_parent"
+        android:id="@+id/castellan_fragment_email_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/castellan_fragment_dividerOne"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/castellan_fragment_email"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/castellan_fragment_dividerOne"
-            android:padding="@dimen/padding_small">
+            android:text="@string/contact_detail_email" />
 
         <TextView
-                android:id="@+id/castellan_fragment_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_detail_email"/>
-
-        <TextView
-                android:id="@+id/castellan_fragment_email_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/castellan_fragment_email"/>
+            android:id="@+id/castellan_fragment_email_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/castellan_fragment_email" />
 
         <ImageButton
-                android:id="@+id/castellan_fragment_email_ibtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/contact_detail_imagebutton_email"
-                android:src="@android:drawable/sym_action_email"/>
+            android:id="@+id/castellan_fragment_email_ibtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/contact_detail_imagebutton_email"
+            android:src="@android:drawable/sym_action_email" />
     </RelativeLayout>
 
     <View
-            android:id="@+id/castellan_fragment_dividerTwo"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/castellan_fragment_email_area"
-            android:background="?android:attr/dividerHorizontal"/>
+        android:id="@+id/castellan_fragment_dividerTwo"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/castellan_fragment_email_area"
+        android:background="?android:attr/dividerHorizontal" />
 
     <RelativeLayout
-            android:id="@+id/castellan_fragment_city_area"
-            android:layout_width="match_parent"
+        android:id="@+id/castellan_fragment_city_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/castellan_fragment_dividerTwo"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/castellan_fragment_city"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/castellan_fragment_dividerTwo"
-            android:padding="@dimen/padding_small">
+            android:text="@string/contact_detail_city" />
 
         <TextView
-                android:id="@+id/castellan_fragment_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_detail_city"/>
-
-        <TextView
-                android:id="@+id/castellan_fragment_city_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/castellan_fragment_city"/>
+            android:id="@+id/castellan_fragment_city_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/castellan_fragment_city" />
     </RelativeLayout>
 
     <View
-            android:id="@+id/castellan_fragment_dividerThree"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/castellan_fragment_city_area"
-            android:background="?android:attr/dividerHorizontal"/>
+        android:id="@+id/castellan_fragment_dividerThree"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/castellan_fragment_city_area"
+        android:background="?android:attr/dividerHorizontal" />
 
     <RelativeLayout
-            android:id="@+id/castellan_fragment_company_area"
-            android:layout_width="match_parent"
+        android:id="@+id/castellan_fragment_company_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/castellan_fragment_dividerThree"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/castellan_fragment_company"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/castellan_fragment_dividerThree"
-            android:padding="@dimen/padding_small">
+            android:text="@string/contact_detail_company" />
 
         <TextView
-                android:id="@+id/castellan_fragment_company"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_detail_company"/>
-
-        <TextView
-                android:id="@+id/castellan_fragment_company_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/castellan_fragment_company"/>
+            android:id="@+id/castellan_fragment_company_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/castellan_fragment_company" />
     </RelativeLayout>
 
     <View
-            android:id="@+id/castellan_fragment_dividerFour"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/castellan_fragment_company_area"
-            android:background="?android:attr/dividerHorizontal"/>
+        android:id="@+id/castellan_fragment_dividerFour"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/castellan_fragment_company_area"
+        android:background="?android:attr/dividerHorizontal" />
 
     <RelativeLayout
-            android:id="@+id/castellan_fragment_position_area"
-            android:layout_width="match_parent"
+        android:id="@+id/castellan_fragment_position_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/castellan_fragment_dividerFour"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/castellan_fragment_position"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/castellan_fragment_dividerFour"
-            android:padding="@dimen/padding_small">
+            android:text="@string/contact_detail_position" />
 
         <TextView
-                android:id="@+id/castellan_fragment_position"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_detail_position"/>
-
-        <TextView
-                android:id="@+id/castellan_fragment_position_txv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/castellan_fragment_position"/>
+            android:id="@+id/castellan_fragment_position_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/castellan_fragment_position" />
     </RelativeLayout>
 
     <View
-            android:id="@+id/castellan_fragment_dividerFive"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/castellan_fragment_position_area"
-            android:background="?android:attr/dividerHorizontal"/>
+        android:id="@+id/castellan_fragment_dividerFive"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/castellan_fragment_position_area"
+        android:background="?android:attr/dividerHorizontal" />
 
 </RelativeLayout>

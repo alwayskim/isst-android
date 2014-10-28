@@ -10,7 +10,7 @@ import android.os.Message;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.EXCEPTION_CLASSCAST;
 import static cn.edu.zju.isst.constant.Constants.EXCEPTION_IO;
@@ -19,6 +19,7 @@ import static cn.edu.zju.isst.constant.Constants.EXCEPTION_SOCKETTIMEOUT;
 import static cn.edu.zju.isst.constant.Constants.EXCEPTION_UNKNOWN;
 
 /**
+ * @deprecated
  * 异常清除机
  *
  * @author theasir
@@ -32,9 +33,9 @@ public class ExceptionWeeder {
      * @param msg 消息
      */
     public static void fckException(Exception e, Message msg) {
-        L.i("ExceptionWeeder FUCK U Exception type of " + e.getClass());
+        Lgr.i("ExceptionWeeder FUCK U Exception type of " + e.getClass());
 
-        if (L.isDebuggable()) {
+        if (Lgr.isDebuggable()) {
             e.printStackTrace();
         }
 

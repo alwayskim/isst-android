@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
  * @author theasir
@@ -44,6 +44,17 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      * 刷新完成或未刷新状态
      */
     public static final int STATUS_REFRESH_FINISHED = 3;
+
+    /**
+     * 当前处理什么状态，可选值有STATUS_PULL_TO_REFRESH, STATUS_RELEASE_TO_REFRESH,
+     * STATUS_REFRESHING 和 STATUS_REFRESH_FINISHED
+     */
+    private int currentStatus = STATUS_REFRESH_FINISHED;
+
+    /**
+     * 记录上一次的状态是什么，避免进行重复操作
+     */
+    private int lastStatus = currentStatus;
 
     /**
      * 下拉头部回滚的速度
@@ -135,23 +146,12 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      */
     private int mId = -1;
 
+    ;
+
     /**
      * 下拉头的高度
      */
     private int hideHeaderHeight;
-
-    /**
-     * 当前处理什么状态，可选值有STATUS_PULL_TO_REFRESH, STATUS_RELEASE_TO_REFRESH,
-     * STATUS_REFRESHING 和 STATUS_REFRESH_FINISHED
-     */
-    private int currentStatus = STATUS_REFRESH_FINISHED;
-
-    ;
-
-    /**
-     * 记录上一次的状态是什么，避免进行重复操作
-     */
-    private int lastStatus = currentStatus;
 
     /**
      * 手指按下时的屏幕纵坐标
@@ -178,7 +178,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      */
     public PullToRefeshView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        L.i(this.getClass().getName() + "----enter---PullToRefresh");
+        Lgr.i(this.getClass().getName() + "----enter---PullToRefresh");
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         header = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh, null, true);
         progressBar = (ProgressBar) header.findViewById(R.id.progress_bar);
@@ -197,9 +197,9 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        L.i(this.getClass().getName() + "----enter---onLayout");
-        L.i(this.getClass().getName() + "----enter---onLayout---changed=" + changed + ",loadOnce="
-                + loadOnce);
+        //L.i(this.getClass().getName() + "----enter---onLayout");
+        //L.i(this.getClass().getName() + "----enter---onLayout---changed=" + changed + ",loadOnce="
+        //       + loadOnce);
         if (changed && !loadOnce) {
             hideHeaderHeight = -header.getHeight();
             headerLayoutParams = (MarginLayoutParams) header.getLayoutParams();
@@ -218,7 +218,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         setIsAbleToPull(event);
-        L.i(this.getClass().getName() + "----enter---onTouch");
+        //L.i(this.getClass().getName() + "----enter---onTouch");
         if (ableToPull) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -279,7 +279,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      * @param id       为了防止不同界面的下拉刷新在上次更新时间上互相有冲突， 请不同界面在注册下拉刷新监听器时一定要传入不同的id。
      */
     public void setOnRefreshListener(PullToRefreshListener listener, int id) {
-        L.i(this.getClass().getName() + "----enter---setOnRefreshListener");
+        //L.i(this.getClass().getName() + "----enter---setOnRefreshListener");
         mListener = listener;
         mId = id;
     }
@@ -288,7 +288,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      * 当所有的刷新逻辑完成后，记录调用一下，否则你的ListView将一直处于正在刷新状态。
      */
     public void finishRefreshing() {
-        L.i(this.getClass().getName() + "----enter---finishRefreshing");
+        Lgr.i(this.getClass().getName() + "----enter---finishRefreshing");
         currentStatus = STATUS_REFRESH_FINISHED;
         preferences.edit().putLong(UPDATED_AT + mId, System.currentTimeMillis()).commit();
         new HideHeaderTask().execute();
@@ -299,7 +299,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      * 的值，每次都需要在onTouch中第一个执行，这样可以判断出当前应该是滚动ListView，还是应该进行下拉。
      */
     private void setIsAbleToPull(MotionEvent event) {
-        L.i(this.getClass().getName() + "----enter---setIsAbleToPull");
+        //L.i(this.getClass().getName() + "----enter---setIsAbleToPull");
 
         View firstChild = listView.getChildAt(0);
         if (firstChild != null) {
@@ -327,7 +327,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      * 更新下拉头中的信息。
      */
     private void updateHeaderView() {
-        L.i(this.getClass().getName() + "----enter---updateHeaderView");
+        //L.i(this.getClass().getName() + "----enter---updateHeaderView");
 
         if (lastStatus != currentStatus) {
             if (currentStatus == STATUS_PULL_TO_REFRESH) {
@@ -375,7 +375,7 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
      * 刷新下拉头中上次更新时间的文字描述。
      */
     private void refreshUpdatedAtValue() {
-        L.i(this.getClass().getName() + "----enter---refreshUpdatedAtValue");
+        //L.i(this.getClass().getName() + "----enter---refreshUpdatedAtValue");
 
         lastUpdateTime = preferences.getLong(UPDATED_AT + mId, -1);
         long currentTime = System.currentTimeMillis();
@@ -410,6 +410,33 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
             updateAtValue = String.format(getResources().getString(R.string.updated_at), value);
         }
         updateAt.setText(updateAtValue);
+    }
+
+    /**
+     * 使当前线程睡眠指定的毫秒数。
+     *
+     * @param time 指定当前线程睡眠多久，以毫秒为单位
+     */
+    private void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 下拉刷新的监听器，使用下拉刷新的地方应该注册此监听器来获取刷新回调。
+     *
+     * @author guolin
+     */
+    public interface PullToRefreshListener {
+
+        /**
+         * 刷新时会去回调此方法，在方法内编写具体的刷新逻辑。注意此方法是在子线程中调用的， 你可以不必另开线程来进行耗时操作。
+         */
+        void onRefresh();
+
     }
 
     /**
@@ -482,33 +509,6 @@ public class PullToRefeshView extends LinearLayout implements OnTouchListener {
             header.setLayoutParams(headerLayoutParams);
             currentStatus = STATUS_REFRESH_FINISHED;
         }
-    }
-
-    /**
-     * 使当前线程睡眠指定的毫秒数。
-     *
-     * @param time 指定当前线程睡眠多久，以毫秒为单位
-     */
-    private void sleep(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 下拉刷新的监听器，使用下拉刷新的地方应该注册此监听器来获取刷新回调。
-     *
-     * @author guolin
-     */
-    public interface PullToRefreshListener {
-
-        /**
-         * 刷新时会去回调此方法，在方法内编写具体的刷新逻辑。注意此方法是在子线程中调用的， 你可以不必另开线程来进行耗时操作。
-         */
-        void onRefresh();
-
     }
 
 }

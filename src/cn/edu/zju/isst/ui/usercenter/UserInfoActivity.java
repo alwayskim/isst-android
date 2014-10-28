@@ -18,7 +18,9 @@ import cn.edu.zju.isst.db.City;
 import cn.edu.zju.isst.db.DataManager;
 import cn.edu.zju.isst.db.User;
 import cn.edu.zju.isst.ui.main.BaseActivity;
-import cn.edu.zju.isst.util.CM;
+import cn.edu.zju.isst.util.CroMan;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityDataDelegate;
 
 /**
  * @author theasir
@@ -31,9 +33,9 @@ public class UserInfoActivity extends BaseActivity {
 
     public static final int RESULT_CODE_CANCEL = 0x20;
 
-    private User m_userCurrent;
-
     private final ViewHolder m_viewHolder = new ViewHolder();
+
+    private User m_userCurrent;
 
     /*
      * (non-Javadoc)
@@ -54,35 +56,6 @@ public class UserInfoActivity extends BaseActivity {
         initUser();
 
         bindData(m_userCurrent);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onActivityResult(int, int,
-     * android.content.Intent)
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_EDIT:
-                switch (resultCode) {
-                    case RESULT_CODE_DONE:
-                        CM.showConfirm(UserInfoActivity.this, "success!");
-                        m_userCurrent = data.hasExtra("updatedUser") ? (User) data
-                                .getSerializableExtra("updatedUser") : DataManager
-                                .getCurrentUser();
-                        bindData(m_userCurrent);
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-
-            default:
-                break;
-        }
     }
 
     /*
@@ -119,6 +92,35 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see android.app.Activity#onActivityResult(int, int,
+     * android.content.Intent)
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_EDIT:
+                switch (resultCode) {
+                    case RESULT_CODE_DONE:
+                        CroMan.showConfirm(UserInfoActivity.this, "success!");
+                        m_userCurrent = data.hasExtra("updatedUser") ? (User) data
+                                .getSerializableExtra("updatedUser") : DataManager
+                                .getCurrentUser();
+                        bindData(m_userCurrent);
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
     private void initComponent() {
         m_viewHolder.avatarImgv = (ImageView) findViewById(
                 R.id.user_info_activity_user_avatar_imgv);
@@ -146,11 +148,11 @@ public class UserInfoActivity extends BaseActivity {
                 .setImageResource(currentUser.getGender() == 1 ? R.drawable.ic_male
                         : R.drawable.ic_female);
 
-        List<City> cityList = DataManager.getCityList();
+        List<CSTCity> cityList = CSTCityDataDelegate.getCityList(this);
         String cityName = "";
-        for (City city : cityList) {
-            if (city.getId() == currentUser.getCityId()) {
-                cityName = city.getName();
+        for (CSTCity city : cityList) {
+            if (city.id == currentUser.getCityId()) {
+                cityName = city.name;
             }
         }
         m_viewHolder.cityTxv.setText(cityName);

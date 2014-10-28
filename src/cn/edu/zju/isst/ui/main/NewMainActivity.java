@@ -24,21 +24,32 @@ import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.settings.CSTSettings;
 import cn.edu.zju.isst.ui.city.CastellanFragment;
-import cn.edu.zju.isst.ui.city.CityActivityListFragment;
 import cn.edu.zju.isst.ui.contact.ContactListFragment;
-import cn.edu.zju.isst.ui.contact.ContactListFragment.FilterType;
 import cn.edu.zju.isst.ui.job.EmploymentListFragment;
 import cn.edu.zju.isst.ui.job.ExperienceListFragment;
 import cn.edu.zju.isst.ui.job.InternshipListFragment;
 import cn.edu.zju.isst.ui.job.RecommedListFragment;
-import cn.edu.zju.isst.ui.life.CampusActivityListFragment;
-import cn.edu.zju.isst.ui.life.NewsListFragment;
+
 import cn.edu.zju.isst.ui.life.RestaurantListFragment;
+
+import cn.edu.zju.isst.ui.life.CampusActivityListFragment;
+
 import cn.edu.zju.isst.ui.life.StudyListFragment;
 import cn.edu.zju.isst.ui.life.WikGridFragment;
-import cn.edu.zju.isst.ui.login.LoginActivity;
+import cn.edu.zju.isst.v2.archive.gui.ExperienceFragment;
+import cn.edu.zju.isst.v2.archive.gui.StudyFragment;
+import cn.edu.zju.isst.v2.contact.contact.gui.BaseContactListFragment;
+import cn.edu.zju.isst.v2.event.city.gui.CSTCityEventListFragment;
+import cn.edu.zju.isst.v2.archive.gui.NewsFragment;
+import cn.edu.zju.isst.v2.event.campus.gui.CSTCampusEventListFragment;
+import cn.edu.zju.isst.v2.login.gui.LoginActivity;
 import cn.edu.zju.isst.ui.usercenter.UserCenterFragment;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.ui.life.NewsListFragment;
+
+import cn.edu.zju.isst.v2.archive.gui.BaseArchiveListFragment;
+import cn.edu.zju.isst.v2.restaurant.gui.NewRestaurantListFragment;
+
 
 /**
  * @author theasir
@@ -65,7 +76,8 @@ public class NewMainActivity extends BaseActivity {
         mCurrentFragment = null;
 
         if (savedInstanceState == null) {
-            mCurrentFragment = NewsListFragment.getInstance();
+            mCurrentFragment = NewsFragment.getInstance();
+//            mCurrentFragment = new CSTCampusActivityListFragment();
             getFragmentManager().beginTransaction()
                     .add(R.id.content_frame, mCurrentFragment).commit();
             mTitle = Nav.NEWS.getName();
@@ -83,15 +95,27 @@ public class NewMainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean isDrawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        return super.onPrepareOptionsMenu(menu);
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_ab_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean isDrawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -116,18 +140,6 @@ public class NewMainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
     private void setUpActionbar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -140,16 +152,16 @@ public class NewMainActivity extends BaseActivity {
                 R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
             @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(mDrawerTitle);
+            }
+
+            @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getActionBar().setTitle(mDrawerTitle);
             }
 
         };
@@ -182,7 +194,7 @@ public class NewMainActivity extends BaseActivity {
 
             @Override
             public void onHttpError(CSTResponse response) {
-                L.i("logout onHttpError: " + response.getStatus());
+                Lgr.i("logout onHttpError: " + response.getStatus());
 
             }
 
@@ -212,19 +224,19 @@ public class NewMainActivity extends BaseActivity {
 
             switch (nav) {
                 case NEWS:
-                    switchContent(NewsListFragment.getInstance());
+                    switchContent(NewsFragment.getInstance());
                     break;
                 case WIKI:
                     switchContent(WikGridFragment.getInstance());
                     break;
                 case SCAC:
-                    switchContent(CampusActivityListFragment.getInstance());
+                    switchContent(CSTCampusEventListFragment.getInstance());
                     break;
                 case SERV:
-                    switchContent(RestaurantListFragment.getInstance());
+                    switchContent(NewRestaurantListFragment.getInstance());
                     break;
                 case STUD:
-                    switchContent(StudyListFragment.getInstance());
+                    switchContent(StudyFragment.getInstance());
                     break;
                 case INTE:
                     switchContent(InternshipListFragment.getInstance());
@@ -236,21 +248,21 @@ public class NewMainActivity extends BaseActivity {
                     switchContent(RecommedListFragment.getInstance());
                     break;
                 case EXPE:
-                    switchContent(ExperienceListFragment.getInstance());
+                    switchContent(ExperienceFragment.getInstance());
                     break;
                 case CIMA:
                     switchContent(CastellanFragment.GetInstance());
                     break;
                 case CIAC:
-                    switchContent(CityActivityListFragment.getInstance());
+                    switchContent(CSTCityEventListFragment.getInstance());
                     break;
                 case CIAL:
-                    switchContent(ContactListFragment
-                            .getInstance(FilterType.MY_CITY));
+                    switchContent(BaseContactListFragment
+                            .getInstance(BaseContactListFragment.FilterType.MY_CITY));
                     break;
                 case CONT:
-                    switchContent(ContactListFragment
-                            .getInstance(FilterType.MY_CLASS));
+                    switchContent(BaseContactListFragment
+                            .getInstance(BaseContactListFragment.FilterType.MY_CLASS));
                     break;
                 case USCE:
                     switchContent(UserCenterFragment.getInstance());
@@ -258,7 +270,6 @@ public class NewMainActivity extends BaseActivity {
                 default:
                     break;
             }
-
             mDrawerLayout.closeDrawer(mDrawerList);
         }
 

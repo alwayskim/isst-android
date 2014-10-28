@@ -14,9 +14,28 @@ public class Pinyin4j {
      * 获取一个汉字的拼音，大写
      */
     public static String getHanyuPinyi(char word) {
-        String contactPinYinString = concatPinyinStringArray(
-                PinyinHelper.toHanyuPinyinStringArray(word));
+        String contactPinYinString;
+        if (word >= 'a' && word <= 'z') {
+            contactPinYinString = String.valueOf(word);
+        } else {
+            contactPinYinString = concatPinyinStringArray(
+                    PinyinHelper.toHanyuPinyinStringArray(word));
+        }
         return String.valueOf(contactPinYinString.charAt(0)).toUpperCase(Locale.ENGLISH);
+
+    }
+
+    /**
+     * 将拼音数组合并成一个字符串
+     */
+    private static String concatPinyinStringArray(String[] pinyinArray) {
+        StringBuffer pinyinSbf = new StringBuffer();
+        if ((pinyinArray != null) && (pinyinArray.length > 0)) {
+            for (int i = 0; i < pinyinArray.length; i++) {
+                pinyinSbf.append(pinyinArray[i]);
+            }
+        }
+        return pinyinSbf.toString();
     }
 
     /**
@@ -35,19 +54,6 @@ public class Pinyin4j {
                             .toHanyuPinyinStringArray(c2))
             );
         }
-    }
-
-    /**
-     * 将拼音数组合并成一个字符串
-     */
-    private static String concatPinyinStringArray(String[] pinyinArray) {
-        StringBuffer pinyinSbf = new StringBuffer();
-        if ((pinyinArray != null) && (pinyinArray.length > 0)) {
-            for (int i = 0; i < pinyinArray.length; i++) {
-                pinyinSbf.append(pinyinArray[i]);
-            }
-        }
-        return pinyinSbf.toString();
     }
 }
 

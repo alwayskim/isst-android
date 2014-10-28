@@ -13,12 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 import static cn.edu.zju.isst.constant.Constants.HTTP_CONNECT_TIMEOUT;
 
 /**
+ * @deprecated
  * HTTP请求类
  *
  * @see {@link https://code.google.com/p/aerc/}
@@ -43,6 +44,23 @@ public class BetterHttpInvoker {
      */
     public static BetterHttpInvoker getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * 读取输入流
+     *
+     * @param in 输入流
+     * @return 字节流
+     * @throws IOException 未处理异常
+     */
+    private static byte[] readStream(InputStream in) throws IOException {
+        byte[] buf = new byte[1024];
+        int count = 0;
+        ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+        while ((count = in.read(buf)) != -1) {
+            out.write(buf, 0, count);
+        }
+        return out.toByteArray();
     }
 
     /**
@@ -82,7 +100,7 @@ public class BetterHttpInvoker {
      * @throws IOException 未处理异常
      */
     private CSTResponse getOrPost(Request request) throws IOException {
-        if (J.isNullOrEmpty(request)) {
+        if (Judge.isNullOrEmpty(request)) {
             return null;
         }
         HttpURLConnection conn = null;
@@ -90,7 +108,7 @@ public class BetterHttpInvoker {
         System.setProperty("http.keepAlive", "false");
         try {
             conn = (HttpURLConnection) request.getUri().openConnection();
-            L.i("BetterHttpInvoker openConnection URL = "
+            Lgr.i("BetterHttpInvoker openConnection URL = "
                     + request.getUri().toString());
 
             if (!request.getHeaders().isEmpty()) {
@@ -114,11 +132,11 @@ public class BetterHttpInvoker {
                 conn.setConnectTimeout(HTTP_CONNECT_TIMEOUT);
                 conn.setReadTimeout(10000);
 
-                L.i("BetterHttpInvoker Before POST getOutputStream()");
+                Lgr.i("BetterHttpInvoker Before POST getOutputStream()");
 
                 conn.getOutputStream().write(payload);
 
-                L.i("BetterHttpInvoker After POST getResponseCode() = "
+                Lgr.i("BetterHttpInvoker After POST getResponseCode() = "
                         + conn.getResponseCode());
                 if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
                     response = new CSTResponse(conn.getResponseCode(),
@@ -128,41 +146,24 @@ public class BetterHttpInvoker {
                 }
             }
 
-            if (J.isNullOrEmpty(response)) {
+            if (Judge.isNullOrEmpty(response)) {
                 // TODO handle httpError like 404: return nothing and response
                 // won't initialize
-                L.i("BetterHttpInvoker Before getInputStream()");
+                Lgr.i("BetterHttpInvoker Before getInputStream()");
                 BufferedInputStream in = new BufferedInputStream(
                         conn.getInputStream());
                 byte[] body = readStream(in);
-                L.i("BetterHttpInvoker After getResponseCode() = "
+                Lgr.i("BetterHttpInvoker After getResponseCode() = "
                         + conn.getResponseCode());
                 response = new CSTResponse(conn.getResponseCode(),
                         conn.getHeaderFields(), body);
             }
         } finally {
-            if (!J.isNullOrEmpty(conn)) {
+            if (!Judge.isNullOrEmpty(conn)) {
                 conn.disconnect();
             }
         }
         return response;
-    }
-
-    /**
-     * 读取输入流
-     *
-     * @param in 输入流
-     * @return 字节流
-     * @throws IOException 未处理异常
-     */
-    private static byte[] readStream(InputStream in) throws IOException {
-        byte[] buf = new byte[1024];
-        int count = 0;
-        ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-        while ((count = in.read(buf)) != -1) {
-            out.write(buf, 0, count);
-        }
-        return out.toByteArray();
     }
 
     /**

@@ -1,95 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.edu.zju.isst"
-          android:versionCode="3"
-          android:versionName="0.3-alpha">
+    package="cn.edu.zju.isst"
+    android:versionCode="3"
+    android:versionName="0.3-alpha">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-sdk
-            android:minSdkVersion="14"
-            android:targetSdkVersion="20"/>
+        android:minSdkVersion="14"
+        android:targetSdkVersion="20" />
 
     <application
-            android:name=".CSTApp"
-            android:allowBackup="true"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Isst_color_ab_style">
-        <activity android:name=".ui.loading.LoadingActivity">
+        android:name=".CSTApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Isst_color_ab_style">
+        <activity android:name=".v2.splash.gui.LoadingActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
-                android:name=".ui.login.LoginActivity"
-                android:label="@string/login"></activity>
-        <activity android:name=".ui.main.NewMainActivity"></activity>
-        <activity android:name=".ui.life.ArchiveDetailActivity"></activity>
-        <activity android:name=".ui.job.JobDetailActivity"></activity>
-        <activity android:name=".ui.job.RecommendDetailActivity"></activity>
-        <activity android:name=".ui.job.JobCommentListActivity"></activity>
-        <activity android:name=".ui.job.PublishRecommendActivity"></activity>
-        <activity android:name=".ui.life.CampusActivityDetailActivity"></activity>
-        <activity android:name=".ui.life.RestaurantDetailActivity"></activity>
-        <activity android:name=".ui.usercenter.UserInfoActivity"></activity>
-        <activity android:name=".ui.usercenter.UserInfoEditActivity"></activity>
-        <activity android:name=".ui.usercenter.PushMessagesActivity"></activity>
-        <activity android:name=".ui.contact.ContactDetailActivity"></activity>
-        <activity android:name=".ui.contact.ContactFilterActivity"></activity>
-        <activity android:name=".ui.city.CityActivityDetailActivity"></activity>
+            android:name=".v2.login.gui.LoginActivity"
+            android:label="@string/login" />
+        <activity android:name=".ui.main.NewMainActivity" />
+        <activity android:name=".ui.job.JobDetailActivity" />
+        <activity android:name=".ui.job.RecommendDetailActivity" />
+        <activity android:name=".ui.job.JobCommentListActivity" />
+        <activity android:name=".ui.job.PublishRecommendActivity" />
+        <activity android:name=".ui.life.CampusActivityDetailActivity" />
+        <activity android:name=".ui.life.RestaurantDetailActivity" />
+        <activity android:name=".ui.usercenter.UserInfoActivity" />
+        <activity android:name=".ui.usercenter.UserInfoEditActivity" />
+        <activity android:name=".ui.usercenter.PushMessagesActivity" />
+        <activity android:name=".ui.contact.ContactDetailActivity" />
+        <activity android:name=".ui.contact.ContactFilterActivity" />
+        <activity android:name=".v2.event.city.gui.CityEventDetailActivity" />
+        <activity android:name=".v2.event.city.gui.CityEventParticipantsListActivity" />
+        <activity android:name=".v2.contact.ContactFilterActivity" />
+        <activity android:name=".v2.contact.contact.gui.CSTContactDetailActivity" />
+        <activity android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity" />
+        <activity android:name=".v2.archive.gui.ArchiveDetailActivity" />
+        <activity android:name=".v2.restaurant.gui.NewRestaurantDetailActivity" />
+
+        <provider
+            android:name=".v2.db.CSTProvider"
+            android:authorities="cn.edu.zju.isst.v2.db.cstprovider"
+            android:exported="false" />
+
+        <!--&lt;!&ndash; push service client &ndash;&gt;-->
+        <!--<receiver android:name="cn.edu.zju.isst.baidupush.PushMessageReceiver">-->
+        <!--<intent-filter>-->
+        <!--&lt;!&ndash; 接收push消息 &ndash;&gt;-->
+        <!--<action android:name="com.baidu.android.pushservice.action.MESSAGE"/>-->
+        <!--&lt;!&ndash; 接收bind,unbind,fetch,delete等反馈消息 &ndash;&gt;-->
+        <!--<action android:name="com.baidu.android.pushservice.action.RECEIVE"/>-->
+        <!--<action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--&lt;!&ndash; push service &ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="com.baidu.android.pushservice.PushServiceReceiver"-->
+        <!--android:process=":bdservice_v1">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+        <!--<action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>-->
+        <!--<action android:name="com.baidu.android.pushservice.action.media.CLICK"/>-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+
+        <!-- <receiver -->
+        <!-- android:name="com.baidu.android.pushservice.RegistrationReceiver" -->
+        <!-- android:process=":bdservice_v1"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.baidu.android.pushservice.action.METHOD"/> -->
+        <!-- <action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_REMOVED"/> -->
+        <!-- <data android:scheme="package"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
 
-        <!-- push service client -->
-        <receiver android:name="cn.edu.zju.isst.baidupush.PushMessageReceiver">
-            <intent-filter>
-                <!-- 接收push消息 -->
-                <action android:name="com.baidu.android.pushservice.action.MESSAGE"/>
-                <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
-                <action android:name="com.baidu.android.pushservice.action.RECEIVE"/>
-                <action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>
-            </intent-filter>
-        </receiver>
-        <!-- push service -->
-        <receiver
-                android:name="com.baidu.android.pushservice.PushServiceReceiver"
-                android:process=":bdservice_v1">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>
-                <action android:name="com.baidu.android.pushservice.action.media.CLICK"/>
-            </intent-filter>
-        </receiver>
-
-        <receiver
-                android:name="com.baidu.android.pushservice.RegistrationReceiver"
-                android:process=":bdservice_v1">
-            <intent-filter>
-                <action android:name="com.baidu.android.pushservice.action.METHOD"/>
-                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"/>
-            </intent-filter>
-        </receiver>
-
-        <service
-                android:name="com.baidu.android.pushservice.PushService"
-                android:exported="true"
-                android:process=":bdservice_v1"/>
+        <!-- <service -->
+        <!-- android:name="com.baidu.android.pushservice.PushService" -->
+        <!-- android:exported="true" -->
+        <!-- android:process=":bdservice_v1"/> -->
+        <!--
+        <activity
+            android:name=".v2.campusactivity.CampusActivityTest"
+            android:label="@string/title_activity_campus_activity_test" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".v2.city.CityTest"
+            android:label="@string/title_activity_city_test" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".v2.publisher.PublisherTest"
+            android:label="@string/title_activity_publisher_test" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".v2.cityevent.CityEventTest"
+            android:label="@string/title_activity_city_event_test" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".v2.cityparticipant.CityParticipantTest"
+            android:label="@string/title_activity_city_participant_test" >
+        </activity>
+        -->
+        <!--<activity
+            android:name=".v2.citycomment.CommentTest"
+            android:label="@string/title_activity_comment_test" >
+        </activity>-->
     </application>
 
 </manifest>

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:showDividers="middle"
-              android:divider="?android:attr/dividerHorizontal">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="?android:attr/dividerHorizontal"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
     <TextView
-            android:id="@+id/contact_note_list_item_index_txv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#9c9c9c"
-            android:paddingBottom="@dimen/padding_small"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingLeft="@dimen/padding_middle"
-            android:textColor="#ffffff"/>
+        android:id="@+id/contact_note_list_item_index_txv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#9c9c9c"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingLeft="@dimen/padding_middle"
+        android:paddingTop="@dimen/padding_small"
+        android:textColor="#ffffff" />
 
     <TextView
-            android:id="@+id/contact_note_list_item_name_txv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_middle"
-            android:textSize="@dimen/text_size_large"/>
+        android:id="@+id/contact_note_list_item_name_txv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_middle"
+        android:textSize="@dimen/text_size_large" />
 
 </LinearLayout>

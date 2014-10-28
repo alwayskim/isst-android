@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * 发布者解析类
  *
  * @author theasir
@@ -57,20 +58,20 @@ public class Publisher implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("name", jsonObject)) {
+            if (Judge.isValidJsonValue("name", jsonObject)) {
                 name = jsonObject.getString("name");
             }
-            if (J.isValidJsonValue("phone", jsonObject)) {
+            if (Judge.isValidJsonValue("phone", jsonObject)) {
                 phone = jsonObject.getString("phone");
             }
-            if (J.isValidJsonValue("qq", jsonObject)) {
+            if (Judge.isValidJsonValue("qq", jsonObject)) {
                 qq = jsonObject.getString("qq");
             }
-            if (J.isValidJsonValue("email", jsonObject)) {
+            if (Judge.isValidJsonValue("email", jsonObject)) {
                 email = jsonObject.getString("email");
             }
         }

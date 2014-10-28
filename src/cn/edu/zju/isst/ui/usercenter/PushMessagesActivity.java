@@ -29,9 +29,9 @@ import cn.edu.zju.isst.db.PushMessage;
 import cn.edu.zju.isst.net.CSTResponse;
 import cn.edu.zju.isst.net.RequestListener;
 import cn.edu.zju.isst.ui.main.BaseActivity;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
-import cn.edu.zju.isst.util.TimeString;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.util.TSUtil;
 
 import static cn.edu.zju.isst.constant.Constants.STATUS_REQUEST_SUCCESS;
 
@@ -116,6 +116,24 @@ public class PushMessagesActivity extends BaseActivity {
         PushMessageApi.getMsgList(1, 20, new RequestListener() {
 
             @Override
+            public void onComplete(Object result) {
+                Message msg = mHandler.obtainMessage();
+                try {
+                    if (!Judge.isValidJsonValue("status", (JSONObject) result)) {
+                        return;
+                    }
+                    msg.what = ((JSONObject) result).getInt("status");
+                    msg.obj = (JSONObject) result;
+                } catch (JSONException e) {
+                    Lgr.i(this.getClass().getName() + " onComplete!");
+                    e.printStackTrace();
+                }
+
+                mHandler.sendMessage(msg);
+
+            }
+
+            @Override
             public void onHttpError(CSTResponse response) {
                 // TODO Auto-generated method stub
 
@@ -126,24 +144,6 @@ public class PushMessagesActivity extends BaseActivity {
                 // TODO Auto-generated method stub
 
             }
-
-            @Override
-            public void onComplete(Object result) {
-                Message msg = mHandler.obtainMessage();
-                try {
-                    if (!J.isValidJsonValue("status", (JSONObject) result)) {
-                        return;
-                    }
-                    msg.what = ((JSONObject) result).getInt("status");
-                    msg.obj = (JSONObject) result;
-                } catch (JSONException e) {
-                    L.i(this.getClass().getName() + " onComplete!");
-                    e.printStackTrace();
-                }
-
-                mHandler.sendMessage(msg);
-
-            }
         });
     }
 
@@ -152,7 +152,7 @@ public class PushMessagesActivity extends BaseActivity {
             mMessages.clear();
         }
         try {
-            if (!J.isValidJsonValue("body", jsonObject)) {
+            if (!Judge.isValidJsonValue("body", jsonObject)) {
                 return;
             }
             JSONArray jsonArray = jsonObject.getJSONArray("body");
@@ -208,11 +208,11 @@ public class PushMessagesActivity extends BaseActivity {
                 convertView = inflater
                         .inflate(R.layout.archive_list_item, null);
                 holder.titleTxv = (TextView) convertView
-                        .findViewById(R.id.archive_list_item_title_txv);
+                        .findViewById(R.id.title_txv);
                 holder.contentTxv = (TextView) convertView
-                        .findViewById(R.id.archive_list_item_description_txv);
+                        .findViewById(R.id.description_txv);
                 holder.createdTimeTxv = (TextView) convertView
-                        .findViewById(R.id.archive_list_item_date_txv);
+                        .findViewById(R.id.date_txv);
 
                 convertView.setTag(holder);
             } else {
@@ -220,11 +220,11 @@ public class PushMessagesActivity extends BaseActivity {
             }
 
             holder.titleTxv.setText(mMessages.get(position).title);
-            holder.createdTimeTxv.setText(TimeString.toYMD(mMessages
+            holder.createdTimeTxv.setText(TSUtil.toYMD(mMessages
                     .get(position).createdTime));
             holder.contentTxv.setText(mMessages.get(position).content);
 
-            convertView.findViewById(R.id.archive_list_item_publisher_txv)
+            convertView.findViewById(R.id.publisher_txv)
                     .setVisibility(View.GONE);
 
             return convertView;

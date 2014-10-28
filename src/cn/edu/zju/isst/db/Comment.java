@@ -8,9 +8,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import cn.edu.zju.isst.util.J;
+import cn.edu.zju.isst.util.Judge;
 
 /**
+ * @deprecated
  * 归档解析类
  *
  * @author xyj
@@ -59,20 +60,20 @@ public class Comment implements Serializable {
      * @throws JSONException 未处理异常
      */
     public void update(JSONObject jsonObject) throws JSONException {
-        if (!J.isNullOrEmpty(jsonObject)) {
-            if (J.isValidJsonValue("id", jsonObject)) {
+        if (!Judge.isNullOrEmpty(jsonObject)) {
+            if (Judge.isValidJsonValue("id", jsonObject)) {
                 id = jsonObject.getInt("id");
             }
-            if (J.isValidJsonValue("title", jsonObject)) {
+            if (Judge.isValidJsonValue("title", jsonObject)) {
                 title = jsonObject.getString("title");
             }
-            if (J.isValidJsonValue("content", jsonObject)) {
+            if (Judge.isValidJsonValue("content", jsonObject)) {
                 content = jsonObject.getString("content");
             }
-            if (J.isValidJsonValue("createdAt", jsonObject)) {
+            if (Judge.isValidJsonValue("createdAt", jsonObject)) {
                 createdAt = jsonObject.getLong("createdAt");
             }
-            if (J.isValidJsonValue("user", jsonObject)) {
+            if (Judge.isValidJsonValue("user", jsonObject)) {
                 user = new User(jsonObject.getJSONObject("user"));
             }
         }

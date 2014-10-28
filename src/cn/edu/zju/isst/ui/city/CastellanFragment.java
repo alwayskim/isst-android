@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Fragment;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,8 +26,14 @@ import cn.edu.zju.isst.R;
 import cn.edu.zju.isst.db.City;
 import cn.edu.zju.isst.db.DataManager;
 import cn.edu.zju.isst.db.User;
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.ui.main.NewMainActivity;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityDataDelegate;
+import cn.edu.zju.isst.v2.user.data.CSTUser;
+import cn.edu.zju.isst.v2.user.data.CSTUserDataDelegate;
+import cn.edu.zju.isst.v2.user.data.CSTUserProvider;
 
 /**
  * @author yyy
@@ -34,6 +41,10 @@ import cn.edu.zju.isst.util.L;
 public class CastellanFragment extends Fragment {
 
     private static final String PRIVATE_INFO = "未公开";
+
+    private static CastellanFragment INSTANCE = new CastellanFragment();
+
+    private List<CSTCity> mListCity = new ArrayList<CSTCity>();
 
     private TextView m_tvName;
 
@@ -59,23 +70,19 @@ public class CastellanFragment extends Fragment {
 
     private ImageButton m_ibtnEmail;
 
-    private City m_city;
+    private CSTCity m_city;
 
-    private User m_user;
-
-    private final List<City> m_listCity = new ArrayList<City>();
+    private CSTUser m_user;
 
     private ArrayList<String> m_arrayListCity = new ArrayList<String>();
-
-    private static CastellanFragment INSTANCE = new CastellanFragment();
 
     /**
      *
      */
-    public CastellanFragment() {
-        // TODO Auto-generated constructor stub
-        getCityList();
-    }
+//    public CastellanFragment() {
+//        // TODO Auto-generated constructor stub
+//        getCityList();
+//    }
 
     public static CastellanFragment GetInstance() {
         return INSTANCE;
@@ -83,6 +90,8 @@ public class CastellanFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        getCityList();
         SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.action_bar_city_item, m_arrayListCity);
         // 得到ActionBar
@@ -99,14 +108,6 @@ public class CastellanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.castellan_fragment, null);
-    }
-
-    @Override
-    public void onDestroyView() {
-        // 得到ActionBar
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        super.onDestroyView();
     }
 
     @Override
@@ -141,15 +142,26 @@ public class CastellanFragment extends Fragment {
         m_ibtnMessage.setOnClickListener(new onMessageClickListner());
         m_ibtnEmail.setOnClickListener(new onEmailClickListner());
 
-        m_city = getCity(DataManager.getCurrentUser().getCityId());
-
+        Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
+                null, null, null, null);
+        mCursor.moveToFirst();
+        m_city = getCity(CSTUserDataDelegate.getUser(mCursor).cityId);
+        mCursor.close();
         if (m_city != null) {
             ActionBar actionBar = getActivity().getActionBar();
             actionBar
-                    .setSelectedNavigationItem(getCityListIndex(m_city.getId()));
+                    .setSelectedNavigationItem(getCityListIndex(m_city.id));
         }
 
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        // 得到ActionBar
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        super.onDestroyView();
     }
 
     /**
@@ -159,43 +171,43 @@ public class CastellanFragment extends Fragment {
         if (m_city == null) {
             return;
         }
-        m_user = m_city.getCityMaster();
+        m_user = m_city.cityMaster;
         if (m_user == null) {
             return;
         }
         // 姓名
-        m_tvName.setText(m_user.getName());
-        // 性别
-        if (m_user.getGender() > 0) {
-            m_tvGender.setText(m_user.getGender() == 1 ? "男" : "女");
-        }
+        m_tvName.setText(m_user.name);
+//        // 性别
+//        if (m_user.gender.getKey() > 0) {
+//            m_tvGender.setText(m_user.gender.getTypeName());
+//        }
         // 年级
-        m_tvGrade.setText("" + 2013 + "级");
+//        m_tvGrade.setText(m_user.grade + "级");
         // 专业
-        m_tvMajor.setText(m_user.getMajor());
+        m_tvMajor.setText(m_user.majorName);
         // 电话
-        m_tvMobile.setText(m_user.getPhone());
+        m_tvMobile.setText(m_user.phoneNum);
         // Email
-        m_tvEmail.setText(m_user.getEmail());
+        m_tvEmail.setText(m_user.email);
         // 城市
-        m_tvCity.setText(m_city.getName());
+        m_tvCity.setText(m_city.name);
         // 公司
-        m_tvCompany.setText(m_user.getCompany());
+        m_tvCompany.setText(m_user.company);
         // 职位
-        m_tvPosition.setText(m_user.getPosition());
-        if (m_user.isPrivatePhone()) {
+        m_tvPosition.setText(m_user.jobTitle);
+        if (m_user.pvtPhoneNum) {
             m_tvMobile.setText(PRIVATE_INFO);
             m_ibtnMobileCall.setVisibility(View.GONE);
             m_ibtnMessage.setVisibility(View.GONE);
         }
-        if (m_user.isPrivateEmail()) {
+        if (m_user.pvtEmail) {
             m_tvEmail.setText(PRIVATE_INFO);
             m_ibtnEmail.setVisibility(View.GONE);
         }
-        if (m_user.isPrivateCompany()) {
+        if (m_user.pvtCompany) {
             m_tvCompany.setText(PRIVATE_INFO);
         }
-        if (m_user.isPrivatePosition()) {
+        if (m_user.pvtJobTitle) {
             m_tvPosition.setText(PRIVATE_INFO);
         }
     }
@@ -204,23 +216,25 @@ public class CastellanFragment extends Fragment {
      * 初始化城市列表
      */
     private void getCityList() {
-        List<City> dbList = DataManager.getCityList();
+
+
+        mListCity = CSTCityDataDelegate.getCityList(this.getActivity());
+
         m_arrayListCity.add("城市");
-        if (!J.isNullOrEmpty(dbList)) {
-            for (City city : dbList) {
-                m_listCity.add(city);
-                m_arrayListCity.add(city.getName());
+        if (!Judge.isNullOrEmpty(mListCity)) {
+            for (CSTCity city : mListCity) {
+                m_arrayListCity.add(city.name);
             }
         }
-        L.i(" yyy getCityList");
+        Lgr.i(" yyy getCityList");
     }
 
     /**
      * 按cityID获取city
      */
-    private City getCity(int cityID) {
-        for (City city : m_listCity) {
-            if (city.getId() == cityID) {
+    private CSTCity getCity(int cityID) {
+        for (CSTCity city : mListCity) {
+            if (city.id == cityID) {
                 return city;
             }
         }
@@ -229,9 +243,10 @@ public class CastellanFragment extends Fragment {
 
     private int getCityListIndex(int cityID) {
         int index = 0;
-        for (int i = 0; i < m_listCity.size(); i++) {
-            if (m_listCity.get(i).getId() == m_city.getId()) {
+        for (int i = 0; i < mListCity.size(); i++) {
+            if (mListCity.get(i).id == m_city.id) {
                 index = i + 1;
+                break;
             }
         }
         return index;
@@ -245,7 +260,7 @@ public class CastellanFragment extends Fragment {
         @Override
         public boolean onNavigationItemSelected(int arg0, long arg1) {
             if (arg0 > 0) {
-                m_city = m_listCity.get(arg0 - 1);
+                m_city = mListCity.get(arg0 - 1);
                 showUserDetail();
             }
             return false;

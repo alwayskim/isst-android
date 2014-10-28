@@ -4,8 +4,8 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-import cn.edu.zju.isst.util.J;
-import cn.edu.zju.isst.util.L;
+import cn.edu.zju.isst.util.Judge;
+import cn.edu.zju.isst.util.Lgr;
 
 /**
  * 前辈遗留，感谢
@@ -31,19 +31,19 @@ public class AsyncWebServiceRunner {
                     JSONObject result;
                     String tempResult;
                     if (methodName.equalsIgnoreCase("GET")) {
-                        L.i("AsyncWebServiceRunner_____get");
+                        Lgr.i("AsyncWebServiceRunner_____get");
                         tempResult = HttpInvoker.getRequest(url);
                         result = new JSONObject(tempResult);
                     } else if (methodName.equalsIgnoreCase("POST")) {
-                        L.i("AsyncWebServiceRunner_____post");
+                        Lgr.i("AsyncWebServiceRunner_____post");
                         tempResult = HttpInvoker.postRequest(url, params);
                         result = new JSONObject(tempResult);
                     } else {
                         result = null;
                     }
-                    if (!J.isNullOrEmpty(result))// ?有问题
+                    if (!Judge.isNullOrEmpty(result))// ?有问题
                     {
-                        L.i("listener.onCompete");
+                        Lgr.i("listener.onCompete");
                         listener.onComplete(result);
 
                     } else {

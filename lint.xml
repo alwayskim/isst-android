@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="HandlerLeak" severity="ignore"/>
+    <issue id="HandlerLeak" severity="ignore" />
     <issue id="NewApi">
-        <ignore path="src/cn/edu/zju/isst/ui/life/ArchiveDetailActivity.java"/>
+        <ignore path="src/cn/edu/zju/isst/ui/life/ArchiveDetailActivity.java" />
     </issue>
 </lint>

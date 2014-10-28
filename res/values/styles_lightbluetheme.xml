@@ -3,8 +3,7 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AutoCompleteTextViewLightBlueTheme"
-           parent="android:Widget.Holo.Light.AutoCompleteTextView">
+    <style name="AutoCompleteTextViewLightBlueTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
         <item name="android:dropDownSelector">@drawable/lightbluetheme_list_selector_holo_light
         </item>
         <item name="android:background">@drawable/lightbluetheme_edit_text_holo_light</item>
@@ -45,8 +44,7 @@
         <item name="android:maxWidth">180dip</item>
     </style>
 
-    <style name="ProgressBarLightBlueTheme"
-           parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+    <style name="ProgressBarLightBlueTheme" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">
             @drawable/lightbluetheme_progress_horizontal_holo_light
         </item>

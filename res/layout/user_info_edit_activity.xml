@@ -1,328 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_middle">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_middle">
 
         <LinearLayout
-                android:id="@+id/user_info_edit_activity_city_area"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:orientation="horizontal">
+            android:id="@+id/user_info_edit_activity_city_area"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
 
             <TextView
-                    android:id="@+id/user_info_edit_activity_final_city_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:padding="5dp"
-                    android:text="@string/user_city"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_edit_activity_final_city_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_city"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <Spinner
-                    android:id="@+id/user_info_edit_activity_city_spn"
+                android:id="@+id/user_info_edit_activity_city_spn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/user_info_edit_activity_email_area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_edit_activity_city_area"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_info_edit_activity_final_email_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_email"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:attr/dividerVertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small"
+                android:showDividers="middle">
+
+                <EditText
+                    android:id="@+id/user_info_edit_activity_email_edtx"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/padding_small"
-                    android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:id="@+id/user_info_edit_activity_email_area"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_edit_activity_city_area"
-                android:orientation="vertical">
-
-            <TextView
-                    android:id="@+id/user_info_edit_activity_final_email_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_email"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="?android:attr/dividerVertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small"
-                    android:showDividers="middle">
-
-                <EditText
-                        android:id="@+id/user_info_edit_activity_email_edtx"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="textEmailAddress"/>
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textEmailAddress" />
 
                 <CheckBox
-                        android:id="@+id/user_info_edit_activity_email_chb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/publik"/>
+                    android:id="@+id/user_info_edit_activity_email_chb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/publik" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_edit_activity_phone_area"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_edit_activity_email_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_edit_activity_phone_area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_edit_activity_email_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_edit_activity_final_phone_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_phone"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_edit_activity_final_phone_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_phone"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="?android:attr/dividerVertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small"
-                    android:showDividers="middle">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:attr/dividerVertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small"
+                android:showDividers="middle">
 
                 <EditText
-                        android:id="@+id/user_info_edit_activity_phone_edtx"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="phone"/>
+                    android:id="@+id/user_info_edit_activity_phone_edtx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="phone" />
 
                 <CheckBox
-                        android:id="@+id/user_info_edit_activity_phone_chb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/publik"/>
+                    android:id="@+id/user_info_edit_activity_phone_chb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/publik" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_edit_activity_qq_area"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_edit_activity_phone_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_edit_activity_qq_area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_edit_activity_phone_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_edit_activity_final_qq_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_qq"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_edit_activity_final_qq_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_qq"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="?android:attr/dividerVertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small"
-                    android:showDividers="middle">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:attr/dividerVertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small"
+                android:showDividers="middle">
 
                 <EditText
-                        android:id="@+id/user_info_edit_activity_qq_edtx"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="number"/>
+                    android:id="@+id/user_info_edit_activity_qq_edtx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number" />
 
                 <CheckBox
-                        android:id="@+id/user_info_edit_activity_qq_chb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/publik"/>
+                    android:id="@+id/user_info_edit_activity_qq_chb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/publik" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_edit_activity_company_area"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_edit_activity_qq_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_edit_activity_company_area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_edit_activity_qq_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_edit_activity_final_company_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_company"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_edit_activity_final_company_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_company"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="?android:attr/dividerVertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small"
-                    android:showDividers="middle">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:attr/dividerVertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small"
+                android:showDividers="middle">
 
                 <EditText
-                        android:id="@+id/user_info_edit_activity_company_edtx"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="text"/>
+                    android:id="@+id/user_info_edit_activity_company_edtx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text" />
 
                 <CheckBox
-                        android:id="@+id/user_info_edit_activity_company_chb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/publik"/>
+                    android:id="@+id/user_info_edit_activity_company_chb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/publik" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_edit_activity_position_area"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_edit_activity_company_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_edit_activity_position_area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_edit_activity_company_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_edit_activity_final_position_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_position"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_edit_activity_final_position_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_position"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="?android:attr/dividerVertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/padding_small"
-                    android:showDividers="middle">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:attr/dividerVertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small"
+                android:showDividers="middle">
 
                 <EditText
-                        android:id="@+id/user_info_edit_activity_position_edtx"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="text"/>
+                    android:id="@+id/user_info_edit_activity_position_edtx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text" />
 
                 <CheckBox
-                        android:id="@+id/user_info_edit_activity_position_chb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/publik"/>
+                    android:id="@+id/user_info_edit_activity_position_chb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/publik" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/user_info_edit_activity_signature_area"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/user_info_edit_activity_position_area"
-                android:orientation="vertical">
+            android:id="@+id/user_info_edit_activity_signature_area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/user_info_edit_activity_position_area"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/user_info_edit_activity_final_signature_txv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:padding="5dp"
-                    android:text="@string/user_signature"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"/>
+                android:id="@+id/user_info_edit_activity_final_signature_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/user_signature"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
 
             <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#80000000"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#80000000" />
 
             <EditText
-                    android:id="@+id/user_info_edit_activity_signature_edtx"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:lines="2"
-                    android:padding="@dimen/padding_small"/>
+                android:id="@+id/user_info_edit_activity_signature_edtx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:ems="10"
+                android:inputType="text"
+                android:lines="2"
+                android:padding="@dimen/padding_small" />
         </LinearLayout>
     </RelativeLayout>
 
