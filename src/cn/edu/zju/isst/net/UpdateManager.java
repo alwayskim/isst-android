@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Environment;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import cn.edu.zju.isst.util.Lgr;
+import cn.edu.zju.isst.v2.splash.gui.LoadingActivity;
 
 /**
  * @author stevwayne
@@ -33,6 +36,8 @@ public class UpdateManager {
         this.context = context;
     }
 
+    private String mSavePath;
+
     public static UpdateManager createInstance(Context context) {
         INSTANCE = new UpdateManager(context);
         return INSTANCE;
@@ -49,13 +54,17 @@ public class UpdateManager {
         return INSTANCE;
     }
 
-    public void downloadUpdate() {
+    public void downloadUpdate(String updateApkUrl, String updateVersion) {
+
+        String sdpath = Environment.getExternalStorageDirectory() + "/";
+        mSavePath = sdpath + "Downloads";
         dm = (DownloadManager) context
                 .getSystemService(Context.DOWNLOAD_SERVICE);
 
-        Uri uri = Uri.parse(UPDATE_APKFILE_URL);
+        Uri uri = Uri.parse(updateApkUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setDestinationInExternalPublicDir("Downloads", "ISST2.apk");
+        request.setDestinationInExternalPublicDir("Downloads", "ISST" + updateVersion + ".apk");
+        request.setVisibleInDownloadsUi(true);
         request.setNotificationVisibility(
                 DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
@@ -76,6 +85,11 @@ public class UpdateManager {
                     try {
                         Lgr.i("UpdateApkId", "Before Open File");
                         dm.openDownloadedFile(recceiveRef);
+                        File apkfile = new File(mSavePath, "ISST2.apk");
+                        if (!apkfile.exists()) {
+                            return;
+                        }
+                        installApk(apkfile);
                         Lgr.i("UpdateApkId", "After Open File");
                     } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
@@ -87,5 +101,17 @@ public class UpdateManager {
         };
 
         context.registerReceiver(receiver, filter);
+    }
+
+    protected void installApk(File file) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.setType("application/vnd.android.package-archive");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.fromFile(file));
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        context.startActivity(intent);
+
     }
 }

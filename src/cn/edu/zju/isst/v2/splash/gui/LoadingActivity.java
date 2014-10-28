@@ -47,6 +47,8 @@ public class LoadingActivity extends CSTBaseActivity {
 
     private AlertDialog.Builder mAldUpdate;
 
+    private CSTVersion newVersion;
+
     /*
      * (non-Javadoc)
      *
@@ -83,7 +85,7 @@ public class LoadingActivity extends CSTBaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         UpdateManager.createInstance(LoadingActivity.this
                                 .getApplicationContext());
-                        UpdateManager.getInstance().downloadUpdate();
+                        UpdateManager.getInstance().downloadUpdate(newVersion.downloadUrl, newVersion.version);
 
                         jump();
                     }
@@ -150,13 +152,13 @@ public class LoadingActivity extends CSTBaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);
-                    CSTVersion version = (CSTVersion) CSTJsonParser
+                    newVersion = (CSTVersion) CSTJsonParser
                             .parseJson(response, new CSTVersion());
                     Lgr.i(response.toString());
                     //Tricky for no authentication for this request. So if success, status will always be 0. Thus not handle status.
                     Message msg = mHandler.obtainMessage();
-                    msg.what = version.getStatusInfo().status;
-                    msg.obj = version;
+                    msg.what = newVersion.getStatusInfo().status;
+                    msg.obj = newVersion;
                     mHandler.sendMessage(msg);
                 }
             };
