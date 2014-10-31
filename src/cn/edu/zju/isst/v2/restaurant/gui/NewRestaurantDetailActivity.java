@@ -3,34 +3,25 @@ package cn.edu.zju.isst.v2.restaurant.gui;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cn.edu.zju.isst.R;
 import cn.edu.zju.isst.util.Judge;
@@ -66,10 +57,7 @@ public class NewRestaurantDetailActivity extends Activity {
 
     private Handler mHandler;
 
-    private Handler mHandler_icon;
-
     private ListView m_lsvMenu;
-
 
     public NewRestaurantDetailActivity() {
     }
@@ -145,7 +133,17 @@ public class NewRestaurantDetailActivity extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 CSTRestaurantMenu restaurantMenu = (CSTRestaurantMenu) msg.obj;
-                myAdapter adapter = new myAdapter(restaurantMenu);
+                List<Map<String, String>> listItems=new ArrayList<Map<String, String>>();
+                for (CSTRestaurantMenu rm : restaurantMenu.itemList) {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("name", rm.name);
+                    map.put("price", Float.toString(rm.price));
+                        listItems.add(map);
+                }
+                Lgr.i(listItems.toString());
+                SimpleAdapter adapter = new SimpleAdapter(NewRestaurantDetailActivity.this, listItems,
+                        android.R.layout.simple_list_item_2, new String[]{"name", "price"},
+                        new int[]{android.R.id.text1, android.R.id.text2});
                 m_lsvMenu.setAdapter(adapter);
             }
         };
@@ -170,98 +168,5 @@ public class NewRestaurantDetailActivity extends Activity {
                 rmResponse);
 
         mEngine.requestJson(rmRequest);
-    }
-
-    private byte[] getImage(String path) throws IOException {
-        URL url = new URL(path);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setReadTimeout(5000);
-        InputStream inputStream = conn.getInputStream();
-        byte[] data = readInputStream(inputStream);
-        return data;
-    }
-
-    private static byte[] readInputStream(InputStream inputStream) throws IOException {
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        while ((len = inputStream.read(buffer)) != -1) {
-            bos.write(buffer, 0, len);
-        }
-        bos.close();
-        return bos.toByteArray();
-    }
-
-    private Bitmap getBitmap(String path) throws IOException {
-        byte[] data = getImage(path);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        return bitmap;
-    }
-
-    class myAdapter extends BaseAdapter {
-
-        private CSTRestaurantMenu rm;
-
-        public myAdapter(CSTRestaurantMenu rm) {
-            this.rm = rm;
-        }
-
-        @Override
-        public int getCount() {
-            return rm.itemList.size();
-        }
-
-        @Override
-        public CSTRestaurantMenu getItem(int position) {
-            return rm.itemList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder vh = null;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.restaurant_menu_item, null);
-                vh = new ViewHolder();
-                vh.resIcon = (ImageView) convertView.findViewById(R.id.restaurant_menu_item_icon);
-                vh.nameTxv = (TextView) convertView.findViewById(R.id.restaurant_menu_item_name_txv);
-                vh.priceTxv = (TextView) convertView.findViewById(R.id.restaurant_menu_item_price_txv);
-                convertView.setTag(vh);
-            } else {
-                vh = (ViewHolder) convertView.getTag();
-            }
-            vh.nameTxv.setText(getItem(position).name);
-            vh.priceTxv.setText(Float.toString(getItem(position).price)+"元");
-            RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
-            ImageLoader imageLoader = new ImageLoader(mQueue, new ImageLoader.ImageCache() {
-                @Override
-                public void putBitmap(String url, Bitmap bitmap) {
-                }
-
-                @Override
-                public Bitmap getBitmap(String url) {
-                    return null;
-                }
-            });
-            ImageLoader.ImageListener listener = ImageLoader.getImageListener(vh.resIcon,
-                    R.drawable.ic_launcher, R.drawable.ic_launcher);
-            imageLoader.get(getItem(position).picture, listener, 80, 80);
-            return convertView;
-        }
-
-        protected final class ViewHolder {
-
-            public ImageView resIcon;
-
-            public TextView nameTxv;
-
-            public TextView priceTxv;
-
-        }
     }
 }

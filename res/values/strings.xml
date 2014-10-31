@@ -50,7 +50,6 @@
     <string name="exception">程序发生异常</string>
     <string name="restaurant_imageview_icon">商家图标</string>
     <string name="restaurant_imagebutton_call">拨打外卖电话</string>
-    <string name="restaurant_info">菜单</string>
     <string name="restaurant_hotline">外卖电话：</string>
     <string name="restaurant_description">简介：</string>
     <string name="restaurant_address">地址：</string>

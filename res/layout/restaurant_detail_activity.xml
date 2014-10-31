@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/restaurant_info"
+        android:layout_below="@+id/restaurant_detail_activity_final_business_hours_txv"
         android:layout_centerHorizontal="true">
 
     </ListView>
@@ -26,7 +26,7 @@
         android:id="@+id/restaurant_detail_activity_hotline_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/restaurant_detail_activity_final_hotline_txv"
+        android:layout_alignBottom="@+id/restaurant_detail_activity_dial_ibtn"
         android:layout_toRightOf="@+id/restaurant_detail_activity_final_hotline_txv"
         android:padding="10dp" />
 
@@ -34,8 +34,8 @@
         android:id="@+id/restaurant_detail_activity_final_hotline_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/restaurant_detail_activity_dial_ibtn"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/restaurant_detail_activity_final_business_hours_txv"
         android:padding="10dp"
         android:text="@string/restaurant_hotline" />
 
@@ -43,7 +43,7 @@
         android:id="@+id/restaurant_detail_activity_final_description_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/restaurant_detail_activity_dial_ibtn"
+        android:layout_below="@+id/restaurant_detail_activity_final_hotline_txv"
         android:layout_alignParentLeft="true"
         android:padding="10dp"
         android:text="@string/restaurant_description" />
@@ -52,8 +52,9 @@
         android:id="@+id/restaurant_detail_activity_description_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/restaurant_detail_activity_final_description_txv"
         android:layout_toRightOf="@+id/restaurant_detail_activity_final_description_txv"
+        android:layout_below="@+id/restaurant_detail_activity_hotline_txv"
+        android:layout_alignBottom="@+id/restaurant_detail_activity_final_description_txv"
         android:padding="10dp" />
 
     <TextView
@@ -68,9 +69,9 @@
         android:id="@+id/restaurant_detail_activity_address_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/restaurant_detail_activity_final_address_txv"
         android:layout_below="@+id/restaurant_detail_activity_description_txv"
         android:layout_toRightOf="@+id/restaurant_detail_activity_final_address_txv"
+        android:layout_alignBottom="@+id/restaurant_detail_activity_final_address_txv"
         android:padding="10dp" />
 
     <TextView
@@ -85,17 +86,9 @@
         android:id="@+id/restaurant_detail_activity_business_hours_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/restaurant_detail_activity_final_business_hours_txv"
+        android:padding="10dp"
         android:layout_below="@+id/restaurant_detail_activity_address_txv"
         android:layout_toRightOf="@+id/restaurant_detail_activity_final_business_hours_txv"
-        android:padding="10dp" />
-    <TextView
-        android:id="@+id/restaurant_info"
-        android:layout_below="@+id/restaurant_detail_activity_final_hotline_txv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="20dp"
-        android:text="@string/restaurant_info"/>
+        android:layout_alignBottom="@+id/restaurant_detail_activity_final_business_hours_txv"/>
 
 </RelativeLayout>
