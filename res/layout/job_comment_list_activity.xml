@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <cn.edu.zju.isst.widget.PullToRefeshView
+    <cn.edu.zju.isst1.widget.PullToRefeshView
         android:id="@+id/job_comment_list_activity_ptr_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,7 +13,7 @@
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
-    </cn.edu.zju.isst.widget.PullToRefeshView>
+    </cn.edu.zju.isst1.widget.PullToRefeshView>
 
     <LinearLayout
         android:layout_width="match_parent"

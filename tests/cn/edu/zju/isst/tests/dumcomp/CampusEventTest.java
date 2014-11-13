@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.v2.event.campus.data.CSTCampusEvent;
-import cn.edu.zju.isst.v2.event.campus.data.CSTCampusEventDataDelegate;
-import cn.edu.zju.isst.v2.event.campus.data.CSTCampusEventProvider;
+import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEvent;
+import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
+import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventProvider;
 
 public class CampusEventTest extends Activity {
 

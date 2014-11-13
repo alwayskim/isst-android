@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.v2.globaldata.citylist.CSTCity;
-import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityDataDelegate;
-import cn.edu.zju.isst.v2.globaldata.citylist.CSTCityProvider;
-import cn.edu.zju.isst.v2.user.data.CSTUser;
+import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityDataDelegate;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityProvider;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
 
 public class CityTest extends Activity {
 

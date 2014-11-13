@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.edu.zju.isst.R;
-import cn.edu.zju.isst.v2.user.data.CSTUser;
-import cn.edu.zju.isst.v2.user.data.CSTUserDataDelegate;
-import cn.edu.zju.isst.v2.user.data.CSTUserProvider;
+import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
+import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
+import cn.edu.zju.isst1.v2.user.data.CSTUserProvider;
 
 public class UserTest extends Activity {
 

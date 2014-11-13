@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.edu.zju.isst.v2.restaurant.gui.RestaurantListFragmentDev">
+    tools:context="cn.edu.zju.isst1.v2.restaurant.gui.RestaurantListFragmentDev">
 
     <ListView
         android:id="@+id/restaurant_list"
