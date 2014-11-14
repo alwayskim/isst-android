@@ -20,6 +20,8 @@ import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityDataDelegate;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
+import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 
 /**
  * @author theasir
@@ -34,7 +36,7 @@ public class UserInfoActivity extends BaseActivity {
 
     private final ViewHolder m_viewHolder = new ViewHolder();
 
-    private User m_userCurrent;
+    private CSTUser m_userCurrent;
 
     /*
      * (non-Javadoc)
@@ -49,7 +51,6 @@ public class UserInfoActivity extends BaseActivity {
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
         initComponent();
 
         initUser();
@@ -104,9 +105,9 @@ public class UserInfoActivity extends BaseActivity {
                 switch (resultCode) {
                     case RESULT_CODE_DONE:
                         CroMan.showConfirm(UserInfoActivity.this, "success!");
-                        m_userCurrent = data.hasExtra("updatedUser") ? (User) data
-                                .getSerializableExtra("updatedUser") : DataManager
-                                .getCurrentUser();
+                        m_userCurrent = data.hasExtra("updatedUser") ? (CSTUser) data
+                                .getSerializableExtra("updatedUser") :
+                                CSTUserDataDelegate.getCurrentUser(this);
                         bindData(m_userCurrent);
                         break;
 
@@ -139,33 +140,33 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void initUser() {
-        m_userCurrent = DataManager.getCurrentUser();
+        m_userCurrent = CSTUserDataDelegate.getCurrentUser(this);
     }
 
-    private void bindData(User currentUser) {
+    private void bindData(CSTUser currentUser) {
         m_viewHolder.genderImgv
-                .setImageResource(currentUser.getGender() == 1 ? R.drawable.ic_male
+                .setImageResource(currentUser.gender.getKey() == 1 ? R.drawable.ic_male
                         : R.drawable.ic_female);
 
         List<CSTCity> cityList = CSTCityDataDelegate.getCityList(this);
         String cityName = "";
         for (CSTCity city : cityList) {
-            if (city.id == currentUser.getCityId()) {
+            if (city.id == currentUser.cityId) {
                 cityName = city.name;
             }
         }
         m_viewHolder.cityTxv.setText(cityName);
-        m_viewHolder.signatureTxv.setText(currentUser.getSignature());
-        m_viewHolder.nameTxv.setText(currentUser.getName());
-        m_viewHolder.usernameTxv.setText(currentUser.getUsername());
-        m_viewHolder.gradeTxv.setText("" + currentUser.getGrade());
-        m_viewHolder.classTxv.setText("" + currentUser.getClassId());
-        m_viewHolder.majorTxv.setText(currentUser.getMajor());
-        m_viewHolder.phoneTxv.setText(currentUser.getPhone());
-        m_viewHolder.emailTxv.setText(currentUser.getEmail());
-        m_viewHolder.qqTxv.setText(currentUser.getQq());
-        m_viewHolder.companyTxv.setText(currentUser.getCompany());
-        m_viewHolder.positionTxv.setText(currentUser.getPosition());
+        m_viewHolder.signatureTxv.setText(currentUser.sign);
+        m_viewHolder.nameTxv.setText(currentUser.name);
+        m_viewHolder.usernameTxv.setText(currentUser.userName);
+        m_viewHolder.gradeTxv.setText("" + currentUser.grade);
+        m_viewHolder.classTxv.setText("" + currentUser.clazzId);
+        m_viewHolder.majorTxv.setText(currentUser.majorName);
+        m_viewHolder.phoneTxv.setText(currentUser.phoneNum);
+        m_viewHolder.emailTxv.setText(currentUser.email);
+        m_viewHolder.qqTxv.setText(currentUser.qqNum);
+        m_viewHolder.companyTxv.setText(currentUser.company);
+        m_viewHolder.positionTxv.setText(currentUser.jobTitle);
     }
 
     private class ViewHolder {

@@ -85,6 +85,7 @@ public class CSTCityDataDelegate {
             CSTCity city = CSTCityDataDelegate.getCity(cursor);
             mCityList.add(city);
         }
+        cursor.close();
         return mCityList;
     }
 }

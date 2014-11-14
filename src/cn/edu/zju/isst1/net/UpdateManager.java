@@ -37,6 +37,8 @@ public class UpdateManager {
 
     private String mSavePath;
 
+    private  String upDateVersion;
+
     public static UpdateManager createInstance(Context context) {
         INSTANCE = new UpdateManager(context);
         return INSTANCE;
@@ -56,6 +58,7 @@ public class UpdateManager {
     public void downloadUpdate(String updateApkUrl, String updateVersion) {
 
         String sdpath = Environment.getExternalStorageDirectory() + "/";
+        this.upDateVersion = updateVersion;
         mSavePath = sdpath + "Downloads";
         dm = (DownloadManager) context
                 .getSystemService(Context.DOWNLOAD_SERVICE);
@@ -84,7 +87,7 @@ public class UpdateManager {
                     try {
                         Lgr.i("UpdateApkId", "Before Open File");
                         dm.openDownloadedFile(recceiveRef);
-                        File apkfile = new File(mSavePath, "ISST2.apk");
+                        File apkfile = new File(mSavePath, "ISST" + upDateVersion + ".apk");
                         if (!apkfile.exists()) {
                             return;
                         }

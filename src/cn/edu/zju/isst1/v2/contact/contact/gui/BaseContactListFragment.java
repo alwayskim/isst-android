@@ -326,7 +326,8 @@ public class BaseContactListFragment extends CSTBaseFragment
                 @Override
                 public void onResponse(JSONObject result) {
                     mAlumni = (CSTAlumni) CSTJsonParser
-                            .parseJson((JSONObject) result, new CSTAlumni());
+                            .parseJson(result, new CSTAlumni());
+                    CSTAlumniDataDelegate.deleteAllAlumni(BaseContactListFragment.this.getActivity());
                     CSTAlumniDataDelegate
                             .saveAlumniList(BaseContactListFragment.this.getActivity(), mAlumni);
 

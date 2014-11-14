@@ -1,5 +1,6 @@
 package cn.edu.zju.isst1.v2.user.data;
 
+import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -109,5 +110,15 @@ public class CSTUserDataDelegate {
         values.put(CSTUserProvider.Columns.PVT_COMPANY.key, user.pvtCompany);
         values.put(CSTUserProvider.Columns.PVT_JOB_TITLE.key, user.pvtJobTitle);
         return values;
+    }
+
+    public static CSTUser getCurrentUser(Context context){
+        Cursor mCursor = context.getContentResolver().query(CSTUserProvider.CONTENT_URI,
+                null, null, null, null);
+        mCursor.moveToFirst();
+        CSTUser mUser = new CSTUser();
+        mUser = CSTUserDataDelegate.getUser(mCursor);
+        mCursor.close();
+        return mUser;
     }
 }

@@ -16,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.volley.VolleyError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +35,13 @@ import cn.edu.zju.isst1.net.RequestListener;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityDataDelegate;
+import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
+import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.user.net.UserApi;
+import cn.edu.zju.isst1.v2.user.net.UserResponse;
 
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -43,9 +51,9 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  */
 public class UserInfoEditActivity extends BaseActivity {
 
-    private User m_userCurrent;
+    private CSTUser m_userCurrent;
 
-    private List<City> m_listCity = new ArrayList<City>();
+    private List<CSTCity> m_listCity = new ArrayList<CSTCity>();
 
     private List<String> m_listCityString = new ArrayList<String>();
 
@@ -140,9 +148,8 @@ public class UserInfoEditActivity extends BaseActivity {
     }
 
     private void initUser() {
-        m_userCurrent = getIntent().hasExtra("currentUser") ? (User) getIntent()
-                .getSerializableExtra("currentUser") : DataManager
-                .getCurrentUser();
+        m_userCurrent = getIntent().hasExtra("currentUser") ? (CSTUser) getIntent()
+                .getSerializableExtra("currentUser") : CSTUserDataDelegate.getCurrentUser(this);
     }
 
     private void initHandler() {
@@ -213,87 +220,130 @@ public class UserInfoEditActivity extends BaseActivity {
     }
 
     private void initCityList() {
-        List<City> dbList = DataManager.getCityList();
+        List<CSTCity> dbList = CSTCityDataDelegate.getCityList(this);
         if (!Judge.isNullOrEmpty(dbList)) {
-            for (City city : dbList) {
+            for (CSTCity city : dbList) {
                 m_listCity.add(city);
-                m_listCityString.add(city.getName());
+                m_listCityString.add(city.name);
             }
         }
         m_listCityString.add("其他");
     }
 
     private void bindData() {
-        m_spnCity.setSelection(getPositionForCityId(m_userCurrent.getCityId()));
+        m_spnCity.setSelection(getPositionForCityId(m_userCurrent.cityId));
 
-        m_edtxEmail.setText(m_userCurrent.getEmail());
-        m_edtxPhone.setText(m_userCurrent.getPhone());
-        m_edtxQq.setText(m_userCurrent.getQq());
-        m_edtxCompany.setText(m_userCurrent.getCompany());
-        m_edtxPosition.setText(m_userCurrent.getPosition());
-        m_edtxSignature.setText(m_userCurrent.getSignature());
+        m_edtxEmail.setText(m_userCurrent.email);
+        m_edtxPhone.setText(m_userCurrent.phoneNum);
+        m_edtxQq.setText(m_userCurrent.qqNum);
+        m_edtxCompany.setText(m_userCurrent.company);
+        m_edtxPosition.setText(m_userCurrent.jobTitle);
+        m_edtxSignature.setText(m_userCurrent.sign);
 
-        m_chbPublicEmail.setChecked(!m_userCurrent.isPrivateEmail());
-        m_chbPublicPhone.setChecked(!m_userCurrent.isPrivatePhone());
-        m_chbPublicQq.setChecked(!m_userCurrent.isPrivateQQ());
-        m_chbPublicCompany.setChecked(!m_userCurrent.isPrivateCompany());
-        m_chbPublicPosition.setChecked(!m_userCurrent.isPrivatePosition());
+        m_chbPublicEmail.setChecked(!m_userCurrent.pvtEmail);
+        m_chbPublicPhone.setChecked(!m_userCurrent.pvtPhoneNum);
+        m_chbPublicQq.setChecked(!m_userCurrent.pvtQq);
+        m_chbPublicCompany.setChecked(!m_userCurrent.pvtCompany);
+        m_chbPublicPosition.setChecked(!m_userCurrent.pvtJobTitle);
     }
 
     private void retriveData() {
-        m_userCurrent
-                .setCityId(m_spnCity.getSelectedItemPosition() < m_listCity
-                        .size() ? m_listCity.get(
-                        m_spnCity.getSelectedItemPosition()).getId() : 0);
+        m_userCurrent.cityId = m_spnCity.getSelectedItemPosition() < m_listCity
+                .size() ? m_listCity.get(m_spnCity.getSelectedItemPosition()).id : 0;
+//                .setCityId(m_spnCity.getSelectedItemPosition() < m_listCity
+//                        .size() ? m_listCity.get(
+//                        m_spnCity.getSelectedItemPosition()).getId() : 0);
+        m_userCurrent.cityName = m_spnCity.getSelectedItemPosition() < m_listCity
+                .size() ? m_listCity.get(m_spnCity.getSelectedItemPosition()).name:"其他";
 
-        m_userCurrent.setEmail(m_edtxEmail.getText().toString());
-        m_userCurrent.setPhone(m_edtxPhone.getText().toString());
-        m_userCurrent.setQq(m_edtxQq.getText().toString());
-        m_userCurrent.setCompany(m_edtxCompany.getText().toString());
-        m_userCurrent.setPosition(m_edtxPosition.getText().toString());
-        m_userCurrent.setSignature(m_edtxSignature.getText().toString());
+        m_userCurrent.email = m_edtxEmail.getText().toString();
+//                setEmail(m_edtxEmail.getText().toString());
+        m_userCurrent.phoneNum = m_edtxPhone.getText().toString();
+//                setPhone(m_edtxPhone.getText().toString());
+        m_userCurrent.qqNum = m_edtxQq.getText().toString();
+//                setQq(m_edtxQq.getText().toString());
+        m_userCurrent.company = m_edtxCompany.getText().toString();
+//                setCompany(m_edtxCompany.getText().toString());
+        m_userCurrent.jobTitle = m_edtxPosition.getText().toString();
+//                setPosition(m_edtxPosition.getText().toString());
+        m_userCurrent.sign = m_edtxSignature.getText().toString();
+//                setSignature(m_edtxSignature.getText().toString());
 
-        m_userCurrent.setPrivateEmail(!m_chbPublicEmail.isChecked());
-        m_userCurrent.setPrivatePhone(!m_chbPublicPhone.isChecked());
-        m_userCurrent.setPrivateQQ(!m_chbPublicQq.isChecked());
-        m_userCurrent.setPrivateCompany(!m_chbPublicCompany.isChecked());
-        m_userCurrent.setPrivatePosition(!m_chbPublicPosition.isChecked());
+        m_userCurrent.pvtEmail = !m_chbPublicEmail.isChecked();
+//                setPrivateEmail(!m_chbPublicEmail.isChecked());
+        m_userCurrent.pvtPhoneNum = !m_chbPublicPhone.isChecked();
+//                setPrivatePhone(!m_chbPublicPhone.isChecked());
+        m_userCurrent.pvtQq = !m_chbPublicQq.isChecked();
+//                setPrivateQQ(!m_chbPublicQq.isChecked());
+        m_userCurrent.pvtCompany = !m_chbPublicCompany.isChecked();
+//                setPrivateCompany(!m_chbPublicCompany.isChecked());
+        m_userCurrent.pvtJobTitle = !m_chbPublicPosition.isChecked();
+//                setPrivatePosition(!m_chbPublicPosition.isChecked());
     }
 
-    private void sendRequest(User currentUser) {
-        UserApi.update(currentUser, new RequestListener() {
-
+    private void sendRequest(CSTUser currentUser) {
+//        UserApi.update(currentUser, new RequestListener() {
+//
+//            @Override
+//            public void onComplete(Object result) {
+//                Message msg = m_handler.obtainMessage();
+//                try {
+//                    final int status = ((JSONObject) result).getInt("status");
+//                    msg.what = status;
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//
+//                m_handler.sendMessage(msg);
+//            }
+//
+//            @Override
+//            public void onHttpError(CSTResponse response) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//
+//            @Override
+//            public void onException(Exception e) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//        });
+        UserApi.update(m_userCurrent, new UserResponse(this, true) {
             @Override
-            public void onComplete(Object result) {
+            public void onResponse(JSONObject response) {
                 Message msg = m_handler.obtainMessage();
                 try {
-                    final int status = ((JSONObject) result).getInt("status");
-                    msg.what = status;
+                    msg.what = response.getInt("status");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
                 m_handler.sendMessage(msg);
             }
 
             @Override
-            public void onHttpError(CSTResponse response) {
-                // TODO Auto-generated method stub
-
+            public Object onErrorStatus(CSTStatusInfo statusInfo) {
+                return super.onErrorStatus(statusInfo);
             }
 
             @Override
-            public void onException(Exception e) {
-                // TODO Auto-generated method stub
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+            }
 
+            @Override
+            public void onSuccessStatus() {
+                super.onSuccessStatus();
             }
         });
     }
 
     private void complete() {
-        DataManager.syncCurrentUser(m_userCurrent);
-
+//        DataManager.syncCurrentUser(m_userCurrent);
+        CSTUserDataDelegate.deleteAllUsers(this);
+        CSTUserDataDelegate.saveUser(this, m_userCurrent);
         m_pgdWating.dismiss();
 
         Intent intent = new Intent();
@@ -322,7 +372,7 @@ public class UserInfoEditActivity extends BaseActivity {
 
     private int getPositionForCityId(int cityId) {
         for (int i = 0; i < m_listCity.size(); i++) {
-            if (cityId == m_listCity.get(i).getId()) {
+            if (cityId == m_listCity.get(i).id) {
                 return i;
             }
         }

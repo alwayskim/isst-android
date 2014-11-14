@@ -158,6 +158,7 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
+        //任务中心
         mViewHolder.myRecomView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -170,6 +171,7 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
+        //
         mViewHolder.myExpView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -181,6 +183,7 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
+        //活动管理
         mViewHolder.myActivityView.setOnClickListener(new OnClickListener() {
 
             @Override
