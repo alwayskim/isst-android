@@ -31,6 +31,7 @@ import cn.edu.zju.isst1.db.City;
 import cn.edu.zju.isst1.db.DataManager;
 import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.net.CSTResponse;
+import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.net.RequestListener;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
@@ -43,6 +44,7 @@ import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.user.net.UserApi;
 import cn.edu.zju.isst1.v2.user.net.UserResponse;
 
+import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
@@ -170,6 +172,9 @@ public class UserInfoEditActivity extends BaseActivity {
                         updateLogin();
                         sendRequest(m_userCurrent);
                         break;
+                    case NETWORK_NOT_CONNECTED:
+                        CroMan.showAlert(UserInfoEditActivity.this, R.string.network_not_connected);
+                        break;
                     default:
                         m_pgdWating.dismiss();
                         dispose(msg);
@@ -282,62 +287,41 @@ public class UserInfoEditActivity extends BaseActivity {
     }
 
     private void sendRequest(CSTUser currentUser) {
-//        UserApi.update(currentUser, new RequestListener() {
-//
-//            @Override
-//            public void onComplete(Object result) {
-//                Message msg = m_handler.obtainMessage();
-//                try {
-//                    final int status = ((JSONObject) result).getInt("status");
-//                    msg.what = status;
-//                } catch (JSONException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//
-//                m_handler.sendMessage(msg);
-//            }
-//
-//            @Override
-//            public void onHttpError(CSTResponse response) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onException(Exception e) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
-        UserApi.update(m_userCurrent, new UserResponse(this, true) {
-            @Override
-            public void onResponse(JSONObject response) {
-                Message msg = m_handler.obtainMessage();
-                try {
-                    msg.what = response.getInt("status");
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+        if(NetworkConnection.isNetworkConnected(this)){
+            UserApi.update(m_userCurrent, new UserResponse(this, true) {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Message msg = m_handler.obtainMessage();
+                    try {
+                        msg.what = response.getInt("status");
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    m_handler.sendMessage(msg);
                 }
-                m_handler.sendMessage(msg);
-            }
 
-            @Override
-            public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                return super.onErrorStatus(statusInfo);
-            }
+                @Override
+                public Object onErrorStatus(CSTStatusInfo statusInfo) {
+                    return super.onErrorStatus(statusInfo);
+                }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-            }
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                }
 
-            @Override
-            public void onSuccessStatus() {
-                super.onSuccessStatus();
-            }
-        });
+                @Override
+                public void onSuccessStatus() {
+                    super.onSuccessStatus();
+                }
+            });
+        }else{
+            Message msg = m_handler.obtainMessage();
+            msg.what = NETWORK_NOT_CONNECTED;
+            m_handler.sendMessage(msg);
+        }
+
     }
 
     private void complete() {

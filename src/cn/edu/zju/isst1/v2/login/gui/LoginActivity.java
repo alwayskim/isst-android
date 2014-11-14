@@ -206,6 +206,9 @@ public class LoginActivity extends BaseActivity {
                     case STATUS_LOGIN_AUTH_FAILED:
                         // TODO
                         break;
+                    case NETWORK_NOT_CONNECTED:
+                        CroMan.showAlert(LoginActivity.this, R.string.network_not_connected);
+                        break;
                     default:
                         dispose(msg);
                         break;
