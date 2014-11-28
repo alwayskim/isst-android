@@ -24,6 +24,7 @@ import java.net.URL;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.util.Judge;
+import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 
@@ -45,8 +46,8 @@ public class RestaurantListAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
         final CSTRestaurant restaurant = CSTRestaurantDataDelegate.getRestaurant(cursor);
+        Lgr.i(restaurant.address);
         view.setTag(restaurant);
-
         final ViewHolder holder = getBindViewHolder(view);
         holder.nameTxv.setText(restaurant.name);
         final Handler mHandler = new Handler() {

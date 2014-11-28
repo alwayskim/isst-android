@@ -106,9 +106,8 @@ public class PushMessageReceiver extends BroadcastReceiver {
         // TODO Auto-generated method stub
 
         Intent aIntent = new Intent();
-        aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         aIntent.setClass(context, LoadingActivity.class);
+        aIntent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP);
 //		String title = intent
 //				.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
 //		aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_TITLE, title);
