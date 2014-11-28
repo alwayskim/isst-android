@@ -34,11 +34,14 @@ import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventProvider;
 import cn.edu.zju.isst1.v2.event.campus.net.CampusEventResponse;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
+import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 /**
@@ -195,9 +198,16 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
                     case STATUS_REQUEST_SUCCESS:
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
-                    case NETWORK_NOT_CONNECTED:
-                        CroMan.showAlert(getActivity(), R.string.network_not_connected);
+                    case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(getActivity());
+                        Lgr.i("CSTCampusEventListFragment ----！------更新登录了-------！");
+                        if (isLoadMore) {
+                            mCurrentPage--;
+                        }
+                        requestData();
+                        break;
                     default:
+                        CSTHttpUtil.dispose(msg.what,getActivity());
                         break;
                 }
                 resetLoadingState();

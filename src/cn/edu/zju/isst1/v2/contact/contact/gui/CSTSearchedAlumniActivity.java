@@ -33,11 +33,14 @@ import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumni;
 import cn.edu.zju.isst1.v2.contact.contact.data.Pinyin4j;
 import cn.edu.zju.isst1.v2.contact.contact.net.ContactResponse;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
+import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 
@@ -65,7 +68,7 @@ public class CSTSearchedAlumniActivity extends BaseActivity
         setUpActionbar();
         initView();
         initHandler();
-        getData();
+        requestData();
     }
 
     private void initView() {
@@ -138,18 +141,19 @@ public class CSTSearchedAlumniActivity extends BaseActivity
                                         alumniList)
                         );
                         break;
-                    case NETWORK_NOT_CONNECTED:
-                        CroMan.showAlert(CSTSearchedAlumniActivity.this,
-                                R.string.network_not_connected);
+                    case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(CSTSearchedAlumniActivity.this);
+                        requestData();
                         break;
                     default:
+                        CSTHttpUtil.dispose(msg.what,CSTSearchedAlumniActivity.this);
                         break;
                 }
             }
         };
     }
 
-    void getData() {
+    public void requestData() {
         if (NetworkConnection.isNetworkConnected(this)) {
             ContactResponse activityResponse = new ContactResponse(this,
                     true) {
@@ -183,7 +187,7 @@ public class CSTSearchedAlumniActivity extends BaseActivity
             try {
                 subUrl = subUrl + (Judge.isNullOrEmpty(paramsMap) ? ""
                         : ("?" + BetterAsyncWebServiceRunner.getInstance()
-                                .paramsToString(paramsMap)));
+                        .paramsToString(paramsMap)));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

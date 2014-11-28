@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +35,6 @@ import java.util.Map;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.constant.Constants;
-import cn.edu.zju.isst1.net.BetterAsyncWebServiceRunner;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
@@ -45,6 +45,8 @@ import cn.edu.zju.isst1.v2.contact.contact.data.CSTContactFilter;
 import cn.edu.zju.isst1.v2.contact.contact.net.ContactResponse;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
@@ -237,8 +239,7 @@ public class BaseContactListFragment extends CSTBaseFragment
             mFilter.clazzId = mUser.clazzId;
             mFilter.grade = mUser.grade;
             clazzTvx.setText(mUser.grade + "级" + mUser.clazzName + "班");
-        }
-        else if(m_ft == FilterType.MY_CITY){
+        } else if (m_ft == FilterType.MY_CITY) {
             mFilter.cityId = mUser.cityId;
             clazzTvx.setText(mUser.cityName);
         }
@@ -253,11 +254,7 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     @Override
     public void onRefresh() {
-        try {
-            requestData();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        requestData();
     }
 
     @Override
@@ -291,11 +288,7 @@ public class BaseContactListFragment extends CSTBaseFragment
     private void bindAdapter() {
         mAdapter = new CSTContactListAdapter(getActivity(), null);
         mListView.setAdapter(mAdapter);
-        try {
-            requestData();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        requestData();
     }
 
     private void setUpListener() {
@@ -308,17 +301,22 @@ public class BaseContactListFragment extends CSTBaseFragment
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
-                    case 0:
+                    case Constants.STATUS_REQUEST_SUCCESS:
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
+                    case Constants.STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(getActivity());
+                        requestData();
+                        break;
                     default:
+                        CSTHttpUtil.dispose(msg.what, getActivity());
                         break;
                 }
             }
         };
     }
 
-    private void requestData() throws UnsupportedEncodingException {
+    private void requestData() {
         //TODO replace code in this scope with new implemented volley-base network request
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             ContactResponse activityResponse = new ContactResponse(getActivity(),
@@ -330,10 +328,13 @@ public class BaseContactListFragment extends CSTBaseFragment
                     CSTAlumniDataDelegate.deleteAllAlumni(BaseContactListFragment.this.getActivity());
                     CSTAlumniDataDelegate
                             .saveAlumniList(BaseContactListFragment.this.getActivity(), mAlumni);
-
                     Lgr.i(result.toString());
                     Message msg = mHandler.obtainMessage();
-                    msg.what = 0;
+                    try {
+                        msg.what = result.getInt("status");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     mHandler.sendMessage(msg);
                 }
             };
@@ -349,10 +350,12 @@ public class BaseContactListFragment extends CSTBaseFragment
             paramsMap.put("cityName", null);
             paramsMap.put("company", mFilter.company);
             String subUrl = "/api/alumni";
-
-            subUrl = subUrl + (Judge.isNullOrEmpty(paramsMap) ? ""
-                    : ("?" + BetterAsyncWebServiceRunner.getInstance().paramsToString(paramsMap)));
-
+            try {
+                subUrl = subUrl + (Judge.isNullOrEmpty(paramsMap) ? ""
+                        : ("?" + CSTHttpUtil.paramsToString(paramsMap)));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             CSTJsonRequest activityRequest = new CSTJsonRequest(CSTRequest.Method.GET, subUrl, null,
                     activityResponse);
             mEngine.requestJson(activityRequest);

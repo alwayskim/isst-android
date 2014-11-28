@@ -115,7 +115,6 @@ public class UserInfoActivity extends BaseActivity {
                         break;
                 }
                 break;
-
             default:
                 break;
         }

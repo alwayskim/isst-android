@@ -15,16 +15,22 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.constant.Constants;
+import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
+import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEvent;
 import cn.edu.zju.isst1.v2.event.campus.net.CampusEventDetailResponse;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 
+import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
@@ -35,7 +41,7 @@ public class CampusActivityDetailActivity extends BaseActivity {
 
     private CSTCampusEvent mCSTCampusEvent;
 
-    private Handler mHandlerCampusActivityDetail;
+    private Handler mHandler;
 
     private ImageView mImgvPicture;
 
@@ -92,7 +98,7 @@ public class CampusActivityDetailActivity extends BaseActivity {
     }
 
     private void initHandle() {
-        mHandlerCampusActivityDetail = new Handler() {
+        mHandler = new Handler() {
 
             @Override
             public void handleMessage(Message msg) {
@@ -101,8 +107,13 @@ public class CampusActivityDetailActivity extends BaseActivity {
                         showCampusActivityDetail();
                         break;
                     case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(CampusActivityDetailActivity.this);
+                        requestData();
+                    case NETWORK_NOT_CONNECTED:
+                        CroMan.showAlert(CampusActivityDetailActivity.this, R.string.network_not_connected);
                         break;
                     default:
+                        CSTHttpUtil.dispose(msg.what, CampusActivityDetailActivity.this);
                         break;
                 }
             }
@@ -111,22 +122,27 @@ public class CampusActivityDetailActivity extends BaseActivity {
     }
 
     private void requestData() {
-        CampusEventDetailResponse detailResponse = new CampusEventDetailResponse(this) {
-            @Override
-            public void onResponse(JSONObject response) {
-                Message msg = mHandlerCampusActivityDetail.obtainMessage();
-                mCSTCampusEvent = (CSTCampusEvent) CSTJsonParser
-                        .parseJson(response, new CSTCampusEvent());
-                Lgr.i(response.toString());
-                final int status = mCSTCampusEvent.getStatusInfo().status;
-                msg.what = status;
-                mHandlerCampusActivityDetail.sendMessage(msg);
-            }
-        };
-
-        CSTJsonRequest detailRequest = new CSTJsonRequest(CSTRequest.Method.GET, SUB_URL + mId,
-                null, detailResponse);
-        mEngine.requestJson(detailRequest);
+        if (NetworkConnection.isNetworkConnected(this)) {
+            CampusEventDetailResponse detailResponse = new CampusEventDetailResponse(this) {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Message msg = mHandler.obtainMessage();
+                    mCSTCampusEvent = (CSTCampusEvent) CSTJsonParser
+                            .parseJson(response, new CSTCampusEvent());
+                    Lgr.i(response.toString());
+                    final int status = mCSTCampusEvent.getStatusInfo().status;
+                    msg.what = status;
+                    mHandler.sendMessage(msg);
+                }
+            };
+            CSTJsonRequest detailRequest = new CSTJsonRequest(CSTRequest.Method.GET, SUB_URL + mId,
+                    null, detailResponse);
+            mEngine.requestJson(detailRequest);
+        } else {
+            Message msg = mHandler.obtainMessage();
+            msg.what = Constants.NETWORK_NOT_CONNECTED;
+            mHandler.sendMessage(msg);
+        }
     }
 
     private void initComponent() {

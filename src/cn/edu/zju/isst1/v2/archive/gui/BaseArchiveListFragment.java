@@ -18,10 +18,15 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.constant.Constants;
+import cn.edu.zju.isst1.net.NetworkConnection;
+import cn.edu.zju.isst1.ui.main.NewMainActivity;
+import cn.edu.zju.isst1.util.CroMan;
+import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.archive.data.ArchiveCategory;
 import cn.edu.zju.isst1.v2.archive.data.CSTArchive;
 import cn.edu.zju.isst1.v2.archive.data.CSTArchiveDataDelegate;
@@ -29,6 +34,8 @@ import cn.edu.zju.isst1.v2.archive.data.CSTArchiveProvider;
 import cn.edu.zju.isst1.v2.archive.net.ArchiveRequest;
 import cn.edu.zju.isst1.v2.archive.net.ArchiveResponse;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
@@ -68,6 +75,8 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private boolean isLoadMore = false;
 
+    private boolean isMoreData = false;
+
     private int mCurrentPage = 1;
 
     //better implementation is use Fragment#newInstance(args...) instead.
@@ -82,7 +91,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mInflater = inflater;
         return inflater.inflate(R.layout.base_archive_list_fragment, container, false);
     }
@@ -179,48 +188,72 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.STATUS_REQUEST_SUCCESS:
+                        resetLoadingState();
+                        break;
 
+                    case Constants.STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(getActivity());
+                        Lgr.i("BaseArchiListFragment ----！------更新登录了-------！");
+                        if (isLoadMore) {
+                            mCurrentPage--;
+                        }
+                        requestData();
                         break;
                     default:
+                        CSTHttpUtil.dispose(msg.what,getActivity());
                         break;
                 }
-                resetLoadingState();
+
             }
         };
     }
 
     private void requestData() {
-        if (isLoadMore) {
-            mCurrentPage++;
-        } else {
-            mCurrentPage = 1;
+        if (NetworkConnection.isNetworkConnected(getActivity())) {
+            if (isLoadMore) {
+                mCurrentPage++;
+            } else {
+                mCurrentPage = 1;
+            }
+            ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
+                    !isLoadMore) {
+                @Override
+                public void onResponse(JSONObject response) {
+                    super.onResponse(response);
+                    Message msg = mHandler.obtainMessage();
+
+                    try {
+                        if (isLoadMore) {
+                            isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
+                        }
+                        msg.what = response.getInt("status");
+                        mHandler.sendMessage(msg);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public Object onErrorStatus(CSTStatusInfo statusInfo) {
+                    return super.onErrorStatus(statusInfo);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                }
+            };
+            ArchiveRequest archiveRequest = new ArchiveRequest(CSTRequest.Method.GET,
+                    ARCHIVE_URL + mCategory.subUrl, null, archiveResponse)
+                    .setPage(mCurrentPage)
+                    .setPageSize(DEFAULT_PAGE_SIZE);
+
+            mEngine.requestJson(archiveRequest);
+        }else{
+            Message msg = mHandler.obtainMessage();
+            msg.what = Constants.NETWORK_NOT_CONNECTED;
+            mHandler.sendMessage(msg);
         }
-        ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
-                !isLoadMore) {
-            @Override
-            public void onResponse(JSONObject response) {
-                super.onResponse(response);
-                Message msg = mHandler.obtainMessage();
-                msg.what = Constants.STATUS_REQUEST_SUCCESS;
-                mHandler.sendMessage(msg);
-            }
-
-            @Override
-            public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                return super.onErrorStatus(statusInfo);
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-            }
-        };
-        ArchiveRequest archiveRequest = new ArchiveRequest(CSTRequest.Method.GET,
-                ARCHIVE_URL + mCategory.subUrl, null, archiveResponse)
-                .setPage(mCurrentPage)
-                .setPageSize(DEFAULT_PAGE_SIZE);
-
-        mEngine.requestJson(archiveRequest);
     }
 
     private void startLoadMore() {
@@ -233,6 +266,10 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     private void resetLoadingState() {
         mSwipeRefreshLayout.setRefreshing(false);
         mLoadMorePrgb.setVisibility(View.GONE);
-        mLoadMoreHint.setText(R.string.footer_loading_hint);
+        if (isLoadMore && !isMoreData) {
+            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
+        } else {
+            mLoadMoreHint.setText(R.string.footer_loading_hint);
+        }
     }
 }

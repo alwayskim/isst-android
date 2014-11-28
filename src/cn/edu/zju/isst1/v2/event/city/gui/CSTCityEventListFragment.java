@@ -35,6 +35,8 @@ import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventProvider;
 import cn.edu.zju.isst1.v2.event.city.net.CityEventResponse;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
@@ -43,6 +45,7 @@ import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.user.data.CSTUserProvider;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
+import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 /**
@@ -58,7 +61,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     private int DEFAULT_PAGE_SIZE = 20;
 
-    private EventCategory mEventCategory = EventCategory.CITYEVENT ;
+    private EventCategory mEventCategory = EventCategory.CITYEVENT;
 
     private boolean isLoadMore = false;
 
@@ -109,7 +112,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mInflater = inflater;
         return inflater.inflate(R.layout.list_fragment, container, false);
     }
@@ -123,6 +126,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
         getLoaderManager().initLoader(0, null, this);
 
         if (mIsFirstTime) {
+            getCityId();
             requestData();
             mIsFirstTime = false;
         }
@@ -209,10 +213,15 @@ public class CSTCityEventListFragment extends CSTBaseFragment
                     case STATUS_REQUEST_SUCCESS:
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
-                    case NETWORK_NOT_CONNECTED:
-                        CroMan.showAlert(getActivity(), R.string.network_not_connected);
-                        break;
+                    case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(getActivity());
+                        Lgr.i("CSTCityEventListFragment ----！------更新登录了-------！");
+                        if (isLoadMore) {
+                            mCurrentPage--;
+                        }
+                        requestData();
                     default:
+                        CSTHttpUtil.dispose(msg.what, getActivity());
                         break;
                 }
                 resetLoadingState();
@@ -274,7 +283,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
             };
 
             EventRequest eventRequest = new EventRequest(CSTRequest.Method.GET,
-                    mEventCategory.getSubUrl() + getCityId() + SUB_URL, null,
+                    mEventCategory.getSubUrl() + cityId + SUB_URL, null,
                     eventResponse).setPage(mCurrentPage).setPageSize(DEFAULT_PAGE_SIZE);
             mEngine.requestJson(eventRequest);
         } else {

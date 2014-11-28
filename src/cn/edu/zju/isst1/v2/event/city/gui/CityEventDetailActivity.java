@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONObject;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.constant.Constants;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
@@ -31,6 +32,8 @@ import cn.edu.zju.isst1.v2.event.base.EventRequest;
 import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
 import cn.edu.zju.isst1.v2.event.city.net.CityEventDetailResponse;
 import cn.edu.zju.isst1.v2.event.city.net.CityEventParticipateResponse;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
@@ -129,8 +132,11 @@ public class CityEventDetailActivity extends BaseActivity {
                         showDetail();
                         break;
                     case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(CityEventDetailActivity.this);
+                        requestData();
                         break;
                     default:
+                        CSTHttpUtil.dispose(msg.what, CityEventDetailActivity.this);
                         break;
                 }
 
@@ -151,9 +157,11 @@ public class CityEventDetailActivity extends BaseActivity {
                         Lgr.i(getResources().getString(R.string.participate_commit_success));
                         break;
                     case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(CityEventDetailActivity.this);
+                        performParticipateAction();
                         break;
                     default:
-                        CroMan.showInfo(CityEventDetailActivity.this, msg.obj.toString());
+                        CSTHttpUtil.dispose(msg.what,CityEventDetailActivity.this);
                         break;
                 }
             }
@@ -184,36 +192,42 @@ public class CityEventDetailActivity extends BaseActivity {
     }
 
     private void requestData() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(SUB_URL).append("/" + mCityId).append("/activities")
-                .append("/" + mId);
-        CityEventDetailResponse detailResponse = new CityEventDetailResponse(this) {
-            @Override
-            public void onResponse(JSONObject response) {
-                Message msg = mHandler.obtainMessage();
-                Lgr.i(response.toString());
-                mCSTCityEvent = (CSTCityEvent) CSTJsonParser
-                        .parseJson(response, new CSTCityEvent());
-                final int status = mCSTCityEvent.getStatusInfo().status;
-                msg.what = status;
-                mHandler.sendMessage(msg);
-            }
+        if (NetworkConnection.isNetworkConnected(this)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(SUB_URL).append("/" + mCityId).append("/activities")
+                    .append("/" + mId);
+            CityEventDetailResponse detailResponse = new CityEventDetailResponse(this) {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Message msg = mHandler.obtainMessage();
+                    Lgr.i(response.toString());
+                    mCSTCityEvent = (CSTCityEvent) CSTJsonParser
+                            .parseJson(response, new CSTCityEvent());
+                    final int status = mCSTCityEvent.getStatusInfo().status;
+                    msg.what = status;
+                    mHandler.sendMessage(msg);
+                }
 
-            @Override
-            public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                return super.onErrorStatus(statusInfo);
-            }
+                @Override
+                public Object onErrorStatus(CSTStatusInfo statusInfo) {
+                    return super.onErrorStatus(statusInfo);
+                }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-            }
-        };
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                }
+            };
 
-        CSTJsonRequest detailRequest = new EventRequest(CSTRequest.Method.GET,
-                sb.toString(), null,
-                detailResponse);
-        mEngine.requestJson(detailRequest);
+            CSTJsonRequest detailRequest = new EventRequest(CSTRequest.Method.GET,
+                    sb.toString(), null,
+                    detailResponse);
+            mEngine.requestJson(detailRequest);
+        } else {
+            Message msg = mHandler.obtainMessage();
+            msg.what = Constants.NETWORK_NOT_CONNECTED;
+            mHandler.sendMessage(msg);
+        }
     }
 
     private void performParticipateAction() {

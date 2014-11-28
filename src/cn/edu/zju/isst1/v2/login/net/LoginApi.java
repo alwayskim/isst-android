@@ -12,6 +12,7 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
 import cn.edu.zju.isst1.v2.user.net.UserResponse;
 
 /**
@@ -41,15 +42,6 @@ public class LoginApi {
     public static void validate(String userName, String password,
             double longitude, double latitude, UserResponse listener) {
         Map<String, String> paramsMap = new HashMap<String, String>();
-//        CSTLogin logParam = new CSTLogin();
-//        logParam.userName = userName;
-//        logParam.token = getToken(String.valueOf(SECRET) + userName + password
-//                + getTimeStamp()).toLowerCase(Locale.ENGLISH);
-//        logParam.latitude =  longitude;
-//        logParam.longitude = longitude;
-//        logParam.loginTime = getTimeStamp();
-//        logParam.password = password;
-
         paramsMap.put("username", userName);
         paramsMap.put("password", password);
         paramsMap.put(
@@ -81,29 +73,33 @@ public class LoginApi {
      * @param latitude    纬度
      * @param listener    回调对象
      */
-    public static void update(User currentUser, double longitude,
-            double latitude, RequestListener listener) {
+    public static void update(CSTUser currentUser, double longitude,
+            double latitude, UserResponse listener) {
         Map<String, String> paramsMap = new HashMap<String, String>();
-        paramsMap.put("userId", String.valueOf(currentUser.getId()));
+        String mTimeStamp = getTimeStamp();
+        paramsMap.put("userId", String.valueOf(currentUser.id));
         paramsMap.put(
                 "token",
                 getToken(
                         String.valueOf(SECRET)
-                                + String.valueOf(currentUser.getId())
-                                + currentUser.getPassword() + getTimeStamp()
+                                + String.valueOf(currentUser.id)
+                                + currentUser.pwd + mTimeStamp
                 )
                         .toLowerCase(Locale.ENGLISH)
         );
-        paramsMap.put("timestamp", getTimeStamp());
+        paramsMap.put("timestamp", mTimeStamp);
         paramsMap.put("longitude", String.valueOf(longitude));
         paramsMap.put("latitude", String.valueOf(latitude));
 
-        Lgr.i("" + currentUser.getId());
+        Lgr.i("" + currentUser.id);
 
-        Lgr.i("TEST", "token=" + paramsMap.get("token") + "&" + "timestamp="
+        Lgr.i("TEST更新登录", "token=" + paramsMap.get("token") + "&" + "timestamp="
                 + paramsMap.get("timestamp"));
+        CSTJsonRequest updateLogRequest = new CSTJsonRequest(CSTRequest.Method.POST, SUB_URL + "/update", paramsMap,
+                listener);
+        mEngine.requestJson(updateLogRequest);
 
-//              request("POST", SUB_URL + "/update", paramsMap, listener);
+//              request("POST", SUB_URL + "/update", paramsMap, listener)
     }
 
     /**

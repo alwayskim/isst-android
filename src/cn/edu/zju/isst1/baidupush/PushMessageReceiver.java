@@ -98,7 +98,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
 
             //自定义内容的json串
             Log.d(TAG, "EXTRA_EXTRA = " + intent.getStringExtra(PushConstants.EXTRA_EXTRA));
-            showActivity(context, intent);
+//            showActivity(context, intent);
         }
     }
 

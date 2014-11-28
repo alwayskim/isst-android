@@ -90,6 +90,7 @@ public class CSTUserDataDelegate {
         values.put(CSTUserProvider.Columns.ID.key, user.id);
         values.put(CSTUserProvider.Columns.USER_NAME.key, user.userName);
         values.put(CSTUserProvider.Columns.NAME.key, user.name);
+        values.put(CSTUserProvider.Columns.PASSWORD.key, user.pwd);
         values.put(CSTUserProvider.Columns.GENDER.key, user.gender.getTypeName());
         values.put(CSTUserProvider.Columns.GRADE.key, user.grade);
         values.put(CSTUserProvider.Columns.CLASS_ID.key, user.clazzId);

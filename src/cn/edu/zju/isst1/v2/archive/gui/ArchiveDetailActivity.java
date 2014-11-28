@@ -25,6 +25,7 @@ import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.archive.net.ArchiveApi;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -81,6 +82,35 @@ public class ArchiveDetailActivity extends BaseActivity {
         // 注意默认值-1，当Intent中没有id时是无效的，故启动这个ArchiveDetailActivity的Activity必须在Intent中放置"id"参数
         m_nId = getIntent().getIntExtra("id", -1);
 
+        initHandler();
+        requestData();
+
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                // Intent intentParent = new Intent(ArchiveDetailActivity.this,
+                // MainActivity.class);
+                // intentParent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // ArchiveDetailActivity.this.startActivity(intentParent);
+                ArchiveDetailActivity.this.finish();
+                return true;
+            }
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //初始化handler
+    private void initHandler() {
         m_handlerArchiveDetail = new Handler() {
 
             /*
@@ -97,14 +127,20 @@ public class ArchiveDetailActivity extends BaseActivity {
                         showArchiveDetail();
                         break;
                     case STATUS_NOT_LOGIN:
+                        updateLogin();
+                        requestData();
                         break;
                     default:
+                        CSTHttpUtil.dispose(msg.what, ArchiveDetailActivity.this);
                         break;
                 }
             }
 
         };
+    }
 
+    //请求详情数据
+    private void requestData() {
         ArchiveApi.getArchiveDetail(m_nId, new RequestListener() {
 
             @Override
@@ -126,6 +162,7 @@ public class ArchiveDetailActivity extends BaseActivity {
                                     .getJSONObject("body"));
                             break;
                         case STATUS_NOT_LOGIN:
+                            updateLogin();
                             break;
                         default:
                             break;
@@ -157,29 +194,6 @@ public class ArchiveDetailActivity extends BaseActivity {
             }
 
         });
-
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                // Intent intentParent = new Intent(ArchiveDetailActivity.this,
-                // MainActivity.class);
-                // intentParent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // ArchiveDetailActivity.this.startActivity(intentParent);
-                ArchiveDetailActivity.this.finish();
-                return true;
-            }
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**

@@ -134,6 +134,7 @@ public class JobDetailActivity extends BaseActivity {
                             m_jobCurrent = new Job(jsonObject.getJSONObject("body"));
                             break;
                         case STATUS_NOT_LOGIN:
+
                             break;
                         default:
                             break;
