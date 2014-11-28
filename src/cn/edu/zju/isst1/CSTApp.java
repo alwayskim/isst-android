@@ -6,6 +6,8 @@ package cn.edu.zju.isst1;
 import android.app.Application;
 import android.webkit.CookieSyncManager;
 
+import com.baidu.frontia.FrontiaApplication;
+
 import cn.edu.zju.isst1.db.DBHelper;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.net.VolleyRequestManager;
@@ -15,7 +17,7 @@ import cn.edu.zju.isst1.v2.net.VolleyRequestManager;
  *
  * @author theasir
  */
-public class CSTApp extends Application {
+public class CSTApp extends FrontiaApplication {
 
     /*
      * (non-Javadoc)

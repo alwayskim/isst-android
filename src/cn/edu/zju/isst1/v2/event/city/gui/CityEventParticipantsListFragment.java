@@ -181,15 +181,15 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
                         @Override
                         public void onResponse(JSONObject response) {
 
-                            CSTUser userParticipants = (CSTUser) CSTJsonParser
-                                    .parseJson(response, new CSTUser());
-                            updateParticipantsList(userParticipants);
-                            Lgr.i(response.toString());
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = userParticipants.getStatusInfo().status;
+                        CSTUser userParticipants = (CSTUser) CSTJsonParser
+                                .parseJson(response, new CSTUser());
+                        updateParticipantsList(userParticipants);
+                        Lgr.i(response.toString());
+                        Message msg = mHandler.obtainMessage();
+                        msg.what = userParticipants.getStatusInfo().status;
 
-                            mHandler.sendMessage(msg);
-                        }
+                        mHandler.sendMessage(msg);
+                    }
 
                         @Override
                         public Object onErrorStatus(CSTStatusInfo statusInfo) {

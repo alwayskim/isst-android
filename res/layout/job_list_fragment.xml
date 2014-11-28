@@ -26,4 +26,5 @@
             android:layout_weight="1"
             android:text="发布内推" />
     </LinearLayout>
+    <include layout="@layout/simple_swipe_refresh_list_view" />
 </RelativeLayout>

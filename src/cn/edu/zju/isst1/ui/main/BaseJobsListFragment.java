@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,7 +52,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  * @author theasir
  */
 public class BaseJobsListFragment extends ListFragment implements
-        OnScrollListener {
+        OnScrollListener ,SwipeRefreshLayout.OnRefreshListener{
 
     private final List<Job> m_listAchive = new ArrayList<Job>();
 
@@ -72,6 +73,8 @@ public class BaseJobsListFragment extends ListFragment implements
     private View m_viewContainer;
 
     private ListView m_lsvJobList;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public BaseJobsListFragment() {
@@ -108,11 +111,11 @@ public class BaseJobsListFragment extends ListFragment implements
      * android.support.v4.app.Fragment#onCreateOptionsMenu(android.view.Menu,
      * android.view.MenuInflater)
      */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.news_list_fragment_ab_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.news_list_fragment_ab_menu, menu);
+//    }
 
     /*
      * (non-Javadoc)
@@ -121,16 +124,16 @@ public class BaseJobsListFragment extends ListFragment implements
      * android.support.v4.app.Fragment#onOptionsItemSelected(android.view.MenuItem
      * )
      */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                requestData(LoadType.REFRESH);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_refresh:
+//                requestData(LoadType.REFRESH);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     /*
      * (non-Javadoc)
@@ -156,6 +159,11 @@ public class BaseJobsListFragment extends ListFragment implements
         super.onViewCreated(view, savedInstanceState);
 
         initComponent(view);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorScheme(R.color.lightbluetheme_color,
+                R.color.lightbluetheme_color_half_alpha, R.color.lightbluetheme_color,
+                R.color.lightbluetheme_color_half_alpha);
 
         if (m_bIsFirstTime) {
             initJobList();
@@ -260,6 +268,7 @@ public class BaseJobsListFragment extends ListFragment implements
                         switch (m_loadType) {
                             case REFRESH:
                                 refresh((JSONObject) msg.obj);
+                                mSwipeRefreshLayout.setRefreshing(false);
                                 break;
                             case LOADMORE:
                                 loadMore((JSONObject) msg.obj);
@@ -288,6 +297,8 @@ public class BaseJobsListFragment extends ListFragment implements
     }
 
     protected void setUpListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setRefreshing(false);
         m_lsvJobList.setOnScrollListener(this);
     }
 
@@ -370,6 +381,11 @@ public class BaseJobsListFragment extends ListFragment implements
 
     protected void syncJobList() {
         DataManager.syncJobList(m_jobCategory, m_listAchive);
+    }
+
+    @Override
+    public void onRefresh() {
+        requestData(LoadType.REFRESH);
     }
 
     /**

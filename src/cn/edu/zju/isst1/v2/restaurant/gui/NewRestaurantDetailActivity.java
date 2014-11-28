@@ -69,6 +69,9 @@ public class NewRestaurantDetailActivity extends Activity {
         m_nId = getIntent().getIntExtra("id", -1);
         m_restaurantCurrent = CSTRestaurantDataDelegate
                 .getRestaurant(getApplicationContext(), Integer.toString(m_nId));
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         showRestaurantDetail();
     }
 

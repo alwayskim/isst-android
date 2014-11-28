@@ -14,6 +14,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -62,78 +66,44 @@
 
         <!-- push service client -->
         <receiver android:name="cn.edu.zju.isst1.baidupush.PushMessageReceiver">
-        <intent-filter>
-        <!-- 接收push消息 -->
-        <action android:name="com.baidu.android.pushservice.action.MESSAGE"/>
-        <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
-        <action android:name="com.baidu.android.pushservice.action.RECEIVE"/>
-        <action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>
-        </intent-filter>
+            <intent-filter>
+                <!-- 接收push消息 -->
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
+                <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
+            </intent-filter>
         </receiver>
         <!--&lt;!&ndash; push service &ndash;&gt;-->
-        <!--<receiver-->
-        <!--android:name="com.baidu.android.pushservice.PushServiceReceiver"-->
-        <!--android:process=":bdservice_v1">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
-        <!--<action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>-->
-        <!--<action android:name="com.baidu.android.pushservice.action.media.CLICK"/>-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+        <receiver
+            android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":bdservice_v1">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
+            </intent-filter>
+        </receiver>
 
-         <!--<receiver -->
-         <!--android:name="com.baidu.android.pushservice.RegistrationReceiver" -->
-         <!--android:process=":bdservice_v1"> -->
-         <!--<intent-filter> -->
-         <!--<action android:name="com.baidu.android.pushservice.action.METHOD"/> -->
-         <!--<action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/> -->
-         <!--</intent-filter> -->
-         <!--<intent-filter> -->
-         <!--<action android:name="android.intent.action.PACKAGE_REMOVED"/> -->
-         <!--<data android:scheme="package"/> -->
-         <!--</intent-filter> -->
-         <!--</receiver> -->
+        <receiver
+            android:name="com.baidu.android.pushservice.RegistrationReceiver"
+            android:process=":bdservice_v1">
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.METHOD" />
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
 
 
-         <!--<service -->
-         <!--android:name="com.baidu.android.pushservice.PushService" -->
-         <!--android:exported="true" -->
-         <!--android:process=":bdservice_v1"/> -->
-        <!--
-        <activity
-            android:name=".v2.campusactivity.CampusActivityTest"
-            android:label="@string/title_activity_campus_activity_test" >
-        </activity>
-        -->
-        <!--
-        <activity
-            android:name=".v2.city.CityTest"
-            android:label="@string/title_activity_city_test" >
-        </activity>
-        -->
-        <!--
-        <activity
-            android:name=".v2.publisher.PublisherTest"
-            android:label="@string/title_activity_publisher_test" >
-        </activity>
-        -->
-        <!--
-        <activity
-            android:name=".v2.cityevent.CityEventTest"
-            android:label="@string/title_activity_city_event_test" >
-        </activity>
-        -->
-        <!--
-        <activity
-            android:name=".v2.cityparticipant.CityParticipantTest"
-            android:label="@string/title_activity_city_participant_test" >
-        </activity>
-        -->
-        <!--<activity
-            android:name=".v2.citycomment.CommentTest"
-            android:label="@string/title_activity_comment_test" >
-        </activity>-->
+        <service
+            android:name="com.baidu.android.pushservice.PushService"
+            android:exported="true"
+            android:process=":bdservice_v1" />
     </application>
 
 </manifest>
