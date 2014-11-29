@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -73,6 +74,8 @@ public class BaseJobsListFragment extends ListFragment implements
     private View m_viewContainer;
 
     private ListView m_lsvJobList;
+
+    private ListView mlistView;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -156,7 +159,7 @@ public class BaseJobsListFragment extends ListFragment implements
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+//        super.onViewCreated(view, savedInstanceState);
 
         initComponent(view);
 
@@ -188,17 +191,17 @@ public class BaseJobsListFragment extends ListFragment implements
      * android.support.v4.app.ListFragment#onListItemClick(android.widget.ListView
      * , android.view.View, int, long)
      */
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Lgr.i(this.getClass().getName() + " onListItemClick postion = "
-                + position);
-        Intent intent = new Intent(getActivity(), JobDetailActivity.class);
-        if (m_jobCategory == JobCategory.RECOMMEND) {
-            intent = new Intent(getActivity(), RecommendDetailActivity.class);
-        }
-        intent.putExtra("id", m_listAchive.get(position).getId());
-        getActivity().startActivity(intent);
-    }
+//    @Override
+//    public void onListItemClick(ListView l, View v, int position, long id) {
+//        Lgr.i(this.getClass().getName() + " onListItemClick postion = "
+//                + position);
+//        Intent intent = new Intent(getActivity(), JobDetailActivity.class);
+//        if (m_jobCategory == JobCategory.RECOMMEND) {
+//            intent = new Intent(getActivity(), RecommendDetailActivity.class);
+//        }
+//        intent.putExtra("id", m_listAchive.get(position).getId());
+//        getActivity().startActivity(intent);
+//    }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -220,8 +223,9 @@ public class BaseJobsListFragment extends ListFragment implements
 
     protected void initComponent(View view) {
 
-        m_lsvJobList = (ListView) view.findViewById(android.R.id.list);
-        m_viewContainer = (View) view.findViewById(R.id.job_recommend_imgbtn_container);
+//        m_lsvJobList = (ListView) view.findViewById(android.R.id.list);
+        mlistView = (ListView) view.findViewById(R.id.simple_list);
+        m_viewContainer = view.findViewById(R.id.job_recommend_imgbtn_container);
 //		if(m_jobCategory ==JobCategory.RECOMMEND){
 //			m_viewContainer.setVisibility(view.VISIBLE);
 //			Button btnPublish =(Button) view.findViewById(R.id.job_recommend_imgbtn);
@@ -293,13 +297,28 @@ public class BaseJobsListFragment extends ListFragment implements
 
     protected void setUpAdapter() {
         m_adapterJobList = new JobListAdapter(getActivity());
-        setListAdapter(m_adapterJobList);
+//        setListAdapter(m_adapterJobList);
+        mlistView.setAdapter(m_adapterJobList);
+        mlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Lgr.i(this.getClass().getName() + " onListItemClick postion = "
+                        + position);
+                Intent intent = new Intent(getActivity(), JobDetailActivity.class);
+                if (m_jobCategory == JobCategory.RECOMMEND) {
+                    intent = new Intent(getActivity(), RecommendDetailActivity.class);
+                }
+                intent.putExtra("id", m_listAchive.get(position).getId());
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     protected void setUpListener() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(false);
-        m_lsvJobList.setOnScrollListener(this);
+//        m_lsvJobList.setOnScrollListener(this);
+        mlistView.setOnScrollListener(this);
     }
 
     /**

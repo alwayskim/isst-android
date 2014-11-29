@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/job_recommend_imgbtn_container"
-        android:layout_alignParentTop="true"></ListView>
+    <!--<ListView-->
+        <!--android:id="@android:id/list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/job_recommend_imgbtn_container"-->
+        <!--android:layout_alignParentTop="true"></ListView>-->
 
     <LinearLayout
         android:id="@+id/job_recommend_imgbtn_container"
