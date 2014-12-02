@@ -508,7 +508,7 @@ public class ContactFilterFragment extends CSTBaseFragment
         int year = calendar.get(Calendar.YEAR);
         mArrayListGrade
                 .add(String.valueOf(getResources().getString(R.string.filter_gender_default)));
-        for (int i = 2009; i < year; i++) {
+        for (int i = 2009; i <= year; i++) {
             mArrayListGrade.add(String.valueOf(i));
         }
 

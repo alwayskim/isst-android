@@ -93,7 +93,7 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mInflater = inflater;
         return inflater.inflate(R.layout.list_fragment, container, false);
     }
@@ -153,27 +153,29 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case STATUS_REQUEST_SUCCESS:
-                        if (mParticipantsList.size() == LIST_EMPTY) {
-                            CroMan.showConfirm(getActivity(), R.string.participate_empty);
-                        }
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        break;
-                    case STATUS_NOT_LOGIN:
-                        UpDateLogin.getInstance().updateLogin(getActivity());
-                        Lgr.i("CityEventParticipantsListFragment ----！------更新登录了-------！");
-                        if(isLoadMore){
-                            mCurrentPage--;
-                        }
-                        requestData();
-                        break;
-                    default:
-                        CSTHttpUtil.dispose(msg.what,getActivity());
-                        break;
+                if (getActivity() != null) {
+                    switch (msg.what) {
+                        case STATUS_REQUEST_SUCCESS:
+                            if (mParticipantsList.size() == LIST_EMPTY) {
+                                CroMan.showConfirm(getActivity(), R.string.participate_empty);
+                            }
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            break;
+                        case STATUS_NOT_LOGIN:
+                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            Lgr.i("CityEventParticipantsListFragment ----！------更新登录了-------！");
+                            if (isLoadMore) {
+                                mCurrentPage--;
+                            }
+                            requestData();
+                            break;
+                        default:
+                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            break;
+                    }
+                    mListAdapter.notifyDataSetChanged();
+                    resetLoadingState();
                 }
-                mListAdapter.notifyDataSetChanged();
-                resetLoadingState();
             }
         };
     }
@@ -190,24 +192,22 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
                         @Override
                         public void onResponse(JSONObject response) {
 
-                        CSTUser userParticipants = (CSTUser) CSTJsonParser
-                                .parseJson(response, new CSTUser());
-                        updateParticipantsList(userParticipants);
-                        Lgr.i(response.toString());
-                        Message msg = mHandler.obtainMessage();
-                        msg.what = userParticipants.getStatusInfo().status;
+                            CSTUser userParticipants = (CSTUser) CSTJsonParser
+                                    .parseJson(response, new CSTUser());
+                            updateParticipantsList(userParticipants);
+                            Lgr.i(response.toString());
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = userParticipants.getStatusInfo().status;
 
-                        mHandler.sendMessage(msg);
-                    }
-
-                        @Override
-                        public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                            return super.onErrorStatus(statusInfo);
+                            mHandler.sendMessage(msg);
                         }
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             super.onErrorResponse(error);
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = mErrorStatusCode;
+                            mHandler.sendMessage(msg);
                         }
                     };
             String subUrl = SUB_URL + cityId + "/activities/" + mId + "/participants";

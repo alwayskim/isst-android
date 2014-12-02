@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -23,16 +25,22 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
 import cn.edu.zju.isst1.v2.data.CSTRestaurantMenu;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 import cn.edu.zju.isst1.v2.restaurant.net.RestaurantMenuResponse;
+
+import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
+import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
 public class NewRestaurantDetailActivity extends Activity {
 
@@ -69,9 +77,7 @@ public class NewRestaurantDetailActivity extends Activity {
         m_nId = getIntent().getIntExtra("id", -1);
         m_restaurantCurrent = CSTRestaurantDataDelegate
                 .getRestaurant(getApplicationContext(), Integer.toString(m_nId));
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionbar();
         showRestaurantDetail();
     }
 
@@ -134,19 +140,30 @@ public class NewRestaurantDetailActivity extends Activity {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                CSTRestaurantMenu restaurantMenu = (CSTRestaurantMenu) msg.obj;
-                List<Map<String, String>> listItems=new ArrayList<Map<String, String>>();
-                for (CSTRestaurantMenu rm : restaurantMenu.itemList) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("name", rm.name);
-                    map.put("price", Float.toString(rm.price));
-                        listItems.add(map);
+                switch (msg.what) {
+                    case STATUS_REQUEST_SUCCESS:
+                        CSTRestaurantMenu restaurantMenu = (CSTRestaurantMenu) msg.obj;
+                        List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
+                        for (CSTRestaurantMenu rm : restaurantMenu.itemList) {
+                            Map<String, String> map = new HashMap<String, String>();
+                            map.put("name", rm.name);
+                            map.put("price", Float.toString(rm.price));
+                            listItems.add(map);
+                        }
+                        Lgr.i(listItems.toString());
+                        SimpleAdapter adapter = new SimpleAdapter(NewRestaurantDetailActivity.this, listItems,
+                                android.R.layout.simple_list_item_2, new String[]{"name", "price"},
+                                new int[]{android.R.id.text1, android.R.id.text2});
+                        m_lsvMenu.setAdapter(adapter);
+                        break;
+                    case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(NewRestaurantDetailActivity.this);
+                        requestData();
+                        break;
+                    default:
+                        CSTHttpUtil.dispose(msg.what, NewRestaurantDetailActivity.this);
+                        break;
                 }
-                Lgr.i(listItems.toString());
-                SimpleAdapter adapter = new SimpleAdapter(NewRestaurantDetailActivity.this, listItems,
-                        android.R.layout.simple_list_item_2, new String[]{"name", "price"},
-                        new int[]{android.R.id.text1, android.R.id.text2});
-                m_lsvMenu.setAdapter(adapter);
             }
         };
         requestData();
@@ -162,6 +179,14 @@ public class NewRestaurantDetailActivity extends Activity {
                 Lgr.i(response.toString());
                 Message msg = mHandler.obtainMessage();
                 msg.obj = menu;
+                mHandler.sendMessage(msg);
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                Message msg = mHandler.obtainMessage();
+                msg.what = mErrorStatusCode;
                 mHandler.sendMessage(msg);
             }
         };

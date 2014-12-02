@@ -22,6 +22,7 @@ import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.db.DataManager;
 import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.ui.main.NewMainActivity;
+import cn.edu.zju.isst1.v2.usercenter.setting.SettingActivity;
 
 /**
  * @author theasir
@@ -210,7 +211,8 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
+                getActivity().startActivity(
+                        new Intent(getActivity(), SettingActivity.class));
             }
         });
     }

@@ -86,7 +86,7 @@ public class CSTAlumniDataDelegate {
         ContentValues values = new ContentValues();
 
         values.put(CSTAlumniProvider.Columns.ID.key, alumni.id);
-        values.put(CSTAlumniProvider.Columns.USERNAME.key, alumni.id);
+        values.put(CSTAlumniProvider.Columns.USERNAME.key, alumni.userName);
         values.put(CSTAlumniProvider.Columns.NAME.key, alumni.name);
         values.put(CSTAlumniProvider.Columns.GRADE.key, alumni.grade);
         values.put(CSTAlumniProvider.Columns.GENDER.key, CSTSerialUtil.serialize(alumni.gender));

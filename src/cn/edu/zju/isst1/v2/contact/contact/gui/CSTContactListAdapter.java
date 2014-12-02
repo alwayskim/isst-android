@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.util.Lgr;
+import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumni;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 
@@ -19,9 +20,11 @@ import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 public class CSTContactListAdapter extends CursorAdapter {
 
     private ViewHolder holder;
+    private BaseContactListFragment.FilterType mFilterType;
 
-    public CSTContactListAdapter(Context context, Cursor c) {
+    public CSTContactListAdapter(Context context, Cursor c,BaseContactListFragment.FilterType filterType) {
         super(context, c, 0);
+        mFilterType = filterType;
     }
 
     @Override
@@ -36,7 +39,10 @@ public class CSTContactListAdapter extends CursorAdapter {
         Lgr.i("ContactListAdapter", "——bindView");
         CSTAlumni alumni, alumniPrevious;
         String chPrevious, chCurrent;
-        alumni = CSTAlumniDataDelegate.getAlumni(cursor);
+        if(mFilterType == BaseContactListFragment.FilterType.MY_CITY)
+            alumni = CSTAlumniDataDelegate.getAlumni(cursor);
+        else
+            alumni = CSTAddressListDataDelegate.getAlumni(cursor);
         chCurrent = PinYinUtil.converterToFirstSpell(alumni.name).substring(0, 1);
 
         view.setTag(alumni);

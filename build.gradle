@@ -34,7 +34,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 20
         versionCode 4
-        versionName  "0.4-alpha"
+        versionName  "1.0.4-alpha"
         applicationId "cn.edu.zju.isst1"
     }
 

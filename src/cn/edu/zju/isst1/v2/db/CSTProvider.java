@@ -14,6 +14,7 @@ import java.util.Map;
 
 import cn.edu.zju.isst1.v2.archive.data.CSTArchiveProvider;
 import cn.edu.zju.isst1.v2.contact.CSTContactFilterProvider;
+import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListProvider;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniProvider;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventProvider;
 import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventProvider;
@@ -22,6 +23,7 @@ import cn.edu.zju.isst1.v2.globaldata.classlist.CSTKlassProvider;
 import cn.edu.zju.isst1.v2.globaldata.majorlist.CSTMajorProvider;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantProvider;
 import cn.edu.zju.isst1.v2.user.data.CSTUserProvider;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageProvider;
 
 /**
  * Created by i308844 on 7/28/14.
@@ -56,7 +58,9 @@ public class CSTProvider extends ContentProvider {
 
     private static final int TABLE_ALUMNI_CODE = 11;
 
+    private static final int TABLE_ADDRESSLIST_CODE = 13;
 
+    private static final int TABLE_MESSAGE_CODE = 14;
 
     private static final String AUTHORITY = "cn.edu.zju.isst1.v2.db.cstprovider";
 
@@ -79,6 +83,8 @@ public class CSTProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, CSTKlassProvider.TABLE_NAME, TABLE_KLASSList_CODE);
         sURIMatcher.addURI(AUTHORITY, CSTMajorProvider.TABLE_NAME, TABLE_MAJORList_CODE);
         sURIMatcher.addURI(AUTHORITY, CSTAlumniProvider.TABLE_NAME, TABLE_ALUMNI_CODE);
+        sURIMatcher.addURI(AUTHORITY, CSTAddressListProvider.TABLE_NAME, TABLE_ADDRESSLIST_CODE);
+        sURIMatcher.addURI(AUTHORITY, CSTMessageProvider.TABLE_NAME, TABLE_MESSAGE_CODE);
 
         sURIMatcher.addURI(AUTHORITY,CSTRestaurantProvider.TABLE_NAME,TABLE_RESTAURANT_CODE);
 //        sURIMatcher.addURI(AUTHORITY, CSTCampusEventProvider.TABLE_NAME, TABLE_CAMPUSEvent_CODE);
@@ -113,7 +119,8 @@ public class CSTProvider extends ContentProvider {
         mProviderMap
                 .put(CSTKlassProvider.TABLE_NAME, new CSTKlassProvider(getContext()));
 
-        mProviderMap.put(CSTRestaurantProvider.TABLE_NAME,new CSTRestaurantProvider(getContext()));
+        mProviderMap
+                .put(CSTRestaurantProvider.TABLE_NAME,new CSTRestaurantProvider(getContext()));
 //        mProviderMap.
 //                put(CSTCampusEventProvider.TABLE_NAME, new CSTCampusEventProvider(getContext()));
 //        mProviderMap.put(CSTCityProvider.TABLE_NAME, new CSTCityProvider(getContext()));
@@ -123,6 +130,10 @@ public class CSTProvider extends ContentProvider {
                 .put(CSTCityEventProvider.TABLE_NAME, new CSTCityEventProvider(getContext()));
         mProviderMap
                 .put(CSTAlumniProvider.TABLE_NAME, new CSTAlumniProvider(getContext()));
+        mProviderMap
+                .put(CSTAddressListProvider.TABLE_NAME, new CSTAddressListProvider(getContext()));
+        mProviderMap
+                .put(CSTMessageProvider.TABLE_NAME, new CSTMessageProvider(getContext()));
 //        mProviderMap.put(CSTCityParticipantProvider.TABLE_NAME,
 //                new CSTCityParticipantProvider(getContext()));
 //        mProviderMap.put(CSTCommentProvider.TABLE_NAME, new CSTCommentProvider(getContext()));
@@ -203,6 +214,10 @@ public class CSTProvider extends ContentProvider {
                 return CSTCityEventProvider.TABLE_NAME;
             case TABLE_ALUMNI_CODE:
                 return CSTAlumniProvider.TABLE_NAME;
+            case TABLE_ADDRESSLIST_CODE:
+                return CSTAddressListProvider.TABLE_NAME;
+            case TABLE_MESSAGE_CODE:
+                return CSTMessageProvider.TABLE_NAME;
 //            case TABLE_CITYPARTICIPANT_CODE:
 //                return CSTCityParticipantProvider.TABLE_NAME;
 //            case TABLE_COMMENT_CODE:

@@ -209,22 +209,24 @@ public class CSTCityEventListFragment extends CSTBaseFragment
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case STATUS_REQUEST_SUCCESS:
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        break;
-                    case STATUS_NOT_LOGIN:
-                        UpDateLogin.getInstance().updateLogin(getActivity());
-                        Lgr.i("CSTCityEventListFragment ----！------更新登录了-------！");
-                        if (isLoadMore) {
-                            mCurrentPage--;
-                        }
-                        requestData();
-                    default:
-                        CSTHttpUtil.dispose(msg.what, getActivity());
-                        break;
+                if (getActivity() != null) {
+                    switch (msg.what) {
+                        case STATUS_REQUEST_SUCCESS:
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            break;
+                        case STATUS_NOT_LOGIN:
+                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            Lgr.i("CSTCityEventListFragment ----！------更新登录了-------！");
+                            if (isLoadMore) {
+                                mCurrentPage--;
+                            }
+                            requestData();
+                        default:
+                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            break;
+                    }
+                    resetLoadingState();
                 }
-                resetLoadingState();
             }
         };
     }

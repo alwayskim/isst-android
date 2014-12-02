@@ -161,7 +161,7 @@ public class CityEventDetailActivity extends BaseActivity {
                         performParticipateAction();
                         break;
                     default:
-                        CSTHttpUtil.dispose(msg.what,CityEventDetailActivity.this);
+                        CSTHttpUtil.dispose(msg.what, CityEventDetailActivity.this);
                         break;
                 }
             }
@@ -209,13 +209,11 @@ public class CityEventDetailActivity extends BaseActivity {
                 }
 
                 @Override
-                public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                    return super.onErrorStatus(statusInfo);
-                }
-
-                @Override
                 public void onErrorResponse(VolleyError error) {
                     super.onErrorResponse(error);
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = mErrorStatusCode;
+                    mHandler.sendMessage(msg);
                 }
             };
 
@@ -250,13 +248,11 @@ public class CityEventDetailActivity extends BaseActivity {
                 }
 
                 @Override
-                public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                    return super.onErrorStatus(statusInfo);
-                }
-
-                @Override
                 public void onErrorResponse(VolleyError error) {
                     super.onErrorResponse(error);
+                    Message msg = mBtnHandler.obtainMessage();
+                    msg.what = mErrorStatusCode;
+                    mBtnHandler.sendMessage(msg);
                 }
             };
             StringBuilder sb = new StringBuilder();

@@ -4,8 +4,10 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
+import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumni;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
+import cn.edu.zju.isst1.v2.contact.contact.gui.BaseContactListFragment;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.net.CSTJsonResponse;
 
@@ -14,19 +16,28 @@ import cn.edu.zju.isst1.v2.net.CSTJsonResponse;
  */
 public class ContactResponse extends CSTJsonResponse {
     private boolean clearDatabase;
+    private BaseContactListFragment.FilterType mFilterType;
 
-    public ContactResponse(Context context, boolean clearDatabase) {
+    public ContactResponse(Context context, boolean clearDatabase, BaseContactListFragment.FilterType mFilterType) {
         super(context);
         this.clearDatabase = clearDatabase;
+        this.mFilterType = mFilterType;
     }
 
     @Override
     public void onResponse(JSONObject response) {
         CSTAlumni alumni = (CSTAlumni) CSTJsonParser.parseJson(response, new CSTAlumni());
-        //TODO must not pass null or empty user
         if (clearDatabase) {
-            CSTAlumniDataDelegate.deleteAllAlumni(mContext);
+            if (mFilterType == BaseContactListFragment.FilterType.MY_CITY) {
+                CSTAlumniDataDelegate.deleteAllAlumni(mContext);
+            } else {
+                CSTAddressListDataDelegate.deleteAllAlumni(mContext);
+            }
         }
-        CSTAlumniDataDelegate.saveAlumniList(mContext, alumni);
+        if (mFilterType == BaseContactListFragment.FilterType.MY_CITY) {
+            CSTAlumniDataDelegate.saveAlumniList(mContext, alumni);
+        } else {
+            CSTAddressListDataDelegate.saveAlumniList(mContext, alumni);
+        }
     }
 }

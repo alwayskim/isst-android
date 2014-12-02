@@ -32,6 +32,7 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumni;
 import cn.edu.zju.isst1.v2.contact.contact.data.Pinyin4j;
 import cn.edu.zju.isst1.v2.contact.contact.net.ContactResponse;
+import cn.edu.zju.isst1.v2.contact.contact.net.ContactSearchResponse;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
@@ -155,8 +156,7 @@ public class CSTSearchedAlumniActivity extends BaseActivity
 
     public void requestData() {
         if (NetworkConnection.isNetworkConnected(this)) {
-            ContactResponse activityResponse = new ContactResponse(this,
-                    true) {
+            ContactSearchResponse activityResponse = new ContactSearchResponse(this) {
                 @Override
                 public void onResponse(JSONObject result) {
 
