@@ -4,7 +4,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import org.json.JSONException;
@@ -16,16 +15,12 @@ import java.util.Map;
 import cn.edu.zju.isst1.util.Lgr;
 
 /**
- * Created by i308844 on 8/18/14.
+ * Created by alwayking on 14/12/2.
  */
-public class CSTJsonRequest extends CSTRequest<JSONObject> {
-
-    //    private static final String BASE_URL = "http://www.cst.zju.edu.cn/isst";
-    private static final String BASE_URL = "http://10.82.60.35:8080/isst";
-
-    public CSTJsonRequest(int method, String subUrl, Map<String, String> params,
+public class CSTJsonCommonRequest extends CSTRequest<JSONObject>{
+    public CSTJsonCommonRequest(int method, String subUrl, Map<String, String> params,
                           CSTResponse<JSONObject> response) {
-        super(method, BASE_URL + subUrl, params, response);
+        super(method,subUrl, params, response);
         setRetryPolicy(new DefaultRetryPolicy(2000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -36,7 +31,8 @@ public class CSTJsonRequest extends CSTRequest<JSONObject> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            CSTHttpUtil.refreshCookies(BASE_URL, response.headers);
+            Lgr.i(jsonString.toString());
+//            CSTHttpUtil.refreshCookies(subU, response.headers);
             return Response.success(new JSONObject(jsonString),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {

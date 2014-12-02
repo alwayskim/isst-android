@@ -24,6 +24,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.contact.ContactFilterActivity;
+import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumni;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTContactFilter;
@@ -261,7 +264,9 @@ public class BaseContactListFragment extends CSTBaseFragment
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
        /* return CSTAlumniDataDelegate.getDataCursor(getActivity(),null,null,null, CSTAlumniProvider
                 .Columns.NAME.key + " DESC");*/
-        return CSTAlumniDataDelegate.getDataCursor(getActivity(), null, null, null, null);
+        if (m_ft == FilterType.MY_CITY)
+            return CSTAlumniDataDelegate.getDataCursor(getActivity(), null, null, null, null);
+        return CSTAddressListDataDelegate.getDataCursor(getActivity(), null, null, null, null);
     }
 
     @Override
@@ -286,7 +291,7 @@ public class BaseContactListFragment extends CSTBaseFragment
     }
 
     private void bindAdapter() {
-        mAdapter = new CSTContactListAdapter(getActivity(), null);
+        mAdapter = new CSTContactListAdapter(getActivity(), null, m_ft);
         mListView.setAdapter(mAdapter);
         requestData();
     }
@@ -300,18 +305,19 @@ public class BaseContactListFragment extends CSTBaseFragment
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case Constants.STATUS_REQUEST_SUCCESS:
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        break;
-                    case Constants.STATUS_NOT_LOGIN:
-                        UpDateLogin.getInstance().updateLogin(getActivity());
-                        requestData();
-                        break;
-                    default:
-                        CSTHttpUtil.dispose(msg.what, getActivity());
-                        break;
-                }
+                if (getActivity() != null)
+                    switch (msg.what) {
+                        case Constants.STATUS_REQUEST_SUCCESS:
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            break;
+                        case Constants.STATUS_NOT_LOGIN:
+                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            requestData();
+                            break;
+                        default:
+                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            break;
+                    }
             }
         };
     }
@@ -320,14 +326,10 @@ public class BaseContactListFragment extends CSTBaseFragment
         //TODO replace code in this scope with new implemented volley-base network request
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             ContactResponse activityResponse = new ContactResponse(getActivity(),
-                    true) {
+                    true, m_ft) {
                 @Override
                 public void onResponse(JSONObject result) {
-                    mAlumni = (CSTAlumni) CSTJsonParser
-                            .parseJson(result, new CSTAlumni());
-                    CSTAlumniDataDelegate.deleteAllAlumni(BaseContactListFragment.this.getActivity());
-                    CSTAlumniDataDelegate
-                            .saveAlumniList(BaseContactListFragment.this.getActivity(), mAlumni);
+                    super.onResponse(result);
                     Lgr.i(result.toString());
                     Message msg = mHandler.obtainMessage();
                     try {
@@ -335,6 +337,14 @@ public class BaseContactListFragment extends CSTBaseFragment
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    mHandler.sendMessage(msg);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = mErrorStatusCode;
                     mHandler.sendMessage(msg);
                 }
             };

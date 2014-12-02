@@ -186,74 +186,75 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case Constants.STATUS_REQUEST_SUCCESS:
-                        resetLoadingState();
-                        break;
+                if (getActivity() != null) {
+                    switch (msg.what) {
+                        case Constants.STATUS_REQUEST_SUCCESS:
+                            resetLoadingState();
+                            break;
 
-                    case Constants.STATUS_NOT_LOGIN:
-                        UpDateLogin.getInstance().updateLogin(getActivity());
-                        Lgr.i("BaseArchiListFragment ----！------更新登录了-------！");
-                        if (isLoadMore) {
-                            mCurrentPage--;
-                        }
-                        requestData();
-                        break;
-                    default:
-                        CSTHttpUtil.dispose(msg.what,getActivity());
-                        break;
+                        case Constants.STATUS_NOT_LOGIN:
+                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            Lgr.i("BaseArchiListFragment ----！------更新登录了-------！");
+                            if (isLoadMore) {
+                                mCurrentPage--;
+                            }
+                            requestData();
+                            break;
+                        default:
+                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            break;
+                    }
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    mLoadMorePrgb.setVisibility(View.GONE);
                 }
-
             }
         };
     }
 
     private void requestData() {
-        if (NetworkConnection.isNetworkConnected(getActivity())) {
-            if (isLoadMore) {
-                mCurrentPage++;
-            } else {
-                mCurrentPage = 1;
-            }
-            ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
-                    !isLoadMore) {
-                @Override
-                public void onResponse(JSONObject response) {
-                    super.onResponse(response);
-                    Message msg = mHandler.obtainMessage();
-
-                    try {
-                        if (isLoadMore) {
-                            isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-                        }
-                        msg.what = response.getInt("status");
-                        mHandler.sendMessage(msg);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                    return super.onErrorStatus(statusInfo);
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    super.onErrorResponse(error);
-                }
-            };
-            ArchiveRequest archiveRequest = new ArchiveRequest(CSTRequest.Method.GET,
-                    ARCHIVE_URL + mCategory.subUrl, null, archiveResponse)
-                    .setPage(mCurrentPage)
-                    .setPageSize(DEFAULT_PAGE_SIZE);
-
-            mEngine.requestJson(archiveRequest);
-        }else{
-            Message msg = mHandler.obtainMessage();
-            msg.what = Constants.NETWORK_NOT_CONNECTED;
-            mHandler.sendMessage(msg);
+//        if (NetworkConnection.isNetworkConnected(getActivity())) {
+        if (isLoadMore) {
+            mCurrentPage++;
+        } else {
+            mCurrentPage = 1;
         }
+        ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
+                !isLoadMore) {
+            @Override
+            public void onResponse(JSONObject response) {
+                super.onResponse(response);
+                Message msg = mHandler.obtainMessage();
+
+                try {
+                    if (isLoadMore) {
+                        isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
+                    }
+                    msg.what = response.getInt("status");
+                    mHandler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                Message msg = mHandler.obtainMessage();
+                msg.what = mErrorStatusCode;
+                mHandler.sendMessage(msg);
+            }
+        };
+        ArchiveRequest archiveRequest = new ArchiveRequest(CSTRequest.Method.GET,
+                ARCHIVE_URL + mCategory.subUrl, null, archiveResponse)
+                .setPage(mCurrentPage)
+                .setPageSize(DEFAULT_PAGE_SIZE);
+
+        mEngine.requestJson(archiveRequest);
+//        }else{
+//            Message msg = mHandler.obtainMessage();
+//            msg.what = Constants.NETWORK_NOT_CONNECTED;
+//            mHandler.sendMessage(msg);
+//        }
     }
 
     private void startLoadMore() {

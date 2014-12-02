@@ -1,5 +1,7 @@
 package cn.edu.zju.isst1.v2.net;
 
+import com.android.volley.toolbox.JsonRequest;
+
 import org.json.JSONObject;
 
 /**
@@ -22,6 +24,10 @@ public class CSTNetworkEngine {
 
     public synchronized void requestJson(CSTRequest<JSONObject> jsonRequest) {
         VolleyImpl.requestJsonObject(jsonRequest, null);
+    }
+
+    public synchronized void requestCommon(JsonRequest<JSONObject> jsonRequest) {
+        VolleyImpl.requestCommonObject(jsonRequest, null);
     }
 
 }

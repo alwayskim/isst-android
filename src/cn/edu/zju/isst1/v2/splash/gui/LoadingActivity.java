@@ -10,7 +10,16 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.baidu.android.pushservice.PushSettings;
@@ -27,6 +36,7 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.gui.CSTBaseActivity;
 import cn.edu.zju.isst1.v2.login.gui.LoginActivity;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
@@ -142,7 +152,7 @@ public class LoadingActivity extends CSTBaseActivity {
                         CroMan.showAlert(LoadingActivity.this, R.string.network_not_connected);
                         break;
                     default:
-                        jump();
+                        CSTHttpUtil.dispose(msg.what,LoadingActivity.this);
                         break;
                 }
             }
@@ -158,11 +168,18 @@ public class LoadingActivity extends CSTBaseActivity {
                     super.onResponse(response);
                     newVersion = (CSTVersion) CSTJsonParser
                             .parseJson(response, new CSTVersion());
-                    Lgr.i(response.toString());
                     //Tricky for no authentication for this request. So if success, status will always be 0. Thus not handle status.
                     Message msg = mHandler.obtainMessage();
                     msg.what = newVersion.getStatusInfo().status;
                     msg.obj = newVersion;
+                    mHandler.sendMessage(msg);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = mErrorStatusCode;
                     mHandler.sendMessage(msg);
                 }
             };

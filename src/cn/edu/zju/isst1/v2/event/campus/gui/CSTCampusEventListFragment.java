@@ -100,7 +100,7 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mInflater = inflater;
         return inflater.inflate(R.layout.list_fragment, container, false);
     }
@@ -194,23 +194,25 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case STATUS_REQUEST_SUCCESS:
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        break;
-                    case STATUS_NOT_LOGIN:
-                        UpDateLogin.getInstance().updateLogin(getActivity());
-                        Lgr.i("CSTCampusEventListFragment ----！------更新登录了-------！");
-                        if (isLoadMore) {
-                            mCurrentPage--;
-                        }
-                        requestData();
-                        break;
-                    default:
-                        CSTHttpUtil.dispose(msg.what,getActivity());
-                        break;
+                if (getActivity() != null) {
+                    switch (msg.what) {
+                        case STATUS_REQUEST_SUCCESS:
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            break;
+                        case STATUS_NOT_LOGIN:
+                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            Lgr.i("CSTCampusEventListFragment ----！------更新登录了-------！");
+                            if (isLoadMore) {
+                                mCurrentPage--;
+                            }
+                            requestData();
+                            break;
+                        default:
+                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            break;
+                    }
+                    resetLoadingState();
                 }
-                resetLoadingState();
             }
         };
     }
@@ -242,13 +244,11 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
                 }
 
                 @Override
-                public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                    return super.onErrorStatus(statusInfo);
-                }
-
-                @Override
                 public void onErrorResponse(VolleyError error) {
                     super.onErrorResponse(error);
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = mErrorStatusCode;
+                    mHandler.sendMessage(msg);
                 }
             };
 

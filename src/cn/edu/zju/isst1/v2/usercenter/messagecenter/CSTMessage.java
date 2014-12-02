@@ -1,12 +1,13 @@
-package cn.edu.zju.isst1.v2.data;
+package cn.edu.zju.isst1.v2.usercenter.messagecenter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import cn.edu.zju.isst1.v2.model.CSTDataItem;
 
 /**
- * Created by tan on 2014/8/3.
+ * Created by alwayking on 14/11/30.
  */
+
 public class CSTMessage extends CSTDataItem<CSTMessage> {
 
     @JsonProperty("id")
@@ -24,3 +25,4 @@ public class CSTMessage extends CSTDataItem<CSTMessage> {
     public CSTMessage() {
     }
 }
+

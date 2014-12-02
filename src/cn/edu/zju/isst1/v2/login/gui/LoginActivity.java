@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
@@ -279,11 +280,9 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             super.onErrorResponse(error);
-                        }
-
-                        @Override
-                        public Object onErrorStatus(CSTStatusInfo statusInfo) {
-                            return super.onErrorStatus(statusInfo);
+                            Message msg = m_handlerLogin.obtainMessage();
+                            msg.what = mErrorStatusCode;
+                            m_handlerLogin.sendMessage(msg);
                         }
                     };
                     cn.edu.zju.isst1.v2.login.net.LoginApi.validate(m_strUserName,

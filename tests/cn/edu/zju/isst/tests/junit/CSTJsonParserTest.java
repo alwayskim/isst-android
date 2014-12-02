@@ -20,7 +20,6 @@ import cn.edu.zju.isst1.v2.data.CSTJsonParserUtil;
 import cn.edu.zju.isst1.v2.data.CSTKlass;
 import cn.edu.zju.isst1.v2.data.CSTLogin;
 import cn.edu.zju.isst1.v2.data.CSTMajor;
-import cn.edu.zju.isst1.v2.data.CSTMessage;
 import cn.edu.zju.isst1.v2.data.CSTNearby;
 import cn.edu.zju.isst1.v2.data.CSTParticipated;
 import cn.edu.zju.isst1.v2.data.CSTPublisher;
@@ -33,6 +32,8 @@ import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
 import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityParticipant;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
 import cn.edu.zju.isst1.v2.user.data.CSTUser;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessage;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageDataDelegate;
 
 public class CSTJsonParserTest {
 

@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +34,8 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
+import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
+import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
@@ -181,9 +185,13 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                     case Constants.STATUS_REQUEST_SUCCESS:
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
+                    case STATUS_NOT_LOGIN:
+                        UpDateLogin.getInstance().updateLogin(getActivity());
+                        requestData();
                     case NETWORK_NOT_CONNECTED:
                         CroMan.showAlert(getActivity(), R.string.network_not_connected);
                     default:
+                        CSTHttpUtil.dispose(msg.what, getActivity());
                         break;
                 }
                 resetLoadingState();
@@ -204,7 +212,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                 public void onResponse(JSONObject response) {
                     Lgr.i(response.toString());
                     CSTRestaurant restaurant = (CSTRestaurant) CSTJsonParser.parseJson(response, new CSTRestaurant());
-                    for(CSTRestaurant restaurant_demo : restaurant.itemList){
+                    for (CSTRestaurant restaurant_demo : restaurant.itemList) {
                         CSTRestaurantDataDelegate.saveRestaurant(mContext, restaurant_demo);
                     }
                     Lgr.i(Integer.toString(restaurant.itemList.size()));
@@ -217,6 +225,14 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                         }
                     }
                     msg.what = Constants.STATUS_REQUEST_SUCCESS;
+                    mHandler.sendMessage(msg);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    super.onErrorResponse(error);
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = mErrorStatusCode;
                     mHandler.sendMessage(msg);
                 }
             };
