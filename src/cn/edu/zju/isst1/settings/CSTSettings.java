@@ -25,10 +25,6 @@ public class CSTSettings {
 
     private static final String IS_AUTO_LOGIN = "is_auto_login";
 
-    private static final String APP_BUILD = "app_build";
-
-    private static final String APP_VERSION= "app_version";
-
     public static void setForTheFirstTime(boolean isForTheFirstTime,
             Activity activity) {
         writeValueForKey(FOR_THE_FIRST_TIME, isForTheFirstTime, activity);
@@ -44,28 +40,10 @@ public class CSTSettings {
         writeValueForKey(IS_AUTO_LOGIN, isAutoLogin, activity);
     }
 
-    public static void setAppInfo(CSTVersion version, Activity activity) {
-        writeValueForKey(APP_BUILD, version.buildNum, activity);
-        writeValueForKey(APP_BUILD, version.version, activity);
-    }
-
     public static boolean isAutoLogin(Activity activity) {
         return activity.getSharedPreferences(SP_NAME, Activity.MODE_PRIVATE)
                 .getBoolean(IS_AUTO_LOGIN, false);
     }
-
-
-
-    public static String getAppBuild(Activity activity) {
-        return activity.getSharedPreferences(APP_BUILD, Activity.MODE_PRIVATE)
-                .getString(APP_BUILD, "1");
-    }
-
-    public static String getAppVersion(Activity activity) {
-        return activity.getSharedPreferences(APP_VERSION, Activity.MODE_PRIVATE)
-                .getString(APP_BUILD, "1");
-    }
-
 
     public static void cleanAllSettings(Activity activity) {
         SharedPreferences sp = activity.getSharedPreferences(SP_NAME,
@@ -77,7 +55,7 @@ public class CSTSettings {
 
     private static void writeValueForKey(String key, Object value,
             Activity activity) {
-        SharedPreferences sp = activity.getSharedPreferences(key,
+        SharedPreferences sp = activity.getSharedPreferences(SP_NAME,
                 Activity.MODE_PRIVATE);
         Editor editor = sp.edit();
         if (value instanceof Boolean) {

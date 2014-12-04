@@ -79,7 +79,8 @@
     <string name="my_experience">我的经验</string>
     <string name="my_activity">活动管理</string>
     <string name="people_around">附近的人</string>
-    <string name="personal_setting">设置</string>
+    <string name="personal_setting">个人设置</string>
+    <string name="app_about">关于</string>
     <string name="message_center">消息中心</string>
     <string name="usercenter_public">发布</string>
     <string name="publish_recommend_title">标题</string>
@@ -97,7 +98,7 @@
     <string name="title_activity_comment_test">CommentTest</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="send_feedback">发送</string>
-
+    <string name="soft_version">软件版本  </string>
     <string name="footer_loading_hint">加载更多</string>
     <string name="footer_loading_hint_no_more_data">没有更多数据</string>
     <string name="note_event_location">地点：</string>

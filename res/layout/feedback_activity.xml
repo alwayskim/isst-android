@@ -36,14 +36,20 @@
                 android:id="@+id/feedback_type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/feedback_type_txv"></Spinner>
+                android:layout_below="@+id/feedback_type_txv">
+            </Spinner>
 
             <EditText
                 android:id="@+id/feedback_content_edt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_below="@+id/feedback_type_spinner"
-                android:hint="请输入反馈，我们将不断改进 ..."
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="start"
+                android:hint="请输入反馈"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textColorHint="@color/light_gray"
                 android:textSize="@dimen/text_size_small" />
 
             <EditText
@@ -51,7 +57,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feedback_content_edt"
-                android:hint="您的邮箱：选填，以便我们给您回复 ..."
+                android:layout_marginTop="10dp"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:hint="您的邮箱：选填"
+                android:padding="10dp"
+                android:textColorHint="@color/light_gray"
                 android:textSize="@dimen/text_size_small" />
         </RelativeLayout>
 

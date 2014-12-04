@@ -28,7 +28,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Isst_color_ab_style">
+        android:theme="@style/AppTheme">
         <activity android:name=".v2.splash.gui.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

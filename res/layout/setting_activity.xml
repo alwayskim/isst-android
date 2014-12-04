@@ -8,11 +8,11 @@
         android:id="@+id/setting_avatar_imgv"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_marginTop="@dimen/padding_big"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:contentDescription="@string/user_avatar"
-        android:padding="@dimen/padding_middle"
         android:src="@drawable/ic_launcher" />
 
     <TextView
@@ -22,6 +22,7 @@
         android:gravity="center"
         android:layout_below="@+id/setting_avatar_imgv"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/padding_middle"
         android:text="软院通(ISST)"
         android:textColor="@color/silver"
         android:textSize="@dimen/text_size_large" />
@@ -31,22 +32,16 @@
         android:layout_below="@+id/setting_appname_txv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_big"
         android:text="意见反馈" />
 
     <Button
-        android:id="@+id/setting_app_info_btn"
+        android:id="@+id/setting_check_update_btn"
         android:layout_below="@+id/setting_feedback_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="关于" />
-
-    <Button
-        android:id="@+id/setting_check_update_btn"
-        android:layout_below="@+id/setting_app_info_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/searchbtn"
         android:text="@string/update_check" />
+
     <TextView
         android:id="@+id/setting_app_info_txv"
         android:layout_width="match_parent"
@@ -54,8 +49,7 @@
         android:gravity="center"
         android:padding="10dp"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/lightslategrey"
-        android:text="version"
+        android:textColor="@color/silver"
         android:textSize="@dimen/text_size_small"/>
 
 </RelativeLayout>

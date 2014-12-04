@@ -122,9 +122,11 @@ public class UserCenterFragment extends Fragment {
         mViewHolder.myActivityView = view.findViewById(R.id.user_center_my_activity_txv);
         mViewHolder.peopleNearbyView = view.findViewById(R.id.user_center_people_around_txv);
         mViewHolder.personalSettingvView = view.findViewById(R.id.user_center_personal_setting_txv);
+        mViewHolder.appAbout = view.findViewById(R.id.user_center_app_about_txv);
     }
 
     private void setUpListener() {
+        //显示用户信息
         mViewHolder.userView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -134,6 +136,7 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
+        //注销
         mViewHolder.logoutBtn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -172,7 +175,7 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
-        //
+        //我的经验
         mViewHolder.myExpView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -197,6 +200,7 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
+        //附近的人
         mViewHolder.peopleNearbyView.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -206,7 +210,18 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
+        //设置
         mViewHolder.personalSettingvView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                getActivity().startActivity(
+                        new Intent(getActivity(), UserInfoActivity.class));
+            }
+        });
+
+        mViewHolder.appAbout.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -251,6 +266,8 @@ public class UserCenterFragment extends Fragment {
         View peopleNearbyView;
 
         View personalSettingvView;
+
+        View appAbout;
 
     }
 
