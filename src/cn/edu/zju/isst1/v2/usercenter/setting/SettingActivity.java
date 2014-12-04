@@ -43,7 +43,6 @@ public class SettingActivity extends BaseActivity {
 
     private Button btnCheckUpdate;
     private Button btnFeedBack;
-    private Button btnAppInfo;
     private TextView txvAppInfo;
 
     private String versionName;
@@ -89,7 +88,6 @@ public class SettingActivity extends BaseActivity {
 
     public void initComponent() {
         btnFeedBack = (Button) findViewById(R.id.setting_feedback_btn);
-        btnAppInfo = (Button) findViewById(R.id.setting_app_info_btn);
         btnCheckUpdate = (Button) findViewById(R.id.setting_check_update_btn);
         txvAppInfo = (TextView) findViewById(R.id.setting_app_info_txv);
 
@@ -101,7 +99,7 @@ public class SettingActivity extends BaseActivity {
             e.printStackTrace();
         }
         versionName = info.versionName;
-        txvAppInfo.setText("version " + versionName);
+        txvAppInfo.setText(getResources().getString(R.string.soft_version) + versionName);
     }
 
     private void initHandler() {
@@ -147,13 +145,6 @@ public class SettingActivity extends BaseActivity {
             }
         });
 
-        btnAppInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         btnFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +158,7 @@ public class SettingActivity extends BaseActivity {
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle("设置");
+        setTitle(getResources().getString(R.string.personal_setting));
     }
 
     private void initAlertDialog() {

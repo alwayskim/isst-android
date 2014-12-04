@@ -16,10 +16,8 @@ import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 
 /**
- * @deprecated
- * 接口基类
- *
  * @author theasir
+ * @deprecated 接口基类
  */
 public class CSTApi {
 
@@ -28,8 +26,7 @@ public class CSTApi {
      */
     private static final String PREFIX = "http://www.cst.zju.edu.cn/isst";
 
-    // private static final String PREFIX =
-    // "http://yplan.cloudapp.net:8080/isst";
+//    private static final String PREFIX = "http://10.82.60.35:8080/isst";
 
     /**
      * 发送请求
@@ -40,7 +37,7 @@ public class CSTApi {
      * @param listener   回调对象
      */
     protected static void request(final String methodName, final String subUrl,
-            final Map<String, String> params, RequestListener listener) {
+                                  final Map<String, String> params, RequestListener listener) {
         String requestUrl = PREFIX + subUrl;
         if (methodName.equalsIgnoreCase("POST")) {
             BetterAsyncWebServiceRunner.getInstance()
@@ -60,7 +57,7 @@ public class CSTApi {
     }
 
     protected static CSTResponse responseOfRequest(final String methodName, final String subUrl,
-            final Map<String, String> params)
+                                                   final Map<String, String> params)
             throws MalformedURLException, IOException {
         String url = PREFIX + subUrl;
         return BetterAsyncWebServiceRunner.getInstance().responseOfRequest(methodName, url, params);
