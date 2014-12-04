@@ -39,6 +39,21 @@ public class CSTMessageDataDelegate {
         resolver.delete(CSTMessageProvider.CONTENT_URI, null, null);
     }
 
+    public static CSTMessage getAllMessage(Context context){
+        CSTMessage cstMessage = new CSTMessage();
+        Cursor cursor = context.getContentResolver().query(CSTMessageProvider.CONTENT_URI, null, null, null, null);
+        cursor.moveToFirst();
+        while (cursor.moveToNext()){
+            cstMessage.itemList.add(getMessage(cursor));
+        }
+        return cstMessage;
+    }
+
+    public static void saveMessage(Context context, CSTMessage message) {
+        ContentResolver resolver = context.getContentResolver();
+        resolver.insert(CSTMessageProvider.CONTENT_URI, getMessageValue(message));
+    }
+
     public static void saveMessageList(Context context, CSTMessage message) {
         ContentResolver resolver = context.getContentResolver();
         resolver.bulkInsert(CSTMessageProvider.CONTENT_URI, getMessageListValues(message));

@@ -1,10 +1,11 @@
 /**
  *
  */
-package cn.edu.zju.isst1.ui.usercenter;
+package cn.edu.zju.isst1.v2.usercenter.messagecenter.gui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,8 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.baidu.android.pushservice.PushConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +36,8 @@ import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessage;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageDataDelegate;
 
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
@@ -40,18 +46,28 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  */
 public class PushMessagesActivity extends BaseActivity {
 
-    private List<PushMessage> mMessages = new ArrayList<PushMessage>();
-
     private Handler mHandler;
 
     private MsgListAdapter mAdapter;
 
     private ListView mMsgListView;
 
+    private Button mDeleteAllMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.push_messages_activity);
+
+        CSTMessage mMessage = new CSTMessage();
+
+        Intent intent = getIntent();
+
+        mMessage.title = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
+        mMessage.content = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+        mMessage.createdAt = intent.getLongExtra("createAt", System.currentTimeMillis());
+        mMessage.id = intent.getIntExtra("id",0);
+        CSTMessageDataDelegate.saveMessage(this, mMessage);
 
         setTitle(R.string.message_center);
 
@@ -59,11 +75,10 @@ public class PushMessagesActivity extends BaseActivity {
 
         initComponent();
 
-        initHandler();
+//        initHandler();
 
         setUpAdapter();
 
-        requestData();
     }
 
     @Override
@@ -71,7 +86,7 @@ public class PushMessagesActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 PushMessagesActivity.this.finish();
-                return true;
+            return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,84 +101,57 @@ public class PushMessagesActivity extends BaseActivity {
 
     private void initComponent() {
         mMsgListView = (ListView) findViewById(R.id.push_msg_list);
+//        mDeleteAllMessage = (Button) findViewById(R.id.delete_all_msg);
+//        mDeleteAllMessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CSTMessageDataDelegate.deleteAllMessage(PushMessagesActivity.this);
+//            }
+//        });
     }
 
-    private void initHandler() {
-        mHandler = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case STATUS_REQUEST_SUCCESS:
-                        refreshData((JSONObject) msg.obj);
-                        mAdapter.notifyDataSetChanged();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-        };
-    }
+//    private void initHandler() {
+//        mHandler = new Handler() {
+//
+//            @Override
+//            public void handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case STATUS_REQUEST_SUCCESS:
+//                        refreshData((JSONObject) msg.obj);
+//                        mAdapter.notifyDataSetChanged();
+//                        break;
+//
+//                    default:
+//                        break;
+//                }
+//            }
+//
+//        };
+//    }
 
     private void setUpAdapter() {
         mAdapter = new MsgListAdapter(PushMessagesActivity.this);
         mMsgListView.setAdapter(mAdapter);
     }
 
-    private void requestData() {
-        PushMessageApi.getMsgList(1, 20, new RequestListener() {
 
-            @Override
-            public void onComplete(Object result) {
-                Message msg = mHandler.obtainMessage();
-                try {
-                    if (!Judge.isValidJsonValue("status", (JSONObject) result)) {
-                        return;
-                    }
-                    msg.what = ((JSONObject) result).getInt("status");
-                    msg.obj = (JSONObject) result;
-                } catch (JSONException e) {
-                    Lgr.i(this.getClass().getName() + " onComplete!");
-                    e.printStackTrace();
-                }
-
-                mHandler.sendMessage(msg);
-
-            }
-
-            @Override
-            public void onHttpError(CSTResponse response) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onException(Exception e) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-    }
-
-    private void refreshData(JSONObject jsonObject) {
-        if (!mMessages.isEmpty()) {
-            mMessages.clear();
-        }
-        try {
-            if (!Judge.isValidJsonValue("body", jsonObject)) {
-                return;
-            }
-            JSONArray jsonArray = jsonObject.getJSONArray("body");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                mMessages.add(new PushMessage((JSONObject) jsonArray.get(i)));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void refreshData(JSONObject jsonObject) {
+//        if (!mMessages.isEmpty()) {
+//            mMessages.clear();
+//        }
+//        try {
+//            if (!Judge.isValidJsonValue("body", jsonObject)) {
+//                return;
+//            }
+//            JSONArray jsonArray = jsonObject.getJSONArray("body");
+//
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                mMessages.add(new PushMessage((JSONObject) jsonArray.get(i)));
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private final class ViewHolder {
 
@@ -176,6 +164,8 @@ public class PushMessagesActivity extends BaseActivity {
 
     private class MsgListAdapter extends BaseAdapter {
 
+        CSTMessage mMessageList = CSTMessageDataDelegate.getAllMessage(getApplicationContext());
+
         private LayoutInflater inflater;
 
         public MsgListAdapter(Context context) {
@@ -184,13 +174,12 @@ public class PushMessagesActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return mMessages.size();
+            return mMessageList.itemList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return null;
+            return mMessageList.itemList.get(position);
         }
 
         @Override
@@ -219,10 +208,10 @@ public class PushMessagesActivity extends BaseActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.titleTxv.setText(mMessages.get(position).title);
-            holder.createdTimeTxv.setText(TSUtil.toYMD(mMessages
-                    .get(position).createdTime));
-            holder.contentTxv.setText(mMessages.get(position).content);
+            holder.titleTxv.setText(mMessageList.itemList.get(position).title);
+            holder.createdTimeTxv.setText(TSUtil.toYMD(mMessageList.itemList
+                    .get(position).createdAt));
+            holder.contentTxv.setText(mMessageList.itemList.get(position).content);
 
             convertView.findViewById(R.id.publisher_txv)
                     .setVisibility(View.GONE);

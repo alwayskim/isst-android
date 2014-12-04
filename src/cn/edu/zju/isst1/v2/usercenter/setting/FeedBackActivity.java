@@ -180,7 +180,6 @@ public class FeedBackActivity extends BaseActivity {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Accept", "application/json");
                     headers.put("Content-Type", "application/json; charset=UTF-8");
-
                     return headers;
                 }
             };

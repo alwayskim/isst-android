@@ -22,6 +22,7 @@ import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.db.DataManager;
 import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.ui.main.NewMainActivity;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.gui.PushMessagesActivity;
 import cn.edu.zju.isst1.v2.usercenter.setting.SettingActivity;
 
 /**
