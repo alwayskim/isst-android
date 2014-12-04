@@ -21,6 +21,7 @@ import cn.edu.zju.isst1.util.Lgr;
 public class CSTJsonRequest extends CSTRequest<JSONObject> {
 
     private static final String BASE_URL = "http://www.cst.zju.edu.cn/isst";
+
 //    private static final String BASE_URL = "http://10.82.60.35:8080/isst";
 
     public CSTJsonRequest(int method, String subUrl, Map<String, String> params,

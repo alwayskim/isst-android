@@ -19,7 +19,7 @@ import cn.edu.zju.isst1.v2.user.data.CSTUser;
 import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.user.data.CSTUserProvider;
 
-public class UserTest extends Activity {
+public class UserTest extends Activity{
 
     private Button add_user;
 

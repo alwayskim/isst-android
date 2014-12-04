@@ -30,6 +30,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity android:name=".v2.splash.gui.LoadingActivity">
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +49,6 @@
         <activity android:name=".ui.life.RestaurantDetailActivity" />
         <activity android:name=".ui.usercenter.UserInfoActivity" />
         <activity android:name=".ui.usercenter.UserInfoEditActivity" />
-        <activity android:name=".ui.usercenter.PushMessagesActivity" />
         <activity android:name=".ui.contact.ContactDetailActivity" />
         <activity android:name=".ui.contact.ContactFilterActivity" />
         <activity android:name=".v2.event.city.gui.CityEventDetailActivity" />
@@ -60,6 +60,7 @@
         <activity android:name=".v2.restaurant.gui.NewRestaurantDetailActivity" />
         <activity android:name=".v2.usercenter.setting.SettingActivity" />
         <activity android:name=".v2.usercenter.setting.FeedBackActivity" />
+        <activity android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
 
         <provider
             android:name=".v2.db.CSTProvider"

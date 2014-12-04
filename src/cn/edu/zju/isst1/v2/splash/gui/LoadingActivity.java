@@ -191,8 +191,6 @@ public class LoadingActivity extends CSTBaseActivity {
             msg.what = NETWORK_NOT_CONNECTED;
             mHandler.sendMessage(msg);
         }
-
-
     }
 
     private void jump() {
