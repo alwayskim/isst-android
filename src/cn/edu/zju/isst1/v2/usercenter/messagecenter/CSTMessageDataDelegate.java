@@ -46,6 +46,7 @@ public class CSTMessageDataDelegate {
         while (cursor.moveToNext()){
             cstMessage.itemList.add(getMessage(cursor));
         }
+        cursor.close();
         return cstMessage;
     }
 
