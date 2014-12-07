@@ -3,7 +3,20 @@
 
     <string name="app_name">ISST</string>
     <string name="dummy_text">Dummy Text</string>
-    <string name="dummy_item">Dummy Item</string>
+    <string name="menu_news">软院快讯</string>
+    <string name="menu_wiki">软院百科</string>
+    <string name="menu_study">学习园地</string>
+    <string name="menu_contact">通讯录</string>
+    <string name="menu_contact_city">同城校友</string>
+    <string name="menu_city_master">城主</string>
+    <string name="menu_city_event">同城活动</string>
+    <string name="menu_recommend">内推</string>
+    <string name="menu_employment">就业</string>
+    <string name="menu_internship">实习</string>
+    <string name="menu_campus_event">在校活动</string>
+    <string name="menu_convenient_service">便捷服务</string>
+    <string name="menu_experience">经验交流</string>
+    <string name="menu_user_center">个人中心</string>
     <string name="autologin">自动登录</string>
     <string name="login">登录</string>
     <string name="username_input_hint">用户名</string>
@@ -110,6 +123,6 @@
     <string name="participate_show_list">参与列表</string>
     <string name="participate_empty">还没有同学报名，赶紧参加吧！</string>
     <string name="note_participants_list">报名列表</string>
-
+    <string name="title_activity_my_recoomend_list_fragment">MyRecoomendListFragment</string>
 
 </resources>

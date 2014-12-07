@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.edu.zju.isst1"
-    android:versionCode="4"
-    android:versionName="1.0.4-alpha">
+    android:versionCode="5"
+    android:versionName="1.0.5-alpha">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,7 +29,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".v2.splash.gui.LoadingActivity">
+        <activity
+            android:name=".v2.splash.gui.LoadingActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,28 +41,77 @@
         </activity>
         <activity
             android:name=".v2.login.gui.LoginActivity"
-            android:label="@string/login" />
-        <activity android:name=".ui.main.NewMainActivity" />
-        <activity android:name=".ui.job.JobDetailActivity" />
-        <activity android:name=".ui.job.RecommendDetailActivity" />
-        <activity android:name=".ui.job.JobCommentListActivity" />
-        <activity android:name=".ui.job.PublishRecommendActivity" />
-        <activity android:name=".ui.life.CampusActivityDetailActivity" />
-        <activity android:name=".ui.life.RestaurantDetailActivity" />
-        <activity android:name=".ui.usercenter.UserInfoActivity" />
-        <activity android:name=".ui.usercenter.UserInfoEditActivity" />
-        <activity android:name=".ui.contact.ContactDetailActivity" />
-        <activity android:name=".ui.contact.ContactFilterActivity" />
-        <activity android:name=".v2.event.city.gui.CityEventDetailActivity" />
-        <activity android:name=".v2.event.city.gui.CityEventParticipantsListActivity" />
-        <activity android:name=".v2.contact.ContactFilterActivity" />
-        <activity android:name=".v2.contact.contact.gui.CSTContactDetailActivity" />
-        <activity android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity" />
-        <activity android:name=".v2.archive.gui.ArchiveDetailActivity" />
-        <activity android:name=".v2.restaurant.gui.NewRestaurantDetailActivity" />
-        <activity android:name=".v2.usercenter.setting.SettingActivity" />
-        <activity android:name=".v2.usercenter.setting.FeedBackActivity" />
-        <activity android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
+            android:label="@string/login"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name=".ui.main.NewMainActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name=".ui.job.JobDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.job.RecommendDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.job.JobCommentListActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.job.PublishRecommendActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.life.CampusActivityDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.life.RestaurantDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.userinfo.UserInfoActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.userinfo.UserInfoEditActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.contact.ContactDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.contact.ContactFilterActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.event.city.gui.CityEventDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.event.city.gui.CityEventParticipantsListActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.contact.ContactFilterActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.contact.contact.gui.CSTContactDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.archive.gui.ArchiveDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.restaurant.gui.NewRestaurantDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.setting.SettingActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.setting.FeedBackActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.myactivity.MyEventActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.myexperience.MyExperienceActivity"
+            android:theme="@style/MyTheme" />
 
         <provider
             android:name=".v2.db.CSTProvider"
@@ -68,15 +119,15 @@
             android:exported="false" />
 
         <!-- push service client -->
-        <receiver android:name="cn.edu.zju.isst1.baidupush.PushMessageReceiver">
+        <receiver android:name=".baidupush.PushMessageReceiver">
             <intent-filter>
+
                 <!-- 接收push消息 -->
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
                 <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
                 <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
                 <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
             </intent-filter>
-
         </receiver>
         <!-- push service -->
         <receiver
@@ -89,7 +140,6 @@
                 <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.baidu.android.pushservice.RegistrationReceiver"
             android:process=":bdservice_v1">
@@ -99,10 +149,10 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
 
         <!-- Push 服务 -->
         <!-- 注意:在 4.0 (包含)之后的版本需加上如下所示的 intent-filter action -->
@@ -116,10 +166,11 @@
         </service>
         <!-- push service end -->
 
-        <!--<service -->
-        <!--android:name="com.baidu.android.pushservice.PushService" -->
-        <!--android:exported="true" -->
-        <!--android:process=":bdservice_v1"/> -->
+
+        <!-- <service -->
+        <!-- android:name="com.baidu.android.pushservice.PushService" -->
+        <!-- android:exported="true" -->
+        <!-- android:process=":bdservice_v1"/> -->
         <!--
         <activity
             android:name=".v2.campusactivity.CampusActivityTest"
@@ -150,10 +201,21 @@
             android:label="@string/title_activity_city_participant_test" >
         </activity>
         -->
-        <!--<activity
+        <!--
+        <activity
             android:name=".v2.citycomment.CommentTest"
             android:label="@string/title_activity_comment_test" >
-        </activity>-->
+        </activity>
+        -->
+        <activity
+            android:name=".v2.usercenter.myrecommend.MyRecommendListActivity"
+            android:label="@string/title_activity_my_recoomend_list_fragment"
+            android:parentActivityName=".ui.main.BaseActivity"
+            android:theme="@style/MyTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cn.edu.zju.isst1.ui.main.BaseActivity" />
+        </activity>
     </application>
 
 </manifest>

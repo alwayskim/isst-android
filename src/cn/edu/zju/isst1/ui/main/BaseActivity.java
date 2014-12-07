@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.VolleyError;
 
@@ -47,7 +48,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 /**
  * @author theasir
  */
-public class BaseActivity extends Activity implements LoginSimulation,
+public class BaseActivity extends FragmentActivity implements LoginSimulation,
         MessageDisposition {
 
     private Handler m_handlerUpdateLogin;

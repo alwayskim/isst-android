@@ -2,46 +2,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@drawable/menu_background3"
     android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/login_icon_logo"
+        android:layout_width="173dp"
+        android:layout_height="170dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/denglu_logo" />
 
     <EditText
         android:id="@+id/login_activity_username_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="50dp"
+        android:layout_below="@+id/login_icon_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/denglu_shangbankuang"
         android:ems="10"
         android:hint="@string/username_input_hint"
-        android:inputType="text" />
+        android:inputType="number"
+        android:textColorHint="@color/darkgray" />
 
     <EditText
         android:id="@+id/login_activity_password_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/login_activity_username_input"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:background="@drawable/denglu_xiabankuang"
         android:ems="10"
         android:hint="@string/password_input_hint"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="@color/darkgray" />
 
     <CheckBox
         android:id="@+id/login_activity_autologin_chb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login_activity_username_input"
         android:layout_below="@+id/login_activity_password_input"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="@string/autologin" />
+        android:text="@string/autologin"
+        android:textColor="@color/light_gray" />
 
-    <Button
+    <ImageButton
         android:id="@+id/login_activity_login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_activity_autologin_chb"
         android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
         android:layout_marginTop="30dp"
-        android:text="@string/login" />
+        android:background="@color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/denglu_denglubutton"
+        android:textColor="@color/lightgray" />
 
 </RelativeLayout>

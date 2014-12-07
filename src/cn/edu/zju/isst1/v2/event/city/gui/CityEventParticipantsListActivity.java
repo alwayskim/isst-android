@@ -30,7 +30,7 @@ public class CityEventParticipantsListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.city_event_participants_activity);
+        setContentView(R.layout.fragment_container_activity);
         mId = getIntent().getIntExtra(EVENT_ID, -1);
         cityId = getIntent().getIntExtra(CITY_ID, -1);
         eventTitle = getIntent().getStringExtra(EVENT_TITLE);

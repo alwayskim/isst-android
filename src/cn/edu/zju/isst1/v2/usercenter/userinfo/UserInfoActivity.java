@@ -1,7 +1,7 @@
 /**
  *
  */
-package cn.edu.zju.isst1.ui.usercenter;
+package cn.edu.zju.isst1.v2.usercenter.userinfo;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -14,8 +14,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.edu.zju.isst1.R;
-import cn.edu.zju.isst1.db.DataManager;
-import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
@@ -143,9 +141,9 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void bindData(CSTUser currentUser) {
-        m_viewHolder.genderImgv
-                .setImageResource(currentUser.gender.getKey() == 1 ? R.drawable.ic_male
-                        : R.drawable.ic_female);
+//        m_viewHolder.genderImgv
+//                .setImageResource(currentUser.gender.getKey() == 1 ? R.drawable.ic_male
+//                        : R.drawable.ic_female);
 
         List<CSTCity> cityList = CSTCityDataDelegate.getCityList(this);
         String cityName = "";

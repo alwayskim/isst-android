@@ -1,7 +1,7 @@
 /**
  *
  */
-package cn.edu.zju.isst1.ui.usercenter;
+package cn.edu.zju.isst1.v2.usercenter.myactivity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
