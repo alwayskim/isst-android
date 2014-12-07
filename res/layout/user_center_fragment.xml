@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:contentDescription="@string/user_avatar"
             android:padding="@dimen/padding_middle"
-            android:src="@drawable/avatar_default" />
+            android:src="@drawable/menu_head_icon1" />
 
         <TextView
             android:id="@+id/user_center_fragment_final_welcomeback_txv"
@@ -159,7 +159,8 @@
                 android:padding="10dp"
                 android:text="@string/action_logout"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small" />
+                android:background="@color/mediumturquoise"
+                android:textSize="@dimen/text_size_middle" />
         </LinearLayout>
     </ScrollView>
 

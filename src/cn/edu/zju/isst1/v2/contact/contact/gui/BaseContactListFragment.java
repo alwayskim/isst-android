@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -84,6 +85,8 @@ public class BaseContactListFragment extends CSTBaseFragment
     private CSTUser mUser;
 
     private TextView clazzTvx;
+
+    private Button searchBtn;
 
     private FilterType m_ft;
 
@@ -227,11 +230,11 @@ public class BaseContactListFragment extends CSTBaseFragment
     @Override
     protected void initComponent(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha, R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
+                R.color.white);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
+        searchBtn = (Button) view.findViewById(R.id.filter_show_search_btn);
         Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
                 null, null, null, null);
         mCursor.moveToFirst();
@@ -299,6 +302,15 @@ public class BaseContactListFragment extends CSTBaseFragment
     private void setUpListener() {
         mListView.setOnItemClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),
+                        ContactFilterActivity.class);
+                startActivityForResult(intent, 20);
+            }
+        });
     }
 
     private void initHandler() {

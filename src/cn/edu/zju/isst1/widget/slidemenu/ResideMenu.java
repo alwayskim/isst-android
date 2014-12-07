@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -40,6 +42,7 @@ public class ResideMenu extends FrameLayout{
     private ImageView imageViewBackground;
     private LinearLayout layoutLeftMenu;
     private LinearLayout layoutRightMenu;
+    private TextView userNameTxv;
     private ScrollView scrollViewLeftMenu;
     private ScrollView scrollViewRightMenu;
     private ScrollView scrollViewMenu;
@@ -83,6 +86,7 @@ public class ResideMenu extends FrameLayout{
         layoutLeftMenu = (LinearLayout) findViewById(R.id.layout_left_menu);
         layoutRightMenu = (LinearLayout) findViewById(R.id.layout_right_menu);
         imageViewBackground = (ImageView) findViewById(R.id.iv_background);
+        userNameTxv = (TextView) findViewById(R.id.menu_name_txv);
     }
     
     @Override
@@ -145,6 +149,10 @@ public class ResideMenu extends FrameLayout{
         imageViewBackground.setImageResource(imageResrouce);
     }
 
+    public void setUserName(String userName){
+        userNameTxv.setText(userName);
+    }
+
     /**
      * the visiblity of shadow under the activity view;
      *
@@ -183,6 +191,8 @@ public class ResideMenu extends FrameLayout{
             layoutRightMenu.addView(menuItem);
         }
     }
+
+
 
     /**
      * set the menu items by array list to left menu;
@@ -391,8 +401,8 @@ public class ResideMenu extends FrameLayout{
                 ObjectAnimator.ofFloat(target, "scaleY", targetScaleY)
         );
 
-        scaleDown.setInterpolator(AnimationUtils.loadInterpolator(activity,
-                android.R.anim.decelerate_interpolator));
+//        scaleDown.setInterpolator(AnimationUtils.loadInterpolator(activity,
+//                android.R.anim.decelerate_interpolator));
         scaleDown.setDuration(250);
         return scaleDown;
     }

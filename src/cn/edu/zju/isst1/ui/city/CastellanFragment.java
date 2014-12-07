@@ -14,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -66,6 +68,8 @@ public class CastellanFragment extends Fragment {
 
     private ImageButton m_ibtnEmail;
 
+    private Spinner casSpn;
+
     private CSTCity m_city;
 
     private CSTUser m_user;
@@ -79,7 +83,6 @@ public class CastellanFragment extends Fragment {
 //        // TODO Auto-generated constructor stub
 //        getCityList();
 //    }
-
     public static CastellanFragment GetInstance() {
         return INSTANCE;
     }
@@ -88,21 +91,21 @@ public class CastellanFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         getCityList();
-        SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.action_bar_city_item, m_arrayListCity);
+//        SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(),
+//                R.layout.action_bar_city_item, m_arrayListCity);
         // 得到ActionBar
-        ActionBar actionBar = getActivity().getActionBar();
-        // 将ActionBar的操作模型设置为NAVIGATION_MODE_LIST
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        // 为ActionBar设置下拉菜单和监听器
-        actionBar.setListNavigationCallbacks(adapter, new DropDownListenser());
+//        ActionBar actionBar = getActivity().getActionBar();
+//        // 将ActionBar的操作模型设置为NAVIGATION_MODE_LIST
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//        // 为ActionBar设置下拉菜单和监听器
+//        actionBar.setListNavigationCallbacks(adapter, new DropDownListenser());
 
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.castellan_fragment, null);
     }
 
@@ -133,6 +136,7 @@ public class CastellanFragment extends Fragment {
                 .findViewById(R.id.castellan_fragment_message_ibtn);
         m_ibtnEmail = (ImageButton) view
                 .findViewById(R.id.castellan_fragment_email_ibtn);
+        casSpn = (Spinner) view.findViewById(R.id.castellan_fragment_spn);
 
         m_ibtnMobileCall.setOnClickListener(new onMobileCallClickListner());
         m_ibtnMessage.setOnClickListener(new onMessageClickListner());
@@ -143,21 +147,17 @@ public class CastellanFragment extends Fragment {
         mCursor.moveToFirst();
         m_city = getCity(CSTUserDataDelegate.getUser(mCursor).cityId);
         mCursor.close();
+        initSpnner();
+
         if (m_city != null) {
-            ActionBar actionBar = getActivity().getActionBar();
-            actionBar
-                    .setSelectedNavigationItem(getCityListIndex(m_city.id));
+//            ActionBar actionBar = getActivity().getActionBar();
+//            actionBar
+//                    .setSelectedNavigationItem(getCityListIndex(m_city.id));
+
+            showUserDetail();
         }
 
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        // 得到ActionBar
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        super.onDestroyView();
     }
 
     /**
@@ -213,7 +213,7 @@ public class CastellanFragment extends Fragment {
      */
     private void getCityList() {
 
-        if(Judge.isNullOrEmpty(mListCity)){
+        if (Judge.isNullOrEmpty(mListCity)) {
             mListCity = CSTCityDataDelegate.getCityList(this.getActivity());
             m_arrayListCity.add("城市");
             if (!Judge.isNullOrEmpty(mListCity)) {
@@ -224,6 +224,43 @@ public class CastellanFragment extends Fragment {
             Lgr.i(" yyy getCityList");
         }
 
+    }
+
+    private void initSpnner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, m_arrayListCity);
+        // 设置下拉列表的风格
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // 将adapter 添加到spinner中
+        casSpn.setAdapter(adapter);
+
+        casSpn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+                System.out.println(adapterView.getItemAtPosition(position).toString());
+                m_city = mListCity.get(position-1);
+                showUserDetail();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        for (int i = 0; i < m_arrayListCity.size(); i++) {
+            if (m_arrayListCity.get(i).equals(m_city.name)) {
+                casSpn.setSelection(i, true);
+                break;
+            }
+            if (i == m_arrayListCity.size() - 1) {
+                casSpn.setSelection(0, true);
+            }
+        }
     }
 
     /**

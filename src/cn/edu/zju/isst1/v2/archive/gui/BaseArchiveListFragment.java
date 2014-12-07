@@ -109,8 +109,8 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     protected void initComponent(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout
-                .setColorScheme(R.color.blue, R.color.orange, R.color.blue,
-                        R.color.orange);
+                .setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
+                        R.color.white);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
         mListView.addFooterView(mFooter);

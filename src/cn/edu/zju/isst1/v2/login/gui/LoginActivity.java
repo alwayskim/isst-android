@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
@@ -70,7 +72,7 @@ public class LoginActivity extends BaseActivity {
 
     private CheckBox m_chbAutologin;
 
-    private Button m_btnLogin;
+    private ImageButton m_btnLogin;
 
     private ProgressDialog m_pgdWating;
 
@@ -144,7 +146,7 @@ public class LoginActivity extends BaseActivity {
         if (CSTSettings.isAutoLogin(LoginActivity.this)) {
             m_chbAutologin.setChecked(true);
         }
-        m_btnLogin = (Button) findViewById(R.id.login_activity_login_btn);
+        m_btnLogin = (ImageButton) findViewById(R.id.login_activity_login_btn);
     }
 
     private void initHandler() {

@@ -22,9 +22,11 @@ public class ResideMenuItem extends LinearLayout{
     /** menu item  title */
     private TextView tv_title;
 
-    public ResideMenuItem(Context context) {
+    public ResideMenuItem(Context context,int icon,String title,int index) {
         super(context);
-        initViews(context);
+        initIconViews(context);
+        iv_icon.setImageResource(icon);
+        tv_title.setText(title);
     }
 
     public ResideMenuItem(Context context, int icon, int title) {
@@ -44,6 +46,13 @@ public class ResideMenuItem extends LinearLayout{
     private void initViews(Context context){
         LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.residemenu_item, this);
+        iv_icon = (ImageView) findViewById(R.id.iv_icon);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+    }
+
+    private void initIconViews(Context context){
+        LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.reside_menu_item_icon, this);
         iv_icon = (ImageView) findViewById(R.id.iv_icon);
         tv_title = (TextView) findViewById(R.id.tv_title);
     }

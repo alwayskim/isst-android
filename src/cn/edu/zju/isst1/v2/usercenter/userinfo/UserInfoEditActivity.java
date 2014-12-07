@@ -1,7 +1,7 @@
 /**
  *
  */
-package cn.edu.zju.isst1.ui.usercenter;
+package cn.edu.zju.isst1.v2.usercenter.userinfo;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
@@ -27,12 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.edu.zju.isst1.R;
-import cn.edu.zju.isst1.db.City;
-import cn.edu.zju.isst1.db.DataManager;
-import cn.edu.zju.isst1.db.User;
-import cn.edu.zju.isst1.net.CSTResponse;
 import cn.edu.zju.isst1.net.NetworkConnection;
-import cn.edu.zju.isst1.net.RequestListener;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;

@@ -2,6 +2,7 @@ package cn.edu.zju.isst1.v2.gui;
 
 import android.app.Fragment;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 /**
  * Created by i308844 on 8/12/14.
  */
-public abstract class CSTBaseFragment extends Fragment{
+public abstract class CSTBaseFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

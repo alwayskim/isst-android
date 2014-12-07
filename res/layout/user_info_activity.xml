@@ -15,7 +15,7 @@
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
             android:contentDescription="@string/user_avatar"
-            android:src="@drawable/avatar_default" />
+            android:src="@drawable/menu_head_icon1" />
 
         <TextView
             android:id="@+id/user_info_activity_signature_txv"

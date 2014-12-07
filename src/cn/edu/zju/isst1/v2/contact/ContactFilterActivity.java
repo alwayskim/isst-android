@@ -18,7 +18,7 @@ public class ContactFilterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.city_event_participants_activity);
+        setContentView(R.layout.fragment_container_activity);
         setUpActionbar();
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

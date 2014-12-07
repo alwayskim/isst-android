@@ -53,7 +53,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  * @author theasir
  */
 public class BaseJobsListFragment extends ListFragment implements
-        OnScrollListener ,SwipeRefreshLayout.OnRefreshListener{
+        OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
 
     private final List<Job> m_listAchive = new ArrayList<Job>();
 
@@ -147,7 +147,7 @@ public class BaseJobsListFragment extends ListFragment implements
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.job_list_fragment, null);
     }
 
@@ -164,9 +164,8 @@ public class BaseJobsListFragment extends ListFragment implements
         initComponent(view);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha, R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
+                R.color.white);
 
         if (m_bIsFirstTime) {
             initJobList();
@@ -213,7 +212,7 @@ public class BaseJobsListFragment extends ListFragment implements
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
-            int visibleItemCount, int totalItemCount) {
+                         int visibleItemCount, int totalItemCount) {
         m_nVisibleLastIndex = firstVisibleItem + visibleItemCount - 1;
     }
 

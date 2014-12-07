@@ -1,7 +1,7 @@
 /**
  *
  */
-package cn.edu.zju.isst1.ui.usercenter;
+package cn.edu.zju.isst1.v2.usercenter;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -23,7 +23,11 @@ import cn.edu.zju.isst1.db.DataManager;
 import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.ui.main.NewMainActivity;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.gui.PushMessagesActivity;
+import cn.edu.zju.isst1.v2.usercenter.myactivity.MyEventActivity;
+import cn.edu.zju.isst1.v2.usercenter.myexperience.MyExperienceActivity;
+import cn.edu.zju.isst1.v2.usercenter.myrecommend.MyRecommendListActivity;
 import cn.edu.zju.isst1.v2.usercenter.setting.SettingActivity;
+import cn.edu.zju.isst1.v2.usercenter.userinfo.UserInfoActivity;
 
 /**
  * @author theasir
@@ -99,7 +103,6 @@ public class UserCenterFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PushMessagesActivity.class);
                 getActivity().startActivity(intent);
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -163,15 +166,13 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
-        //任务中心
+        //我的内推
         mViewHolder.myRecomView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, MyRecommendListFragment.getInstance())
-                        .commit();
+                getActivity().startActivity(new Intent(getActivity(), MyRecommendListActivity.class));
                 //Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
         });
@@ -182,8 +183,7 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, MyExpListFragment.getInstance()).commit();
+                getActivity().startActivity(new Intent(getActivity(), MyExperienceActivity.class));
                 //Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
         });
@@ -194,8 +194,7 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, MyActivitiesFragment.getInstance()).commit();
+                getActivity().startActivity(new Intent(getActivity(), MyEventActivity.class));
 
                 //Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
