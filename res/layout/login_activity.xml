@@ -13,7 +13,7 @@
         android:layout_width="173dp"
         android:layout_height="170dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/denglu_logo" />
+        android:src="@drawable/denglu_logo_new" />
 
     <EditText
         android:id="@+id/login_activity_username_input"
