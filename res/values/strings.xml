@@ -124,5 +124,8 @@
     <string name="participate_empty">还没有同学报名，赶紧参加吧！</string>
     <string name="note_participants_list">报名列表</string>
     <string name="title_activity_my_recoomend_list_fragment">MyRecoomendListFragment</string>
+    <string name="title_activity_task_center">TaskCenterActivity</string>
+    <string name="task_center_hint">请选择任务类型</string>
+    <string name="title_activity_gowhere_survey">GowhereSurveyActivity</string>
 
 </resources>

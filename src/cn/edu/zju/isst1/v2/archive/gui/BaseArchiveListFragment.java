@@ -23,9 +23,6 @@ import org.json.JSONObject;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.constant.Constants;
-import cn.edu.zju.isst1.net.NetworkConnection;
-import cn.edu.zju.isst1.ui.main.NewMainActivity;
-import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.archive.data.ArchiveCategory;
 import cn.edu.zju.isst1.v2.archive.data.CSTArchive;
@@ -38,7 +35,6 @@ import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
-import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
 
 /**
  * Created by i308844 on 8/12/14.

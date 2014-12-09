@@ -4,6 +4,7 @@
     android:versionCode="5"
     android:versionName="1.0.5-alpha">
 
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -119,7 +120,8 @@
             android:exported="false" />
 
         <!-- push service client -->
-        <receiver android:name=".baidupush.PushMessageReceiver">
+        <receiver android:name=".baidupush.PushMessageReceiver" >
+
             <intent-filter>
 
                 <!-- 接收push消息 -->
@@ -132,7 +134,7 @@
         <!-- push service -->
         <receiver
             android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":bdservice_v1">
+            android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -142,7 +144,7 @@
         </receiver>
         <receiver
             android:name="com.baidu.android.pushservice.RegistrationReceiver"
-            android:process=":bdservice_v1">
+            android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.METHOD" />
                 <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
@@ -159,7 +161,7 @@
         <service
             android:name="com.baidu.android.pushservice.PushService"
             android:exported="true"
-            android:process=":bdservice_v1">
+            android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
@@ -215,6 +217,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cn.edu.zju.isst1.ui.main.BaseActivity" />
+        </activity>
+        
+        <activity
+            android:name=".v2.usercenter.taskcenter.gui.TaskCenterActivity"
+            android:label="@string/title_activity_task_center" >
+        </activity>
+        
+        <activity
+            android:name=".v2.usercenter.taskcenter.gui.GowhereSurveyActivity"
+            android:label="@string/title_activity_gowhere_survey" >
         </activity>
     </application>
 
