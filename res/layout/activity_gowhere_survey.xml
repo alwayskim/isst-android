@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.edu.zju.isst1.v2.usercenter.taskcenter.gui.GoWhereSurveyFragment">
+
+
+    <TextView
+        android:id="@+id/gw_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="任务名称:" />
+
+    <TextView
+        android:id="@+id/gw_name_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/gw_name"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/gw_starttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_name"
+        android:padding="10dp"
+        android:text="开始时间:" />
+
+    <TextView
+        android:id="@+id/gw_starttime_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_name_c"
+        android:layout_toRightOf="@id/gw_starttime"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/gw_expiretime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_starttime"
+        android:padding="10dp"
+        android:text="截止时间:" />
+
+    <TextView
+        android:id="@+id/gw_expiretime_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_starttime_c"
+        android:layout_toRightOf="@id/gw_expiretime"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/gw_tasktype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_expiretime"
+        android:padding="10dp"
+        android:text="任务类型:" />
+
+    <TextView
+        android:id="@+id/gw_tasktype_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_expiretime_c"
+        android:layout_toRightOf="@id/gw_tasktype"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/gw_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_tasktype"
+        android:padding="10dp"
+        android:text="任务描述:" />
+
+    <TextView
+        android:id="@+id/gw_description_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_tasktype_c"
+        android:layout_toRightOf="@id/gw_description"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/gw_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_description"
+        android:padding="10dp"
+        android:text="完成状态" />
+
+    <TextView
+        android:id="@+id/gw_finish_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gw_description_c"
+        android:layout_toRightOf="@id/gw_finish"
+        android:padding="10dp" />
+</RelativeLayout>
