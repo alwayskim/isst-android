@@ -158,7 +158,7 @@ public class SettingActivity extends BaseActivity {
         ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle(getResources().getString(R.string.personal_setting));
+        setTitle(getResources().getString(R.string.app_about));
     }
 
     private void initAlertDialog() {

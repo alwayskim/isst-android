@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class FeedBackActivity extends BaseActivity {
 
     private final String operateSystem = "Android";
 
-    String url = "http://10.82.60.32:3000/app_feedbacks.json";
+    String url = "http://10.82.60.35/feedback/app_feedbacks.json";
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
@@ -116,7 +117,7 @@ public class FeedBackActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
-
+                        CroMan.showConfirm(FeedBackActivity.this, "发送成功");
                         break;
                     case NETWORK_NOT_CONNECTED:
                         CroMan.showAlert(FeedBackActivity.this, R.string.network_not_connected);
@@ -132,16 +133,15 @@ public class FeedBackActivity extends BaseActivity {
 
     public void sendFeedbackData() {
         if (contentEdt.getText().toString().length() > 5) {
-            feedBackType = typeSpinner.getSelectedItemPosition() + 1;
+            feedBackType = typeSpinner.getSelectedItemPosition();
             Lgr.i(String.valueOf(feedBackType));
-            if (emailEdt.getText().toString() != null) {
-                email = emailEdt.getText().toString();
-            }
+
 
             CampusEventDetailResponse response = new CampusEventDetailResponse(this) {
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);
+
                     Lgr.i(response.toString());
                 }
 
@@ -163,17 +163,24 @@ public class FeedBackActivity extends BaseActivity {
             Lgr.i(json.toString());
 
             JsonRequest<JSONObject> jsonRequest = new JsonObjectRequest(Request.Method.POST, url, json,
-                    new Response.Listener<JSONObject>() {
+                    new CampusEventDetailResponse(this) {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Lgr.i("response -> " + response.toString());
+                            super.onResponse(response);
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = 0;
+                            mHandler.sendMessage(msg);
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Lgr.i("errorResponse -> " + error.toString());
-                }
-            }) {
+                    },
+                    new CampusEventDetailResponse(this) {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Lgr.i("errorResponse -> " + error.toString());
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = mErrorStatusCode;
+                            mHandler.sendMessage(msg);
+                        }
+                    }) {
 
                 @Override
                 public Map<String, String> getHeaders() {
@@ -208,11 +215,19 @@ public class FeedBackActivity extends BaseActivity {
         currentApiVersion = Build.VERSION.RELEASE;
         CSTUser user = CSTUserDataDelegate.getCurrentUser(this);
         userName = user.userName;
-        email = user.email;
+        if (user.email == null) {
+            email = user.phoneNum;
+        } else {
+            email = user.email;
+        }
         baseInfoTxv.setText("设备:" + operateSystem + "  系统:" + currentApiVersion + "  客户端版本:" + version);
     }
 
     public void initSpinner() {
+        mArrayListType
+                .add("请选择反馈类型");
+        mArrayListType
+                .add("Bug反馈");
         mArrayListType
                 .add("功能添加");
         mArrayListType

@@ -196,6 +196,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
     private void bindAdapter() {
         mAdapter = new BaseEventListAdapter(getActivity(), null, mEventCategory);
         mListView.setAdapter(mAdapter);
+        requestData();
     }
 
     private void setUpListener() {

@@ -3,11 +3,13 @@
  */
 package cn.edu.zju.isst1.ui.main;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -26,11 +28,17 @@ import cn.edu.zju.isst1.ui.job.InternshipListFragment;
 import cn.edu.zju.isst1.ui.job.RecommedListFragment;
 import cn.edu.zju.isst1.ui.life.WikGridFragment;
 import cn.edu.zju.isst1.util.Lgr;
+import cn.edu.zju.isst1.v2.archive.data.CSTArchiveDataDelegate;
 import cn.edu.zju.isst1.v2.archive.gui.ExperienceFragment;
 import cn.edu.zju.isst1.v2.archive.gui.NewsFragment;
 import cn.edu.zju.isst1.v2.archive.gui.StudyFragment;
+import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListDataDelegate;
+import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.gui.BaseContactListFragment;
+import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.campus.gui.CSTCampusEventListFragment;
+import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
+import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.city.gui.CSTCityEventListFragment;
 import cn.edu.zju.isst1.v2.login.gui.LoginActivity;
 import cn.edu.zju.isst1.v2.restaurant.gui.NewRestaurantListFragment;
@@ -55,7 +63,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private ResideMenu resideMenu;
     private TextView titleTxv;
-    private Button rightBtn;
+    private ImageButton rightBtn;
     private ImageButton homeBtn;
 
     private ResideMenuItem itemInternship;
@@ -84,6 +92,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         mCurrentFragment = null;
         setUpMenu();
+        setUpActionbar();
         if (savedInstanceState == null) {
             mCurrentFragment = NewsFragment.getInstance();
             titleTxv.setText(R.string.menu_news);
@@ -96,8 +105,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private void setUpMenu() {
 
-        titleTxv = (TextView) findViewById(R.id.title_bar_title_menu);
-        rightBtn = (Button) findViewById(R.id.title_bar_right_menu);
+//        titleTxv = (TextView) findViewById(R.id.title_bar_title_menu);
+//        rightBtn = (Button) findViewById(R.id.title_bar_right_menu);
         // attach to current activity;
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.menu_background3);
@@ -180,21 +189,21 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         // You can disable a direction by setting ->
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 
-        homeBtn = (ImageButton) findViewById(R.id.title_bar_left_menu);
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
-            }
-        });
-
-        rightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
-                NewMainActivity.this.startActivity(intent);
-            }
-        });
+//        homeBtn = (ImageButton) findViewById(R.id.title_bar_left_menu);
+//        homeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+//            }
+//        });
+//
+//        rightBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
+//                NewMainActivity.this.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
@@ -304,10 +313,45 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             }
         });
         DataManager.deleteCurrentUser();
+
+        CSTCampusEventDataDelegate.deleteAllCampusEvent(this);
+        CSTCityEventDataDelegate.deleteAllCityEvent(this);
+        CSTAlumniDataDelegate.deleteAllAlumni(this);
+        CSTAddressListDataDelegate.deleteAllAlumni(this);
+
         CSTSettings.setAutoLogin(false, NewMainActivity.this);
         NewMainActivity.this.startActivity(new Intent(NewMainActivity.this,
                 LoginActivity.class));
         NewMainActivity.this.finish();
+    }
+
+    private void setUpActionbar() {
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        View viewTitleBar = getLayoutInflater().inflate(R.layout.main_activity_menu, null);
+        getActionBar().setCustomView(viewTitleBar, lp);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        homeBtn = (ImageButton) getActionBar().getCustomView().findViewById(R.id.title_bar_left_menu);
+        rightBtn = (ImageButton) getActionBar().getCustomView().findViewById(R.id.title_bar_right_menu);
+        titleTxv = (TextView) getActionBar().getCustomView().findViewById(R.id.title_bar_title_menu);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+            }
+        });
+
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
+                NewMainActivity.this.startActivity(intent);
+            }
+        });
     }
 
 }
