@@ -240,9 +240,12 @@ public class CastellanFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
                 // TODO Auto-generated method stub
+
                 System.out.println(adapterView.getItemAtPosition(position).toString());
-                m_city = mListCity.get(position-1);
-                showUserDetail();
+                if (position > 0) {
+                    m_city = mListCity.get(position - 1);
+                    showUserDetail();
+                }
             }
 
             @Override

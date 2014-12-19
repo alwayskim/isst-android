@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -88,7 +89,7 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     private TextView clazzTvx;
 
-    private Button searchBtn;
+    private ImageButton searchBtn;
 
     private FilterType m_ft;
 
@@ -236,7 +237,7 @@ public class BaseContactListFragment extends CSTBaseFragment
                 R.color.white);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
-        searchBtn = (Button) view.findViewById(R.id.filter_show_search_btn);
+        searchBtn = (ImageButton) view.findViewById(R.id.filter_show_search_btn);
         Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
                 null, null, null, null);
         mCursor.moveToFirst();

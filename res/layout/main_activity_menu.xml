@@ -29,14 +29,12 @@
 
         <ImageButton
             android:id="@+id/title_bar_right_menu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@color/light_gray"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
+            android:background="@color/transparent"
             android:layout_gravity="right|center_vertical"
+            android:src="@drawable/txl_message"
+            android:padding="5dp"
             android:layout_marginRight="10dp"/>
 </FrameLayout>

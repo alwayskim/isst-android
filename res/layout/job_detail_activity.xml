@@ -62,7 +62,6 @@
         android:id="@+id/job_detail_activity_content_webv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:padding="10dp" />
+        android:fitsSystemWindows="true" />
 </LinearLayout>
 

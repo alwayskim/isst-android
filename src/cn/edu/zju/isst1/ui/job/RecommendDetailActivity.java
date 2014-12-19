@@ -227,11 +227,19 @@ public class RecommendDetailActivity extends BaseActivity {
 
 //			}
         });
+//        m_webvContent.setInitialScale(25);//为25%，最小缩放等级
         WebSettings settings = m_webvContent.getSettings();
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
+//        settings.setUseWideViewPort(true);
+//        settings.setLoadWithOverviewMode(true);
+//        settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+//        settings.setDefaultFontSize(38);
+
+        settings.setUseWideViewPort(false);
+        settings.setLoadWithOverviewMode(false);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
-        settings.setDefaultFontSize(38);
+
+        settings.setSupportZoom(true);// 支持缩放
+//        settings.setDefaultFontSize(30);
     }
 
     /**
