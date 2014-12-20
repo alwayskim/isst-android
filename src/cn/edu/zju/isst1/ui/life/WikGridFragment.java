@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,7 +55,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  *         <p/>
  *         TODO WIP
  */
-public class WikGridFragment extends Fragment implements OnScrollListener {
+public class WikGridFragment extends Fragment implements OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static WikGridFragment INSTANCE = new WikGridFragment();
 
@@ -65,6 +66,8 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
     private Handler m_handlerWikiList;
 
     private WikiListAdapter m_adapterWikiList;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private GridView m_gvWiki;
 
@@ -97,7 +100,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.wiki_grid_fragment, null);
     }
 
@@ -114,6 +117,10 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
 
         m_gvWiki = (GridView) view.findViewById(R.id.wiki_grid_fragment_wiki_gridv);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
+                R.color.white);
+
         initWikiList();
 
         m_handlerWikiList = new Handler() {
@@ -127,6 +134,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
+                        mSwipeRefreshLayout.setRefreshing(false);
                         m_adapterWikiList.notifyDataSetChanged();
                         break;
                     case STATUS_NOT_LOGIN:
@@ -152,7 +160,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                    long arg3) {
+                                    long arg3) {
                 // TODO Auto-generated method stub
                 Lgr.i(this.getClass().getName() + " onListItemClick postion = ");
                 Intent intent = new Intent(getActivity(),
@@ -161,6 +169,8 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
                 getActivity().startActivity(intent);
             }
         });
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
     }
 
@@ -177,36 +187,6 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
 
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.Fragment#onCreateOptionsMenu(android.view.Menu,
-     * android.view.MenuInflater)
-     */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.wiki_list_fragment_ab_menu, menu);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.Fragment#onOptionsItemSelected(android.view.MenuItem
-     * )
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                requestData(LoadType.REFRESH);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -221,7 +201,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
-            int visibleItemCount, int totalItemCount) {
+                         int visibleItemCount, int totalItemCount) {
         // m_nVisibleLastIndex = firstVisibleItem + visibleItemCount - 1;
     }
 
@@ -295,11 +275,11 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
             switch (type) {// TODO 刷新策略
                 case REFRESH:
                     // 设置刷新策略，一次性加载最新若干条
-                    ArchiveApi.getWikiList(1, 10, "",
+                    ArchiveApi.getWikiList(1, 20, "",
                             new WikiListRequestListener(type));
                     break;
                 case LOADMORE:
-                    ArchiveApi.getWikiList(1, 5, "",
+                    ArchiveApi.getWikiList(1, 20, "",
                             new WikiListRequestListener(type));
                     break;
                 default:
@@ -310,6 +290,11 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
             msg.what = NETWORK_NOT_CONNECTED;
             m_handlerWikiList.sendMessage(msg);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        requestData(LoadType.REFRESH);
     }
 
     /**
@@ -441,7 +426,6 @@ public class WikGridFragment extends Fragment implements OnScrollListener {
                         .findViewById(R.id.wiki_grid_item_description_txv);
                 holder.indicatorView = (View) convertView
                         .findViewById(R.id.wiki_grid_item_indicator_view);
-
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

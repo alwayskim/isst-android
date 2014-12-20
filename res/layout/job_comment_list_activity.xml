@@ -33,14 +33,16 @@
             android:inputType="textMultiLine"
             android:maxLength="140"
             android:maxLines="10"
-            android:textColor="@android:color/black"
-            android:textColorHint="#FF000000"></EditText>
+            android:textColor="@color/black"
+            android:textColorLink="@color/light_gray">
+        </EditText>
 
         <ImageButton
             android:id="@+id/job_comment_send_imgbtn"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
+            android:background="@color/deepskyblue"
             android:contentDescription="?android:attr/description"
             android:src="@drawable/ic_comment_send" />
     </LinearLayout>

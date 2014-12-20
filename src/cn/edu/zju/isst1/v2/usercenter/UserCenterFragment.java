@@ -92,11 +92,6 @@ public class UserCenterFragment extends Fragment {
         show();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.user_center_fragment_ab_menu, menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -7,5 +7,5 @@
         android:id="@+id/loading_activity_test_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/menu_background3" />
+        android:background="@drawable/loading_pic" />
 </RelativeLayout>

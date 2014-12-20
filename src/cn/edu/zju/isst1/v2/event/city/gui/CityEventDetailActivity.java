@@ -151,10 +151,17 @@ public class CityEventDetailActivity extends BaseActivity {
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
                         CroMan.showConfirm(CityEventDetailActivity.this,
-                                R.string.participate_commit_success);
+                                msg.obj.toString());
                         mCSTCityEvent.isParticipate = !mCSTCityEvent.isParticipate;
                         showDetail();
                         Lgr.i(getResources().getString(R.string.participate_commit_success));
+                        break;
+                    case 30:
+                    case 31:
+                    case 32:
+                    case 33:
+                        CroMan.showAlert(CityEventDetailActivity.this,
+                                msg.obj.toString());
                         break;
                     case STATUS_NOT_LOGIN:
                         UpDateLogin.getInstance().updateLogin(CityEventDetailActivity.this);
@@ -204,7 +211,8 @@ public class CityEventDetailActivity extends BaseActivity {
                     mCSTCityEvent = (CSTCityEvent) CSTJsonParser
                             .parseJson(response, new CSTCityEvent());
                     final int status = mCSTCityEvent.getStatusInfo().status;
-                    msg.what = status;
+                    msg.what = 0;
+                    msg.obj = mCSTCityEvent.getStatusInfo().message;
                     mHandler.sendMessage(msg);
                 }
 

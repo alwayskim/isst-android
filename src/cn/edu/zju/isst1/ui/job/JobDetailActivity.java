@@ -206,7 +206,8 @@ public class JobDetailActivity extends BaseActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
-        settings.setDefaultFontSize(38);
+        settings.setSupportZoom(true);// 支持缩放
+        settings.setDefaultFontSize(48);
 
         // settings.setTextSize(TextSize.NORMAL);
     }

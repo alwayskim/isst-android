@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTContactFilter;
 import cn.edu.zju.isst1.v2.contact.contact.net.ContactResponse;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
+import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityDataDelegate;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
 import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
@@ -86,7 +89,7 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     private TextView clazzTvx;
 
-    private Button searchBtn;
+    private ImageButton searchBtn;
 
     private FilterType m_ft;
 
@@ -204,28 +207,28 @@ public class BaseContactListFragment extends CSTBaseFragment
         Lgr.d("BaseContactListFragment", "——onActivityCreated");
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Auto-generated method stub
-        super.onCreateOptionsMenu(menu, inflater);
-        Lgr.d("BaseContactListFragment", "——onCreateOptionsMenu");
-        if (m_ft == FilterType.MY_CLASS || m_ft == FilterType.MY_FILTER) {
-            inflater.inflate(R.menu.alumni_list_fragment_ab_menu, menu);
-        }
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        // TODO Auto-generated method stub
+//        super.onCreateOptionsMenu(menu, inflater);
+//        Lgr.d("BaseContactListFragment", "——onCreateOptionsMenu");
+//        if (m_ft == FilterType.MY_CLASS || m_ft == FilterType.MY_FILTER) {
+//            inflater.inflate(R.menu.alumni_list_fragment_ab_menu, menu);
+//        }
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_alumni_filter:
-                Intent intent = new Intent(getActivity(),
-                        ContactFilterActivity.class);
-                startActivityForResult(intent, 20);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_alumni_filter:
+//                Intent intent = new Intent(getActivity(),
+//                        ContactFilterActivity.class);
+//                startActivityForResult(intent, 20);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     protected void initComponent(View view) {
@@ -234,7 +237,7 @@ public class BaseContactListFragment extends CSTBaseFragment
                 R.color.white);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
-        searchBtn = (Button) view.findViewById(R.id.filter_show_search_btn);
+        searchBtn = (ImageButton) view.findViewById(R.id.filter_show_search_btn);
         Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
                 null, null, null, null);
         mCursor.moveToFirst();
@@ -247,7 +250,7 @@ public class BaseContactListFragment extends CSTBaseFragment
             clazzTvx.setText(mUser.grade + "级" + mUser.clazzName + "班");
         } else if (m_ft == FilterType.MY_CITY) {
             mFilter.cityId = mUser.cityId;
-            clazzTvx.setText(mUser.cityName);
+            clazzTvx.setText(getCityName(mFilter.cityId));
         }
 
         initHandler();
@@ -287,9 +290,7 @@ public class BaseContactListFragment extends CSTBaseFragment
         mAlumni = (CSTAlumni) view.getTag();
         Lgr.i("Alumni Name", mAlumni.name);
         Intent intent = new Intent(getActivity(), CSTContactDetailActivity.class);
-
         intent.putExtra("alumni", ((CSTAlumni) view.getTag()));
-
         getActivity().startActivity(intent);
     }
 
@@ -302,7 +303,6 @@ public class BaseContactListFragment extends CSTBaseFragment
     private void setUpListener() {
         mListView.setOnItemClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -360,7 +360,6 @@ public class BaseContactListFragment extends CSTBaseFragment
                     mHandler.sendMessage(msg);
                 }
             };
-
             Map<String, String> paramsMap = new HashMap<String, String>();
             paramsMap.put("name", mFilter.name);
             paramsMap.put("gender", String.valueOf(mFilter.gender));
@@ -387,4 +386,21 @@ public class BaseContactListFragment extends CSTBaseFragment
             mHandler.sendMessage(msg);
         }
     }
+
+    /**
+     * 初始化城市列表
+     */
+    private String getCityName(int cityId) {
+        List<CSTCity> mListCity = CSTCityDataDelegate.getCityList(this.getActivity());
+        if (!Judge.isNullOrEmpty(mListCity)) {
+            for (CSTCity city : mListCity) {
+                if (cityId == city.id) {
+                    return city.name;
+                }
+            }
+            Lgr.i("get city name");
+        }
+        return null;
+    }
+
 }
