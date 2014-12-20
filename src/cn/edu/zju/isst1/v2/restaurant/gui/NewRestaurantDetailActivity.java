@@ -193,7 +193,6 @@ public class NewRestaurantDetailActivity extends Activity {
         String str = RESTAURANT_MENU_URL + "/" + Integer.toString(m_nId) + "/" + "menus";
         CSTJsonRequest rmRequest = new CSTJsonRequest(CSTRequest.Method.GET, str, null,
                 rmResponse);
-
         mEngine.requestJson(rmRequest);
     }
 }
