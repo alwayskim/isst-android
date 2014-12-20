@@ -39,6 +39,12 @@ android {
         applicationId "cn.edu.zju.isst1"
     }
 
+    buildTypes {
+        release {
+            debuggable true
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

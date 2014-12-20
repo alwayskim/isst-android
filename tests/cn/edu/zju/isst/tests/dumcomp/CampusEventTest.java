@@ -19,6 +19,7 @@ import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEvent;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventProvider;
 
+
 public class CampusEventTest extends Activity {
 
     private Button add_campusevent;
@@ -46,9 +47,9 @@ public class CampusEventTest extends Activity {
                 ce.description = "非常精彩";
                 ce.content = "太好玩了";
                 ce.pubName = "cb";
-                ce.updatedAt = 10;
-                ce.startTime = 9;
-                ce.expireTime = 11;
+//                ce.updatedAt = 10;
+//                ce.startTime = 9;
+//                ce.expireTime = 11;
                 CSTCampusEvent ce1 = new CSTCampusEvent();
                 ce1.id = 2;
                 ce1.title = "篮球赛";
@@ -56,9 +57,9 @@ public class CampusEventTest extends Activity {
                 ce1.description = "非常精彩";
                 ce1.content = "太好玩了";
                 ce1.pubName = "cb";
-                ce1.updatedAt = 10;
-                ce1.startTime = 9;
-                ce1.expireTime = 11;
+//                ce1.updatedAt = 10;
+//                ce1.startTime = 9;
+//                ce1.expireTime = 11;
                 CSTCampusEventDataDelegate.saveCampusEvent(getApplicationContext(), ce);
                 CSTCampusEventDataDelegate.saveCampusEvent(getApplicationContext(), ce1);
                 show();
