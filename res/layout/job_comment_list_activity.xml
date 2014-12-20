@@ -33,7 +33,7 @@
             android:inputType="textMultiLine"
             android:maxLength="140"
             android:maxLines="10"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textColorHint="#FF000000"></EditText>
 
         <ImageButton

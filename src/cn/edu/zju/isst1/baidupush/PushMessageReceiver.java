@@ -161,7 +161,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
         Long time = System.currentTimeMillis();
         aIntent.putExtra("creatAt",time);
 
-        Lgr.i(Long.toString(time));
+        Lgr.i("createAt",TSUtil.toYMD(time));
         context.startActivity(aIntent);
     }
 

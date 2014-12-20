@@ -65,8 +65,7 @@ public class PushMessagesActivity extends BaseActivity {
 
         mMessage.title = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
         mMessage.content = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
-        mMessage.createdAt = intent.getLongExtra("createAt", System.currentTimeMillis());
-        mMessage.id = intent.getIntExtra("id",0);
+        mMessage.id = intent.getIntExtra("id", 0);
         CSTMessageDataDelegate.saveMessage(this, mMessage);
 
         setTitle(R.string.message_center);
@@ -74,8 +73,6 @@ public class PushMessagesActivity extends BaseActivity {
         setUpActionbar();
 
         initComponent();
-
-//        initHandler();
 
         setUpAdapter();
 
@@ -86,7 +83,7 @@ public class PushMessagesActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 PushMessagesActivity.this.finish();
-            return true;
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -200,8 +197,6 @@ public class PushMessagesActivity extends BaseActivity {
                         .findViewById(R.id.title_txv);
                 holder.contentTxv = (TextView) convertView
                         .findViewById(R.id.description_txv);
-                holder.createdTimeTxv = (TextView) convertView
-                        .findViewById(R.id.date_txv);
 
                 convertView.setTag(holder);
             } else {
@@ -209,8 +204,6 @@ public class PushMessagesActivity extends BaseActivity {
             }
 
             holder.titleTxv.setText(mMessageList.itemList.get(position).title);
-            holder.createdTimeTxv.setText(TSUtil.toYMD(mMessageList.itemList
-                    .get(position).createdAt));
             holder.contentTxv.setText(mMessageList.itemList.get(position).content);
 
             convertView.findViewById(R.id.publisher_txv)
