@@ -24,7 +24,6 @@ import org.json.JSONObject;
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.ui.life.CampusActivityDetailActivity;
-import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.event.base.BaseEventListAdapter;
 import cn.edu.zju.isst1.v2.event.base.EventCategory;
@@ -38,7 +37,6 @@ import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
-import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;

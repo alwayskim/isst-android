@@ -22,9 +22,9 @@ public class CSTCampusEventProvider extends SimpleTableProvider {
             + Columns.DESCRIPTION.key + " VARCHAR(255), "
             + Columns.CONTENT.key + " VARCHAR(32), "
             + Columns.PUBLISHER_NAME.key + " VARCHAR(255), "
-            + Columns.UPDATEAT.key + " INTEGER, "
-            + Columns.STARTTIME.key + " INTEGER, "
-            + Columns.EXPIRETIME.key + " INTEGER, "
+            + Columns.UPDATEAT.key + " TEXT, "
+            + Columns.STARTTIME.key + " TEXT, "
+            + Columns.EXPIRETIME.key + " TEXT, "
             + "UNIQUE (" + Columns.ID.key + ") ON CONFLICT REPLACE)";
 
     public static final Uri CONTENT_URI = CSTProvider.CONTENT_URI.buildUpon().appendPath(TABLE_NAME)

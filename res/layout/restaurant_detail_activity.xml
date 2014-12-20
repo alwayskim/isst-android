@@ -12,12 +12,22 @@
         android:contentDescription="@string/restaurant_imagebutton_call"
         android:src="@android:drawable/ic_menu_call" />
 
+    <TextView
+        android:id="@+id/menu_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="菜单"
+        android:textSize="20dp"
+        android:layout_below="@+id/restaurant_detail_activity_final_business_hours_txv"
+        android:padding="10dp"/>
+
     <ListView
         android:id="@+id/restaurant_detail_activity_menu_lsv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/menu_tip"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/restaurant_detail_activity_final_business_hours_txv"
         android:layout_centerHorizontal="true">
 
     </ListView>

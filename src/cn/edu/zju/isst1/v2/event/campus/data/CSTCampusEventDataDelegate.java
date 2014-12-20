@@ -31,11 +31,11 @@ public class CSTCampusEventDataDelegate {
         campusevent.pubName = cursor.getString(
                 cursor.getColumnIndex(CSTCampusEventProvider.Columns.PUBLISHER_NAME.key));
         campusevent.updatedAt = cursor
-                .getInt(cursor.getColumnIndex(CSTCampusEventProvider.Columns.UPDATEAT.key));
+                .getString(cursor.getColumnIndex(CSTCampusEventProvider.Columns.UPDATEAT.key));
         campusevent.startTime = cursor
-                .getInt(cursor.getColumnIndex(CSTCampusEventProvider.Columns.STARTTIME.key));
+                .getString(cursor.getColumnIndex(CSTCampusEventProvider.Columns.STARTTIME.key));
         campusevent.expireTime = cursor
-                .getInt(cursor.getColumnIndex(CSTCampusEventProvider.Columns.EXPIRETIME.key));
+                .getString(cursor.getColumnIndex(CSTCampusEventProvider.Columns.EXPIRETIME.key));
         return campusevent;
     }
 

@@ -45,9 +45,12 @@ public class BaseEventListAdapter extends CursorAdapter {
             view.setTag(campusEvent);
             ViewHolder holder = getBindViewHolder(view);
             holder.titleTxv.setText(campusEvent.title);
-            holder.updateTimeTxv.setText(TSUtil.toYMD(campusEvent.updatedAt));
-            holder.startTimeTxv.setText(TSUtil.toHM(campusEvent.startTime));
-            holder.expireTimeTxv.setText(TSUtil.toHM(campusEvent.expireTime));
+//            holder.updateTimeTxv.setText(TSUtil.toYMD(campusEvent.updatedAt));
+//            holder.startTimeTxv.setText(TSUtil.toHM(campusEvent.startTime));
+//            holder.expireTimeTxv.setText(TSUtil.toHM(campusEvent.expireTime));
+            holder.updateTimeTxv.setText(TSUtil.toYMD(Long.parseLong(campusEvent.updatedAt)));
+            holder.startTimeTxv.setText(TSUtil.toHM(Long.parseLong(campusEvent.startTime)));
+            holder.expireTimeTxv.setText(TSUtil.toHM(Long.parseLong(campusEvent.expireTime)));
             holder.descriptionTxv.setText(campusEvent.description);
         } else {
             cityEvent = CSTCityEventDataDelegate.getCityevent(cursor);

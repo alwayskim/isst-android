@@ -33,13 +33,13 @@ public class CSTCampusEvent extends CSTDataItem<CSTCampusEvent> {
     public String location;
 
     @JsonProperty("updatedAt")
-    public long updatedAt;
+    public String updatedAt;
 
     @JsonProperty("startTime")
-    public long startTime;
+    public String startTime;
 
     @JsonProperty("expireTime")
-    public long expireTime;
+    public String expireTime;
 
     public CSTCampusEvent() {
     }

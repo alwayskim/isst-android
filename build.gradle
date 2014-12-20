@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
@@ -37,6 +37,12 @@ android {
         versionCode 5
         versionName  "1.0.5-alpha"
         applicationId "cn.edu.zju.isst1"
+    }
+
+    buildTypes {
+        release {
+            debuggable true
+        }
     }
 
     sourceSets {

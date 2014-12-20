@@ -74,12 +74,12 @@ public class LoadingActivity extends CSTBaseActivity {
         setContentView(R.layout.loading_activity);
         // 打开推送
         Lgr.i("Loading____pushSetting");
-        //PushSettings.enableDebugMode(getApplicationContext(), true);
+        PushSettings.enableDebugMode(getApplicationContext(), true);
 
-        // 以apikey的方式登录，一般放在主Activity的onCreate中
+//        以apikey的方式登录，一般放在主Activity的onCreate中
 
-        //PushManager.startWork(getApplicationContext(),
-         //       PushConstants.LOGIN_TYPE_API_KEY, "Wu84DeRt2gFEzjDn0ErqxwSL");
+        PushManager.startWork(getApplicationContext(),
+                PushConstants.LOGIN_TYPE_API_KEY, "Wu84DeRt2gFEzjDn0ErqxwSL");
 
         initAlertDialog();
 
