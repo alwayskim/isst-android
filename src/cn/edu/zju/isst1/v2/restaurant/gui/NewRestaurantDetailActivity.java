@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.zju.isst1.R;
-import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
