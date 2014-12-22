@@ -79,7 +79,7 @@ public class LoadingActivity extends CSTBaseActivity {
 //        以apikey的方式登录，一般放在主Activity的onCreate中
 
         PushManager.startWork(getApplicationContext(),
-                PushConstants.LOGIN_TYPE_API_KEY, "Wu84DeRt2gFEzjDn0ErqxwSL");
+                PushConstants.LOGIN_TYPE_API_KEY, "It's secret!");
 
         initAlertDialog();
 
