@@ -65,6 +65,7 @@ public class PushMessagesActivity extends BaseActivity {
 
         mMessage.title = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
         mMessage.content = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+        mMessage.createdAt = Long.toString(intent.getLongExtra("creatAt", System.currentTimeMillis()));
         mMessage.id = intent.getIntExtra("id", 0);
         CSTMessageDataDelegate.saveMessage(this, mMessage);
 
@@ -197,7 +198,7 @@ public class PushMessagesActivity extends BaseActivity {
                         .findViewById(R.id.title_txv);
                 holder.contentTxv = (TextView) convertView
                         .findViewById(R.id.description_txv);
-
+                holder.createdTimeTxv = (TextView) convertView.findViewById(R.id.date_txv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -205,6 +206,7 @@ public class PushMessagesActivity extends BaseActivity {
 
             holder.titleTxv.setText(mMessageList.itemList.get(position).title);
             holder.contentTxv.setText(mMessageList.itemList.get(position).content);
+            holder.createdTimeTxv.setText(TSUtil.toFull(Long.parseLong(mMessageList.itemList.get(position).createdAt)));
 
             convertView.findViewById(R.id.publisher_txv)
                     .setVisibility(View.GONE);
@@ -213,5 +215,4 @@ public class PushMessagesActivity extends BaseActivity {
         }
 
     }
-
 }

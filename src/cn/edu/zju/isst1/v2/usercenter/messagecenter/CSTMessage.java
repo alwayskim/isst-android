@@ -20,7 +20,7 @@ public class CSTMessage extends CSTDataItem<CSTMessage> {
     public String content;
 
     @JsonProperty("createdAt")
-    public long createdAt;
+    public String createdAt;
 
     public CSTMessage() {
     }

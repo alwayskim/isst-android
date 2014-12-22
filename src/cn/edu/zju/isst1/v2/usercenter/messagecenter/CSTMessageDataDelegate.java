@@ -28,7 +28,7 @@ public class CSTMessageDataDelegate {
         cstMessage.content = cursor
                 .getString(cursor.getColumnIndex(CSTMessageProvider.Columns.CONTENT.key));
         cstMessage.createdAt = cursor
-                .getInt(cursor.getColumnIndex(CSTMessageProvider.Columns.CREATEDAT.key));
+                .getString(cursor.getColumnIndex(CSTMessageProvider.Columns.CREATEDAT.key));
         cstMessage.title = cursor
                 .getString(cursor.getColumnIndex(CSTMessageProvider.Columns.TITLE.key));
         return cstMessage;

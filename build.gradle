@@ -3,11 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:1.0.0'
-=======
-        classpath 'com.android.tools.build:gradle:1.0.+'
->>>>>>> ui/wyz
     }
 }
 
@@ -32,14 +28,14 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 20
     buildToolsVersion '21.1.1'
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 20
-        versionCode 5
-        versionName  "1.0.5-alpha"
+        versionCode 6
+        versionName  "1.1"
         applicationId "cn.edu.zju.isst1"
     }
 

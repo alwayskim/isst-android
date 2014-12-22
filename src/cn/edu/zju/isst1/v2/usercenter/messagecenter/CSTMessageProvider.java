@@ -18,7 +18,7 @@ public class CSTMessageProvider extends SimpleTableProvider{
             + Columns.ID.key + " VARCHAR(255), "
             + Columns.TITLE.key + " VARCHAR(255), "
             + Columns.CONTENT.key + " VARCHAR(255), "
-            + Columns.CREATEDAT.key + " INTEGER, "
+            + Columns.CREATEDAT.key + " TEXT, "
             + "UNIQUE (" + Columns.ID.key + ") ON CONFLICT REPLACE)";
 
     public static final Uri CONTENT_URI = CSTProvider.CONTENT_URI.buildUpon().appendPath(TABLE_NAME)
