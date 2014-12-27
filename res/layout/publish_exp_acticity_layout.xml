@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/publish_recommend_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/publish_recommend_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+
+        <EditText
+            android:id="@+id/publish_recommend_title"
+            android:layout_width="192dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:hint="@string/publish_recommend_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/publish_recommend_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/publish_recommend_title_container"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/publish_recommend_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+
+        <EditText
+            android:id="@+id/publish_recommend_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.66"
+            android:hint="@string/publish_recommend_content" />
+    </LinearLayout>
+</RelativeLayout>

@@ -21,9 +21,10 @@
         <Button
             android:id="@+id/usercenter_public_btn"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/deepskyblue"
             android:text="@string/usercenter_public" />
 
     </LinearLayout>

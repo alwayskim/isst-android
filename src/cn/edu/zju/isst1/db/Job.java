@@ -42,6 +42,8 @@ public class Job implements Serializable {
 
     private String content;
 
+    private int cityId;
+
     /**
      * 默认值初始化并更新
      *
@@ -57,6 +59,7 @@ public class Job implements Serializable {
         updatedAt = 0;
         publisher = new Publisher(new JSONObject("{}"));// TODO 怎样初始化比较好？
         publisherId = 0;
+        cityId = 1;
         content = "";
         update(jsonObject);
     }
@@ -97,6 +100,9 @@ public class Job implements Serializable {
             }
             if (Judge.isValidJsonValue("content", jsonObject)) {
                 content = jsonObject.getString("content");
+            }
+            if (Judge.isValidJsonValue("cityId", jsonObject)) {
+                cityId = jsonObject.getInt("cityId");
             }
         }
     }
@@ -162,5 +168,12 @@ public class Job implements Serializable {
      */
     public String getContent() {
         return content;
+    }
+
+    /**
+     * @return the cityId
+     */
+    public int getCityId() {
+        return cityId;
     }
 }

@@ -27,7 +27,7 @@ public class LoginApi {
     /**
      * MD5加密密钥
      */
-    private static final char[] SECRET = "It's secret!"
+    private static final char[] SECRET = "vq8ukG8MKrNC7XqsbIbd7PxvX81ufNz9"
             .toCharArray();
 
     /**

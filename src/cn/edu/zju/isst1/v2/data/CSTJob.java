@@ -1,6 +1,12 @@
 package cn.edu.zju.isst1.v2.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 
 import cn.edu.zju.isst1.v2.model.CSTDataItem;
 import cn.edu.zju.isst1.v2.user.data.CSTUser;
@@ -8,7 +14,8 @@ import cn.edu.zju.isst1.v2.user.data.CSTUser;
 /**
  * Created by tan on 2014/8/3.
  */
-public class CSTJob extends CSTDataItem<CSTJob> {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CSTJob extends CSTDataItem<CSTJob> implements Parcelable{
 
     @JsonProperty("id")
     public int id;
@@ -38,5 +45,15 @@ public class CSTJob extends CSTDataItem<CSTJob> {
     public int cityId;
 
     public CSTJob() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

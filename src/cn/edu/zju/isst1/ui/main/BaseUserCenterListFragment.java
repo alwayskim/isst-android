@@ -37,8 +37,9 @@ import cn.edu.zju.isst1.exception.HttpErrorWeeder;
 import cn.edu.zju.isst1.net.CSTResponse;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.net.RequestListener;
-import cn.edu.zju.isst1.ui.job.PublishRecommendActivity;
-import cn.edu.zju.isst1.ui.job.RecommendDetailActivity;
+import cn.edu.zju.isst1.v2.usercenter.myexperience.PublishExpActivity;
+import cn.edu.zju.isst1.v2.usercenter.myrecommend.PublishRecommendActivity;
+import cn.edu.zju.isst1.v2.usercenter.myrecommend.RecommendDetailActivity;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
@@ -135,13 +136,19 @@ public class BaseUserCenterListFragment extends ListFragment implements
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        requestData(LoadType.REFRESH);
+    }
+
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.ListFragment#onCreateView(android.view.LayoutInflater
-     * , android.view.ViewGroup, android.os.Bundle)
-     */
+         * (non-Javadoc)
+         *
+         * @see
+         * android.support.v4.app.ListFragment#onCreateView(android.view.LayoutInflater
+         * , android.view.ViewGroup, android.os.Bundle)
+         */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -200,6 +207,7 @@ public class BaseUserCenterListFragment extends ListFragment implements
         }
 
         intent.putExtra("id", m_listAchive.get(position).getId());
+        intent.putExtra("editable",true);
         getActivity().startActivity(intent);
     }
 
@@ -240,7 +248,19 @@ public class BaseUserCenterListFragment extends ListFragment implements
                 }
             });
         } else {
-            viewContainer.setVisibility(View.GONE);
+//            viewContainer.setVisibility(View.GONE);
+            Button btnPublish = (Button) view
+                    .findViewById(R.id.usercenter_public_btn);
+            btnPublish.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    Intent intent = new Intent(getActivity(),
+                            PublishExpActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

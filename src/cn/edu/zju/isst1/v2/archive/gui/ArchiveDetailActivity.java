@@ -4,9 +4,11 @@
 package cn.edu.zju.isst1.v2.archive.gui;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
@@ -26,6 +28,7 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.archive.net.ArchiveApi;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
+import cn.edu.zju.isst1.v2.usercenter.myexperience.PublishExpActivity;
 
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -56,6 +59,8 @@ public class ArchiveDetailActivity extends BaseActivity {
 
     private WebView m_webvContent;
 
+    private boolean mEditable;
+
     // Activity需要工厂方法吗？
     // public ArchiveDetailActivity(){
     // }
@@ -73,6 +78,9 @@ public class ArchiveDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.archive_detail_activity);
+
+        mEditable = getIntent().getBooleanExtra("editable", false);
+
         initComponent();
 
         ActionBar actionBar = getActionBar();
@@ -104,9 +112,29 @@ public class ArchiveDetailActivity extends BaseActivity {
                 return true;
             }
 
+            case R.id.recommend_list_edt:
+                Intent intent = new Intent(ArchiveDetailActivity.this, PublishExpActivity.class);
+                intent.putExtra("exp_detail", m_archiveCurrent);
+                intent.putExtra("is_edit", true);
+                startActivity(intent);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mEditable) {
+            getMenuInflater().inflate(R.menu.recommend_list_menu, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestData();
     }
 
     //初始化handler
@@ -208,6 +236,10 @@ public class ArchiveDetailActivity extends BaseActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+
         settings.setSupportZoom(true);// 支持缩放
         settings.setDefaultFontSize(48);
         // settings.setTextSize(TextSize.NORMAL);

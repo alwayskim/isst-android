@@ -53,13 +53,13 @@
             android:name=".ui.job.JobDetailActivity"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".ui.job.RecommendDetailActivity"
+            android:name=".v2.usercenter.myrecommend.RecommendDetailActivity"
             android:theme="@style/MyTheme" />
         <activity
             android:name=".ui.job.JobCommentListActivity"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".ui.job.PublishRecommendActivity"
+            android:name=".v2.usercenter.myrecommend.PublishRecommendActivity"
             android:theme="@style/MyTheme" />
         <activity
             android:name=".ui.life.CampusActivityDetailActivity"
@@ -115,6 +115,16 @@
         <activity
             android:name=".v2.usercenter.myexperience.MyExperienceActivity"
             android:theme="@style/MyTheme" />
+
+
+
+        <activity
+            android:name=".v2.usercenter.myexperience.ExpDetailActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".v2.usercenter.myexperience.PublishExpActivity"
+            android:theme="@style/MyTheme" />
+
 
         <provider
             android:name=".v2.db.CSTProvider"
