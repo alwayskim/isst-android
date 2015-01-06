@@ -138,19 +138,19 @@ public class CSTContactDetailActivity extends BaseActivity {
         // 职位
         m_tvPosition.setText(mAlumni.jobTitle);
 
-        if (!mAlumni.pvtPhone || Judge.isNullOrEmpty(mAlumni.phoneNum)) {
+        if (mAlumni.pvtPhone || Judge.isNullOrEmpty(mAlumni.phoneNum)) {
             m_tvMobile.setText(PRIVATE_INFO);
             m_ibtnMobileCall.setVisibility(View.GONE);
             m_ibtnMessage.setVisibility(View.GONE);
         }
-        if (!mAlumni.pvtEmail || Judge.isNullOrEmpty(mAlumni.email)) {
+        if (mAlumni.pvtEmail || Judge.isNullOrEmpty(mAlumni.email)) {
             m_tvEmail.setText(PRIVATE_INFO);
             m_ibtnEmail.setVisibility(View.GONE);
         }
-        if (!mAlumni.pvtCompany || Judge.isNullOrEmpty(mAlumni.company)) {
+        if (mAlumni.pvtCompany || Judge.isNullOrEmpty(mAlumni.company)) {
             m_tvCompany.setText(PRIVATE_INFO);
         }
-        if (!mAlumni.pvtPosition || Judge.isNullOrEmpty(mAlumni.jobTitle)) {
+        if (mAlumni.pvtPosition || Judge.isNullOrEmpty(mAlumni.jobTitle)) {
             m_tvPosition.setText(PRIVATE_INFO);
         }
     }

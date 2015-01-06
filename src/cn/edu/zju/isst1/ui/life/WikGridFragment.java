@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -41,6 +42,7 @@ import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.net.RequestListener;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
+import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.archive.gui.ArchiveDetailActivity;
 import cn.edu.zju.isst1.v2.archive.net.ArchiveApi;
 
@@ -69,7 +71,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private GridView m_gvWiki;
+    private ListView m_gvWiki;
 
     public WikGridFragment() {
     }
@@ -115,7 +117,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
 
-        m_gvWiki = (GridView) view.findViewById(R.id.wiki_grid_fragment_wiki_gridv);
+        m_gvWiki = (ListView) view.findViewById(R.id.wiki_grid_fragment_wiki_gridv);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
@@ -125,11 +127,6 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
         m_handlerWikiList = new Handler() {
 
-            /*
-             * (non-Javadoc)
-             *
-             * @see android.os.Handler#handleMessage(android.os.Message)
-             */
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -422,22 +419,22 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
                         .findViewById(R.id.wiki_grid_item_date_txv);
                 holder.publisherTxv = (TextView) convertView
                         .findViewById(R.id.wiki_grid_item_publisher_txv);
-                holder.descriptionTxv = (TextView) convertView
-                        .findViewById(R.id.wiki_grid_item_description_txv);
-                holder.indicatorView = (View) convertView
-                        .findViewById(R.id.wiki_grid_item_indicator_view);
+//                holder.descriptionTxv = (TextView) convertView
+//                        .findViewById(R.id.wiki_grid_item_description_txv);
+//                holder.indicatorView = (View) convertView
+//                        .findViewById(R.id.wiki_grid_item_indicator_view);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             holder.titleTxv.setText(m_listAchive.get(position).getTitle());
-            holder.dateTxv.setText(String.valueOf(m_listAchive.get(position)
+            holder.dateTxv.setText(TSUtil.toYMD(m_listAchive.get(position)
                     .getUpdatedAt()));
             holder.publisherTxv.setText(m_listAchive.get(position)
                     .getPublisher().getName());
-            holder.descriptionTxv.setText(m_listAchive.get(position)
-                    .getDescription());
+//            holder.descriptionTxv.setText(m_listAchive.get(position)
+//                    .getDescription());
             // holder.indicatorView.setBackgroundColor(Color.BLUE);
 
             return convertView;

@@ -38,8 +38,10 @@ public class ArchiveListAdapter extends CursorAdapter {
         holder.dateTxv.setText(TSUtil.toYMD(archive.updateTime));
         if (archive.publisherId != 0) {
             holder.publisherTxv.setText(archive.publisher.name);
+        }else{
+            holder.publisherTxv.setText(R.string.publisher_admin);
         }
-        holder.descriptionTxv.setText(archive.description);
+//        holder.descriptionTxv.setText(archive.description);
     }
 
     protected ViewHolder getBindViewHolder(View view) {
@@ -52,6 +54,7 @@ public class ArchiveListAdapter extends CursorAdapter {
                 .findViewById(R.id.publisher_txv);
         holder.descriptionTxv = (TextView) view
                 .findViewById(R.id.description_txv);
+        holder.descriptionTxv.setVisibility(View.GONE);
         return holder;
     }
 

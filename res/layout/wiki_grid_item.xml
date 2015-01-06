@@ -2,52 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="250dp"
+    android:minHeight="80dp"
     android:paddingBottom="10dp"
-    android:paddingTop="5dp">
+    android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/wiki_grid_item_title_txv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/wiki_grid_item_indicator_view"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <ImageView
+        android:id="@+id/wiki_grid_fragment_item_img"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:src="@color/light_gray" />
 
-    <TextView
-        android:id="@+id/wiki_grid_item_date_txv"
+    <RelativeLayout
+        android:id="@+id/wiki_grid_item_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/wiki_grid_item_title_txv"
-        android:layout_toRightOf="@+id/wiki_grid_item_indicator_view"
-        android:paddingLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/wiki_grid_fragment_item_img">
 
-    <TextView
-        android:id="@+id/wiki_grid_item_publisher_txv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/wiki_grid_item_date_txv"
-        android:layout_alignParentRight="true"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/wiki_grid_item_title_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:typeface="serif"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="12345678999999测试测试测试"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/wiki_grid_item_description_txv"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/wiki_grid_item_date_txv"
-        android:layout_toRightOf="@+id/wiki_grid_item_indicator_view"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        <TextView
+            android:id="@+id/wiki_grid_item_date_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:layout_below="@+id/wiki_grid_item_title_txv"
+            android:layout_marginTop="3dp"
+            android:typeface="serif"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <View
-        android:id="@+id/wiki_grid_item_indicator_view"
-        android:layout_width="5dp"
-        android:layout_height="20dp"
-        android:layout_alignParentLeft="true"
-        android:background="#66ccff" />
+        <TextView
+            android:id="@+id/wiki_grid_item_publisher_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/wiki_grid_item_title_txv"
+            android:typeface="serif"
+            android:paddingRight="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

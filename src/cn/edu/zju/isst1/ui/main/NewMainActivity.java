@@ -103,6 +103,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         updateLogin();
     }
 
+    /**
+     * 初始化侧滑栏
+     */
     private void setUpMenu() {
 
 //        titleTxv = (TextView) findViewById(R.id.title_bar_title_menu);
@@ -277,6 +280,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         }
     };
 
+    /**
+     * 切換fragment
+     * @param targetFragment 目標fragement
+     */
     private void changeFragment(Fragment targetFragment) {
         resideMenu.clearIgnoredViewList();
         getFragmentManager()

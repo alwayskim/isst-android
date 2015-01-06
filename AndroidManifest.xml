@@ -19,6 +19,10 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -119,8 +123,13 @@
 
 
         <activity
-            android:name=".v2.usercenter.myexperience.ExpDetailActivity"
-            android:theme="@style/MyTheme" />
+            android:name=".v2.usercenter.twodimensionalcode.example.qr_codescan.MainActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".v2.usercenter.twodimensionalcode.example.qr_codescan.MipcaActivityCapture"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".v2.usercenter.myexperience.PublishExpActivity"
             android:theme="@style/MyTheme" />

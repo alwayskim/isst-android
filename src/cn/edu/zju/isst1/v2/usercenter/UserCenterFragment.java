@@ -27,6 +27,7 @@ import cn.edu.zju.isst1.v2.usercenter.myactivity.MyEventActivity;
 import cn.edu.zju.isst1.v2.usercenter.myexperience.MyExperienceActivity;
 import cn.edu.zju.isst1.v2.usercenter.myrecommend.MyRecommendListActivity;
 import cn.edu.zju.isst1.v2.usercenter.setting.SettingActivity;
+import cn.edu.zju.isst1.v2.usercenter.twodimensionalcode.example.qr_codescan.MainActivity;
 import cn.edu.zju.isst1.v2.usercenter.userinfo.UserInfoActivity;
 import cn.edu.zju.isst1.v2.usercenter.taskcenter.gui.TaskCenterActivity;
 
@@ -124,6 +125,7 @@ public class UserCenterFragment extends Fragment {
         mViewHolder.peopleNearbyView = view.findViewById(R.id.user_center_people_around_txv);
         mViewHolder.personalSettingvView = view.findViewById(R.id.user_center_personal_setting_txv);
         mViewHolder.appAbout = view.findViewById(R.id.user_center_app_about_txv);
+        mViewHolder.twoCodeView = view.findViewById(R.id.user_center_two_code_txv);
     }
 
     private void setUpListener() {
@@ -201,12 +203,24 @@ public class UserCenterFragment extends Fragment {
         });
 
         //附近的人
-        mViewHolder.peopleNearbyView.setOnClickListener(new OnClickListener() {
+        mViewHolder.twoCodeView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
+                getActivity().startActivity(
+                        new Intent(getActivity(), MainActivity.class));
+            }
+        });
+
+        //二维码签到
+        mViewHolder.personalSettingvView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                getActivity().startActivity(
+                        new Intent(getActivity(), UserInfoActivity.class));
             }
         });
 
@@ -268,6 +282,8 @@ public class UserCenterFragment extends Fragment {
         View personalSettingvView;
 
         View appAbout;
+
+        View twoCodeView;
 
     }
 

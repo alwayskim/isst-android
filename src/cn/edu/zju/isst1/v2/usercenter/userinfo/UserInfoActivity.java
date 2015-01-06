@@ -102,7 +102,7 @@ public class UserInfoActivity extends BaseActivity {
             case REQUEST_CODE_EDIT:
                 switch (resultCode) {
                     case RESULT_CODE_DONE:
-                        CroMan.showConfirm(UserInfoActivity.this, "success!");
+                        CroMan.showConfirm(UserInfoActivity.this, "修改成功!");
                         m_userCurrent = data.hasExtra("updatedUser") ? (CSTUser) data
                                 .getSerializableExtra("updatedUser") :
                                 CSTUserDataDelegate.getCurrentUser(this);

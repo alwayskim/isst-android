@@ -19,7 +19,7 @@ public class TSUtil {
     public static String toYMD(long time) {
         if (time > 0) {
             Date date = new Date(time);
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            DateFormat df = new SimpleDateFormat("yyyy.MM.dd", Locale.CHINA);
             return df.format(date);
         }
         return "";
@@ -28,7 +28,7 @@ public class TSUtil {
     public static String toFull(long time) {
         if (time > 0) {
             Date date = new Date(time);
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm",
+            DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm",
                     Locale.CHINA);
             return df.format(date);
         }
@@ -38,7 +38,7 @@ public class TSUtil {
     public static String toMD(long time) {
         if (time > 0) {
             Date date = new Date(time);
-            DateFormat df = new SimpleDateFormat("MM-dd", Locale.CHINA);
+            DateFormat df = new SimpleDateFormat("MM.dd", Locale.CHINA);
             return df.format(date);
         }
         return "";
