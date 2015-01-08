@@ -517,8 +517,8 @@ public class BaseJobsListFragment extends ListFragment implements
                         .findViewById(R.id.job_list_item_publisher_txv);
                 holder.descriptionTxv = (TextView) convertView
                         .findViewById(R.id.job_list_item_description_txv);
-                holder.indicatorView = (View) convertView
-                        .findViewById(R.id.job_list_item_indicator_view);
+//                holder.indicatorView = (View) convertView
+//                        .findViewById(R.id.job_list_item_indicator_view);
 
                 convertView.setTag(holder);
             } else {

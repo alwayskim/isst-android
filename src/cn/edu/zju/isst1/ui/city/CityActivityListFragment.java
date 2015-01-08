@@ -76,7 +76,7 @@ public class CityActivityListFragment extends ListFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.list_fragment, null);
     }
 
@@ -113,7 +113,7 @@ public class CityActivityListFragment extends ListFragment implements
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
-            int visibleItemCount, int totalItemCount) {
+                         int visibleItemCount, int totalItemCount) {
         // TODO Auto-generated method stub
 
     }

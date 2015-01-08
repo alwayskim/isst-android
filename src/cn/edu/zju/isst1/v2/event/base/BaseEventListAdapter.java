@@ -13,8 +13,8 @@ import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEvent;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEvent;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventDataDelegate;
 
 /**
  * Created by always on 21/08/2014.

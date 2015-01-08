@@ -5,8 +5,8 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEvent;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventDataDelegate;
 import cn.edu.zju.isst1.v2.net.CSTJsonResponse;
 
 /**

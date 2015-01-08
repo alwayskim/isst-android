@@ -17,7 +17,7 @@ import cn.edu.zju.isst1.v2.contact.CSTContactFilterProvider;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListProvider;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniProvider;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventProvider;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventProvider;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventProvider;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityProvider;
 import cn.edu.zju.isst1.v2.globaldata.classlist.CSTKlassProvider;
 import cn.edu.zju.isst1.v2.globaldata.majorlist.CSTMajorProvider;
