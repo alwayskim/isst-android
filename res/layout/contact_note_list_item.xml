@@ -10,17 +10,22 @@
         android:id="@+id/contact_note_list_item_index_txv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#9c9c9c"
-        android:paddingBottom="@dimen/padding_small"
-        android:paddingLeft="@dimen/padding_middle"
-        android:paddingTop="@dimen/padding_small"
-        android:textColor="#ffffff" />
+        android:background="@color/light_gray"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_big"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/deepskyblue"
+        android:typeface="serif"/>
 
     <TextView
         android:id="@+id/contact_note_list_item_name_txv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_middle"
-        android:textSize="@dimen/text_size_large" />
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_big"
+        android:paddingBottom="@dimen/padding_middle"
+        android:paddingTop="@dimen/padding_middle"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:typeface="serif"/>
 
 </LinearLayout>

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
@@ -41,7 +42,7 @@ import cn.edu.zju.isst1.v2.restaurant.net.RestaurantMenuResponse;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
-public class NewRestaurantDetailActivity extends Activity {
+public class NewRestaurantDetailActivity extends BaseActivity {
 
     private int m_nId;
 
@@ -76,7 +77,7 @@ public class NewRestaurantDetailActivity extends Activity {
         m_nId = getIntent().getIntExtra("id", -1);
         m_restaurantCurrent = CSTRestaurantDataDelegate
                 .getRestaurant(getApplicationContext(), Integer.toString(m_nId));
-        setUpActionbar();
+        setUpActionBar();
         showRestaurantDetail();
     }
 
@@ -98,10 +99,15 @@ public class NewRestaurantDetailActivity extends Activity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//    private void setUpActionbar() {
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
     }
 
     private void initComponent() {

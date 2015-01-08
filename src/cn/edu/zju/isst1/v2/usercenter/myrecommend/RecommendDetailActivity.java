@@ -96,11 +96,10 @@ public class RecommendDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.job_recommend_detail_activity);
+
         initComponent();
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionBar();
 
         // 注意默认值-1，当Intent中没有id时是无效的，故启动这个JobDetailActivity的Activity必须在Intent中放置"id"参数
         m_nId = getIntent().getIntExtra("id", -1);
@@ -132,11 +131,17 @@ public class RecommendDetailActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.action_bar_recommend_detail);
+    }
+
     /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-     */
+         * (non-Javadoc)
+         *
+         * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+         */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

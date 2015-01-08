@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.constant.Constants;
 import cn.edu.zju.isst1.net.NetworkConnection;
+import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
@@ -33,7 +34,7 @@ import cn.edu.zju.isst1.v2.usercenter.taskcenter.net.TaskResponse;
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 
-public class TaskCenterActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener {
+public class TaskCenterActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mlist;
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
@@ -54,7 +55,7 @@ public class TaskCenterActivity extends Activity implements SwipeRefreshLayout.O
                 R.color.lightbluetheme_color_half_alpha, R.color.lightbluetheme_color,
                 R.color.lightbluetheme_color_half_alpha);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        setUpActionbar();
+        setUpActionBar();
         requestData();
         initHandler();
     }
@@ -73,13 +74,6 @@ public class TaskCenterActivity extends Activity implements SwipeRefreshLayout.O
             TaskCenterActivity.this.finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle("任务中心");
     }
 
     private void requestData() {
@@ -142,6 +136,12 @@ public class TaskCenterActivity extends Activity implements SwipeRefreshLayout.O
             }
         };
 
+    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.task_center);
     }
 
     @Override

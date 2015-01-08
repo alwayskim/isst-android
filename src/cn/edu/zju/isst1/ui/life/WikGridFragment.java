@@ -73,6 +73,8 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
     private ListView m_gvWiki;
 
+    private Boolean IS_FIRST = true;
+
     public WikGridFragment() {
     }
 
@@ -148,8 +150,14 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
         // setListAdapter(m_adapterWikiList);
         m_gvWiki.setAdapter(m_adapterWikiList);
 
-        if (m_listAchive.size() == 0) {
+//        if (m_listAchive.size() == 0) {
+//            requestData(LoadType.REFRESH);
+//        }
+
+        if (IS_FIRST) {
             requestData(LoadType.REFRESH);
+            mSwipeRefreshLayout.setRefreshing(true);
+            IS_FIRST = false;
         }
 
         // 监听事件
@@ -337,6 +345,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
             }
 
             m_handlerWikiList.sendMessage(msg);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
 
         @Override

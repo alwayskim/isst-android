@@ -79,7 +79,7 @@ public class CityEventDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.city_activity_detail_activity);
 
-        setUpActionbar();
+        setUpActionBar();
 
         mId = getIntent().getIntExtra(EVENT_ID, -1);
         mCityId = getIntent().getIntExtra(CITY_ID, -1);
@@ -105,10 +105,10 @@ public class CityEventDetailActivity extends BaseActivity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.action_bar_event_detail);
     }
 
     private void initComponent() {
@@ -288,7 +288,6 @@ public class CityEventDetailActivity extends BaseActivity {
     }
 
     private void showDetail() {
-        setTitle(mCSTCityEvent.title);
         mViewHolder.durationTxv.setText(getResources().getString(R.string.note_event_duration)
                 + TSUtil.toHM(mCSTCityEvent.startTime) + "-"
                 + TSUtil.toHM(mCSTCityEvent.expireTime));

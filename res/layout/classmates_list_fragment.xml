@@ -14,18 +14,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/padding_middle"
             android:text="Text"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"
+            android:typeface="serif"/>
 
         <ImageButton
             android:id="@+id/filter_show_search_btn"
             android:layout_width="30dp"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:padding="6dp"
             android:layout_alignParentRight="true"
-            android:background="@color/transparent"
+            android:background="@drawable/button_selector"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
+            android:layout_marginRight="@dimen/padding_middle"
             android:src="@drawable/txl_search" />
     </RelativeLayout>
 

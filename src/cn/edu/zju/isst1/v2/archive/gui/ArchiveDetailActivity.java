@@ -3,7 +3,6 @@
  */
 package cn.edu.zju.isst1.v2.archive.gui;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,9 +82,7 @@ public class ArchiveDetailActivity extends BaseActivity {
 
         initComponent();
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionBar();
 
         // 注意默认值-1，当Intent中没有id时是无效的，故启动这个ArchiveDetailActivity的Activity必须在Intent中放置"id"参数
         m_nId = getIntent().getIntExtra("id", -1);
@@ -135,6 +132,12 @@ public class ArchiveDetailActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         requestData();
+    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.action_bar_archive_detail);
     }
 
     //初始化handler

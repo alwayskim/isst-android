@@ -5,16 +5,18 @@ package cn.edu.zju.isst1.ui.main;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.api.LogoutApi;
@@ -28,7 +30,6 @@ import cn.edu.zju.isst1.ui.job.InternshipListFragment;
 import cn.edu.zju.isst1.ui.job.RecommedListFragment;
 import cn.edu.zju.isst1.ui.life.WikGridFragment;
 import cn.edu.zju.isst1.util.Lgr;
-import cn.edu.zju.isst1.v2.archive.data.CSTArchiveDataDelegate;
 import cn.edu.zju.isst1.v2.archive.gui.ExperienceFragment;
 import cn.edu.zju.isst1.v2.archive.gui.NewsFragment;
 import cn.edu.zju.isst1.v2.archive.gui.StudyFragment;
@@ -37,7 +38,6 @@ import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.gui.BaseContactListFragment;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.campus.gui.CSTCampusEventListFragment;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
 import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.city.gui.CSTCityEventListFragment;
 import cn.edu.zju.isst1.v2.login.gui.LoginActivity;
@@ -58,6 +58,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private String mTitle;
 
+    private boolean IS_EXIT = false;
 
     private Fragment mCurrentFragment;
 
@@ -85,6 +86,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private ResideMenuItem itemLine2;
     private ResideMenuItem itemLine3;
 
+    private Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +96,19 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mCurrentFragment = null;
         setUpMenu();
         setUpActionbar();
+        initHandler();
         if (savedInstanceState == null) {
             mCurrentFragment = NewsFragment.getInstance();
             titleTxv.setText(R.string.menu_news);
-            changeFragment(mCurrentFragment);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_fragment, mCurrentFragment, "fragment")
+                    .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
 
         }
+
+
         requestGlobalData();
         updateLogin();
     }
@@ -265,6 +275,17 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         return resideMenu.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Lgr.d(this.getClass().getName(), "back button pressed");
+            if (!IS_EXIT) {
+                exit();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
         @Override
@@ -282,20 +303,61 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 切換fragment
+     *
      * @param targetFragment 目標fragement
      */
     private void changeFragment(Fragment targetFragment) {
         resideMenu.clearIgnoredViewList();
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fragment, targetFragment, "fragment")
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit();
+//        getFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.main_fragment, targetFragment, "fragment")
+//                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                .commit();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction().
+                setTransitionStyle(android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+        // 先判断是否被add过
+        if (!targetFragment.isAdded()) {
+
+            // 隐藏当前的fragment，add下一个到Activity中
+            transaction.hide(mCurrentFragment).add(R.id.main_fragment, targetFragment).commit();
+        } else {
+
+            // 隐藏当前的fragment，显示下一个
+            transaction.hide(mCurrentFragment).show(targetFragment).commit();
+        }
+        mCurrentFragment = targetFragment;
     }
 
     // What good method is to access resideMenu？
     public ResideMenu getResideMenu() {
         return resideMenu;
+    }
+
+    private void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                IS_EXIT = false;
+            }
+        };
+    }
+
+    private void exit() {
+        if (!IS_EXIT) {
+            IS_EXIT = true;
+            Toast.makeText(getApplicationContext(), "再按一次后退键退出程序",
+                    Toast.LENGTH_SHORT).show();
+            // 利用handler延迟发送更改状态信息
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+
+            Lgr.e("NewMainAcitivity ", "exit application");
+
+            this.finish();
+        }
     }
 
     public void logout() {
@@ -360,5 +422,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+
 
 }

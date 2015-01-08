@@ -84,10 +84,18 @@ public class PublishExpActivity extends BaseActivity{
         setUpListener();
     }
 
-    private void setUpActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.user_info_edit_custom_actionbar);
+//    private void setUpActionBar() {
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(R.layout.user_info_edit_custom_actionbar);
+//    }
+
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        getActionBar().setCustomView(R.layout.user_info_edit_custom_actionbar);
+        setTitle(R.string.publish_comment);
     }
 
     private View getActionBarView() {

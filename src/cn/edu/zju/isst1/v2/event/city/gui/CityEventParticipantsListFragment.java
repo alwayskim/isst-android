@@ -185,6 +185,7 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
                 mCurrentPage++;
             } else {
                 mCurrentPage = 1;
+                mSwipeRefreshLayout.setRefreshing(true);
             }
             CityEventParticipantsListResponse participantsListResponse = new
                     CityEventParticipantsListResponse(getActivity()) {
