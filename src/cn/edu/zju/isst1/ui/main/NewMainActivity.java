@@ -38,7 +38,7 @@ import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.gui.BaseContactListFragment;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.campus.gui.CSTCampusEventListFragment;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.city.gui.CSTCityEventListFragment;
 import cn.edu.zju.isst1.v2.login.gui.LoginActivity;
 import cn.edu.zju.isst1.v2.restaurant.gui.NewRestaurantListFragment;

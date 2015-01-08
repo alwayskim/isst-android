@@ -2,25 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:layout_centerVertical="true"
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/restaurant_list_item_icon_imgv"
         android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
+        android:paddingLeft="10dp"
         android:layout_alignParentLeft="true"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/restaurant_imageview_icon"
-        android:padding="5dp" />
+        android:layout_centerVertical="true"
+        android:src="@color/light_gray"
+        android:contentDescription="@string/restaurant_imageview_icon" />
 
     <TextView
         android:id="@+id/restaurant_list_item_name_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/restaurant_list_item_icon_imgv"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:typeface="serif"
+        android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -31,7 +36,8 @@
         android:layout_toRightOf="@+id/restaurant_list_item_icon_imgv"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="@color/gray"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageButton
         android:id="@+id/restaurant_list_item_dial_ibtn"

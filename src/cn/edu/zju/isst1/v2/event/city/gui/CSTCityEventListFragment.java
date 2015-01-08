@@ -25,14 +25,13 @@ import java.util.ArrayList;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.net.NetworkConnection;
-import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.event.base.BaseEventListAdapter;
 import cn.edu.zju.isst1.v2.event.base.EventCategory;
 import cn.edu.zju.isst1.v2.event.base.EventRequest;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventDataDelegate;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEventProvider;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEvent;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventDataDelegate;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventProvider;
 import cn.edu.zju.isst1.v2.event.city.net.CityEventResponse;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
 import cn.edu.zju.isst1.v2.login.net.UpDateLogin;

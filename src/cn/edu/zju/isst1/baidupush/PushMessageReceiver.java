@@ -130,6 +130,20 @@ public class PushMessageReceiver extends BroadcastReceiver {
 
             //自定义内容的json串
             Log.d(TAG, "EXTRA_EXTRA = " + intent.getStringExtra(PushConstants.EXTRA_EXTRA));
+            CSTMessage message = CSTMessageDataDelegate.getAllMessage(context);
+            CSTMessage message1 = new CSTMessage();
+            String msg_content = intent.getExtras().getString(
+                    PushConstants.EXTRA_NOTIFICATION_CONTENT);
+            Lgr.i("content_output",msg_content);
+            String title = intent
+                    .getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
+            int id = message.itemList.size() + 1;
+            Long createtime = System.currentTimeMillis();
+            message1.id = id;
+            message1.title = title;
+            message1.content = msg_content;
+            message1.createdAt = Long.toString(createtime);
+            CSTMessageDataDelegate.saveMessage(context,message1);
             showActivity(context, intent);
         }
     }
@@ -140,28 +154,28 @@ public class PushMessageReceiver extends BroadcastReceiver {
         Intent aIntent = new Intent();
         aIntent.setClass(context, PushMessagesActivity.class);
         aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP);
-		String title = intent
-				.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
-
-        Lgr.i(PushConstants.EXTRA_NOTIFICATION_TITLE,title);
-
-        CSTMessage message = CSTMessageDataDelegate.getAllMessage(context);
-
-        aIntent.putExtra("id",message.itemList.size()+1);
-        Lgr.i("messageCount",Integer.toString(message.itemList.size()));
-
-		aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_TITLE, title);
-		String content = intent
-				.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
-
-        Lgr.i(PushConstants.EXTRA_NOTIFICATION_CONTENT,content);
-
-		aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT, content);
-
-        Long time = System.currentTimeMillis();
-        aIntent.putExtra("creatAt",time);
-
-        Lgr.i("createAt",TSUtil.toYMD(time));
+//		String title = intent
+//				.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
+//
+//        Lgr.i(PushConstants.EXTRA_NOTIFICATION_TITLE,title);
+//
+//        CSTMessage message = CSTMessageDataDelegate.getAllMessage(context);
+//
+//        aIntent.putExtra("id",message.itemList.size()+1);
+//        Lgr.i("messageCount",Integer.toString(message.itemList.size()));
+//
+//		aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_TITLE, title);
+//		String content = intent
+//				.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+//
+//        Lgr.i(PushConstants.EXTRA_NOTIFICATION_CONTENT,content);
+//
+//		aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT, content);
+//
+//        Long time = System.currentTimeMillis();
+//        aIntent.putExtra("creatAt",time);
+//
+//        Lgr.i("createAt",TSUtil.toYMD(time));
         context.startActivity(aIntent);
     }
 
