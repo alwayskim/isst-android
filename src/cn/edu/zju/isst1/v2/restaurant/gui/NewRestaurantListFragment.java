@@ -123,9 +123,8 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     @Override
     protected void initComponent(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha, R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
+                R.color.white);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
         mListView.addFooterView(mFooter);
@@ -205,6 +204,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
+            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             RestaurantResponse resResponse = new RestaurantResponse(getActivity(), !isLoadMore) {

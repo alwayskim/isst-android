@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <GridView
+    <ListView
         android:id="@+id/wiki_grid_fragment_wiki_gridv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="2">
 
-    </GridView>
+    </ListView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

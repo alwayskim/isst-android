@@ -3,6 +3,7 @@
  */
 package cn.edu.zju.isst1.ui.main;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -181,6 +182,13 @@ public class BaseActivity extends FragmentActivity implements LoginSimulation,
         cn.edu.zju.isst1.v2.globaldata.GlobalDataCache.cacheCityList(this);
         cn.edu.zju.isst1.v2.globaldata.GlobalDataCache.cacheClassList(this);
         cn.edu.zju.isst1.v2.globaldata.GlobalDataCache.cacheMajorList(this);
+    }
+
+    protected void setUpActionBar(){
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
 }

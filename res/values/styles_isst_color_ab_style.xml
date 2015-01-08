@@ -37,6 +37,8 @@
             @style/ActionButton.CloseMode.Isst_color_ab_style
         </item>
 
+        <item name="android:displayOptions">showTitle|showHome</item>
+
         <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Isst_color_ab_style.Widget</item>
 

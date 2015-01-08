@@ -78,7 +78,7 @@ public class FeedBackActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedback_activity);
-        setUpActionbar();
+        setUpActionBar();
         initComponent();
         initHandler();
     }
@@ -86,6 +86,7 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.feedback_bar_menu, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -104,10 +105,9 @@ public class FeedBackActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
         setTitle("意见反馈");
     }
 

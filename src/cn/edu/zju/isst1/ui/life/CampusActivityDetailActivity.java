@@ -70,7 +70,7 @@ public class CampusActivityDetailActivity extends BaseActivity {
         setContentView(R.layout.campus_activity_detail_activity);
         mId = getIntent().getIntExtra(EVENT_ID, -1);
         initComponent();
-        setUpActionbar();
+        setUpActionBar();
         initHandle();
         requestData();
     }
@@ -91,10 +91,16 @@ public class CampusActivityDetailActivity extends BaseActivity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//    private void setUpActionbar() {
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.action_bar_event_detail);
     }
 
     private void initHandle() {
@@ -153,7 +159,6 @@ public class CampusActivityDetailActivity extends BaseActivity {
     }
 
     private void showCampusActivityDetail() {
-        setTitle(mCSTCampusEvent.title);
         mTxvDuration.setText(getResources().getString(R.string.note_event_duration)
                 + TSUtil.toHM(Long.parseLong(mCSTCampusEvent.startTime)) + "-"
                 + TSUtil.toHM(Long.parseLong(mCSTCampusEvent.expireTime)));

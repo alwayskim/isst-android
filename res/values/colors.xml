@@ -150,4 +150,9 @@
     <color name="black">#000000</color><!--黑色 -->
     <color name="transparent">#00000000</color><!--透明 -->
     <color name="halfTransparent">#00000000</color><!--半透明 -->
+
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
 </resources>

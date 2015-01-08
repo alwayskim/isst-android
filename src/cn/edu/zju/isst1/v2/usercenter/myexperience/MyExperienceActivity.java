@@ -22,7 +22,7 @@ public class MyExperienceActivity extends BaseActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.content_container, listFragment).commit();
         }
-        setUpActionbar();
+        setUpActionBar();
     }
 
 
@@ -45,10 +45,9 @@ public class MyExperienceActivity extends BaseActivity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
         setTitle(getResources().getString(R.string.my_experience));
     }
 }

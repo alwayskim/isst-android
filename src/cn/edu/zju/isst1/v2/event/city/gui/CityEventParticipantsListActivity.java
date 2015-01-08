@@ -43,7 +43,7 @@ public class CityEventParticipantsListActivity extends BaseActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.content_container, listFragment).commit();
         }
-        setUpActionbar();
+        setUpActionBar();
     }
 
     @Override
@@ -57,10 +57,9 @@ public class CityEventParticipantsListActivity extends BaseActivity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle(eventTitle + getResources().getString(R.string.note_participants_list));
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(getResources().getString(R.string.note_participants_list));
     }
 }

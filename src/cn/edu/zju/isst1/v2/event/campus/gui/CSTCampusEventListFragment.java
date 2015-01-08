@@ -220,6 +220,7 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
+            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             CampusEventResponse activityResponse = new CampusEventResponse(getActivity(),

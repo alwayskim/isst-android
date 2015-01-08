@@ -1,13 +1,14 @@
 /**
  *
  */
-package cn.edu.zju.isst1.ui.job;
+package cn.edu.zju.isst1.v2.usercenter.myrecommend;
 
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,10 +32,16 @@ import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.net.CSTResponse;
 import cn.edu.zju.isst1.net.RequestListener;
 import cn.edu.zju.isst1.ui.contact.ContactDetailActivity;
+import cn.edu.zju.isst1.ui.job.JobCommentListActivity;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
+import cn.edu.zju.isst1.v2.data.CSTJob;
+import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
+import cn.edu.zju.isst1.v2.net.CSTJsonResponse;
+import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
+import cn.edu.zju.isst1.v2.net.CSTRequest;
 
 import static cn.edu.zju.isst1.constant.Constants.PUBLISHER_NAME;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
@@ -52,7 +61,11 @@ public class RecommendDetailActivity extends BaseActivity {
      */
     private int m_nId;
 
+    private boolean mEditable;
+
     private Job m_jobCurrent;
+
+    private CSTJob mJobCurrent;
 
     private User m_jobPublisher;
 
@@ -72,6 +85,8 @@ public class RecommendDetailActivity extends BaseActivity {
 
     private boolean m_isEditView;
 
+    private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
+
     /*
      * (non-Javadoc)
      *
@@ -81,15 +96,14 @@ public class RecommendDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.job_recommend_detail_activity);
+
         initComponent();
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionBar();
 
         // 注意默认值-1，当Intent中没有id时是无效的，故启动这个JobDetailActivity的Activity必须在Intent中放置"id"参数
         m_nId = getIntent().getIntExtra("id", -1);
-
+        mEditable = getIntent().getBooleanExtra("editable", false);
         m_handlerJobDetail = new Handler() {
 
             /*
@@ -113,68 +127,21 @@ public class RecommendDetailActivity extends BaseActivity {
             }
 
         };
-
-        JobApi.getJobDetail(m_nId, new RequestListener() {
-
-            @Override
-            public void onComplete(Object result) {
-                Message msg = m_handlerJobDetail.obtainMessage();
-
-                try {
-                    JSONObject jsonObject = (JSONObject) result;
-                    if (!Judge.isValidJsonValue("status", jsonObject)) {
-                        return;
-                    }
-                    final int status = jsonObject.getInt("status");
-                    switch (status) {
-                        case STATUS_REQUEST_SUCCESS:
-                            if (!Judge.isValidJsonValue("status", jsonObject)) {
-                                break;
-                            }
-                            m_jobCurrent = new Job(jsonObject.getJSONObject("body"));
-                            m_jobPublisher = new User(
-                                    jsonObject.getJSONObject("body").getJSONObject("user"));
-                            break;
-                        case STATUS_NOT_LOGIN:
-                            break;
-                        default:
-                            break;
-                    }
-                    msg.what = status;
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                m_handlerJobDetail.sendMessage(msg);
-
-            }
-
-            @Override
-            public void onHttpError(CSTResponse response) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onException(Exception e) {
-                // m_jobCurrent = new Job(null);
-                Lgr.i("JobDetailActivity onError : id = " + m_nId + "!");
-                if (Lgr.isDebuggable()) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        });
+        sendRequest();
 
     }
 
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.action_bar_recommend_detail);
+    }
+
     /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-     */
+         * (non-Javadoc)
+         *
+         * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+         */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -186,10 +153,29 @@ public class RecommendDetailActivity extends BaseActivity {
                 RecommendDetailActivity.this.finish();
                 return true;
             }
-
+            case R.id.recommend_list_edt:
+                Intent intent = new Intent(RecommendDetailActivity.this, PublishRecommendActivity.class);
+                intent.putExtra("recommend_detail", m_jobCurrent);
+                intent.putExtra("is_edit", true);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sendRequest();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mEditable) {
+            getMenuInflater().inflate(R.menu.recommend_list_menu, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -229,17 +215,11 @@ public class RecommendDetailActivity extends BaseActivity {
         });
 //        m_webvContent.setInitialScale(25);//为25%，最小缩放等级
         WebSettings settings = m_webvContent.getSettings();
-//        settings.setUseWideViewPort(true);
-//        settings.setLoadWithOverviewMode(true);
-//        settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
-//        settings.setDefaultFontSize(38);
-
-        settings.setUseWideViewPort(false);
-        settings.setLoadWithOverviewMode(false);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
-
         settings.setSupportZoom(true);// 支持缩放
-//        settings.setDefaultFontSize(30);
+//        settings.setDefaultFontSize(48);
     }
 
     /**
@@ -287,6 +267,94 @@ public class RecommendDetailActivity extends BaseActivity {
                 + " " + m_jobCurrent.getPublisher().getName());
         m_webvContent.loadDataWithBaseURL(null, m_jobCurrent.getContent(),
                 "text/html", "utf-8", null);
+
+    }
+
+    private void sendRequest() {
+        JobApi.getJobDetail(m_nId, new RequestListener() {
+
+            @Override
+            public void onComplete(Object result) {
+                Message msg = m_handlerJobDetail.obtainMessage();
+
+                try {
+                    JSONObject jsonObject = (JSONObject) result;
+                    if (!Judge.isValidJsonValue("status", jsonObject)) {
+                        return;
+                    }
+                    final int status = jsonObject.getInt("status");
+                    switch (status) {
+                        case STATUS_REQUEST_SUCCESS:
+                            if (!Judge.isValidJsonValue("status", jsonObject)) {
+                                break;
+                            }
+                            m_jobCurrent = new Job(jsonObject.getJSONObject("body"));
+                            m_jobPublisher = new User(
+                                    jsonObject.getJSONObject("body").getJSONObject("user"));
+                            break;
+                        case STATUS_NOT_LOGIN:
+                            updateLogin();
+                            break;
+                        default:
+                            break;
+                    }
+                    msg.what = status;
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                m_handlerJobDetail.sendMessage(msg);
+
+            }
+
+            @Override
+            public void onHttpError(CSTResponse response) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onException(Exception e) {
+                // m_jobCurrent = new Job(null);
+                Lgr.i("JobDetailActivity onError : id = " + m_nId + "!");
+                if (Lgr.isDebuggable()) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+
+
+
+        CSTJsonResponse response = new CSTJsonResponse(this) {
+            @Override
+            public void onResponse(JSONObject result) {
+                super.onResponse(result);
+                Lgr.i(result.toString());
+                Message msg = m_handlerJobDetail.obtainMessage();
+                try {
+                    msg.what = result.getInt("status");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                m_handlerJobDetail.sendMessage(msg);
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                Message msg = m_handlerJobDetail.obtainMessage();
+                msg.what = mErrorStatusCode;
+                m_handlerJobDetail.sendMessage(msg);
+            }
+        };
+
+//        CSTJsonRequest detailRequest = new CSTJsonRequest(CSTRequest.Method.GET,
+//                SUB_URL, paramsMap, response);
+//        mEngine.requestJson(detailRequest);
 
     }
 

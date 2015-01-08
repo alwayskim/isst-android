@@ -482,8 +482,8 @@ public class BaseArchiveListFragment extends ListFragment implements
                         .findViewById(R.id.date_txv);
                 holder.publisherTxv = (TextView) convertView
                         .findViewById(R.id.publisher_txv);
-                holder.descriptionTxv = (TextView) convertView
-                        .findViewById(R.id.description_txv);
+//                holder.descriptionTxv = (TextView) convertView
+//                        .findViewById(R.id.description_txv);
 
                 convertView.setTag(holder);
             } else {

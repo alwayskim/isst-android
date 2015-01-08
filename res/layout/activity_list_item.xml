@@ -3,60 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:paddingBottom="10dp"
-    android:paddingTop="5dp">
+    android:padding="10dp"
+    android:typeface="serif">
 
-    <TextView
-        android:id="@+id/activity_list_item_title_txv"
+    <RelativeLayout
+        android:id="@+id/activity_list_item_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/activity_list_item_indicator_view"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/activity_list_item_updatetime_txv">
+
+        <TextView
+            android:id="@+id/activity_list_item_title_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/activity_list_item_description_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_list_item_title_txv"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:minLines="2"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="serif" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/activity_list_item_updatetime_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_list_item_title_txv"
-        android:layout_toRightOf="@+id/activity_list_item_indicator_view"
-        android:paddingLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/activity_list_item_starttime_txv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/activity_list_item_updatetime_txv"
-        android:layout_toLeftOf="@+id/activity_list_item_expiretime_txv"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/activity_list_item_expiretime_txv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/activity_list_item_updatetime_txv"
         android:layout_alignParentRight="true"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/activity_list_item_description_txv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_list_item_updatetime_txv"
-        android:layout_toRightOf="@+id/activity_list_item_indicator_view"
+        android:layout_centerVertical="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:typeface="serif" />
 
-    <View
-        android:id="@+id/activity_list_item_indicator_view"
-        android:layout_width="5dp"
-        android:layout_height="20dp"
-        android:layout_alignParentLeft="true"
-        android:background="#66ccff" />
+    <!--<TextView-->
+        <!--android:id="@+id/activity_list_item_starttime_txv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBaseline="@+id/activity_list_item_updatetime_txv"-->
+        <!--android:layout_toLeftOf="@+id/activity_list_item_expiretime_txv"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+        <!--android:typeface="serif" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/activity_list_item_expiretime_txv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBaseline="@+id/activity_list_item_updatetime_txv"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+        <!--android:typeface="serif" />-->
+
 
 </RelativeLayout>

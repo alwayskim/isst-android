@@ -8,11 +8,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.data.CSTTask;
 
-public class GowhereSurveyActivity extends Activity {
+public class GowhereSurveyActivity extends BaseActivity {
 
     public TextView mTask_name;
     public TextView mTask_starttime;
@@ -26,7 +27,7 @@ public class GowhereSurveyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gowhere_survey);
         initview();
-        setUpActionbar();
+        setUpActionBar();
         Lgr.i(this.getIntent().getExtras().toString());
         CSTTask task = (CSTTask) getIntent().getExtras().getSerializable("task");
         mTask_name.setText(task.name);
@@ -68,10 +69,10 @@ public class GowhereSurveyActivity extends Activity {
         mTask_description = (TextView) findViewById(R.id.gw_description_c);
         mTask_finish = (TextView) findViewById(R.id.gw_finish_c);
     }
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("任务详情");
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle("任务详情");
     }
 }

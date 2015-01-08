@@ -69,9 +69,7 @@ public class PushMessagesActivity extends BaseActivity {
         mMessage.id = intent.getIntExtra("id", 0);
         CSTMessageDataDelegate.saveMessage(this, mMessage);
 
-        setTitle(R.string.message_center);
-
-        setUpActionbar();
+        setUpActionBar();
 
         initComponent();
 
@@ -91,10 +89,10 @@ public class PushMessagesActivity extends BaseActivity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.message_center);
     }
 
     private void initComponent() {

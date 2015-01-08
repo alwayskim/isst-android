@@ -79,7 +79,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
-    private boolean mIsFirstTime;
+    private boolean mIsFirstTime = true;
 
     private Handler mHandler;
 
@@ -98,7 +98,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public CSTCityEventListFragment() {
-        mIsFirstTime = true;
+
     }
 
     public static CSTCityEventListFragment getInstance() {
@@ -253,6 +253,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
+            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             CityEventResponse eventResponse = new CityEventResponse(getActivity(),

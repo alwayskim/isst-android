@@ -73,6 +73,8 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private boolean isMoreData = false;
 
+    private boolean IS_FIRST = true;
+
     private int mCurrentPage = 1;
 
     //better implementation is use Fragment#newInstance(args...) instead.
@@ -213,12 +215,17 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
+            if(IS_FIRST){
+                mSwipeRefreshLayout.setRefreshing(true);
+                IS_FIRST = false;
+            }
         }
         ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
                 !isLoadMore) {
             @Override
             public void onResponse(JSONObject response) {
                 super.onResponse(response);
+                Lgr.i("Archive:  ",response.toString());
                 Message msg = mHandler.obtainMessage();
 
                 try {
