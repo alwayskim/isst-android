@@ -52,7 +52,6 @@
         <activity
             android:name=".ui.main.NewMainActivity"
             android:logo="@drawable/menu_home" />
-        />
         <activity android:name=".ui.job.JobDetailActivity" />
         <activity android:name=".v2.usercenter.myrecommend.RecommendDetailActivity" />
         <activity android:name=".ui.job.JobCommentListActivity" />
@@ -73,7 +72,8 @@
         <activity android:name=".v2.usercenter.setting.SettingActivity" />
         <activity android:name=".v2.usercenter.setting.FeedBackActivity" />
         <activity android:name=".v2.usercenter.myactivity.MyEventActivity" />
-        <activity android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
+        <activity
+            android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
         <activity android:name=".v2.usercenter.myexperience.MyExperienceActivity" />
 
 
@@ -93,8 +93,21 @@
             android:authorities="cn.edu.zju.isst1.v2.db.cstprovider"
             android:exported="false" />
 
+        <!--&lt;!&ndash; push service client &ndash;&gt;-->
+        <!--<receiver android:name=".baidupush.PushMessageReceiver">-->
+
+            <!--<intent-filter>-->
+
+                <!--&lt;!&ndash; 接收push消息 &ndash;&gt;-->
+                <!--<action android:name="com.baidu.android.pushservice.action.MESSAGE" />-->
+                <!--&lt;!&ndash; 接收bind,unbind,fetch,delete等反馈消息 &ndash;&gt;-->
+                <!--<action android:name="com.baidu.android.pushservice.action.RECEIVE" />-->
+                <!--<action android:name="com.baidu.android.pushservice.action.notification.CLICK" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
         <!-- push service client -->
-        <receiver android:name=".baidupush.PushMessageReceiver">
+        <receiver android:name=".baidupush.MyPushMessageReceiver">
 
             <intent-filter>
 
@@ -105,6 +118,7 @@
                 <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
             </intent-filter>
         </receiver>
+
         <!-- push service -->
         <receiver
             android:name="com.baidu.android.pushservice.PushServiceReceiver"

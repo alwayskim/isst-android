@@ -18,6 +18,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushSettings;
+
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.api.LogoutApi;
 import cn.edu.zju.isst1.db.DataManager;
@@ -94,9 +98,19 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.main_reside_menu_activity);
 
         mCurrentFragment = null;
+
+        CSTSettings.setIsNewMainOn(true, NewMainActivity.this);
         setUpMenu();
         setUpActionbar();
         initHandler();
+
+        // 打开推送
+        Lgr.i("Loading____pushSetting");
+        PushSettings.enableDebugMode(getApplicationContext(), true);
+//        以apikey的方式登录，一般放在主Activity的onCreate中
+        PushManager.startWork(getApplicationContext(),
+                PushConstants.LOGIN_TYPE_API_KEY, "Wu84DeRt2gFEzjDn0ErqxwSL");
+
         if (savedInstanceState == null) {
             mCurrentFragment = NewsFragment.getInstance();
             titleTxv.setText(R.string.menu_news);
@@ -111,6 +125,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         requestGlobalData();
         updateLogin();
+        if(getIntent().getBooleanExtra("push",false)){
+            Intent intent = new Intent(this,PushMessagesActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -273,6 +291,12 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CSTSettings.setIsNewMainOn(false,this);
     }
 
     @Override

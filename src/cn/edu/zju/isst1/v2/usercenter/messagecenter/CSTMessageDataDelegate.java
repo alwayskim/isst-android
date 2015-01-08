@@ -43,9 +43,11 @@ public class CSTMessageDataDelegate {
         CSTMessage cstMessage = new CSTMessage();
         Cursor cursor = context.getContentResolver().query(CSTMessageProvider.CONTENT_URI, null, null, null, null);
         cursor.moveToFirst();
-        do {
-            cstMessage.itemList.add(getMessage(cursor));
-        } while (cursor.moveToNext());
+        if (cursor.getCount() > 0) {
+            do {
+                cstMessage.itemList.add(getMessage(cursor));
+            } while (cursor.moveToNext());
+        }
         cursor.close();
         return cstMessage;
     }

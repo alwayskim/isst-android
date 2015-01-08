@@ -32,6 +32,7 @@ import cn.edu.zju.isst1.api.PushMessageApi;
 import cn.edu.zju.isst1.db.PushMessage;
 import cn.edu.zju.isst1.net.CSTResponse;
 import cn.edu.zju.isst1.net.RequestListener;
+import cn.edu.zju.isst1.settings.CSTSettings;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
@@ -59,6 +60,8 @@ public class PushMessagesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.push_messages_activity);
         mMessageList = CSTMessageDataDelegate.getAllMessage(PushMessagesActivity.this);
+
+        CSTSettings.setPushActivityOn(true, this);
 
 //        CSTMessage mMessage = new CSTMessage();
 //
@@ -94,6 +97,12 @@ public class PushMessagesActivity extends BaseActivity {
     protected void setUpActionBar() {
         super.setUpActionBar();
         setTitle(R.string.message_center);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CSTSettings.setPushActivityOn(false, this);
     }
 
     private void initComponent() {

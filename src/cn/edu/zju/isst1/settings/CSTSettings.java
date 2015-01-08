@@ -4,11 +4,11 @@
 package cn.edu.zju.isst1.settings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import cn.edu.zju.isst1.util.Lgr;
-import cn.edu.zju.isst1.v2.splash.data.CSTVersion;
 
 /**
  * 设置管理类
@@ -25,8 +25,12 @@ public class CSTSettings {
 
     private static final String IS_AUTO_LOGIN = "is_auto_login";
 
+    private static final String IS_NEW_MAIN_ON = "is_new_main_on";
+
+    private static final String IS_PUSH_ACTIVITY_ON = "is_push_activity_on";
+
     public static void setForTheFirstTime(boolean isForTheFirstTime,
-            Activity activity) {
+                                          Activity activity) {
         writeValueForKey(FOR_THE_FIRST_TIME, isForTheFirstTime, activity);
     }
 
@@ -40,7 +44,27 @@ public class CSTSettings {
         writeValueForKey(IS_AUTO_LOGIN, isAutoLogin, activity);
     }
 
-    public static boolean isAutoLogin(Activity activity) {
+    public static void setIsNewMainOn(boolean isOn, Activity activity) {
+        Lgr.i("CSTSettings setAutoLogin: " + isOn);
+        writeValueForKey(IS_NEW_MAIN_ON, isOn, activity);
+    }
+
+    public static boolean isNewMainOn(Context activity) {
+        return activity.getSharedPreferences(SP_NAME, Activity.MODE_PRIVATE)
+                .getBoolean(IS_NEW_MAIN_ON, false);
+    }
+
+    public static void setPushActivityOn(boolean isOn, Activity activity) {
+        Lgr.i("CSTSettings setAutoLogin: " + isOn);
+        writeValueForKey(IS_PUSH_ACTIVITY_ON, isOn, activity);
+    }
+
+    public static boolean isPushActivityOn(Context activity) {
+        return activity.getSharedPreferences(SP_NAME, Activity.MODE_PRIVATE)
+                .getBoolean(IS_PUSH_ACTIVITY_ON, false);
+    }
+
+    public static boolean isAutoLogin(Context activity) {
         return activity.getSharedPreferences(SP_NAME, Activity.MODE_PRIVATE)
                 .getBoolean(IS_AUTO_LOGIN, false);
     }
@@ -54,7 +78,7 @@ public class CSTSettings {
     }
 
     private static void writeValueForKey(String key, Object value,
-            Activity activity) {
+                                         Context activity) {
         SharedPreferences sp = activity.getSharedPreferences(SP_NAME,
                 Activity.MODE_PRIVATE);
         Editor editor = sp.edit();

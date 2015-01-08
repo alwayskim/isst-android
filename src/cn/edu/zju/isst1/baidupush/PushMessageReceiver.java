@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.baidu.android.pushservice.PushConstants;
 
+import cn.edu.zju.isst1.settings.CSTSettings;
+import cn.edu.zju.isst1.ui.main.NewMainActivity;
 import cn.edu.zju.isst1.v2.usercenter.*;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
@@ -134,7 +136,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
             CSTMessage message1 = new CSTMessage();
             String msg_content = intent.getExtras().getString(
                     PushConstants.EXTRA_NOTIFICATION_CONTENT);
-            Lgr.i("content_output",msg_content);
+            Lgr.i("content_output", msg_content);
             String title = intent
                     .getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
             int id = message.itemList.size() + 1;
@@ -143,7 +145,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
             message1.title = title;
             message1.content = msg_content;
             message1.createdAt = Long.toString(createtime);
-            CSTMessageDataDelegate.saveMessage(context,message1);
+            CSTMessageDataDelegate.saveMessage(context, message1);
             showActivity(context, intent);
         }
     }
@@ -151,9 +153,25 @@ public class PushMessageReceiver extends BroadcastReceiver {
     private void showActivity(final Context context, Intent intent) {
         // TODO Auto-generated method stub
 
+
         Intent aIntent = new Intent();
-        aIntent.setClass(context, PushMessagesActivity.class);
-        aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        aIntent.putExtra("push", true);
+        if (!CSTSettings.isAutoLogin(context)) {
+            aIntent.setClass(context, LoadingActivity.class);
+            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(aIntent);
+        } else if(CSTSettings.isPushActivityOn(context)){
+        }else if (CSTSettings.isNewMainOn(context)) {
+            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            aIntent.setClass(context, PushMessagesActivity.class);
+            context.startActivity(aIntent);
+        } else {
+            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            aIntent.setClass(context, NewMainActivity.class);
+            context.startActivity(aIntent);
+        }
 //		String title = intent
 //				.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
 //
@@ -176,7 +194,6 @@ public class PushMessageReceiver extends BroadcastReceiver {
 //        aIntent.putExtra("creatAt",time);
 //
 //        Lgr.i("createAt",TSUtil.toYMD(time));
-        context.startActivity(aIntent);
     }
 
 }
