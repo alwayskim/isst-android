@@ -46,9 +46,8 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_info_activity);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionBar();
+
         initComponent();
 
         initUser();
@@ -116,6 +115,12 @@ public class UserInfoActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.personal_setting);
     }
 
     private void initComponent() {

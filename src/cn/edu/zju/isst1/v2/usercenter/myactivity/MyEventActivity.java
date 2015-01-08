@@ -11,7 +11,7 @@ import cn.edu.zju.isst1.ui.main.BaseActivity;
 /**
  * Created by alwayking on 14/12/6.
  */
-public class MyEventActivity extends BaseActivity{
+public class MyEventActivity extends BaseActivity {
 
     MyActivitiesFragment listFragment = new MyActivitiesFragment();
 
@@ -23,7 +23,7 @@ public class MyEventActivity extends BaseActivity{
             getFragmentManager().beginTransaction()
                     .add(R.id.content_container, listFragment).commit();
         }
-        setUpActionbar();
+        setUpActionBar();
     }
 
 
@@ -46,10 +46,9 @@ public class MyEventActivity extends BaseActivity{
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
         setTitle(getResources().getString(R.string.my_activity));
     }
 }

@@ -49,8 +49,8 @@ public class BaseEventListAdapter extends CursorAdapter {
 //            holder.startTimeTxv.setText(TSUtil.toHM(campusEvent.startTime));
 //            holder.expireTimeTxv.setText(TSUtil.toHM(campusEvent.expireTime));
             holder.updateTimeTxv.setText(TSUtil.toYMD(Long.parseLong(campusEvent.updatedAt)));
-            holder.startTimeTxv.setText(TSUtil.toHM(Long.parseLong(campusEvent.startTime)));
-            holder.expireTimeTxv.setText(TSUtil.toHM(Long.parseLong(campusEvent.expireTime)));
+//            holder.startTimeTxv.setText(TSUtil.toHM(Long.parseLong(campusEvent.startTime)));
+//            holder.expireTimeTxv.setText(TSUtil.toHM(Long.parseLong(campusEvent.expireTime)));
             holder.descriptionTxv.setText(campusEvent.description);
         } else {
             cityEvent = CSTCityEventDataDelegate.getCityevent(cursor);
@@ -58,8 +58,8 @@ public class BaseEventListAdapter extends CursorAdapter {
             ViewHolder holder = getBindViewHolder(view);
             holder.titleTxv.setText(cityEvent.title);
             holder.updateTimeTxv.setText(TSUtil.toYMD(cityEvent.updatedAt));
-            holder.startTimeTxv.setText(TSUtil.toHM(cityEvent.startTime));
-            holder.expireTimeTxv.setText(TSUtil.toHM(cityEvent.expireTime));
+//            holder.startTimeTxv.setText(TSUtil.toHM(cityEvent.startTime));
+//            holder.expireTimeTxv.setText(TSUtil.toHM(cityEvent.expireTime));
             holder.descriptionTxv.setText(cityEvent.description);
         }
 
@@ -71,14 +71,14 @@ public class BaseEventListAdapter extends CursorAdapter {
                 .findViewById(R.id.activity_list_item_title_txv);
         holder.updateTimeTxv = (TextView) view
                 .findViewById(R.id.activity_list_item_updatetime_txv);
-        holder.startTimeTxv = (TextView) view
-                .findViewById(R.id.activity_list_item_starttime_txv);
-        holder.expireTimeTxv = (TextView) view
-                .findViewById(R.id.activity_list_item_expiretime_txv);
+//        holder.startTimeTxv = (TextView) view
+//                .findViewById(R.id.activity_list_item_starttime_txv);
+//        holder.expireTimeTxv = (TextView) view
+//                .findViewById(R.id.activity_list_item_expiretime_txv);
         holder.descriptionTxv = (TextView) view
                 .findViewById(R.id.activity_list_item_description_txv);
-        holder.indicatorView = (View) view
-                .findViewById(R.id.activity_list_item_indicator_view);
+//        holder.indicatorView = (View) view
+//                .findViewById(R.id.activity_list_item_indicator_view);
         return holder;
     }
 

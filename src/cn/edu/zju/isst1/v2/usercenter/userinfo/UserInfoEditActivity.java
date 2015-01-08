@@ -113,10 +113,13 @@ public class UserInfoEditActivity extends BaseActivity {
         bindData();
     }
 
-    private void setUpActionBar() {
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.user_info_edit_custom_actionbar);
+        setTitle(R.string.action_edit);
     }
 
     private View getActionBarView() {

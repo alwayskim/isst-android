@@ -45,8 +45,8 @@
     <string name="castellan_fragment_city">城市</string>
     <string name="contact_detail_mobile">手机</string>
     <string name="contact_detail_email">Email</string>
-    <string name="contact_detail_city">所在城市</string>
-    <string name="contact_detail_company">所在单位</string>
+    <string name="contact_detail_city">城市</string>
+    <string name="contact_detail_company">单位</string>
     <string name="contact_detail_position">职位</string>
     <string name="contact_detail_imagebutton_call">拨打联系人电话</string>
     <string name="contact_detail_imagebutton_message">给联系人发送短信</string>
@@ -131,5 +131,11 @@
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
     <string name="two_code">扫码签到</string>
     <string name="test_text">测试之用，测试之用</string>
+    <string name="exit_note">再按一次退出程序</string>
+    <string name="action_bar_archive_detail">信息详情</string>
+    <string name="action_bar_event_detail">活动详情</string>
+    <string name="action_bar_recommend_detail">内推详情</string>
+    <string name="action_bar_job_detail">详情</string>
+    <string name="publish_comment">发布评论</string>
 
 </resources>

@@ -7,8 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.ui.main.BaseActivity;
 
-public class MyRecommendListActivity extends Activity {
+public class MyRecommendListActivity extends BaseActivity {
 
     MyRecommendListFragment listFragment = new MyRecommendListFragment();
 
@@ -20,7 +21,7 @@ public class MyRecommendListActivity extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.content_container, listFragment).commit();
         }
-        setUpActionbar();
+        setUpActionBar();
     }
 
 
@@ -43,10 +44,9 @@ public class MyRecommendListActivity extends Activity {
         }
     }
 
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
         setTitle(getResources().getString(R.string.my_recommend));
     }
 }

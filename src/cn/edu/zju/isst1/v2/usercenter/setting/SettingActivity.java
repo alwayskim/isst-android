@@ -61,7 +61,7 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_activity);
-        setUpActionbar();
+        setUpActionBar();
         initComponent();
         initAlertDialog();
         initHandler();
@@ -84,6 +84,13 @@ public class SettingActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(getResources().getString(R.string.app_about));
+
     }
 
     public void initComponent() {
@@ -152,13 +159,6 @@ public class SettingActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle(getResources().getString(R.string.app_about));
     }
 
     private void initAlertDialog() {

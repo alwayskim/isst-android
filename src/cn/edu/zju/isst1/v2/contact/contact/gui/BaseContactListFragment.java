@@ -91,6 +91,8 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     private ImageButton searchBtn;
 
+    private boolean IS_FIRST = true;
+
     private FilterType m_ft;
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
@@ -298,6 +300,10 @@ public class BaseContactListFragment extends CSTBaseFragment
         mAdapter = new CSTContactListAdapter(getActivity(), null, m_ft);
         mListView.setAdapter(mAdapter);
         requestData();
+        if (IS_FIRST) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            IS_FIRST = false;
+        }
     }
 
     private void setUpListener() {
@@ -385,6 +391,7 @@ public class BaseContactListFragment extends CSTBaseFragment
             msg.what = Constants.NETWORK_NOT_CONNECTED;
             mHandler.sendMessage(msg);
         }
+
     }
 
     /**

@@ -14,7 +14,9 @@ import java.util.List;
 
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
+import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;
+import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumni;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCityDataDelegate;
@@ -65,9 +67,7 @@ public class CSTContactDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionBar();
         // 用户
         mAlumni = (CSTAlumni) getIntent().getExtras().getSerializable("alumni");
         // 控件
@@ -102,6 +102,12 @@ public class CSTContactDetailActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle("详细资料");
     }
 
     /**
@@ -164,17 +170,19 @@ public class CSTContactDetailActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
-            String number = m_tvMobile.getText().toString();
-            Intent intent;
-            if (mAlumni.pvtPhone) {
-                intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
-                        + number));
-                startActivity(intent);
-            } else {
-                intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"));
-                startActivity(intent);
-            }
+            String number = mAlumni.phoneNum;
 
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+                    + number));
+            startActivity(intent);
+            try {
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                CroMan.showAlert(CSTContactDetailActivity.this,"通讯异常");
+                Lgr.i("phone error:", e.toString());
+            }
         }
 
     }
@@ -188,11 +196,17 @@ public class CSTContactDetailActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
-            String number = m_tvMobile.getText().toString();
+            String number = mAlumni.phoneNum;
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"
                     + number));
-            startActivity(intent);
-            CSTContactDetailActivity.this.finish();
+            try {
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                CroMan.showAlert(CSTContactDetailActivity.this,"打开短信异常");
+                Lgr.i("message error:", e.toString());
+            }
         }
 
     }
@@ -207,12 +221,15 @@ public class CSTContactDetailActivity extends BaseActivity {
         @Override
         public void onClick(View arg0) {
             String email = m_tvEmail.getText().toString();
-            Intent intent = new Intent(Intent.ACTION_SENDTO,
-                    Uri.parse("mailto:" + email));
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:" + mAlumni.email));
             try {
                 startActivity(intent);
-            } catch (Exception e) {
+            } catch (android.content.ActivityNotFoundException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
+                CroMan.showAlert(CSTContactDetailActivity.this,"此设备无Email客户端");
+                Lgr.i("Email error:", e.toString());
             }
         }
 

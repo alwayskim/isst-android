@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -33,7 +34,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Isst_color_ab_style">
+        android:theme="@style/MyTheme">
         <activity
             android:name=".v2.splash.gui.LoadingActivity"
             android:launchMode="singleInstance"
@@ -50,76 +51,30 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".ui.main.NewMainActivity"
-            android:theme="@style/MyTheme"
-            android:logo="@drawable/menu_home"/>
-          />
-        <activity
-            android:name=".ui.job.JobDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.myrecommend.RecommendDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".ui.job.JobCommentListActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.myrecommend.PublishRecommendActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".ui.life.CampusActivityDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".ui.life.RestaurantDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.userinfo.UserInfoActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.userinfo.UserInfoEditActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".ui.contact.ContactDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".ui.contact.ContactFilterActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.event.city.gui.CityEventDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.event.city.gui.CityEventParticipantsListActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.contact.ContactFilterActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.contact.contact.gui.CSTContactDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.archive.gui.ArchiveDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.restaurant.gui.NewRestaurantDetailActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.setting.SettingActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.setting.FeedBackActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.myactivity.MyEventActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity"
-            android:theme="@style/MyTheme" />
-        <activity
-            android:name=".v2.usercenter.myexperience.MyExperienceActivity"
-            android:theme="@style/MyTheme" />
-
+            android:logo="@drawable/menu_home" />
+        />
+        <activity android:name=".ui.job.JobDetailActivity" />
+        <activity android:name=".v2.usercenter.myrecommend.RecommendDetailActivity" />
+        <activity android:name=".ui.job.JobCommentListActivity" />
+        <activity android:name=".v2.usercenter.myrecommend.PublishRecommendActivity" />
+        <activity android:name=".ui.life.CampusActivityDetailActivity" />
+        <activity android:name=".ui.life.RestaurantDetailActivity" />
+        <activity android:name=".v2.usercenter.userinfo.UserInfoActivity" />
+        <activity android:name=".v2.usercenter.userinfo.UserInfoEditActivity" />
+        <activity android:name=".ui.contact.ContactDetailActivity" />
+        <activity android:name=".ui.contact.ContactFilterActivity" />
+        <activity android:name=".v2.event.city.gui.CityEventDetailActivity" />
+        <activity android:name=".v2.event.city.gui.CityEventParticipantsListActivity" />
+        <activity android:name=".v2.contact.ContactFilterActivity" />
+        <activity android:name=".v2.contact.contact.gui.CSTContactDetailActivity" />
+        <activity android:name=".v2.contact.contact.gui.CSTSearchedAlumniActivity" />
+        <activity android:name=".v2.archive.gui.ArchiveDetailActivity" />
+        <activity android:name=".v2.restaurant.gui.NewRestaurantDetailActivity" />
+        <activity android:name=".v2.usercenter.setting.SettingActivity" />
+        <activity android:name=".v2.usercenter.setting.FeedBackActivity" />
+        <activity android:name=".v2.usercenter.myactivity.MyEventActivity" />
+        <activity android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
+        <activity android:name=".v2.usercenter.myexperience.MyExperienceActivity" />
 
 
         <activity
@@ -127,12 +82,10 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".v2.usercenter.twodimensionalcode.example.qr_codescan.MipcaActivityCapture"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
 
-        <activity
-            android:name=".v2.usercenter.myexperience.PublishExpActivity"
-            android:theme="@style/MyTheme" />
+        <activity android:name=".v2.usercenter.myexperience.PublishExpActivity" />
 
 
         <provider
@@ -233,8 +186,7 @@
         <activity
             android:name=".v2.usercenter.myrecommend.MyRecommendListActivity"
             android:label="@string/title_activity_my_recoomend_list_fragment"
-            android:parentActivityName=".ui.main.BaseActivity"
-            android:theme="@style/MyTheme">
+            android:parentActivityName=".ui.main.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cn.edu.zju.isst1.ui.main.BaseActivity" />

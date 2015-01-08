@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/setting_avatar_imgv"
@@ -25,7 +26,8 @@
         android:layout_marginTop="@dimen/padding_middle"
         android:text="软院通(ISST)"
         android:textColor="@color/silver"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_large"
+        android:typeface="serif"/>
 
     <Button
         android:id="@+id/setting_feedback_btn"
@@ -33,14 +35,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_big"
-        android:text="意见反馈" />
+        android:text="意见反馈"
+        android:typeface="serif"/>
 
     <Button
         android:id="@+id/setting_check_update_btn"
         android:layout_below="@+id/setting_feedback_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/update_check" />
+        android:text="@string/update_check"
+        android:typeface="serif"/>
 
     <TextView
         android:id="@+id/setting_app_info_txv"
