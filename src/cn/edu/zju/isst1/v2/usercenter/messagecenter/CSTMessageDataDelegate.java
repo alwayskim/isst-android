@@ -39,13 +39,13 @@ public class CSTMessageDataDelegate {
         resolver.delete(CSTMessageProvider.CONTENT_URI, null, null);
     }
 
-    public static CSTMessage getAllMessage(Context context){
+    public static CSTMessage getAllMessage(Context context) {
         CSTMessage cstMessage = new CSTMessage();
         Cursor cursor = context.getContentResolver().query(CSTMessageProvider.CONTENT_URI, null, null, null, null);
         cursor.moveToFirst();
-        while (cursor.moveToNext()){
+        do {
             cstMessage.itemList.add(getMessage(cursor));
-        }
+        } while (cursor.moveToNext());
         cursor.close();
         return cstMessage;
     }
@@ -76,7 +76,6 @@ public class CSTMessageDataDelegate {
 
     private static ContentValues getMessageValue(CSTMessage message) {
         ContentValues values = new ContentValues();
-
         values.put(CSTMessageProvider.Columns.ID.key, message.id);
         values.put(CSTMessageProvider.Columns.TITLE.key, message.title);
         values.put(CSTMessageProvider.Columns.CREATEDAT.key, message.createdAt);

@@ -28,12 +28,11 @@ import cn.edu.zju.isst1.v2.data.CSTRestaurant;
 import cn.edu.zju.isst1.v2.data.CSTRestaurantMenu;
 import cn.edu.zju.isst1.v2.data.CSTTask;
 import cn.edu.zju.isst1.v2.event.campus.data.CSTCampusEvent;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityEvent;
-import cn.edu.zju.isst1.v2.event.city.event.data.CSTCityParticipant;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityEvent;
+import cn.edu.zju.isst1.v2.event.city.data.CSTCityParticipant;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
 import cn.edu.zju.isst1.v2.user.data.CSTUser;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessage;
-import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageDataDelegate;
 
 public class CSTJsonParserTest {
 

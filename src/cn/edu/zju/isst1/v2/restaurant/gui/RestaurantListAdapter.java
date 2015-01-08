@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import cn.edu.zju.isst.tests.util.CSTImageUtil;
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
@@ -52,15 +53,14 @@ public class RestaurantListAdapter extends CursorAdapter {
         holder.nameTxv.setText(restaurant.name);
         final Handler mHandler = new Handler() {
             public void handleMessage(Message msg) {
-                holder.resIcon.setImageBitmap((Bitmap) msg.obj);
+//                holder.resIcon.setImageBitmap((Bitmap) msg.obj);
             }
         };
         Runnable show_icon = new Runnable() {
             @Override
             public void run() {
                 try {
-                    byte[] data = getImage(restaurant.picture);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Bitmap bitmap = CSTImageUtil.getImage(restaurant.picture);
                     Message msg = mHandler.obtainMessage();
                     msg.obj = bitmap;
                     mHandler.sendMessage(msg);
@@ -106,26 +106,5 @@ public class RestaurantListAdapter extends CursorAdapter {
         public TextView hotlineTxv;
 
         public ImageButton dialIBtn;
-    }
-
-    public static byte[] getImage(String path) throws IOException {
-        URL url = new URL(path);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setReadTimeout(5000);
-        InputStream inputStream = conn.getInputStream();
-        byte[] data = readInputStream(inputStream);
-        return data;
-    }
-
-    public static byte[] readInputStream(InputStream inputStream) throws IOException {
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        while ((len = inputStream.read(buffer)) != -1) {
-            bos.write(buffer, 0, len);
-        }
-        bos.close();
-        return bos.toByteArray();
     }
 }

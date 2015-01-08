@@ -2,15 +2,22 @@ package cn.edu.zju.isst1.v2.restaurant.gui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -19,11 +26,14 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
+import cn.edu.zju.isst.tests.util.CSTImageUtil;
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.Judge;
@@ -58,7 +68,9 @@ public class NewRestaurantDetailActivity extends BaseActivity {
 
     private TextView m_txvbusinessHours;
 
-    private ImageButton m_ibtnDial;
+    private TextView m_txvRestaurantName;
+
+//    private ImageButton m_ibtnDial;
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
@@ -111,36 +123,37 @@ public class NewRestaurantDetailActivity extends BaseActivity {
     }
 
     private void initComponent() {
+        m_txvRestaurantName = (TextView) findViewById(R.id.restaurant_detail_activity_rn);
         m_txvDescription = (TextView) findViewById(R.id.restaurant_detail_activity_description_txv);
         m_txvHotline = (TextView) findViewById(R.id.restaurant_detail_activity_hotline_txv);
         m_txvAddress = (TextView) findViewById(R.id.restaurant_detail_activity_address_txv);
         m_txvbusinessHours = (TextView) findViewById(R.id.restaurant_detail_activity_business_hours_txv);
-        m_ibtnDial = (ImageButton) findViewById(R.id.restaurant_detail_activity_dial_ibtn);
+//        m_ibtnDial = (ImageButton) findViewById(R.id.restaurant_detail_activity_dial_ibtn);
         m_lsvMenu = (ListView) findViewById(R.id.restaurant_detail_activity_menu_lsv);
     }
 
     private void showRestaurantDetail() {
         setTitle(m_restaurantCurrent.name);
 
+        m_txvRestaurantName.setText(m_restaurantCurrent.name);
         m_txvDescription.setText(m_restaurantCurrent.description);
         m_txvHotline.setText(m_restaurantCurrent.hotLine);
         m_txvAddress.setText(m_restaurantCurrent.address);
         m_txvbusinessHours.setText(m_restaurantCurrent.businessHours);
 
-        final String dialNumber = m_restaurantCurrent.hotLine;
-
-        m_ibtnDial.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (!Judge.isNullOrEmpty(dialNumber)) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri
-                            .parse("tel://" + dialNumber));
-                    NewRestaurantDetailActivity.this.startActivity(intent);
-                }
-
-            }
-        });
+//        final String dialNumber = m_restaurantCurrent.hotLine;
+//        m_ibtnDial.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                if (!Judge.isNullOrEmpty(dialNumber)) {
+//                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri
+//                            .parse("tel://" + dialNumber));
+//                    NewRestaurantDetailActivity.this.startActivity(intent);
+//                }
+//
+//            }
+//        });
 
         mHandler = new Handler() {
             @Override
@@ -148,17 +161,18 @@ public class NewRestaurantDetailActivity extends BaseActivity {
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
                         CSTRestaurantMenu restaurantMenu = (CSTRestaurantMenu) msg.obj;
-                        List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
-                        for (CSTRestaurantMenu rm : restaurantMenu.itemList) {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("name", rm.name);
-                            map.put("price", Float.toString(rm.price));
-                            listItems.add(map);
-                        }
-                        Lgr.i(listItems.toString());
-                        SimpleAdapter adapter = new SimpleAdapter(NewRestaurantDetailActivity.this, listItems,
-                                android.R.layout.simple_list_item_2, new String[]{"name", "price"},
-                                new int[]{android.R.id.text1, android.R.id.text2});
+//                        List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
+//                        for (CSTRestaurantMenu rm : restaurantMenu.itemList) {
+//                            Map<String, String> map = new HashMap<String, String>();
+//                            map.put("name", rm.name);
+//                            map.put("price", Float.toString(rm.price));
+//                            listItems.add(map);
+//                        }
+//                        Lgr.i(listItems.toString());
+//                        SimpleAdapter adapter = new SimpleAdapter(NewRestaurantDetailActivity.this, listItems,
+//                                android.R.layout.simple_list_item_2, new String[]{"name", "price"},
+//                                new int[]{android.R.id.text1, android.R.id.text2});
+                        MenuAdapter adapter = new MenuAdapter(restaurantMenu, NewRestaurantDetailActivity.this);
                         m_lsvMenu.setAdapter(adapter);
                         break;
                     case STATUS_NOT_LOGIN:
@@ -199,5 +213,74 @@ public class NewRestaurantDetailActivity extends BaseActivity {
         CSTJsonRequest rmRequest = new CSTJsonRequest(CSTRequest.Method.GET, str, null,
                 rmResponse);
         mEngine.requestJson(rmRequest);
+    }
+
+    public class MenuAdapter extends BaseAdapter {
+
+        private CSTRestaurantMenu menu;
+        private LayoutInflater mInflater;
+
+        public MenuAdapter(CSTRestaurantMenu menu, Context context) {
+            this.menu = menu;
+            this.mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return menu.itemList.size();
+        }
+
+        @Override
+        public CSTRestaurantMenu getItem(int position) {
+            return menu.itemList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            final ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.restaurant_menu_item, null);
+                holder = new ViewHolder();
+                holder.dish_icon = (ImageView) convertView.findViewById(R.id.restaurant_menu_item_dish_icon);
+                holder.dish_name = (TextView) convertView.findViewById(R.id.restaurant_menu_item_name_txv);
+                holder.dish_price = (TextView) convertView.findViewById(R.id.restaurant_menu_item_price_txv);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+//            final Handler mHandler = new Handler() {
+//                public void handleMessage(Message msg) {
+//                    holder.dish_icon.setImageBitmap((Bitmap) msg.obj);
+//                }
+//            };
+//            Runnable show_icon = new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Bitmap bitmap = CSTImageUtil.getImage(getItem(position).picture);
+//                        Message msg = mHandler.obtainMessage();
+//                        msg.obj = bitmap;
+//                        mHandler.sendMessage(msg);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            };
+//            new Thread(show_icon).start();
+            holder.dish_name.setText(getItem(position).name);
+            holder.dish_price.setText(Float.toString(getItem(position).price) + "元");
+            return convertView;
+        }
+    }
+
+    static class ViewHolder {
+        public ImageView dish_icon;
+        public TextView dish_name;
+        public TextView dish_price;
     }
 }

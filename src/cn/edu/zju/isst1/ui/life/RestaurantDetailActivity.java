@@ -137,7 +137,7 @@ public class RestaurantDetailActivity extends BaseActivity {
     private void initComponent() {
         m_txvContent = (TextView) findViewById(R.id.restaurant_detail_activity_description_txv);
         m_txvHotline = (TextView) findViewById(R.id.restaurant_detail_activity_hotline_txv);
-        m_ibtnDial = (ImageButton) findViewById(R.id.restaurant_detail_activity_dial_ibtn);
+//        m_ibtnDial = (ImageButton) findViewById(R.id.restaurant_detail_activity_dial_ibtn);
         m_lsvMenu = (ListView) findViewById(R.id.restaurant_detail_activity_menu_lsv);
     }
 
@@ -252,20 +252,20 @@ public class RestaurantDetailActivity extends BaseActivity {
         m_txvContent.setText(m_restaurantCurrent.getContent());
         m_txvHotline.setText(m_restaurantCurrent.getHotline());
 
-        final String dialNumber = m_restaurantCurrent.getHotline();
-
-        m_ibtnDial.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (!Judge.isNullOrEmpty(dialNumber)) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri
-                            .parse("tel://" + dialNumber));
-                    RestaurantDetailActivity.this.startActivity(intent);
-                }
-
-            }
-        });
+//        final String dialNumber = m_restaurantCurrent.getHotline();
+//
+//        m_ibtnDial.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                if (!Judge.isNullOrEmpty(dialNumber)) {
+//                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri
+//                            .parse("tel://" + dialNumber));
+//                    RestaurantDetailActivity.this.startActivity(intent);
+//                }
+//
+//            }
+//        });
     }
 
     private final class ViewHolder {

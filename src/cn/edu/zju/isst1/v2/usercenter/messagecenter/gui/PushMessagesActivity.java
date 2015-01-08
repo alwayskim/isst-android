@@ -52,22 +52,23 @@ public class PushMessagesActivity extends BaseActivity {
 
     private ListView mMsgListView;
 
-    private Button mDeleteAllMessage;
+    private CSTMessage mMessageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.push_messages_activity);
+        mMessageList = CSTMessageDataDelegate.getAllMessage(PushMessagesActivity.this);
 
-        CSTMessage mMessage = new CSTMessage();
-
-        Intent intent = getIntent();
-
-        mMessage.title = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
-        mMessage.content = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
-        mMessage.createdAt = Long.toString(intent.getLongExtra("creatAt", System.currentTimeMillis()));
-        mMessage.id = intent.getIntExtra("id", 0);
-        CSTMessageDataDelegate.saveMessage(this, mMessage);
+//        CSTMessage mMessage = new CSTMessage();
+//
+//        Intent intent = getIntent();
+//
+//        mMessage.title = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
+//        mMessage.content = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+//        mMessage.createdAt = Long.toString(intent.getLongExtra("creatAt", System.currentTimeMillis()));
+//        mMessage.id = intent.getIntExtra("id", -1);
+//        CSTMessageDataDelegate.saveMessage(this, mMessage);
 
         setUpActionBar();
 
@@ -97,33 +98,7 @@ public class PushMessagesActivity extends BaseActivity {
 
     private void initComponent() {
         mMsgListView = (ListView) findViewById(R.id.push_msg_list);
-//        mDeleteAllMessage = (Button) findViewById(R.id.delete_all_msg);
-//        mDeleteAllMessage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CSTMessageDataDelegate.deleteAllMessage(PushMessagesActivity.this);
-//            }
-//        });
     }
-
-//    private void initHandler() {
-//        mHandler = new Handler() {
-//
-//            @Override
-//            public void handleMessage(Message msg) {
-//                switch (msg.what) {
-//                    case STATUS_REQUEST_SUCCESS:
-//                        refreshData((JSONObject) msg.obj);
-//                        mAdapter.notifyDataSetChanged();
-//                        break;
-//
-//                    default:
-//                        break;
-//                }
-//            }
-//
-//        };
-//    }
 
     private void setUpAdapter() {
         mAdapter = new MsgListAdapter(PushMessagesActivity.this);
@@ -160,7 +135,6 @@ public class PushMessagesActivity extends BaseActivity {
 
     private class MsgListAdapter extends BaseAdapter {
 
-        CSTMessage mMessageList = CSTMessageDataDelegate.getAllMessage(getApplicationContext());
 
         private LayoutInflater inflater;
 
@@ -186,17 +160,17 @@ public class PushMessagesActivity extends BaseActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
 
                 convertView = inflater
-                        .inflate(R.layout.archive_list_item, null);
+                        .inflate(R.layout.push_messages_activity_item, null);
                 holder.titleTxv = (TextView) convertView
-                        .findViewById(R.id.title_txv);
+                        .findViewById(R.id.push_msg_title);
                 holder.contentTxv = (TextView) convertView
-                        .findViewById(R.id.description_txv);
-                holder.createdTimeTxv = (TextView) convertView.findViewById(R.id.date_txv);
+                        .findViewById(R.id.push_msg_content);
+                holder.createdTimeTxv = (TextView) convertView.findViewById(R.id.push_msg_date);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -205,9 +179,6 @@ public class PushMessagesActivity extends BaseActivity {
             holder.titleTxv.setText(mMessageList.itemList.get(position).title);
             holder.contentTxv.setText(mMessageList.itemList.get(position).content);
             holder.createdTimeTxv.setText(TSUtil.toFull(Long.parseLong(mMessageList.itemList.get(position).createdAt)));
-
-            convertView.findViewById(R.id.publisher_txv)
-                    .setVisibility(View.GONE);
 
             return convertView;
         }

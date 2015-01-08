@@ -130,7 +130,7 @@
     <string name="title_activity_gowhere_survey">GowhereSurveyActivity</string>
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
     <string name="two_code">扫码签到</string>
-    <string name="test_text">测试之用，测试之用，测试之用，测试之用，测试之用，测试之用</string>
+    <string name="test_text">测试之用，测试之用</string>
     <string name="exit_note">再按一次退出程序</string>
     <string name="action_bar_archive_detail">信息详情</string>
     <string name="action_bar_event_detail">活动详情</string>
