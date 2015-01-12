@@ -37,6 +37,7 @@ public class CSTJsonRequest extends CSTRequest<JSONObject> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
+            Lgr.i("Header Status",response.headers.toString());
             CSTHttpUtil.refreshCookies(BASE_URL, response.headers);
             return Response.success(new JSONObject(jsonString),
                     HttpHeaderParser.parseCacheHeaders(response));

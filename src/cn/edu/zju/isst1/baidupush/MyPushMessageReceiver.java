@@ -2,19 +2,33 @@ package cn.edu.zju.isst1.baidupush;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Message;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.edu.zju.isst1.settings.CSTSettings;
 import cn.edu.zju.isst1.ui.main.NewMainActivity;
 import cn.edu.zju.isst1.util.Lgr;
+import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
+import cn.edu.zju.isst1.v2.net.CSTJsonResponse;
+import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.splash.gui.LoadingActivity;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
+import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessage;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageDataDelegate;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.gui.PushMessagesActivity;
@@ -28,11 +42,17 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
      * 调用 PushManager.startWork 后,sdk 将对 push server 发起绑定请求,这个过程是异步
      * 的。绑定请求的结果通过 onBind 返回。
      */
+
+    private String URL = "http://10.82.60.35:8080/isst/api/messages/binds";
+    private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
+
     @Override
     public void onBind(Context context, int errorCode, String appid,
                        String userId, String channelId, String requestId) {
         String responseString = "onBind errorCode=" + errorCode + " appid="
                 + appid + " userId=" + userId + " channelId=" + channelId + " requestId=" + requestId;
+        Lgr.i("responsestring", responseString);
+        Bind(context, userId, channelId);
     }
 
     /**
@@ -106,8 +126,8 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
             aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(aIntent);
-        } else if(CSTSettings.isPushActivityOn(context)){
-        }else if (CSTSettings.isNewMainOn(context)) {
+        } else if (CSTSettings.isPushActivityOn(context)) {
+        } else if (CSTSettings.isNewMainOn(context)) {
             aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             aIntent.setClass(context, PushMessagesActivity.class);
             context.startActivity(aIntent);
@@ -156,6 +176,51 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         String responseString = "onUnbind errorCode=" + errorCode + " requestId = " + requestId;
     }
 
+    public void Bind(Context context, String userId, String channelId) {
+        CSTUser user = CSTUserDataDelegate.getCurrentUser(context);
+//        CSTJsonResponse response = new CSTJsonResponse(context) {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                super.onResponse(response);
+//
+//                Lgr.i(response.toString());
+//            }
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                super.onErrorResponse(error);
+//                Lgr.i(error.toString());
+//            }
+//        };
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", userId);
+        params.put("channelId", Long.parseLong(channelId));
+        params.put("studentId", user.userName);
+        JSONObject json = new JSONObject(params);
+        JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, json, new CSTJsonResponse(context) {
+            @Override
+            public void onResponse(JSONObject response) {
+                super.onResponse(response);
+                Lgr.i("sssss","ok");
+            }
+        }, new CSTJsonResponse(context) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Lgr.i("errorResponse -> " + error.toString());
+            }
 
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                return headers;
+            }
+
+            ;
+        };
+        mEngine.requestCommon(request);
+    }
 
 }
