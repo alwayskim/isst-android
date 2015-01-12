@@ -41,6 +41,7 @@ import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantProvider;
+import cn.edu.zju.isst1.v2.restaurant.net.RestaurantRequest;
 import cn.edu.zju.isst1.v2.restaurant.net.RestaurantResponse;
 
 import static cn.edu.zju.isst1.constant.Constants.*;
@@ -240,17 +241,20 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             paramsMap.put("page", "" + mCurrentPage);
             paramsMap.put("pageSize", "" + DEFAULT_PAGE_SIZE);
             paramsMap.put("keywords", null);
-            String subUrlParams = null;
-            try {
-                subUrlParams = RESTAURANT_URL + (Judge.isNullOrEmpty(paramsMap) ? ""
-                        : ("?" + BetterAsyncWebServiceRunner
-                        .getInstance().paramsToString(paramsMap)));
-                Lgr.i(subUrlParams);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            CSTJsonRequest resRequest = new CSTJsonRequest(CSTRequest.Method.GET, subUrlParams,
-                    null, resResponse);
+//            String subUrlParams = null;
+//            try {
+//                subUrlParams = RESTAURANT_URL + (Judge.isNullOrEmpty(paramsMap) ? ""
+//                        : ("?" + BetterAsyncWebServiceRunner
+//                        .getInstance().paramsToString(paramsMap)));
+//                Lgr.i(subUrlParams);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//            CSTJsonRequest resRequest = new CSTJsonRequest(CSTRequest.Method.GET, subUrlParams,
+//                    null, resResponse);
+            RestaurantRequest resRequest = new RestaurantRequest(CSTRequest.Method.GET,
+                    RESTAURANT_URL, null,
+                    resResponse).setPage(mCurrentPage).setPageSize(DEFAULT_PAGE_SIZE);
             mEngine.requestJson(resRequest);
         } else {
             Message msg = mHandler.obtainMessage();

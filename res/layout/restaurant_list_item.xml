@@ -41,8 +41,9 @@
 
     <ImageButton
         android:id="@+id/restaurant_list_item_dial_ibtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:contentDescription="@string/restaurant_imagebutton_call"

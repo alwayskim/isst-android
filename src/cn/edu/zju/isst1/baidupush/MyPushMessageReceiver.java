@@ -81,16 +81,16 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
             }
         }
 
-        CSTMessage message = CSTMessageDataDelegate.getAllMessage(context);
-        CSTMessage message1 = new CSTMessage();
-        int id = message.itemList.size() + 1;
-        Long createtime = System.currentTimeMillis();
-        message1.id = id;
-        message1.title = title;
-        message1.content = description;
-        message1.createdAt = Long.toString(createtime);
-        CSTMessageDataDelegate.saveMessage(context, message1);
-        showActivity(context);
+//        CSTMessage message = CSTMessageDataDelegate.getAllMessage(context);
+//        CSTMessage message1 = new CSTMessage();
+//        int id = message.itemList.size() + 1;
+//        Long createtime = System.currentTimeMillis();
+//        message1.id = id;
+//        message1.title = title;
+//        message1.content = description;
+//        message1.createdAt = Long.toString(createtime);
+//        CSTMessageDataDelegate.saveMessage(context, message1);
+//        showActivity(context);
 
     }
 

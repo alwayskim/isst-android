@@ -64,7 +64,7 @@ public class CSTMessageDataDelegate {
 
     public static Loader<Cursor> getDataCursor(Context context, String[] projection,
                                                String selection, String[] selectionArgs, String sortOrder) {
-        return new CursorLoader(context, CSTAddressListProvider.CONTENT_URI, projection, selection,
+        return new CursorLoader(context, CSTMessageProvider.CONTENT_URI, projection, selection,
                 selectionArgs, sortOrder);
     }
 

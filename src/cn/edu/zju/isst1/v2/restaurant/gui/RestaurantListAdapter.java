@@ -3,11 +3,7 @@ package cn.edu.zju.isst1.v2.restaurant.gui;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +12,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import cn.edu.zju.isst.tests.util.CSTImageUtil;
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
+import cn.edu.zju.isst1.v2.db.util.CSTImageUtil;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 
 /**
@@ -51,26 +41,26 @@ public class RestaurantListAdapter extends CursorAdapter {
         view.setTag(restaurant);
         final ViewHolder holder = getBindViewHolder(view);
         holder.nameTxv.setText(restaurant.name);
-        final Handler mHandler = new Handler() {
-            public void handleMessage(Message msg) {
+//        final Handler mHandler = new Handler() {
+//            public void handleMessage(Message msg) {
 //                holder.resIcon.setImageBitmap((Bitmap) msg.obj);
-            }
-        };
-        Runnable show_icon = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Bitmap bitmap = CSTImageUtil.getImage(restaurant.picture);
-                    Message msg = mHandler.obtainMessage();
-                    msg.obj = bitmap;
-                    mHandler.sendMessage(msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        new Thread(show_icon).start();
-
+//            }
+//        };
+//        Runnable show_icon = new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Bitmap bitmap = CSTImageUtil.getImage(restaurant.picture);
+//                    Message msg = mHandler.obtainMessage();
+//                    msg.obj = bitmap;
+//                    mHandler.sendMessage(msg);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        new Thread(show_icon).start();
+        CSTImageUtil.loadImageVolley(context, holder.resIcon, restaurant.picture);
         holder.hotlineTxv.setText(restaurant.hotLine);
         holder.dialIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
