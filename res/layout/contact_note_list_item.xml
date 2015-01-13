@@ -6,16 +6,16 @@
     android:orientation="vertical"
     android:showDividers="middle">
 
-    <TextView
-        android:id="@+id/contact_note_list_item_index_txv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_gray"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding_big"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/deepskyblue"
-        android:typeface="serif"/>
+    <!--<TextView-->
+        <!--android:id="@+id/contact_note_list_item_index_txv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/light_gray"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="@dimen/padding_big"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:textColor="@color/deepskyblue"-->
+        <!--android:typeface="serif"/>-->
 
     <TextView
         android:id="@+id/contact_note_list_item_name_txv"

@@ -52,8 +52,8 @@ public class NoteBookadapter extends BaseAdapter {
                         R.layout.contact_note_list_item, null);
                 holder.tvName = (TextView) convertView
                         .findViewById(R.id.contact_note_list_item_name_txv);
-                holder.index = (TextView) convertView
-                        .findViewById(R.id.contact_note_list_item_index_txv);
+//                holder.index = (TextView) convertView
+//                        .findViewById(R.id.contact_note_list_item_index_txv);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

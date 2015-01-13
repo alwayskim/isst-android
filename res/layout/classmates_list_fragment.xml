@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/filter_show_area"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-      >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/filter_show_txv"
@@ -17,32 +17,44 @@
             android:paddingLeft="@dimen/padding_middle"
             android:text="Text"
             android:textSize="@dimen/text_size_small"
-            android:typeface="serif"/>
+            android:typeface="serif" />
 
         <ImageButton
             android:id="@+id/filter_show_search_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:padding="6dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/button_selector"
             android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
             android:layout_marginRight="@dimen/padding_middle"
+            android:background="@drawable/button_selector"
+            android:padding="6dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/txl_search" />
     </RelativeLayout>
+
+    <!--<AutoCompleteTextView-->
+        <!--android:id="@+id/filter_auto_list_txv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:hint="搜索"-->
+        <!--android:imeOptions="actionDone"-->
+        <!--android:singleLine="true"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+        <!--android:typeface="serif" />-->
+
 
     <ImageView
         android:id="@+id/filter_show_area_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/filter_show_area"
         android:background="#ebebeb" />
 
     <include
-        layout="@layout/simple_swipe_refresh_list_view"
+        layout="@layout/contact_swipe_refresh_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/filter_show_area_line" />
 
-</RelativeLayout>
+</LinearLayout>
