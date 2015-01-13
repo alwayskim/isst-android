@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -72,8 +74,7 @@
         <activity android:name=".v2.usercenter.setting.SettingActivity" />
         <activity android:name=".v2.usercenter.setting.FeedBackActivity" />
         <activity android:name=".v2.usercenter.myactivity.MyEventActivity" />
-        <activity
-            android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
+        <activity android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
         <activity android:name=".v2.usercenter.myexperience.MyExperienceActivity" />
 
 
@@ -96,14 +97,14 @@
         <!--&lt;!&ndash; push service client &ndash;&gt;-->
         <!--<receiver android:name=".baidupush.PushMessageReceiver">-->
 
-            <!--<intent-filter>-->
+        <!--<intent-filter>-->
 
-                <!--&lt;!&ndash; 接收push消息 &ndash;&gt;-->
-                <!--<action android:name="com.baidu.android.pushservice.action.MESSAGE" />-->
-                <!--&lt;!&ndash; 接收bind,unbind,fetch,delete等反馈消息 &ndash;&gt;-->
-                <!--<action android:name="com.baidu.android.pushservice.action.RECEIVE" />-->
-                <!--<action android:name="com.baidu.android.pushservice.action.notification.CLICK" />-->
-            <!--</intent-filter>-->
+        <!--&lt;!&ndash; 接收push消息 &ndash;&gt;-->
+        <!--<action android:name="com.baidu.android.pushservice.action.MESSAGE" />-->
+        <!--&lt;!&ndash; 接收bind,unbind,fetch,delete等反馈消息 &ndash;&gt;-->
+        <!--<action android:name="com.baidu.android.pushservice.action.RECEIVE" />-->
+        <!--<action android:name="com.baidu.android.pushservice.action.notification.CLICK" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         <!-- push service client -->

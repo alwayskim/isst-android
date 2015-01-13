@@ -4,9 +4,16 @@
 package cn.edu.zju.isst1.ui.main;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +53,7 @@ import cn.edu.zju.isst1.v2.event.city.data.CSTCityEventDataDelegate;
 import cn.edu.zju.isst1.v2.event.city.gui.CSTCityEventListFragment;
 import cn.edu.zju.isst1.v2.login.gui.LoginActivity;
 import cn.edu.zju.isst1.v2.restaurant.gui.NewRestaurantListFragment;
+import cn.edu.zju.isst1.v2.splash.gui.LoadingActivity;
 import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.usercenter.UserCenterFragment;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.gui.PushMessagesActivity;
@@ -59,6 +67,8 @@ import cn.edu.zju.isst1.widget.slidemenu.ResideMenuItem;
 public class NewMainActivity extends BaseActivity implements View.OnClickListener {
 
     private final String mDrawerTitle = "导航";
+
+    private SharedPreferences preferences;
 
     private String mTitle;
 
@@ -125,9 +135,16 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         requestGlobalData();
         updateLogin();
-        if(getIntent().getBooleanExtra("push",false)){
-            Intent intent = new Intent(this,PushMessagesActivity.class);
+        if (getIntent().getBooleanExtra("push", false)) {
+            Intent intent = new Intent(this, PushMessagesActivity.class);
             startActivity(intent);
+        }
+
+        preferences = getSharedPreferences("first_use", MODE_PRIVATE);
+        Boolean FIRST_USE = preferences.getBoolean("first_use", true);
+
+        if (!hasShortCut(NewMainActivity.this) && FIRST_USE) {
+            initAlerDialog();
         }
     }
 
@@ -296,7 +313,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        CSTSettings.setIsNewMainOn(false,this);
+        CSTSettings.setIsNewMainOn(false, this);
     }
 
     @Override
@@ -447,5 +464,49 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    private void initAlerDialog() {
+        new AlertDialog.Builder(this).setTitle("提示").setMessage("是否添加快捷方式").setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addShortCut();
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("first_use", false);
+                editor.commit();
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("first_use", false);
+                editor.commit();
+            }
+        }).show();
+    }
+
+    public static boolean hasShortCut(Context context) {
+        String url = "content://com.android.launcher2.settings/favorites?notify=true";
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = resolver.query(Uri.parse(url), null, "title=?",
+                new String[]{context.getString(R.string.app_name)}, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
+
+    private void addShortCut() {
+        Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        String title = "ISST";
+        Intent.ShortcutIconResource icon = Intent.ShortcutIconResource.fromContext(NewMainActivity.this, R.drawable.ic_launcher);
+        intent.putExtra("duplicate", false);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        Intent intent1 = new Intent(Intent.ACTION_MAIN);
+        intent1.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent1.setClass(NewMainActivity.this, LoadingActivity.class);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent1);
+        sendBroadcast(intent);
+    }
 }

@@ -6,10 +6,12 @@ package cn.edu.zju.isst1.v2.splash.gui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -72,20 +74,13 @@ public class LoadingActivity extends CSTBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_activity);
-//        // 打开推送
-//        Lgr.i("Loading____pushSetting");
-//        PushSettings.enableDebugMode(getApplicationContext(), true);
-//
-////        以apikey的方式登录，一般放在主Activity的onCreate中
-//
-//        PushManager.startWork(getApplicationContext(),
-//                PushConstants.LOGIN_TYPE_API_KEY, "Wu84DeRt2gFEzjDn0ErqxwSL");
 
         initAlertDialog();
 
         initHandler();
 
         requestVersionInfo();
+
     }
 
     private void initAlertDialog() {
@@ -152,7 +147,7 @@ public class LoadingActivity extends CSTBaseActivity {
                         CroMan.showAlert(LoadingActivity.this, R.string.network_not_connected);
                         break;
                     default:
-                        CSTHttpUtil.dispose(msg.what,LoadingActivity.this);
+                        CSTHttpUtil.dispose(msg.what, LoadingActivity.this);
                         break;
                 }
             }
