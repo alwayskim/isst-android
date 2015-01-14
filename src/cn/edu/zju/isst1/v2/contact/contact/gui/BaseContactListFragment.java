@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -79,6 +80,8 @@ public class BaseContactListFragment extends CSTBaseFragment
     private static BaseContactListFragment INSTANCE_MYCITY = new BaseContactListFragment();
 
     private PinnedSectionListView mListView;
+
+    private List<CSTAlumni> alumniList;
 
     private CSTAlumni mAlumni;
 
@@ -263,6 +266,8 @@ public class BaseContactListFragment extends CSTBaseFragment
             clazzTvx.setText(getCityName(mFilter.cityId));
         }
 
+        alumniList = CSTAlumniDataDelegate.getALumniList(getActivity());
+
         initHandler();
 
         bindAdapter();
@@ -302,8 +307,8 @@ public class BaseContactListFragment extends CSTBaseFragment
         CSTAlumni alumni = (CSTAlumni) view.getTag();
         String jobTitle = alumni.jobTitle;
         String sign = alumni.sign;
-        if (jobTitle != null && sign != null&&jobTitle.equals("section")&&sign.equals("section")){
-        }else {
+        if (jobTitle != null && sign != null && jobTitle.equals("section") && sign.equals("section")) {
+        } else {
             Intent intent = new Intent(getActivity(), CSTContactDetailActivity.class);
             intent.putExtra("alumni", ((CSTAlumni) view.getTag()));
             getActivity().startActivity(intent);
@@ -560,7 +565,6 @@ public class BaseContactListFragment extends CSTBaseFragment
             //索引TextView
 //        private TextView indexTxv;
         }
-
 
 
     }

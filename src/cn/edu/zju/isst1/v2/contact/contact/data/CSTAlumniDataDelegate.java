@@ -98,16 +98,16 @@ public class CSTAlumniDataDelegate {
         return valuesList.toArray(new ContentValues[valuesList.size()]);
     }
 
-    public static Cursor getFilterALumniList(Context context, String prefix) {
+    public static List<CSTAlumni> getALumniList(Context context) {
+        List<CSTAlumni> alumniList = new ArrayList<CSTAlumni>();
         ContentResolver resolver = context.getContentResolver();
-        final String[] projection = {CSTAlumniProvider.Columns.NAME.key};
-        prefix = prefix + "%";
-        Cursor cursor = resolver
-                .query(CSTAlumniProvider.CONTENT_URI, projection,
-                        CSTAlumniProvider.Columns.NAME.key + " LIKE ?",
-                        new String[]{prefix}, null
-                );
-        return cursor;//Should throw exception to avoid null pointer?
+        Cursor cursor = resolver.query(CSTAlumniProvider.
+                CONTENT_URI, null, null, null, null);
+        cursor.moveToFirst();
+        do {
+            alumniList.add(getAlumni(cursor));
+        } while (cursor.moveToNext());
+        return alumniList;
     }
 
 
