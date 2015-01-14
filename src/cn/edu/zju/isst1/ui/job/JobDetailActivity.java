@@ -252,7 +252,7 @@ public class JobDetailActivity extends BaseActivity {
         m_txvTitle.setText(m_jobCurrent.getTitle());
         m_txvDate.setText(TSUtil.toFull(m_jobCurrent.getUpdatedAt()));
         m_txvPublisher.setText(PUBLISHER_NAME + m_jobCurrent.getPublisherId()
-                + " " + m_jobCurrent.getPublisher().getName());
+                + "  " + m_jobCurrent.getPublisher().getName());
         m_webvContent.loadDataWithBaseURL(null, m_jobCurrent.getContent(),
                 "text/html", "utf-8", null);
 

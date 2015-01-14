@@ -161,8 +161,8 @@ public class BaseJobsListFragment extends ListFragment implements
         initComponent(view);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
-                R.color.white);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+                R.color.lightcoral);
 
         if (m_bIsFirstTime) {
             initJobList();

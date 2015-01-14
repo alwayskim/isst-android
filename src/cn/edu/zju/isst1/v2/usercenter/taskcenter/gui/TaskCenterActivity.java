@@ -51,9 +51,8 @@ public class TaskCenterActivity extends BaseActivity implements SwipeRefreshLayo
         setContentView(R.layout.activity_task_center);
         mlist = (ListView) findViewById(R.id.simple_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha, R.color.lightbluetheme_color,
-                R.color.lightbluetheme_color_half_alpha);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+                R.color.lightcoral);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         setUpActionBar();
         requestData();

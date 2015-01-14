@@ -122,8 +122,8 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
         m_gvWiki = (ListView) view.findViewById(R.id.wiki_grid_fragment_wiki_gridv);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
-                R.color.white);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+                R.color.lightcoral);
 
         initWikiList();
 

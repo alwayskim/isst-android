@@ -140,8 +140,8 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
 
         mInflater = LayoutInflater.from(this);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
-                R.color.white);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+                R.color.lightcoral);
         mListView = (ListView) findViewById(R.id.simple_list);
         mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
         mListView.addFooterView(mFooter);
