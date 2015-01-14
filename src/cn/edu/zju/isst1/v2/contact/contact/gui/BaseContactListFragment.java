@@ -21,7 +21,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.FilterQueryProvider;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -60,6 +65,7 @@ import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.user.data.CSTUser;
 import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.user.data.CSTUserProvider;
+import cn.edu.zju.isst1.widget.PinnedSectionListView;
 
 
 /**
@@ -73,7 +79,9 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     private static BaseContactListFragment INSTANCE_MYCITY = new BaseContactListFragment();
 
-    private ListView mListView;
+    private PinnedSectionListView mListView;
+
+    private List<CSTAlumni> alumniList;
 
     private CSTAlumni mAlumni;
 
@@ -82,6 +90,8 @@ public class BaseContactListFragment extends CSTBaseFragment
     private CSTContactListAdapter mAdapter;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+//    private AutoCompleteTextView autoCompleteTextView;
 
     private Handler mHandler;
 
@@ -234,12 +244,13 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     @Override
     protected void initComponent(View view) {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
                 R.color.lightcoral);
         mListView = (ListView) view.findViewById(R.id.simple_list);
+
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
         searchBtn = (ImageButton) view.findViewById(R.id.filter_show_search_btn);
+//        autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.filter_auto_list_txv);
         Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
                 null, null, null, null);
         mCursor.moveToFirst();
@@ -254,6 +265,8 @@ public class BaseContactListFragment extends CSTBaseFragment
             mFilter.cityId = mUser.cityId;
             clazzTvx.setText(getCityName(mFilter.cityId));
         }
+
+        alumniList = CSTAlumniDataDelegate.getALumniList(getActivity());
 
         initHandler();
 
@@ -291,14 +304,22 @@ public class BaseContactListFragment extends CSTBaseFragment
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mAlumni = (CSTAlumni) view.getTag();
         Lgr.i("Alumni Name", mAlumni.name);
-        Intent intent = new Intent(getActivity(), CSTContactDetailActivity.class);
-        intent.putExtra("alumni", ((CSTAlumni) view.getTag()));
-        getActivity().startActivity(intent);
+        CSTAlumni alumni = (CSTAlumni) view.getTag();
+        String jobTitle = alumni.jobTitle;
+        String sign = alumni.sign;
+        if (jobTitle != null && sign != null && jobTitle.equals("section") && sign.equals("section")) {
+        } else {
+            Intent intent = new Intent(getActivity(), CSTContactDetailActivity.class);
+            intent.putExtra("alumni", ((CSTAlumni) view.getTag()));
+            getActivity().startActivity(intent);
+        }
     }
 
     private void bindAdapter() {
         mAdapter = new CSTContactListAdapter(getActivity(), null, m_ft);
         mListView.setAdapter(mAdapter);
+//        autoCompleteTextView.setAdapter(mAdapter);
+
         requestData();
         if (IS_FIRST) {
             mSwipeRefreshLayout.setRefreshing(true);
@@ -409,5 +430,144 @@ public class BaseContactListFragment extends CSTBaseFragment
         }
         return null;
     }
+
+
+    /**
+     * 列表Adapter
+     */
+    public class CSTContactListAdapter extends CursorAdapter implements PinnedSectionListView.
+            PinnedSectionListAdapter, Filterable {
+
+        private ViewHolder holder;
+        private BaseContactListFragment.FilterType mFilterType;
+        private String SECTION = "section";
+        private int mType = 0;
+
+
+        public CSTContactListAdapter(Context context, Cursor c, BaseContactListFragment.FilterType filterType) {
+            super(context, c, 0);
+            mFilterType = filterType;
+
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            Lgr.i("ContactListAdapter", "——newView");
+            LayoutInflater inflater = LayoutInflater.from(context);
+            CSTAlumni alumni;
+            if (mFilterType == BaseContactListFragment.FilterType.MY_CITY)
+                alumni = CSTAlumniDataDelegate.getAlumni(cursor);
+            else
+                alumni = CSTAddressListDataDelegate.getAlumni(cursor);
+            String sign = alumni.sign;
+            String jobTitle = alumni.jobTitle;
+            if (jobTitle != null || sign != null) {
+                if (jobTitle.equals(SECTION) && sign.equals(SECTION)) {
+                    mType = 1;
+                    return inflater.inflate(R.layout.contact_section_list_item, parent, false);
+                }
+            }
+            mType = 0;
+            return inflater.inflate(R.layout.contact_note_list_item, parent, false);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            Lgr.i("ContactListAdapter", "——bindView");
+            CSTAlumni alumni;
+            String chCurrent;
+            if (mFilterType == BaseContactListFragment.FilterType.MY_CITY)
+                alumni = CSTAlumniDataDelegate.getAlumni(cursor);
+            else
+                alumni = CSTAddressListDataDelegate.getAlumni(cursor);
+
+            chCurrent = PinYinUtil.converterToFirstSpell(alumni.name).substring(0, 1);
+
+            view.setTag(alumni);
+
+            ViewHolder holder = new ViewHolder();
+            String sign = alumni.sign;
+            String jobTitle = alumni.jobTitle;
+            if (jobTitle != null || sign != null) {
+                if (jobTitle.equals(SECTION) && sign.equals(SECTION)) {
+                    holder.nameTxv = (TextView) view
+                            .findViewById(R.id.contact_note_list_item_index_txv);
+                    view.setBackgroundColor(view.getResources().getColor(R.color.deepskyblue));
+                    holder.nameTxv.setText(chCurrent);
+                } else {
+                    holder.nameTxv = (TextView) view
+                            .findViewById(R.id.contact_note_list_item_name_txv);
+                    holder.nameTxv.setText(alumni.name);
+                }
+
+            } else {
+                holder.nameTxv = (TextView) view
+                        .findViewById(R.id.contact_note_list_item_name_txv);
+                holder.nameTxv.setText(alumni.name);
+            }
+        }
+
+//        @Override
+//        public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
+//            if (getFilterQueryProvider() != null) {
+//                return getFilterQueryProvider().runQuery(constraint);
+//            }
+//            return CSTAlumniDataDelegate.getFilterALumniList(getActivity(), constraint.toString());
+//        }
+
+//        @Override
+//        public void setFilterQueryProvider(FilterQueryProvider filterQueryProvider) {
+//            super.setFilterQueryProvider(filterQueryProvider);
+//        }
+
+//        @Override
+//        public CharSequence convertToString(Cursor cursor) {
+//            final int columnIndex = cursor.getColumnIndexOrThrow("name");
+//            final String str = cursor.getString(columnIndex);
+//            return str;
+//        }
+
+        private int getItemViewType(Cursor cursor) {
+            String sign = cursor.getString(cursor.getColumnIndex("sign"));
+            String jobTitle = cursor.getString(cursor.getColumnIndex("jobTitle"));
+            if (jobTitle != null || sign != null) {
+                if (jobTitle.equals(SECTION) && sign.equals(SECTION)) {
+                    return 1;
+                }
+            }
+            return 0;
+
+
+        }
+
+
+        @Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            Cursor cursor = (Cursor) getItem(position);
+            return getItemViewType(cursor);
+        }
+
+        @Override
+        public boolean isItemViewTypePinned(int viewType) {
+
+            return viewType == 1;
+        }
+
+        protected final class ViewHolder {
+
+            public TextView nameTxv;
+
+            //索引TextView
+//        private TextView indexTxv;
+        }
+
+
+    }
+
 
 }

@@ -361,7 +361,7 @@ public class ContactFilterFragment extends CSTBaseFragment
                     case STATUS_REQUEST_SUCCESS:
                         Collections.sort(mListAlumni, new Pinyin4j.PinyinComparator());
                         Intent intent = new Intent(getActivity(), CSTSearchedAlumniActivity.class);
-                        intent.putExtra(ALUMNI_RESULT, (java.io.Serializable) mListAlumni);
+//                        intent.putExtra(ALUMNI_RESULT, (java.io.Serializable) mListAlumni);
                         intent.putExtra(CONTACT_FILTER, contactFilter);
                         startActivity(intent);
                         // 关闭掉这个Activity

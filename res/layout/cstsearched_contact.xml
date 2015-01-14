@@ -1,44 +1,66 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:orientation="vertical"
     tools:context="cn.edu.zju.isst1.v2.contact.gui.CSTSearchedAlumniActivity">
 
     <RelativeLayout
         android:id="@+id/filter_show_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_small">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/filter_theme_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="筛选条件： " />
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/filter_show_txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/filter_theme_txv" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:layout_toRightOf="@+id/filter_theme_txv"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical|left"
+            android:padding="3dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:typeface="serif" />
 
     </RelativeLayout>
+
+    <AutoCompleteTextView
+        android:id="@+id/filter_auto_list_txv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:gravity="center"
+        android:hint="搜索"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:typeface="serif" />
 
     <RelativeLayout
         android:id="@+id/currentNameFirstSpell"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/filter_show_area">
+        android:layout_height="wrap_content">
 
-
-        <ListView
+        <cn.edu.zju.isst1.widget.PinnedSectionListView
             android:id="@+id/list_Alumni"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </ListView>
+        </cn.edu.zju.isst1.widget.PinnedSectionListView>
     </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

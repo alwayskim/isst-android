@@ -29,6 +29,9 @@ public class CSTAlumni extends CommonUser {
     @JsonProperty("privatePhone")
     public boolean pvtPhone;
 
+    @JsonProperty("type")
+    public int type;
+
     public CSTAlumni() {
     }
 }

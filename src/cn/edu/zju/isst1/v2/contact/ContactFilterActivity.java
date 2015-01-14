@@ -19,7 +19,7 @@ public class ContactFilterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_container_activity);
-        setUpActionbar();
+        setUpActionBar();
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.content_container, mContactFilterFragment).commit();
@@ -38,18 +38,15 @@ public class ContactFilterActivity extends BaseActivity {
     }
 
     @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle(R.string.action_filter);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.contact_filter_activity_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
-    private void setUpActionbar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle(R.string.action_filter);
-    }
-
 
 }

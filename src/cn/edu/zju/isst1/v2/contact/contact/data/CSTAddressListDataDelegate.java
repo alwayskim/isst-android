@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.edu.zju.isst1.v2.contact.contact.gui.PinYinUtil;
 import cn.edu.zju.isst1.v2.data.BasicUser;
 import cn.edu.zju.isst1.v2.db.util.CSTSerialUtil;
 import cn.edu.zju.isst1.v2.user.data.CSTUser;
@@ -75,10 +76,26 @@ public class CSTAddressListDataDelegate {
     private static ContentValues[] getAlumniListValues(CSTAlumni alumni) {
         List<ContentValues> valuesList = new ArrayList<ContentValues>();
         Collections.sort(alumni.itemList, new Pinyin4j.PinyinComparator());
+
+        String chPrevious = "0";
+        int mId = -1;
         for (BasicUser singleAlumni : alumni.itemList) {
+
+            String chCurrent;
+            chCurrent = PinYinUtil.converterToFirstSpell(singleAlumni.name).substring(0, 1);
+            if (!chCurrent.equals(chPrevious)) {
+                CSTAlumni section = new CSTAlumni();
+                section.sign = "section";
+                section.jobTitle = "section";
+                section.name = singleAlumni.name;
+                section.id = mId--;
+                valuesList.add(getAlumniValue(section));
+            }
+            chPrevious = chCurrent;
             valuesList.add(getAlumniValue((CSTAlumni) singleAlumni));
         }
         return valuesList.toArray(new ContentValues[valuesList.size()]);
+
     }
 
     private static ContentValues getAlumniValue(CSTAlumni alumni) {
