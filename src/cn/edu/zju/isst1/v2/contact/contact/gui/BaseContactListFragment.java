@@ -245,9 +245,10 @@ public class BaseContactListFragment extends CSTBaseFragment
     @Override
     protected void initComponent(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
-                R.color.white);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+                R.color.lightcoral);
         mListView = (PinnedSectionListView) view.findViewById(R.id.simple_list);
+
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
         searchBtn = (ImageButton) view.findViewById(R.id.filter_show_search_btn);
 //        autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.filter_auto_list_txv);

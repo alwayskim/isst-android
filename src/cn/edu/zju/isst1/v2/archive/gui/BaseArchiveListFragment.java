@@ -107,8 +107,8 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     protected void initComponent(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout
-                .setColorScheme(R.color.deepskyblue, R.color.deepskyblue, R.color.white,
-                        R.color.white);
+                .setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+                        R.color.lightcoral);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
         mListView.addFooterView(mFooter);
@@ -116,7 +116,6 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         mLoadMorePrgb.setVisibility(View.GONE);
         mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
         requestData();
-
         bindAdapter();
         setUpListener();
         initHandler();
@@ -124,6 +123,12 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     @Override
     public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 5000);
         isLoadMore = false;
         requestData();
     }
@@ -215,7 +220,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-            if(IS_FIRST){
+            if (IS_FIRST) {
                 mSwipeRefreshLayout.setRefreshing(true);
                 IS_FIRST = false;
             }
@@ -225,7 +230,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
             @Override
             public void onResponse(JSONObject response) {
                 super.onResponse(response);
-                Lgr.i("Archive:  ",response.toString());
+                Lgr.i("Archive:  ", response.toString());
                 Message msg = mHandler.obtainMessage();
 
                 try {
