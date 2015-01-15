@@ -110,7 +110,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 //        message1.content = description;
 //        message1.createdAt = Long.toString(createtime);
 //        CSTMessageDataDelegate.saveMessage(context, message1);
-//        showActivity(context);
+        showActivity(context);
 
     }
 
