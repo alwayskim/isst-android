@@ -219,7 +219,7 @@ public class RecommendDetailActivity extends BaseActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
         settings.setSupportZoom(true);// 支持缩放
-//        settings.setDefaultFontSize(48);
+        settings.setDefaultFontSize(15);
     }
 
     /**
@@ -265,9 +265,9 @@ public class RecommendDetailActivity extends BaseActivity {
         m_txvDate.setText(TSUtil.toFull(m_jobCurrent.getUpdatedAt()));
         m_txvPublisher.setText(PUBLISHER_NAME + m_jobCurrent.getPublisherId()
                 + " " + m_jobCurrent.getPublisher().getName());
-        m_webvContent.loadDataWithBaseURL(null, m_jobCurrent.getContent(),
-                "text/html", "utf-8", null);
-
+        m_webvContent.loadData(getHtmlData(m_jobCurrent.getContent()), "text/html; charset=utf-8", "utf-8");
+//        m_webvContent.loadDataWithBaseURL(null, getHtmlData(m_jobCurrent.getContent()), "text/html; charset=utf-8", "utf-8", null);
+        Lgr.i("jobContent",m_jobCurrent.getContent());
     }
 
     private void sendRequest() {
@@ -327,7 +327,6 @@ public class RecommendDetailActivity extends BaseActivity {
         });
 
 
-
         CSTJsonResponse response = new CSTJsonResponse(this) {
             @Override
             public void onResponse(JSONObject result) {
@@ -356,6 +355,14 @@ public class RecommendDetailActivity extends BaseActivity {
 //                SUB_URL, paramsMap, response);
 //        mEngine.requestJson(detailRequest);
 
+    }
+
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 
 }
