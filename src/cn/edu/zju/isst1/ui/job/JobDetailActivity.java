@@ -209,9 +209,7 @@ public class JobDetailActivity extends BaseActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
         settings.setSupportZoom(true);// 支持缩放
-        settings.setDefaultFontSize(48);
-
-        // settings.setTextSize(TextSize.NORMAL);
+        settings.setDefaultFontSize(15);
     }
 
     /**
@@ -233,8 +231,7 @@ public class JobDetailActivity extends BaseActivity {
                     // TODO Auto-generated method stub
                     Intent intent = new Intent(JobDetailActivity.this,
                             ContactDetailActivity.class);
-                    int id = -1;
-                    id = m_jobCurrent.getPublisherId();
+                    int id = m_jobCurrent.getPublisherId();
                     intent.putExtra("id", id);
                     startActivity(intent);
                 }
@@ -253,9 +250,16 @@ public class JobDetailActivity extends BaseActivity {
         m_txvDate.setText(TSUtil.toFull(m_jobCurrent.getUpdatedAt()));
         m_txvPublisher.setText(PUBLISHER_NAME + m_jobCurrent.getPublisherId()
                 + "  " + m_jobCurrent.getPublisher().getName());
-        m_webvContent.loadDataWithBaseURL(null, m_jobCurrent.getContent(),
-                "text/html", "utf-8", null);
+        m_webvContent.loadData(getHtmlData(m_jobCurrent.getContent()), "text/html; charset=utf-8", "utf-8");
 
+    }
+
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 
 }

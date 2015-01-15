@@ -244,8 +244,8 @@ public class ArchiveDetailActivity extends BaseActivity {
         settings.setDisplayZoomControls(false);
 
         settings.setSupportZoom(true);// 支持缩放
-        settings.setDefaultFontSize(48);
-        // settings.setTextSize(TextSize.NORMAL);
+        settings.setDefaultFontSize(15);
+//        settings.setTextSize(TextSize.NORMAL);
     }
 
     /**
@@ -258,9 +258,18 @@ public class ArchiveDetailActivity extends BaseActivity {
         m_txvTitle.setText(m_archiveCurrent.getTitle());
         m_txvDate.setText(TSUtil.toFull(m_archiveCurrent.getUpdatedAt()));
         m_txvPublisher.setText(m_archiveCurrent.getPublisher().getName());
-        m_webvContent.loadDataWithBaseURL(null, m_archiveCurrent.getContent(),
-                "text/html", "utf-8", null);
+//        m_webvContent.loadDataWithBaseURL(null, getHtmlData(m_archiveCurrent.getContent()),
+//                "text/html", "utf-8", null);
+        m_webvContent.loadData(getHtmlData(m_archiveCurrent.getContent()), "text/html; charset=utf-8", "utf-8");
+        Lgr.i("webViewContent",m_archiveCurrent.getContent());
+    }
 
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 
 }
