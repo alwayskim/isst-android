@@ -1,5 +1,8 @@
 package cn.edu.zju.isst1.v2.net;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.android.volley.toolbox.JsonRequest;
 
 import org.json.JSONObject;
@@ -20,4 +23,10 @@ public class VolleyImpl {
 
         VolleyRequestManager.getInstance().addToRequestQueue(request);
     }
+
+    public static void imageRequst(String path, ImageView iv) {
+
+        VolleyRequestManager.getInstance().addLoadImageRequest(iv,path);
+    }
+
 }
