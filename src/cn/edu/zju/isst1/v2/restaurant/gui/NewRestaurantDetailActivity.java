@@ -24,7 +24,6 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
 import cn.edu.zju.isst1.v2.data.CSTRestaurantMenu;
-import cn.edu.zju.isst1.v2.db.util.CSTImageUtil;
 import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTJsonRequest;
@@ -114,7 +113,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
     private void showRestaurantDetail() {
         setTitle(m_restaurantCurrent.name);
 
-        CSTImageUtil.loadImageVolley(NewRestaurantDetailActivity.this, m_imgRestaurant, m_restaurantCurrent.picture);
+        mEngine.imageRequest(m_restaurantCurrent.picture, m_imgRestaurant);
         m_txvRestaurantName.setText(m_restaurantCurrent.name);
         m_txvDescription.setText(m_restaurantCurrent.description);
         m_txvHotline.setText(m_restaurantCurrent.hotLine);
@@ -209,26 +208,8 @@ public class NewRestaurantDetailActivity extends BaseActivity {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-//            final Handler mHandler = new Handler() {
-//                public void handleMessage(Message msg) {
-//                    holder.dish_icon.setImageBitmap((Bitmap) msg.obj);
-//                }
-//            };
-//            Runnable show_icon = new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Bitmap bitmap = CSTImageUtil.getImage(getItem(position).picture);
-//                        Message msg = mHandler.obtainMessage();
-//                        msg.obj = bitmap;
-//                        mHandler.sendMessage(msg);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            };
-//            new Thread(show_icon).start();
-            CSTImageUtil.loadImageVolley(NewRestaurantDetailActivity.this, holder.dish_icon, getItem(position).picture);
+
+            mEngine.imageRequest(getItem(position).picture, holder.dish_icon);
             holder.dish_name.setText(getItem(position).name);
             holder.dish_price.setText(Float.toString(getItem(position).price) + "元");
             return convertView;

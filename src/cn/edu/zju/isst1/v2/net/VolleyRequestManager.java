@@ -3,11 +3,14 @@ package cn.edu.zju.isst1.v2.net;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
+import cn.edu.zju.isst1.R;
 
 /**
  * Created by i308844 on 7/28/14.
@@ -67,11 +70,37 @@ public class VolleyRequestManager {
         return mRequestQueue;
     }
 
+    public ImageLoader getImageLoader() {
+        if (mImageLoader == null) {
+            mImageLoader = new ImageLoader(mRequestQueue,
+                    new ImageLoader.ImageCache() {
+                        private final LruCache<String, Bitmap>
+                                cache = new LruCache<String, Bitmap>(20);
+
+                        @Override
+                        public Bitmap getBitmap(String url) {
+                            return cache.get(url);
+                        }
+
+                        @Override
+                        public void putBitmap(String url, Bitmap bitmap) {
+                            cache.put(url, bitmap);
+                        }
+                    }
+            );
+        }
+        return mImageLoader;
+    }
+
+    public  void addLoadImageRequest(ImageView iv, String path) {
+        ImageLoader.ImageListener listener = getImageLoader().getImageListener(iv,
+                R.drawable.ic_launcher, R.drawable.ic_launcher);
+        getImageLoader().get(path, listener);
+    }
+
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
 
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
-    }
+
 }

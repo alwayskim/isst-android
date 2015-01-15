@@ -16,7 +16,7 @@ import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
-import cn.edu.zju.isst1.v2.db.util.CSTImageUtil;
+import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 
 /**
@@ -27,6 +27,8 @@ public class RestaurantListAdapter extends CursorAdapter {
     public RestaurantListAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
+
+    private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -41,26 +43,8 @@ public class RestaurantListAdapter extends CursorAdapter {
         view.setTag(restaurant);
         final ViewHolder holder = getBindViewHolder(view);
         holder.nameTxv.setText(restaurant.name);
-//        final Handler mHandler = new Handler() {
-//            public void handleMessage(Message msg) {
-//                holder.resIcon.setImageBitmap((Bitmap) msg.obj);
-//            }
-//        };
-//        Runnable show_icon = new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Bitmap bitmap = CSTImageUtil.getImage(restaurant.picture);
-//                    Message msg = mHandler.obtainMessage();
-//                    msg.obj = bitmap;
-//                    mHandler.sendMessage(msg);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//        new Thread(show_icon).start();
-        CSTImageUtil.loadImageVolley(context, holder.resIcon, restaurant.picture);
+
+        mEngine.imageRequest(restaurant.picture, holder.resIcon);
         holder.hotlineTxv.setText(restaurant.hotLine);
         holder.dialIBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,8 @@
 package cn.edu.zju.isst1.v2.net;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.android.volley.toolbox.JsonRequest;
 
 import org.json.JSONObject;
@@ -28,6 +31,10 @@ public class CSTNetworkEngine {
 
     public synchronized void requestCommon(JsonRequest<JSONObject> jsonRequest) {
         VolleyImpl.requestCommonObject(jsonRequest, null);
+    }
+
+    public synchronized void imageRequest(String path, ImageView iv) {
+        VolleyImpl.imageRequst(path,iv);
     }
 
 }
