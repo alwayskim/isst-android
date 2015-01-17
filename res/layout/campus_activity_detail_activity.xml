@@ -6,12 +6,11 @@
     <ImageView
         android:id="@+id/campus_activity_detail_activity_picture_imgv"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
         android:contentDescription="@string/campus_activity_imageview_picture"
-        android:padding="10dp"
-        android:src="@android:color/darker_gray" />
+        android:src="@drawable/zaixiaohuodong_moren" />
 
     <TextView
         android:id="@+id/campus_activity_detail_activity_duration_txv"

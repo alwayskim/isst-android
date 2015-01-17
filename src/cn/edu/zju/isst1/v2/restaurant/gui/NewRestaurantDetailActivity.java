@@ -113,7 +113,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
     private void showRestaurantDetail() {
         setTitle(m_restaurantCurrent.name);
 
-        mEngine.imageRequest(m_restaurantCurrent.picture, m_imgRestaurant);
+        mEngine.imageRequest(m_restaurantCurrent.picture, m_imgRestaurant, R.drawable.moren_caidan);
         m_txvRestaurantName.setText(m_restaurantCurrent.name);
         m_txvDescription.setText(m_restaurantCurrent.description);
         m_txvHotline.setText(m_restaurantCurrent.hotLine);
@@ -209,7 +209,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            mEngine.imageRequest(getItem(position).picture, holder.dish_icon);
+            mEngine.imageRequest(getItem(position).picture, holder.dish_icon, R.drawable.moren_caidan);
             holder.dish_name.setText(getItem(position).name);
             holder.dish_price.setText(Float.toString(getItem(position).price) + "元");
             return convertView;

@@ -117,7 +117,6 @@ public class UserCenterFragment extends Fragment {
                 .findViewById(R.id.user_center_fragment_signature_txv);
         mViewHolder.logoutBtn = (Button) view
                 .findViewById(R.id.user_center_fragment_logout_btn);
-        mViewHolder.stAffairView = view.findViewById(R.id.user_center_student_affair_txv);
         mViewHolder.taskCenterView = view.findViewById(R.id.user_center_task_center_txv);
         mViewHolder.myRecomView = view.findViewById(R.id.user_center_my_recommend_txv);
         mViewHolder.myExpView = view.findViewById(R.id.user_center_my_experience_txv);
@@ -148,23 +147,15 @@ public class UserCenterFragment extends Fragment {
             }
         });
 
-        mViewHolder.stAffairView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         mViewHolder.taskCenterView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-//                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), TaskCenterActivity.class);
-                startActivity(intent);
+                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent();
+//                intent.setClass(getActivity(), TaskCenterActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -198,7 +189,7 @@ public class UserCenterFragment extends Fragment {
                 // TODO Auto-generated method stub
                 getActivity().startActivity(new Intent(getActivity(), MyEventActivity.class));
 
-                //Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -266,8 +257,6 @@ public class UserCenterFragment extends Fragment {
         TextView signTxv;
 
         Button logoutBtn;
-
-        View stAffairView;
 
         View taskCenterView;
 

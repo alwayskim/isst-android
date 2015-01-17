@@ -9,7 +9,7 @@
     </style>
 
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/deepskyblue</item>
+        <item name="android:background">@color/blue_actionbar</item>
         <item name="android:displayOptions">showTitle|showHome</item>
         <item name="android:titleTextStyle">@style/AcBar_titleStyle</item>
         <item name="android:icon">@drawable/ic_left_arrow</item>

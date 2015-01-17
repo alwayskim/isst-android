@@ -4,9 +4,11 @@
 package cn.edu.zju.isst1.v2.archive.gui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -238,13 +240,18 @@ public class ArchiveDetailActivity extends BaseActivity {
         WebSettings settings = m_webvContent.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
 
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
 
         settings.setSupportZoom(true);// 支持缩放
-        settings.setDefaultFontSize(15);
+        settings.setDefaultFontSize(16);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        } else {
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        }
 //        settings.setTextSize(TextSize.NORMAL);
     }
 
@@ -265,9 +272,10 @@ public class ArchiveDetailActivity extends BaseActivity {
     }
 
     private String getHtmlData(String bodyHTML) {
+        Display display = getWindowManager().getDefaultDisplay();
         String head = "<head>" +
-                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
-                "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,user-scalable=no\"> " +
+                "<style>img{max-width: 100%;max-height: auto;width: auto;height: auto;}</style>" +
                 "</head>";
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }

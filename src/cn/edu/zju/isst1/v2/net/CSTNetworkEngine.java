@@ -33,8 +33,8 @@ public class CSTNetworkEngine {
         VolleyImpl.requestCommonObject(jsonRequest, null);
     }
 
-    public synchronized void imageRequest(String path, ImageView iv) {
-        VolleyImpl.imageRequst(path,iv);
+    public synchronized void imageRequest(String path, ImageView iv,int defaultImg) {
+        VolleyImpl.imageRequst(path,iv,defaultImg);
     }
 
 }

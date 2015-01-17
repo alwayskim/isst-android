@@ -2,7 +2,7 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white">
 
     <RelativeLayout
@@ -19,6 +19,7 @@
             android:gravity="left"
             android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
             android:typeface="serif" />
 
         <TextView
@@ -29,7 +30,7 @@
             android:layout_below="@+id/archive_detail_activity_title_txv"
             android:layout_marginLeft="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/light_gray"
+            android:textColor="@color/gray"
             android:typeface="serif" />
 
         <TextView
@@ -42,7 +43,7 @@
             android:layout_toRightOf="@+id/archive_detail_activity_date_txv"
             android:paddingBottom="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/light_gray"
+            android:textColor="@color/blue_actionbar"
             android:typeface="serif" />
 
         <WebView

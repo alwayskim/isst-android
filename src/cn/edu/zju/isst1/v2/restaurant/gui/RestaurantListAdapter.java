@@ -44,7 +44,7 @@ public class RestaurantListAdapter extends CursorAdapter {
         final ViewHolder holder = getBindViewHolder(view);
         holder.nameTxv.setText(restaurant.name);
 
-        mEngine.imageRequest(restaurant.picture, holder.resIcon);
+        mEngine.imageRequest(restaurant.picture, holder.resIcon, R.drawable.moren_news);
         holder.hotlineTxv.setText(restaurant.hotLine);
         holder.dialIBtn.setOnClickListener(new View.OnClickListener() {
             @Override

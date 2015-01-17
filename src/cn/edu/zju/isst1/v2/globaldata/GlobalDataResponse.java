@@ -30,6 +30,7 @@ public class GlobalDataResponse extends CSTJsonResponse {
         super.onResponse(response);
         switch (mGlobalDataCategory) {
             case CITYLIST:
+                CSTCityDataDelegate.deleteAllCity(mContext);
                 CSTCity city = (CSTCity) CSTJsonParser.parseJson(response, new CSTCity());
                 CSTCityDataDelegate.saveCityList(mContext, city);
                 break;

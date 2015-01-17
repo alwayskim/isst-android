@@ -31,14 +31,15 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white">
 
     <ScrollView
         android:id="@+id/job_detail_activity_scrollview"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/user_center_fragment_logout_btn"
+        android:layout_marginBottom="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,53 +51,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:padding="5dp"
                 android:gravity="left"
-                android:typeface="serif"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:typeface="serif" />
 
             <TextView
                 android:id="@+id/job_detail_activity_date_txv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/job_detail_activity_title_txv"
-                android:typeface="serif"
-                android:textColor="@color/light_gray"
-                android:layout_marginLeft="5dp"
                 android:layout_below="@+id/job_detail_activity_title_txv"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/gray"
+                android:typeface="serif" />
 
             <!--<TextView-->
-                <!--android:id="@+id/job_detail_activity_content_txv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/job_detail_activity_date_txv"-->
-                <!--android:layout_centerHorizontal="true" />-->
+            <!--android:id="@+id/job_detail_activity_content_txv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/job_detail_activity_date_txv"-->
+            <!--android:layout_centerHorizontal="true" />-->
 
             <TextView
                 android:id="@+id/job_detail_activity_publisher_txv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/job_detail_activity_date_txv"
-                android:layout_marginLeft="10dp"
                 android:layout_below="@+id/job_detail_activity_title_txv"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/job_detail_activity_date_txv"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/light_gray" />
+                android:textColor="@color/blue_actionbar" />
 
             <ImageButton
                 android:id="@+id/job_detail_activity_publisher_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/transparent"
                 android:contentDescription="@string/job_detail_activity_publisher_btn" />
+
             <WebView
                 android:id="@+id/job_detail_activity_content_webv"
-                android:layout_below="@+id/job_detail_activity_date_txv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_below="@+id/job_detail_activity_date_txv"
                 android:layout_centerHorizontal="true"
-                android:scrollbars="none"
-                android:fitsSystemWindows="true" />
+                android:layout_marginTop="10dp"
+                android:fitsSystemWindows="true"
+                android:scrollbars="none" />
         </RelativeLayout>
     </ScrollView>
 
@@ -104,10 +108,10 @@
         android:id="@+id/job_recommend_imgbtn"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:background="@color/deepskyblue"
+        android:background="@color/blue_actionbar"
         android:text="@string/job_waiting_for_comment"
-        android:textColor="@color/white" />
+        android:textColor="@color/blue_actionbar" />
 </RelativeLayout>

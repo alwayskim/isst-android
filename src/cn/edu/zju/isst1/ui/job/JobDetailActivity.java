@@ -100,7 +100,7 @@ public class JobDetailActivity extends BaseActivity {
                 switch (msg.what) {
                     case STATUS_REQUEST_SUCCESS:
                         Lgr.i("Handler Success Archieve id = " + m_jobCurrent.getId());
-                        initPublisherBtn();
+//                        initPublisherBtn();
                         showJobDetail();
                         break;
                     case STATUS_NOT_LOGIN:
@@ -202,7 +202,7 @@ public class JobDetailActivity extends BaseActivity {
         m_txvDate = (TextView) findViewById(R.id.job_detail_activity_date_txv);
         m_txvPublisher = (TextView) findViewById(R.id.job_detail_activity_publisher_txv);
         m_webvContent = (WebView) findViewById(R.id.job_detail_activity_content_webv);
-        m_imgBtnPublisher = (ImageButton) findViewById(R.id.job_detail_activity_publisher_btn);
+//        m_imgBtnPublisher = (ImageButton) findViewById(R.id.job_detail_activity_publisher_btn);
 
         WebSettings settings = m_webvContent.getSettings();
         settings.setUseWideViewPort(true);
@@ -221,7 +221,7 @@ public class JobDetailActivity extends BaseActivity {
             return;
         } else if (m_jobCurrent.getPublisherId() <= 0) { // 是管理员0,不需要链接发布者,‘<’做保险，正常不出现
             Lgr.i(this.getClass().getName() + "initPublisherBtn-------m_jobCurrent ＝0------");
-            m_imgBtnPublisher.setVisibility(View.INVISIBLE);
+//            m_imgBtnPublisher.setVisibility(View.INVISIBLE);
         } else {
             m_imgBtnPublisher.setVisibility(View.VISIBLE);
             m_imgBtnPublisher.setOnClickListener(new OnClickListener() {
@@ -248,8 +248,7 @@ public class JobDetailActivity extends BaseActivity {
         }
         m_txvTitle.setText(m_jobCurrent.getTitle());
         m_txvDate.setText(TSUtil.toFull(m_jobCurrent.getUpdatedAt()));
-        m_txvPublisher.setText(PUBLISHER_NAME + m_jobCurrent.getPublisherId()
-                + "  " + m_jobCurrent.getPublisher().getName());
+        m_txvPublisher.setText(m_jobCurrent.getPublisher().getName());
         m_webvContent.loadData(getHtmlData(m_jobCurrent.getContent()), "text/html; charset=utf-8", "utf-8");
 
     }

@@ -90,9 +90,7 @@ public class JobCommentListActivity extends BaseActivity implements
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setUpActionBar();
         setContentView(R.layout.job_comment_list_activity);
         m_ptrView = (PullToRefeshView) findViewById(R.id.job_comment_list_activity_ptr_view);
         m_ptrView.setOnRefreshListener(new PullToRefreshListener() {
@@ -152,6 +150,12 @@ public class JobCommentListActivity extends BaseActivity implements
             AttributeSet attrs) {
         // TODO Auto-generated method stub
         return super.onCreateView(parent, name, context, attrs);
+    }
+
+    @Override
+    protected void setUpActionBar() {
+        super.setUpActionBar();
+        setTitle("评论");
     }
 
     @Override

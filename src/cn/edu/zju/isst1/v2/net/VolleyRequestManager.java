@@ -92,9 +92,9 @@ public class VolleyRequestManager {
         return mImageLoader;
     }
 
-    public  void addLoadImageRequest(ImageView iv, String path) {
+    public  void addLoadImageRequest(ImageView iv, String path,int defaultImg) {
         ImageLoader.ImageListener listener = getImageLoader().getImageListener(iv,
-                R.drawable.ic_launcher, R.drawable.ic_launcher);
+                defaultImg, defaultImg);
         getImageLoader().get(path, listener);
     }
 

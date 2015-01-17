@@ -104,9 +104,12 @@ public class CSTAlumniDataDelegate {
         Cursor cursor = resolver.query(CSTAlumniProvider.
                 CONTENT_URI, null, null, null, null);
         cursor.moveToFirst();
-        do {
-            alumniList.add(getAlumni(cursor));
-        } while (cursor.moveToNext());
+        if(cursor.getCount() != 0) {
+            do {
+                alumniList.add(getAlumni(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
         return alumniList;
     }
 

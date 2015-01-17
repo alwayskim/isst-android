@@ -1,9 +1,12 @@
 package cn.edu.zju.isst1.v2.usercenter.myexperience;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,13 +73,13 @@ public class PublishExpActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publish_exp_acticity_layout);
         mIsEdite = getIntent().getBooleanExtra(IS_EDITE, false);
+        setUpActionbar();
         mId = 0;
         if (mIsEdite) {
             jobDetail = (Archive) getIntent().getSerializableExtra(EXP_DETAIL);
             mId = jobDetail.getId();
         }
         m_userApi = new UserCenterApi();
-        setUpActionBar();
         initComponent();
         initHandler();
 
@@ -84,18 +87,23 @@ public class PublishExpActivity extends BaseActivity{
         setUpListener();
     }
 
-//    private void setUpActionBar() {
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        actionBar.setCustomView(R.layout.user_info_edit_custom_actionbar);
-//    }
-
-
     @Override
-    protected void setUpActionBar() {
-        super.setUpActionBar();
-        getActionBar().setCustomView(R.layout.user_info_edit_custom_actionbar);
-        setTitle(R.string.publish_comment);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                PublishExpActivity.this.finish();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void setUpActionbar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.user_info_edit_custom_actionbar);
     }
 
     private View getActionBarView() {

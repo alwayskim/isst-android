@@ -69,15 +69,15 @@
                 android:padding="10dp"
                 android:showDividers="middle">
 
-                <TextView
-                    android:id="@+id/user_center_student_affair_txv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/highlight_on_click"
-                    android:gravity="center_horizontal"
-                    android:padding="7dp"
-                    android:text="@string/student_affair"
-                    android:textSize="@dimen/text_size_small" />
+                <!--<TextView-->
+                    <!--android:id="@+id/user_center_student_affair_txv"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@drawable/highlight_on_click"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:padding="7dp"-->
+                    <!--android:text="@string/student_affair"-->
+                    <!--android:textSize="@dimen/text_size_small" />-->
 
                 <TextView
                     android:id="@+id/user_center_task_center_txv"

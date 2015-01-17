@@ -12,7 +12,7 @@
         android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:src="@color/light_gray" />
+        android:src="@drawable/moren_news" />
 
     <RelativeLayout
         android:id="@+id/wiki_grid_item_container"

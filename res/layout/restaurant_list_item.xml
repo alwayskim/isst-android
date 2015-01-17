@@ -2,31 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:layout_centerVertical="true"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/restaurant_list_item_icon_imgv"
         android:layout_width="80dp"
         android:layout_height="60dp"
-        android:paddingLeft="10dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@color/light_gray"
-        android:contentDescription="@string/restaurant_imageview_icon" />
+        android:contentDescription="@string/restaurant_imageview_icon"
+        android:paddingLeft="10dp"
+        android:src="@drawable/moren_caidan" />
 
     <TextView
         android:id="@+id/restaurant_list_item_name_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/restaurant_list_item_dial_ibtn"
         android:layout_toRightOf="@+id/restaurant_list_item_icon_imgv"
+        android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:typeface="serif"
-        android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:typeface="serif" />
 
     <TextView
         android:id="@+id/restaurant_list_item_hotline_txv"
@@ -36,16 +37,17 @@
         android:layout_toRightOf="@+id/restaurant_list_item_icon_imgv"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textColor="@color/gray"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/gray" />
 
     <ImageButton
         android:id="@+id/restaurant_list_item_dial_ibtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_selector"
         android:contentDescription="@string/restaurant_imagebutton_call"
         android:src="@android:drawable/ic_menu_call" />
 

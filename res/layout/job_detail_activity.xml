@@ -1,71 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="5dp">
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/job_detail_activity_title_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:padding="5dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:typeface="serif" />
-
-        <TextView
-            android:id="@+id/job_detail_activity_date_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/job_detail_activity_title_txv"
-            android:layout_below="@+id/job_detail_activity_title_txv"
-            android:layout_marginLeft="5dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/light_gray"
-            android:typeface="serif" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/job_detail_activity_content_txv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/job_detail_activity_date_txv"-->
-        <!--android:layout_centerHorizontal="true" />-->
-
-        <TextView
-            android:id="@+id/job_detail_activity_publisher_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/job_detail_activity_title_txv"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@+id/job_detail_activity_date_txv"
-            android:paddingBottom="5dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/light_gray"
-            android:typeface="serif" />
-
-        <WebView
-            android:id="@+id/job_detail_activity_content_webv"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/job_detail_activity_publisher_txv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:fitsSystemWindows="true"
-            android:scrollbars="none" />
+            android:background="@color/white"
+            android:padding="5dp">
 
-        <ImageButton
-            android:id="@+id/job_detail_activity_publisher_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/job_detail_activity_content_webv"
-            android:contentDescription="@string/job_detail_activity_publisher_btn" />
-    </RelativeLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/job_detail_activity_title_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/job_detail_activity_date_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/job_detail_activity_title_txv"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/gray"
+                android:typeface="serif" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/job_detail_activity_content_txv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/job_detail_activity_date_txv"-->
+            <!--android:layout_centerHorizontal="true" />-->
+
+            <TextView
+                android:id="@+id/job_detail_activity_publisher_txv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/job_detail_activity_title_txv"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/job_detail_activity_date_txv"
+                android:paddingBottom="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/blue_actionbar"
+                android:typeface="serif" />
+
+            <WebView
+                android:id="@+id/job_detail_activity_content_webv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/job_detail_activity_publisher_txv"
+                android:layout_marginTop="20dp"
+                android:fitsSystemWindows="true"
+                android:scrollbars="none" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/job_detail_activity_publisher_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_selector"
+        android:text="@string/publish_comment" />
+</LinearLayout>
 
