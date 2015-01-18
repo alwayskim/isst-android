@@ -139,6 +139,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 }
             }
         });
+//        mListView.autoRefresh();
         requestData();
         bindAdapter();
         setUpListener();

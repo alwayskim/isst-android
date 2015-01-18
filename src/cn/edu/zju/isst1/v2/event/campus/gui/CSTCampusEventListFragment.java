@@ -126,21 +126,22 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
 //        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
 //                R.color.lightcoral);
         mListView = (XListView) view.findViewById(R.id.simple_list);
-        ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (mIsFirst) {
-                    mListView.autoRefresh();
-                    mIsFirst = false;
-                }
-            }
-        });
+//        ViewTreeObserver observer = view.getViewTreeObserver();
+//        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//            @Override
+//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                if (mIsFirst) {
+//                    mListView.autoRefresh();
+//                    mIsFirst = false;
+//                }
+//            }
+//        });
 //        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
 //        mListView.addFooterView(mFooter);
 //        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
 //        mLoadMorePrgb.setVisibility(View.GONE);
 //        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+        requestData();
         bindAdapter();
         setUpListener();
         initHandler();
@@ -245,6 +246,10 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
+        }
+        if (mIsFirst) {
+            mListView.autoRefresh();
+            mIsFirst = false;
         }
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             CampusEventResponse activityResponse = new CampusEventResponse(getActivity(),
