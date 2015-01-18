@@ -31,7 +31,7 @@
                 android:layout_below="@+id/job_detail_activity_title_txv"
                 android:layout_marginLeft="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/gray"
+                android:textColor="@color/gray_date"
                 android:typeface="serif" />
 
             <!--<TextView-->
@@ -50,7 +50,7 @@
                 android:layout_toRightOf="@+id/job_detail_activity_date_txv"
                 android:paddingBottom="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/blue_actionbar"
+                android:textColor="@color/blue_publisher"
                 android:typeface="serif" />
 
             <WebView

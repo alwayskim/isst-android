@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ import cn.edu.zju.isst1.ui.job.EmploymentListFragment;
 import cn.edu.zju.isst1.ui.job.InternshipListFragment;
 import cn.edu.zju.isst1.ui.job.RecommedListFragment;
 import cn.edu.zju.isst1.ui.life.WikGridFragment;
+import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.archive.gui.ExperienceFragment;
 import cn.edu.zju.isst1.v2.archive.gui.NewsFragment;
@@ -451,6 +453,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
             }
         });
@@ -458,8 +462,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
-                NewMainActivity.this.startActivity(intent);
+//                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
+//                NewMainActivity.this.startActivity(intent);
+                Toast.makeText(NewMainActivity.this, "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
         });
     }

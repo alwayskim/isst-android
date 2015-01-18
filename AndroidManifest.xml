@@ -53,7 +53,8 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".ui.main.NewMainActivity"
-            android:logo="@drawable/menu_home" />
+            android:logo="@drawable/menu_home"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".ui.job.JobDetailActivity" />
         <activity android:name=".v2.usercenter.myrecommend.RecommendDetailActivity" />
         <activity android:name=".ui.job.JobCommentListActivity" />

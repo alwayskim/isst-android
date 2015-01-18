@@ -191,21 +191,19 @@ public class CastellanFragment extends Fragment {
         m_tvCompany.setText(m_user.company);
         // 职位
         m_tvPosition.setText(m_user.jobTitle);
-        if (m_user.pvtPhoneNum) {
-            m_tvMobile.setText(PRIVATE_INFO);
+        if (m_user.phoneNum.equals("隐私保护")) {
             m_ibtnMobileCall.setVisibility(View.GONE);
             m_ibtnMessage.setVisibility(View.GONE);
         }
-        if (m_user.pvtEmail) {
-            m_tvEmail.setText(PRIVATE_INFO);
+        if (m_user.email.equals("隐私保护")) {
             m_ibtnEmail.setVisibility(View.GONE);
         }
-        if (m_user.pvtCompany) {
-            m_tvCompany.setText(PRIVATE_INFO);
-        }
-        if (m_user.pvtJobTitle) {
-            m_tvPosition.setText(PRIVATE_INFO);
-        }
+//        if (m_user.pvtCompany) {
+//            m_tvCompany.setText(PRIVATE_INFO);
+//        }
+//        if (m_user.pvtJobTitle) {
+//            m_tvPosition.setText(PRIVATE_INFO);
+//        }
     }
 
     /**

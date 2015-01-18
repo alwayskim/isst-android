@@ -95,7 +95,21 @@ public class CSTAddressListDataDelegate {
             valuesList.add(getAlumniValue((CSTAlumni) singleAlumni));
         }
         return valuesList.toArray(new ContentValues[valuesList.size()]);
+    }
 
+    public static List<CSTAlumni> getALumniList(Context context) {
+        List<CSTAlumni> alumniList = new ArrayList<CSTAlumni>();
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = resolver.query(CSTAddressListProvider.
+                CONTENT_URI, null, null, null, null);
+        cursor.moveToFirst();
+        if(cursor.getCount() != 0) {
+            do {
+                alumniList.add(getAlumni(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return alumniList;
     }
 
     private static ContentValues getAlumniValue(CSTAlumni alumni) {
