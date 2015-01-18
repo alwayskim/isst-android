@@ -192,35 +192,37 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 //                Lgr.i(error.toString());
 //            }
 //        };
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", userId);
-        params.put("channelId", Long.parseLong(channelId));
-        params.put("studentId", user.userName);
-        JSONObject json = new JSONObject(params);
-        JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, json, new CSTJsonResponse(context) {
-            @Override
-            public void onResponse(JSONObject response) {
-                super.onResponse(response);
-                Lgr.i("sssss","ok");
-            }
-        }, new CSTJsonResponse(context) {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Lgr.i("errorResponse -> " + error.toString());
-            }
+        if (userId != null && channelId != null) {
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("userId", userId);
+            params.put("channelId", Long.parseLong(channelId));
+            params.put("studentId", user.userName);
+            JSONObject json = new JSONObject(params);
+            JsonRequest request = new JsonObjectRequest(Request.Method.POST, URL, json, new CSTJsonResponse(context) {
+                @Override
+                public void onResponse(JSONObject response) {
+                    super.onResponse(response);
+                    Lgr.i("sssss", "ok");
+                }
+            }, new CSTJsonResponse(context) {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Lgr.i("errorResponse -> " + error.toString());
+                }
 
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Accept", "application/json");
-                headers.put("Content-Type", "application/json; charset=UTF-8");
-                return headers;
-            }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Accept", "application/json");
+                    headers.put("Content-Type", "application/json; charset=UTF-8");
+                    return headers;
+                }
 
-            ;
-        };
-        mEngine.requestCommon(request);
+                ;
+            };
+            mEngine.requestCommon(request);
+        }
     }
 
 }

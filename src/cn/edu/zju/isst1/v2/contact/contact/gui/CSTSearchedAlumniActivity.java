@@ -315,7 +315,7 @@ public class CSTSearchedAlumniActivity extends BaseActivity
 //        }
 //    }
 
-    public class CSTSerachedAlumniAdapter extends BaseAdapter implements PinnedSectionListView.
+    private class CSTSerachedAlumniAdapter extends BaseAdapter implements PinnedSectionListView.
             PinnedSectionListAdapter,Filterable{
 
         private List<CSTAlumni> alumniList;

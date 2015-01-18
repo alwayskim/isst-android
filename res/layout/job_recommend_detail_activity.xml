@@ -65,7 +65,7 @@
                 android:layout_below="@+id/job_detail_activity_title_txv"
                 android:layout_marginLeft="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/gray"
+                android:textColor="@color/gray_date"
                 android:typeface="serif" />
 
             <!--<TextView-->
@@ -83,7 +83,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/job_detail_activity_date_txv"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/blue_actionbar" />
+                android:textColor="@color/blue_publisher" />
 
             <ImageButton
                 android:id="@+id/job_detail_activity_publisher_btn"
@@ -111,7 +111,7 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:background="@color/blue_actionbar"
+        android:background="@color/blue_button"
         android:text="@string/job_waiting_for_comment"
-        android:textColor="@color/blue_actionbar" />
+        android:textColor="@color/white" />
 </RelativeLayout>

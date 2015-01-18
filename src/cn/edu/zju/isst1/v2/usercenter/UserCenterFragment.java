@@ -210,8 +210,9 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                getActivity().startActivity(
-                        new Intent(getActivity(), UserInfoActivity.class));
+//                getActivity().startActivity(
+//                        new Intent(getActivity(), UserInfoActivity.class));
+                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
         });
 
