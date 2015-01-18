@@ -45,6 +45,7 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.archive.gui.ArchiveDetailActivity;
 import cn.edu.zju.isst1.v2.archive.net.ArchiveApi;
+import pulltorefresh.widget.XListView;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
@@ -57,7 +58,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  *         <p/>
  *         TODO WIP
  */
-public class WikGridFragment extends Fragment implements OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
+public class WikGridFragment extends Fragment implements XListView.IXListViewListener {
 
     private static WikGridFragment INSTANCE = new WikGridFragment();
 
@@ -69,11 +70,15 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
     private WikiListAdapter m_adapterWikiList;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+//    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private ListView m_gvWiki;
+    private XListView mListView;
 
     private Boolean IS_FIRST = true;
+
+    private int mCurrentPage = 1;
+
+    private Handler rHandler;
 
     public WikGridFragment() {
     }
@@ -91,8 +96,8 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        rHandler = new Handler();
         setHasOptionsMenu(true);
-
     }
 
     /*
@@ -119,36 +124,21 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
 
-        m_gvWiki = (ListView) view.findViewById(R.id.wiki_grid_fragment_wiki_gridv);
+        mListView = (XListView) view.findViewById(R.id.wiki_grid_fragment_wiki_gridv);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-                R.color.lightcoral);
+//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+//                R.color.lightcoral);
 
         initWikiList();
+        initHandler();
+        setUpListener();
 
-        m_handlerWikiList = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case STATUS_REQUEST_SUCCESS:
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        m_adapterWikiList.notifyDataSetChanged();
-                        break;
-                    case STATUS_NOT_LOGIN:
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-        };
 
         m_adapterWikiList = new WikiListAdapter(getActivity());
 
         // setListAdapter(m_adapterWikiList);
-        m_gvWiki.setAdapter(m_adapterWikiList);
+        mListView.setAdapter(m_adapterWikiList);
 
 //        if (m_listAchive.size() == 0) {
 //            requestData(LoadType.REFRESH);
@@ -156,12 +146,12 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
         if (IS_FIRST) {
             requestData(LoadType.REFRESH);
-            mSwipeRefreshLayout.setRefreshing(true);
+//            mSwipeRefreshLayout.setRefreshing(true);
             IS_FIRST = false;
         }
 
         // 监听事件
-        m_gvWiki.setOnItemClickListener(new OnItemClickListener() {
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -175,7 +165,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
             }
         });
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
 
     }
 
@@ -192,22 +182,24 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
     }
 
+    private void initHandler(){
+        m_handlerWikiList = new Handler() {
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        // L.i(this.getClass().getName()
-        // + " onScrollStateChanged VisibleLastIndex = "
-        // + m_nVisibleLastIndex);
-        // if (scrollState == SCROLL_STATE_IDLE
-        // && m_nVisibleLastIndex == m_adapterWikiList.getCount() - 1) {
-        // requestData(LoadType.LOADMORE);
-        // }
-    }
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case STATUS_REQUEST_SUCCESS:
+//                        mSwipeRefreshLayout.setRefreshing(false);
+                        m_adapterWikiList.notifyDataSetChanged();
+                        break;
+                    case STATUS_NOT_LOGIN:
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
-        // m_nVisibleLastIndex = firstVisibleItem + visibleItemCount - 1;
+        };
     }
 
     /**
@@ -282,9 +274,10 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
                     // 设置刷新策略，一次性加载最新若干条
                     ArchiveApi.getWikiList(1, 20, "",
                             new WikiListRequestListener(type));
+                    mCurrentPage = 1;
                     break;
                 case LOADMORE:
-                    ArchiveApi.getWikiList(1, 20, "",
+                    ArchiveApi.getWikiList(++mCurrentPage, 20, "",
                             new WikiListRequestListener(type));
                     break;
                 default:
@@ -299,7 +292,31 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
 
     @Override
     public void onRefresh() {
-        requestData(LoadType.REFRESH);
+        mListView.setPullLoadEnable(true);
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestData(LoadType.REFRESH);
+                onLoad();
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onLoadMore() {
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestData(LoadType.LOADMORE);
+                onLoad();
+            }
+        }, 1000);
+    }
+
+    private void onLoad() {
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 
     /**
@@ -345,7 +362,7 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
             }
 
             m_handlerWikiList.sendMessage(msg);
-            mSwipeRefreshLayout.setRefreshing(false);
+//            mSwipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
@@ -364,6 +381,18 @@ public class WikGridFragment extends Fragment implements OnScrollListener, Swipe
             m_handlerWikiList.sendMessage(msg);
         }
 
+    }
+
+    protected void setUpListener() {
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        mSwipeRefreshLayout.setRefreshing(false);
+//        m_lsvJobList.setOnScrollListener(this);
+//        mListView.setOnScrollListener(this);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setAutoLoadEnable(true);
+        mListView.setXListViewListener(this);
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 
     /**

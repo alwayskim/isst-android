@@ -259,16 +259,16 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         resideMenu.closeMenu();
         if (view == itemNews) {
             changeFragment(NewsFragment.getInstance());
-            titleTxv.setText(R.string.menu_news);
+            titleTxv.setText(R.string.menu_news); //已加入刷新和加载更多
         } else if (view == itemWiki) {
             changeFragment(WikGridFragment.getInstance());
             titleTxv.setText(R.string.menu_wiki);
         } else if (view == itemCampusEvent) {
             changeFragment(CSTCampusEventListFragment.getInstance());
-            titleTxv.setText(R.string.menu_campus_event);
+            titleTxv.setText(R.string.menu_campus_event); //已加入刷新和加载更多
         } else if (view == itemConvenient) {
             changeFragment(NewRestaurantListFragment.getInstance());
-            titleTxv.setText(R.string.menu_convenient_service);
+            titleTxv.setText(R.string.menu_convenient_service); //已加入刷新和加载更多
         } else if (view == itemStudy) {
             changeFragment(StudyFragment.getInstance());
             titleTxv.setText(R.string.menu_study);
@@ -293,7 +293,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             titleTxv.setText(R.string.menu_city_master);
         } else if (view == itemCityEvent) {
             changeFragment(CSTCityEventListFragment.getInstance());
-            titleTxv.setText(R.string.menu_city_event);
+            titleTxv.setText(R.string.menu_city_event); //已加入刷新和加载更多
         } else if (view == itemContactCity) {
             changeFragment((BaseContactListFragment
                     .getInstance(BaseContactListFragment.FilterType.MY_CITY)));

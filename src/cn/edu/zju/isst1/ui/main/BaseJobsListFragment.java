@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,7 @@ import cn.edu.zju.isst1.v2.usercenter.myrecommend.RecommendDetailActivity;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
+import pulltorefresh.widget.XListView;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
@@ -49,8 +52,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  *
  * @author theasir
  */
-public class BaseJobsListFragment extends ListFragment implements
-        OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
+public class BaseJobsListFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener, XListView.IXListViewListener {
 
     private final List<Job> m_listAchive = new ArrayList<Job>();
 
@@ -72,14 +74,14 @@ public class BaseJobsListFragment extends ListFragment implements
 
     private ListView m_lsvJobList;
 
-    private ListView mlistView;
+    private Handler rHandler = new Handler();
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private XListView mListView;
+
+//    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public BaseJobsListFragment() {
-        m_nCurrentPage = 1;
-        m_bIsFirstTime = true;
     }
 
     /*
@@ -91,6 +93,8 @@ public class BaseJobsListFragment extends ListFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        m_nCurrentPage = 1;
+        m_bIsFirstTime = true;
     }
 
     /*
@@ -160,9 +164,9 @@ public class BaseJobsListFragment extends ListFragment implements
 
         initComponent(view);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-                R.color.lightcoral);
+//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+//                R.color.lightcoral);
 
         if (m_bIsFirstTime) {
             initJobList();
@@ -199,19 +203,19 @@ public class BaseJobsListFragment extends ListFragment implements
 //        getActivity().startActivity(intent);
 //    }
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (scrollState == SCROLL_STATE_IDLE
-                && m_nVisibleLastIndex == m_adapterJobList.getCount() - 1) {
-            requestData(LoadType.LOADMORE);
-        }
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
-        m_nVisibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-    }
+//    @Override
+//    public void onScrollStateChanged(AbsListView view, int scrollState) {
+//        if (scrollState == SCROLL_STATE_IDLE
+//                && m_nVisibleLastIndex == m_adapterJobList.getCount() - 1) {
+//            requestData(LoadType.LOADMORE);
+//        }
+//    }
+//
+//    @Override
+//    public void onScroll(AbsListView view, int firstVisibleItem,
+//                         int visibleItemCount, int totalItemCount) {
+//        m_nVisibleLastIndex = firstVisibleItem + visibleItemCount - 1;
+//    }
 
     public void setJobCategory(JobCategory jobCategory) {
         m_jobCategory = jobCategory;
@@ -220,7 +224,7 @@ public class BaseJobsListFragment extends ListFragment implements
     protected void initComponent(View view) {
 
 //        m_lsvJobList = (ListView) view.findViewById(android.R.id.list);
-        mlistView = (ListView) view.findViewById(R.id.simple_list);
+        mListView = (XListView) view.findViewById(R.id.simple_list);
         m_viewContainer = view.findViewById(R.id.job_recommend_imgbtn_container);
 //		if(m_jobCategory ==JobCategory.RECOMMEND){
 //			m_viewContainer.setVisibility(view.VISIBLE);
@@ -268,7 +272,7 @@ public class BaseJobsListFragment extends ListFragment implements
                         switch (m_loadType) {
                             case REFRESH:
                                 refresh((JSONObject) msg.obj);
-                                mSwipeRefreshLayout.setRefreshing(false);
+//                                mSwipeRefreshLayout.setRefreshing(false);
                                 break;
                             case LOADMORE:
                                 loadMore((JSONObject) msg.obj);
@@ -294,8 +298,8 @@ public class BaseJobsListFragment extends ListFragment implements
     protected void setUpAdapter() {
         m_adapterJobList = new JobListAdapter(getActivity());
 //        setListAdapter(m_adapterJobList);
-        mlistView.setAdapter(m_adapterJobList);
-        mlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setAdapter(m_adapterJobList);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Lgr.i(this.getClass().getName() + " onListItemClick postion = "
@@ -311,10 +315,15 @@ public class BaseJobsListFragment extends ListFragment implements
     }
 
     protected void setUpListener() {
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setRefreshing(false);
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        mSwipeRefreshLayout.setRefreshing(false);
 //        m_lsvJobList.setOnScrollListener(this);
-        mlistView.setOnScrollListener(this);
+//        mListView.setOnScrollListener(this);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setAutoLoadEnable(true);
+        mListView.setXListViewListener(this);
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 
     /**
@@ -350,6 +359,8 @@ public class BaseJobsListFragment extends ListFragment implements
         JSONArray jsonArray;
         try {
             if (!Judge.isValidJsonValue("body", jsonObject)) {
+//                Toast.makeText(getActivity(),R.string.no_more_data,Toast.LENGTH_SHORT).show();
+//                mListView.setPullLoadEnable(false);
                 return;
             }
             jsonArray = jsonObject.getJSONArray("body");
@@ -400,7 +411,27 @@ public class BaseJobsListFragment extends ListFragment implements
 
     @Override
     public void onRefresh() {
-        requestData(LoadType.REFRESH);
+        mListView.setPullLoadEnable(true);
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestData(LoadType.REFRESH);
+                onLoad();
+            }
+        }, 1000);
+//        requestData(LoadType.REFRESH);
+//        onLoad();
+    }
+
+    @Override
+    public void onLoadMore() {
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestData(LoadType.LOADMORE);
+                onLoad();
+            }
+        }, 1000);
     }
 
     /**
@@ -423,7 +454,12 @@ public class BaseJobsListFragment extends ListFragment implements
         public void onComplete(Object result) {
             Message msg = m_handlerJobList.obtainMessage();
             try {
-                if (!Judge.isValidJsonValue("status", (JSONObject) result)) {
+                if (!(((JSONObject)result).getJSONArray("body").length() == 0 ? false : true)) {
+//                    !Judge.isValidJsonValue("body", (JSONObject) result
+//                    Lgr.i("!Judge.isValidJsonValue",result.toString());
+//                    Looper.prepare();
+//                    Toast.makeText(getActivity(),R.string.no_more_data,Toast.LENGTH_SHORT).show();
+//                    mListView.setPullLoadEnable(false);
                     return;
                 }
                 msg.what = ((JSONObject) result).getInt("status");
@@ -469,7 +505,6 @@ public class BaseJobsListFragment extends ListFragment implements
 
         public TextView descriptionTxv;
 
-        public View indicatorView;
     }
 
     /**
@@ -517,8 +552,6 @@ public class BaseJobsListFragment extends ListFragment implements
                         .findViewById(R.id.job_list_item_publisher_txv);
                 holder.descriptionTxv = (TextView) convertView
                         .findViewById(R.id.job_list_item_description_txv);
-//                holder.indicatorView = (View) convertView
-//                        .findViewById(R.id.job_list_item_indicator_view);
 
                 convertView.setTag(holder);
             } else {
@@ -532,11 +565,15 @@ public class BaseJobsListFragment extends ListFragment implements
                     .getPublisher().getName());
             holder.descriptionTxv.setText(m_listAchive.get(position)
                     .getDescription());
-            // holder.indicatorView.setBackgroundColor(Color.BLUE);
-
             return convertView;
         }
 
+    }
+
+    private void onLoad() {
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 
 }

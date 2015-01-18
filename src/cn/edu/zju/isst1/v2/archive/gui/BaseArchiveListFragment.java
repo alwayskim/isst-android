@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -29,6 +30,7 @@ import java.util.Locale;
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.constant.Constants;
 import cn.edu.zju.isst1.util.Lgr;
+import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.archive.data.ArchiveCategory;
 import cn.edu.zju.isst1.v2.archive.data.CSTArchive;
 import cn.edu.zju.isst1.v2.archive.data.CSTArchiveDataDelegate;
@@ -81,9 +83,9 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private boolean isMoreData;
 
-    private boolean IS_FIRST;
-
     private int mCurrentPage;
+
+    private boolean mIsFirst;
 
     //better implementation is use Fragment#newInstance(args...) instead.
     protected BaseArchiveListFragment() {
@@ -95,7 +97,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         super.onCreate(savedInstanceState);
         isLoadMore = false;
         isMoreData = true;
-        IS_FIRST = true;
+        mIsFirst = true;
         mCurrentPage = 1;
         rHandler = new Handler();
     }
@@ -110,9 +112,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initComponent(view);
-
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -123,11 +123,22 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 //                .setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
 //                        R.color.lightcoral);
         mListView = (XListView) view.findViewById(R.id.simple_list);
+
 //        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
 //        mListView.addFooterView(mFooter);
 //        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
 //        mLoadMorePrgb.setVisibility(View.GONE);
 //        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                if (mIsFirst) {
+                    mListView.autoRefresh();
+                    mIsFirst = false;
+                }
+            }
+        });
         requestData();
         bindAdapter();
         setUpListener();
@@ -138,6 +149,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     public void onRefresh() {
         isLoadMore = false;
         isMoreData = true;
+        mListView.setPullLoadEnable(true);
         rHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -190,17 +202,6 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         getActivity().startActivity(intent);
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.loadmore_footer:
-//                startLoadMore();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
     protected abstract void setCategory();
 
     private void bindAdapter() {
@@ -215,7 +216,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         mListView.setPullLoadEnable(true);
         mListView.setAutoLoadEnable(true);
         mListView.setXListViewListener(this);
-        mListView.setRefreshTime(getTime());
+        mListView.setRefreshTime(TSUtil.getTime());
 //        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -254,10 +255,6 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-            if (IS_FIRST) {
-//                mSwipeRefreshLayout.setRefreshing(true);
-                IS_FIRST = false;
-            }
         }
         ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
                 !isLoadMore) {
@@ -270,7 +267,10 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 try {
                     if (isLoadMore) {
                         isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-                        if (!isMoreData) Toast.makeText(getActivity(), "木有更多数据啦亲", Toast.LENGTH_SHORT).show();
+                        if (!isMoreData) {
+                            Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
+                            mListView.setPullLoadEnable(false);
+                        }
                     }
                     msg.what = response.getInt("status");
                     mHandler.sendMessage(msg);
@@ -317,13 +317,9 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 //        }
     }
 
-    private String getTime() {
-        return new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA).format(new Date());
-    }
-
     private void onLoad() {
         mListView.stopRefresh();
         mListView.stopLoadMore();
-        mListView.setRefreshTime(getTime());
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 }

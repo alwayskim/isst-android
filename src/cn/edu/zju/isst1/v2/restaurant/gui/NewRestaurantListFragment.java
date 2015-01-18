@@ -10,10 +10,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 
@@ -31,6 +33,7 @@ import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
+import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.data.CSTRestaurant;
 import cn.edu.zju.isst1.v2.gui.CSTBaseFragment;
@@ -43,6 +46,7 @@ import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantProvider;
 import cn.edu.zju.isst1.v2.restaurant.net.RestaurantRequest;
 import cn.edu.zju.isst1.v2.restaurant.net.RestaurantResponse;
+import pulltorefresh.widget.XListView;
 
 import static cn.edu.zju.isst1.constant.Constants.*;
 
@@ -50,41 +54,43 @@ import static cn.edu.zju.isst1.constant.Constants.*;
  * Created by lqynydyxf on 2014/8/28.
  */
 public class NewRestaurantListFragment extends CSTBaseFragment
-        implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor>,
-        AdapterView.OnItemClickListener, View.OnClickListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>, XListView.IXListViewListener,
+        AdapterView.OnItemClickListener{
 
-    private ListView mListView;
+    private XListView mListView;
 
     private int mCurrentPage = 1;
 
     private int DEFAULT_PAGE_SIZE = 20;
 
-    private LayoutInflater mInflater;
+//    private LayoutInflater mInflater;
 
-    private boolean isLoadMore = false;
+    private boolean isLoadMore;
 
-    private boolean isMoreData = false;
+    private boolean isMoreData;
 
-    private View mFooter;
+    private Handler rHandler;
+//
+//    private View mFooter;
+//
+//    private ProgressBar mLoadMorePrgb;
+//
+//    private TextView mLoadMoreHint;
 
-    private ProgressBar mLoadMorePrgb;
-
-    private TextView mLoadMoreHint;
-
-    private boolean mIsFirstTime;
+    private boolean mIsFirst;
 
     private RestaurantListAdapter mAdapter;
 
     private static NewRestaurantListFragment INSTANCE = new NewRestaurantListFragment();
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+//    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Handler mHandler;
 
     private String ID = "id";
 
     public NewRestaurantListFragment() {
-        mIsFirstTime = true;
+        mIsFirst = true;
     }
 
     public static NewRestaurantListFragment getInstance() {
@@ -98,12 +104,17 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isLoadMore = false;
+        isMoreData = true;
+        mIsFirst = true;
+        mCurrentPage = 1;
+        rHandler = new Handler();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mInflater = inflater;
+//        mInflater = inflater;
         return inflater.inflate(R.layout.base_archive_list_fragment, container, false);
     }
 
@@ -114,24 +125,30 @@ public class NewRestaurantListFragment extends CSTBaseFragment
         initComponent(view);
 
         getLoaderManager().initLoader(0, null, this);
-
-        if (mIsFirstTime) {
-            requestData();
-            mIsFirstTime = false;
-        }
     }
 
     @Override
     protected void initComponent(View view) {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-                R.color.lightcoral);
-        mListView = (ListView) view.findViewById(R.id.simple_list);
-        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
-        mListView.addFooterView(mFooter);
-        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
-        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+//                R.color.lightcoral);
+        mListView = (XListView) view.findViewById(R.id.simple_list);
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                if (mIsFirst) {
+                    mListView.autoRefresh();
+                    mIsFirst = false;
+                }
+            }
+        });
+//        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
+//        mListView.addFooterView(mFooter);
+//        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
+//        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
+//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+        requestData();
         bindAdapter();
         setUpListener();
         initHandler();
@@ -140,7 +157,29 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     @Override
     public void onRefresh() {
         isLoadMore = false;
-        requestData();
+        isMoreData = true;
+        mListView.setPullLoadEnable(true);
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestData();
+                mAdapter.notifyDataSetChanged();
+                onLoad();
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onLoadMore() {
+        isLoadMore = true;
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startLoadMore();
+                mAdapter.notifyDataSetChanged();
+                onLoad();
+            }
+        }, 1000);
     }
 
     @Override
@@ -173,8 +212,13 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     private void setUpListener() {
         mListView.setOnItemClickListener(this);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mFooter.setOnClickListener(this);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setAutoLoadEnable(true);
+        mListView.setXListViewListener(this);
+        mListView.setRefreshTime(TSUtil.getTime());
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        mFooter.setOnClickListener(this);
     }
 
     private void initHandler() {
@@ -183,7 +227,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.STATUS_REQUEST_SUCCESS:
-                        mSwipeRefreshLayout.setRefreshing(false);
+//                        mSwipeRefreshLayout.setRefreshing(false);
                         break;
                     case STATUS_NOT_LOGIN:
                         UpDateLogin.getInstance().updateLogin(getActivity());
@@ -205,7 +249,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-            mSwipeRefreshLayout.setRefreshing(true);
+//            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(getActivity())) {
             RestaurantResponse resResponse = new RestaurantResponse(getActivity(), !isLoadMore) {
@@ -221,6 +265,10 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                     if (isLoadMore) {
                         try {
                             isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
+                            if (!isMoreData) {
+                                Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
+                                mListView.setPullLoadEnable(false);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -262,32 +310,37 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             mHandler.sendMessage(msg);
         }
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loadmore_footer:
-                startLoadMore();
-                break;
-            default:
-                break;
-        }
-    }
+//
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.loadmore_footer:
+//                startLoadMore();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     public void startLoadMore() {
         isLoadMore = true;
-        mLoadMorePrgb.setVisibility(ProgressBar.VISIBLE);
-        mLoadMoreHint.setText(R.string.loading);
+//        mLoadMorePrgb.setVisibility(ProgressBar.VISIBLE);
+//        mLoadMoreHint.setText(R.string.loading);
         requestData();
     }
 
     public void resetLoadingState() {
-        mSwipeRefreshLayout.setRefreshing(false);
-        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-        if (isLoadMore && !isMoreData) {
-            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
-        } else {
-            mLoadMoreHint.setText(R.string.footer_loading_hint);
-        }
+//        mSwipeRefreshLayout.setRefreshing(false);
+//        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
+//        if (isLoadMore && !isMoreData) {
+//            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
+//        } else {
+//            mLoadMoreHint.setText(R.string.footer_loading_hint);
+//        }
+    }
+    private void onLoad() {
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 }

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ListView
+    <pulltorefresh.widget.XListView
         android:id="@+id/wiki_grid_fragment_wiki_gridv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="2">
 
-    </ListView>
-
-</android.support.v4.widget.SwipeRefreshLayout>
+    </pulltorefresh.widget.XListView>
+</LinearLayout>
