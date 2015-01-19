@@ -261,13 +261,13 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);
-                    Lgr.i(response.toString());
-                    CSTRestaurantDataDelegate.deleteAllRestaurent(getActivity());
-                    CSTRestaurant restaurant = (CSTRestaurant) CSTJsonParser.parseJson(response, new CSTRestaurant());
-                    for (CSTRestaurant restaurant_demo : restaurant.itemList) {
-                        CSTRestaurantDataDelegate.saveRestaurant(mContext, restaurant_demo);
-                    }
-                    Lgr.i(Integer.toString(restaurant.itemList.size()));
+//                    Lgr.i(response.toString());
+//                    CSTRestaurantDataDelegate.deleteAllRestaurent(getActivity());
+//                    CSTRestaurant restaurant = (CSTRestaurant) CSTJsonParser.parseJson(response, new CSTRestaurant());
+//                    for (CSTRestaurant restaurant_demo : restaurant.itemList) {
+//                        CSTRestaurantDataDelegate.saveRestaurant(mContext, restaurant_demo);
+//                    }
+//                    Lgr.i(Integer.toString(restaurant.itemList.size()));
                     Message msg = mHandler.obtainMessage();
                     if (isLoadMore) {
                         try {

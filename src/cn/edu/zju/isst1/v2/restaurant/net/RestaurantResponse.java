@@ -25,7 +25,14 @@ public class RestaurantResponse extends CSTJsonResponse {
     @Override
     public void onResponse(JSONObject response) {
         super.onResponse(response);
-        if (clearDatabase)
+        if (clearDatabase) {
+            Lgr.i(response.toString());
             CSTRestaurantDataDelegate.deleteAllRestaurent(mContext);
+
+        }
+        CSTRestaurant restaurant = (CSTRestaurant) CSTJsonParser.parseJson(response, new CSTRestaurant());
+        for (CSTRestaurant restaurant_demo : restaurant.itemList) {
+            CSTRestaurantDataDelegate.saveRestaurant(mContext, restaurant_demo);
+        }
     }
 }
