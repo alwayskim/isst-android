@@ -95,11 +95,15 @@ public class LoginActivity extends BaseActivity {
 
         m_bIsLoginAgain = getIntent().getBooleanExtra("isLoginAgain", false);
 
-        if (m_bIsLoginAgain) {
-            ActionBar actionBar = getActionBar();
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (getIntent().getBooleanExtra("isAuthFailed", false)){
+            CroMan.showAlert(this,"密码错误");
         }
+
+//        if (m_bIsLoginAgain) {
+//            ActionBar actionBar = getActionBar();
+//            actionBar.setHomeButtonEnabled(true);
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
 
         initComponent();
 

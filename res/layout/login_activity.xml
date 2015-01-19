@@ -27,12 +27,10 @@
             android:id="@+id/login_activity_username_input"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-
             android:layout_marginTop="10dp"
             android:background="@drawable/denglu_shangbankuang"
             android:ems="10"
             android:hint="@string/username_input_hint"
-            android:inputType="number"
             android:paddingLeft="10dp"
             android:textColorHint="@color/darkgray" />
 

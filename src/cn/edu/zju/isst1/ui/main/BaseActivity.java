@@ -21,6 +21,7 @@ import cn.edu.zju.isst1.db.DataManager;
 import cn.edu.zju.isst1.db.User;
 import cn.edu.zju.isst1.net.CSTResponse;
 import cn.edu.zju.isst1.net.RequestListener;
+import cn.edu.zju.isst1.settings.CSTSettings;
 import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
@@ -137,7 +138,9 @@ public class BaseActivity extends FragmentActivity implements LoginSimulation,
                         Intent intent = new Intent(BaseActivity.this,
                                 LoginActivity.class);
                         intent.putExtra("isLoginAgain", true);
+                        intent.putExtra("isAuthFailed",true);
                         BaseActivity.this.startActivity(intent);
+                        BaseActivity.this.finish();
                         Lgr.i("TesT", "Login Again");
                         break;
                     default:

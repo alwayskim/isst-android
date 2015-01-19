@@ -134,9 +134,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         }
 
-
-        requestGlobalData();
         updateLogin();
+        requestGlobalData();
         if (getIntent().getBooleanExtra("push", false)) {
             Intent intent = new Intent(this, PushMessagesActivity.class);
             startActivity(intent);
@@ -464,7 +463,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             public void onClick(View v) {
 //                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
 //                NewMainActivity.this.startActivity(intent);
-                Toast.makeText(NewMainActivity.this, "该功能暂未实现", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewMainActivity.this, "该功能暂未开放", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.util.CroMan;
 import cn.edu.zju.isst1.util.Judge;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.globaldata.citylist.CSTCity;
@@ -351,6 +352,7 @@ public class CastellanFragment extends Fragment {
             try {
                 startActivity(intent);
             } catch (Exception e) {
+                CroMan.showAlert(getActivity(),"此设备无Email客户端！");
                 e.printStackTrace();
             }
         }
