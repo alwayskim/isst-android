@@ -3,6 +3,7 @@ package cn.edu.zju.isst1.v2.net;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonRequest;
 
 import org.json.JSONObject;
@@ -35,6 +36,11 @@ public class CSTNetworkEngine {
 
     public synchronized void imageRequest(String path, ImageView iv,int defaultImg) {
         VolleyImpl.imageRequst(path,iv,defaultImg);
+    }
+
+    public synchronized  ImageLoader getImageLoader() {
+
+        return   VolleyImpl.getImageLoader();
     }
 
 }

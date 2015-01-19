@@ -71,25 +71,25 @@ public class VolleyRequestManager {
     }
 
     public ImageLoader getImageLoader() {
-        if (mImageLoader == null) {
-            mImageLoader = new ImageLoader(mRequestQueue,
-                    new ImageLoader.ImageCache() {
-                        private final LruCache<String, Bitmap>
-                                cache = new LruCache<String, Bitmap>(20);
-
-                        @Override
-                        public Bitmap getBitmap(String url) {
-                            return cache.get(url);
-                        }
-
-                        @Override
-                        public void putBitmap(String url, Bitmap bitmap) {
-                            cache.put(url, bitmap);
-                        }
-                    }
-            );
-        }
-        return mImageLoader;
+//        if (mImageLoader == null) {
+//            mImageLoader = new ImageLoader(mRequestQueue,
+//                    new ImageLoader.ImageCache() {
+//                        private final LruCache<String, Bitmap>
+//                                cache = new LruCache<String, Bitmap>(20);
+//
+//                        @Override
+//                        public Bitmap getBitmap(String url) {
+//                            return cache.get(url);
+//                        }
+//
+//                        @Override
+//                        public void putBitmap(String url, Bitmap bitmap) {
+//                            cache.put(url, bitmap);
+//                        }
+//                    }
+//            );
+//        }
+        return this.mImageLoader;
     }
 
     public  void addLoadImageRequest(ImageView iv, String path,int defaultImg) {

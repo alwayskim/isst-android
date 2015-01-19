@@ -7,7 +7,7 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/restaurant_list_item_icon_imgv"
         android:layout_width="80dp"
         android:layout_height="60dp"

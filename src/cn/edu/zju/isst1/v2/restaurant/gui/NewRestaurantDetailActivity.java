@@ -201,7 +201,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.restaurant_menu_item, null);
                 holder = new ViewHolder();
-                holder.dish_icon = (ImageView) convertView.findViewById(R.id.restaurant_menu_item_dish_icon);
+                holder.dish_icon = (com.android.volley.toolbox.NetworkImageView) convertView.findViewById(R.id.restaurant_menu_item_dish_icon);
                 holder.dish_name = (TextView) convertView.findViewById(R.id.restaurant_menu_item_name_txv);
                 holder.dish_price = (TextView) convertView.findViewById(R.id.restaurant_menu_item_price_txv);
                 convertView.setTag(holder);
@@ -209,7 +209,11 @@ public class NewRestaurantDetailActivity extends BaseActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            mEngine.imageRequest(getItem(position).picture, holder.dish_icon, R.drawable.moren_caidan);
+            holder.dish_icon.setDefaultImageResId( R.drawable.moren_caidan);
+            holder.dish_icon.setImageUrl(menu.itemList.get(position).picture,mEngine.getImageLoader());
+
+
+//            mEngine(getItem(position).picture, holder.dish_icon, R.drawable.moren_caidan);
             holder.dish_name.setText(getItem(position).name);
             holder.dish_price.setText(Float.toString(getItem(position).price) + "元");
             return convertView;
@@ -217,7 +221,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
     }
 
     static class ViewHolder {
-        public ImageView dish_icon;
+        public com.android.volley.toolbox.NetworkImageView dish_icon;
         public TextView dish_name;
         public TextView dish_price;
     }

@@ -44,7 +44,10 @@ public class RestaurantListAdapter extends CursorAdapter {
         final ViewHolder holder = getBindViewHolder(view);
         holder.nameTxv.setText(restaurant.name);
 
-        mEngine.imageRequest(restaurant.picture, holder.resIcon, R.drawable.moren_news);
+        holder.resIcon.setDefaultImageResId(R.drawable.moren_news);
+        holder.resIcon.setImageUrl(restaurant.picture,mEngine.getImageLoader());
+
+//        mEngine.imageRequest(restaurant.picture, holder.resIcon, R.drawable.moren_news);
         holder.hotlineTxv.setText(restaurant.hotLine);
         holder.dialIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +63,7 @@ public class RestaurantListAdapter extends CursorAdapter {
 
     protected ViewHolder getBindViewHolder(View view) {
         final ViewHolder holder = new ViewHolder();
-        holder.resIcon = (ImageView) view
+        holder.resIcon = (com.android.volley.toolbox.NetworkImageView) view
                 .findViewById(R.id.restaurant_list_item_icon_imgv);
         holder.nameTxv = (TextView) view
                 .findViewById(R.id.restaurant_list_item_name_txv);
@@ -73,7 +76,7 @@ public class RestaurantListAdapter extends CursorAdapter {
 
     protected final class ViewHolder {
 
-        public ImageView resIcon;
+        public com.android.volley.toolbox.NetworkImageView resIcon;
 
         public TextView nameTxv;
 

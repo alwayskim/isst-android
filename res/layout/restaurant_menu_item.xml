@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/restaurant_menu_item_dish_icon"
         android:padding="5dp"
         android:layout_width="40dp"

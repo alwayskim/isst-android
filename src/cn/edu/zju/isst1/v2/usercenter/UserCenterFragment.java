@@ -187,7 +187,7 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                getActivity().startActivity(new Intent(getActivity(), MyEventActivity.class));
+//                getActivity().startActivity(new Intent(getActivity(), MyEventActivity.class));
 
                 Toast.makeText(getActivity(), "该功能尚未开通", Toast.LENGTH_SHORT).show();
             }

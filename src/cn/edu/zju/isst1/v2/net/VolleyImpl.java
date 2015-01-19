@@ -3,6 +3,7 @@ package cn.edu.zju.isst1.v2.net;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonRequest;
 
 import org.json.JSONObject;
@@ -24,9 +25,14 @@ public class VolleyImpl {
         VolleyRequestManager.getInstance().addToRequestQueue(request);
     }
 
-    public synchronized static void imageRequst(String path, ImageView iv, int defaultImg) {
+    public static void imageRequst(String path, ImageView iv, int defaultImg) {
 
         VolleyRequestManager.getInstance().addLoadImageRequest(iv, path, defaultImg);
+    }
+
+    public static ImageLoader getImageLoader() {
+
+        return  VolleyRequestManager.getInstance().getImageLoader();
     }
 
 }
