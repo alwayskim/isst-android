@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONObject;
 
@@ -53,7 +54,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
 
     private TextView m_txvRestaurantName;
 
-    private ImageView m_imgRestaurant;
+    private NetworkImageView m_imgRestaurant;
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
@@ -101,7 +102,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
     }
 
     private void initComponent() {
-        m_imgRestaurant = (ImageView) findViewById(R.id.restaurant_detail_activity_icon);
+        m_imgRestaurant = (NetworkImageView) findViewById(R.id.restaurant_detail_activity_icon);
         m_txvRestaurantName = (TextView) findViewById(R.id.restaurant_detail_activity_rn);
         m_txvDescription = (TextView) findViewById(R.id.restaurant_detail_activity_description_txv);
         m_txvHotline = (TextView) findViewById(R.id.restaurant_detail_activity_hotline_txv);
@@ -113,7 +114,8 @@ public class NewRestaurantDetailActivity extends BaseActivity {
     private void showRestaurantDetail() {
         setTitle(m_restaurantCurrent.name);
 
-        mEngine.imageRequest(m_restaurantCurrent.picture, m_imgRestaurant, R.drawable.moren_caidan);
+        m_imgRestaurant.setImageUrl(m_restaurantCurrent.picture,mEngine.getImageLoader());
+//        mEngine.imageRequest(m_restaurantCurrent.picture, m_imgRestaurant, R.drawable.moren_caidan);
         m_txvRestaurantName.setText(m_restaurantCurrent.name);
         m_txvDescription.setText(m_restaurantCurrent.description);
         m_txvHotline.setText(m_restaurantCurrent.hotLine);
@@ -209,7 +211,7 @@ public class NewRestaurantDetailActivity extends BaseActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.dish_icon.setDefaultImageResId( R.drawable.moren_caidan);
+            holder.dish_icon.setDefaultImageResId(R.drawable.moren_caidan);
             holder.dish_icon.setImageUrl(menu.itemList.get(position).picture,mEngine.getImageLoader());
 
 

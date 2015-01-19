@@ -13,32 +13,40 @@
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:contentDescription="@string/restaurant_imageview_icon"
-        android:paddingLeft="10dp"
         android:src="@drawable/moren_caidan" />
 
-    <TextView
-        android:id="@+id/restaurant_list_item_name_txv"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/item_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/restaurant_list_item_dial_ibtn"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/restaurant_list_item_icon_imgv"
-        android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:typeface="serif" />
+        android:paddingRight="10dp">
 
-    <TextView
-        android:id="@+id/restaurant_list_item_hotline_txv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/restaurant_list_item_icon_imgv"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/gray" />
+        <TextView
+            android:id="@+id/restaurant_list_item_name_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/xiang_ya_black"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/restaurant_list_item_hotline_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="3dp"
+            android:layout_below="@+id/restaurant_list_item_name_txv"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/gray" />
+
+    </RelativeLayout>
+
 
     <ImageButton
         android:id="@+id/restaurant_list_item_dial_ibtn"
@@ -46,7 +54,7 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="2dp"
         android:background="@drawable/button_selector"
         android:contentDescription="@string/restaurant_imagebutton_call"
         android:src="@android:drawable/ic_menu_call" />
