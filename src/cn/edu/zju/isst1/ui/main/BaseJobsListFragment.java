@@ -363,6 +363,11 @@ public class BaseJobsListFragment extends ListFragment implements SwipeRefreshLa
 //                mListView.setPullLoadEnable(false);
                 return;
             }
+//            if (!(jsonObject.getJSONArray("body").length() == 0 ? false : true)) {
+//                Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
+//                mListView.setPullLoadEnable(false);
+//                return;
+//            }
             jsonArray = jsonObject.getJSONArray("body");
 
             for (int i = 0; i < jsonArray.length(); i++) {

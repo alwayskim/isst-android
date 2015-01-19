@@ -200,7 +200,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
     public void onRefresh() {
         isLoadMore = false;
         isMoreData = true;
-        mListView.setPullLoadEnable(true);
+//        mListView.setPullLoadEnable(true);
         rHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -302,10 +302,10 @@ public class CSTCityEventListFragment extends CSTBaseFragment
                         msg.what = result.getInt("status");
                         if (isLoadMore) {
                             isMoreData = result.getJSONArray("body").length() == 0 ? false : true;
-                            if (!isMoreData) {
-                                Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
-                                mListView.setPullLoadEnable(false);
-                            }
+//                            if (!isMoreData) {
+//                                Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
+//                                mListView.setPullLoadEnable(false);
+//                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

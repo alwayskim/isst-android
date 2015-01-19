@@ -163,7 +163,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     public void onRefresh() {
         isLoadMore = false;
         isMoreData = true;
-        mListView.setPullLoadEnable(true);
+//        mListView.setPullLoadEnable(true);
         rHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -285,10 +285,10 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 try {
                     if (isLoadMore) {
                         isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-                        if (!isMoreData) {
-                            Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
-                            mListView.setPullLoadEnable(false);
-                        }
+//                        if (!isMoreData) {
+//                            Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
+//                            mListView.setPullLoadEnable(false);
+//                        }
                     }
                     msg.what = response.getInt("status");
                     resetLoadingState();
