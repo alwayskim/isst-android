@@ -1,19 +1,19 @@
 package cn.edu.zju.isst1.v2.event.city.gui;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +28,6 @@ import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
-import cn.edu.zju.isst1.v2.event.base.BaseEventListAdapter;
 import cn.edu.zju.isst1.v2.event.base.EventCategory;
 import cn.edu.zju.isst1.v2.event.base.EventRequest;
 import cn.edu.zju.isst1.v2.event.city.data.CSTCityEvent;
@@ -97,7 +96,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 //
 //    private TextView mLoadMoreHint;
 
-    private BaseEventListAdapter mAdapter;
+    private CityEventListAdapter mAdapter;
 
 //    private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -136,7 +135,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
         if (mIsFirst) {
             getCityId();
-            requestData();
+            onRefresh();
             mIsFirst = false;
         }
     }
@@ -153,7 +152,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 //        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
 //        mLoadMorePrgb.setVisibility(View.GONE);
 //        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
-        requestData();
+//        requestData();
         bindAdapter();
         setUpListener();
         initHandler();
@@ -226,7 +225,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
     }
 
     private void bindAdapter() {
-        mAdapter = new BaseEventListAdapter(getActivity(), null, mEventCategory);
+        mAdapter = new CityEventListAdapter(getActivity(), null);
         mListView.setAdapter(mAdapter);
     }
 
@@ -326,7 +325,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
             };
 
             EventRequest eventRequest = new EventRequest(CSTRequest.Method.GET,
-                    mEventCategory.getSubUrl() + cityId + SUB_URL, null,
+                    "/api/cities/"+ cityId + SUB_URL, null,
                     eventResponse).setPage(mCurrentPage).setPageSize(DEFAULT_PAGE_SIZE);
             mEngine.requestJson(eventRequest);
         } else {
@@ -357,5 +356,69 @@ public class CSTCityEventListFragment extends CSTBaseFragment
         mListView.stopRefresh();
         mListView.stopLoadMore();
         mListView.setRefreshTime(TSUtil.getTime());
+    }
+
+    public class CityEventListAdapter extends CursorAdapter {
+
+        private CSTCityEvent cityEvent;
+
+        public CityEventListAdapter(Context context, Cursor c) {
+            super(context, c, 0);
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            return inflater.inflate(R.layout.activity_list_item, parent, false);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+
+            cityEvent = CSTCityEventDataDelegate.getCityevent(cursor);
+            view.setTag(cityEvent);
+            ViewHolder holder = getBindViewHolder(view);
+            holder.titleTxv.setText(cityEvent.title);
+            holder.updateTimeTxv.setText(TSUtil.toYMD(cityEvent.updatedAt));
+//            holder.startTimeTxv.setText(TSUtil.toHM(cityEvent.startTime));
+//            holder.expireTimeTxv.setText(TSUtil.toHM(cityEvent.expireTime));
+            holder.descriptionTxv.setText(cityEvent.description);
+
+
+        }
+
+        protected ViewHolder getBindViewHolder(View view) {
+            ViewHolder holder = new ViewHolder();
+            holder.titleTxv = (TextView) view
+                    .findViewById(R.id.activity_list_item_title_txv);
+            holder.updateTimeTxv = (TextView) view
+                    .findViewById(R.id.activity_list_item_updatetime_txv);
+//        holder.startTimeTxv = (TextView) view
+//                .findViewById(R.id.activity_list_item_starttime_txv);
+//        holder.expireTimeTxv = (TextView) view
+//                .findViewById(R.id.activity_list_item_expiretime_txv);
+            holder.descriptionTxv = (TextView) view
+                    .findViewById(R.id.activity_list_item_description_txv);
+//        holder.indicatorView = (View) view
+//                .findViewById(R.id.activity_list_item_indicator_view);
+            return holder;
+        }
+
+        protected final class ViewHolder {
+
+            public TextView titleTxv;
+
+            public TextView updateTimeTxv;
+
+            public TextView startTimeTxv;
+
+            public TextView expireTimeTxv;
+
+            public TextView descriptionTxv;
+
+            public ImageView headImgv;
+
+            public View indicatorView;
+        }
     }
 }

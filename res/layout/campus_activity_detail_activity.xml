@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
         android:contentDescription="@string/campus_activity_imageview_picture"
-        android:src="@drawable/zaixiaohuodong_moren" />
+        android:scaleType="fitXY"
+        android:src="@drawable/default_campus" />
 
     <TextView
         android:id="@+id/campus_activity_detail_activity_duration_txv"
@@ -18,22 +18,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/campus_activity_detail_activity_picture_imgv"
-        android:padding="10dp" />
+        android:textSize="@dimen/text_size_tiny"
+        android:typeface="serif" />
 
     <TextView
         android:id="@+id/campus_activity_detail_activity_loaction_txv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/campus_activity_detail_activity_duration_txv"
-        android:padding="10dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/campus_activity_detail_activity_duration_txv"
+        android:textSize="@dimen/text_size_tiny"
+        android:typeface="serif" />
 
     <WebView
         android:id="@+id/campus_activity_detail_activity_content_webv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/campus_activity_detail_activity_duration_txv"
+        android:layout_below="@+id/campus_activity_detail_activity_loaction_txv"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

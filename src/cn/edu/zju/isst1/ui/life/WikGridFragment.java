@@ -160,7 +160,7 @@ public class WikGridFragment extends Fragment implements XListView.IXListViewLis
                 Lgr.i(this.getClass().getName() + " onListItemClick postion = ");
                 Intent intent = new Intent(getActivity(),
                         ArchiveDetailActivity.class);
-                intent.putExtra("id", m_listAchive.get(arg2).getId());
+                intent.putExtra("id", m_listAchive.get(arg2 - 1).getId());
                 getActivity().startActivity(intent);
             }
         });

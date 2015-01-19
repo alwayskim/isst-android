@@ -55,7 +55,7 @@ import static cn.edu.zju.isst1.constant.Constants.*;
  */
 public class NewRestaurantListFragment extends CSTBaseFragment
         implements LoaderManager.LoaderCallbacks<Cursor>, XListView.IXListViewListener,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener {
 
     private XListView mListView;
 
@@ -77,7 +77,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 //
 //    private TextView mLoadMoreHint;
 
-    private boolean mIsFirst;
+    private boolean mIsFirst = true;
 
     private RestaurantListAdapter mAdapter;
 
@@ -98,6 +98,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     }
 
     private static final String RESTAURANT_URL = "/api/restaurants";
+
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
@@ -133,25 +134,29 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 //        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
 //                R.color.lightcoral);
         mListView = (XListView) view.findViewById(R.id.simple_list);
-        ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (mIsFirst) {
-                    mListView.autoRefresh();
-                    mIsFirst = false;
-                }
-            }
-        });
+//        ViewTreeObserver observer = view.getViewTreeObserver();
+//        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//            @Override
+//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                if (mIsFirst) {
+//                    mListView.autoRefresh();
+//                    mIsFirst = false;
+//                }
+//            }
+//        });
 //        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
 //        mListView.addFooterView(mFooter);
 //        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
 //        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
 //        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
-        requestData();
+
         bindAdapter();
         setUpListener();
         initHandler();
+        if (mIsFirst) {
+            onRefresh();
+            mIsFirst = false;
+        }
     }
 
     @Override
@@ -255,7 +260,9 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             RestaurantResponse resResponse = new RestaurantResponse(getActivity(), !isLoadMore) {
                 @Override
                 public void onResponse(JSONObject response) {
+                    super.onResponse(response);
                     Lgr.i(response.toString());
+                    CSTRestaurantDataDelegate.deleteAllRestaurent(getActivity());
                     CSTRestaurant restaurant = (CSTRestaurant) CSTJsonParser.parseJson(response, new CSTRestaurant());
                     for (CSTRestaurant restaurant_demo : restaurant.itemList) {
                         CSTRestaurantDataDelegate.saveRestaurant(mContext, restaurant_demo);
@@ -338,6 +345,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 //            mLoadMoreHint.setText(R.string.footer_loading_hint);
 //        }
     }
+
     private void onLoad() {
         mListView.stopRefresh();
         mListView.stopLoadMore();

@@ -308,7 +308,7 @@ public class BaseJobsListFragment extends ListFragment implements SwipeRefreshLa
                 if (m_jobCategory == JobCategory.RECOMMEND) {
                     intent = new Intent(getActivity(), RecommendDetailActivity.class);
                 }
-                intent.putExtra("id", m_listAchive.get(position).getId());
+                intent.putExtra("id", m_listAchive.get(position - 1).getId());
                 getActivity().startActivity(intent);
             }
         });
@@ -454,7 +454,7 @@ public class BaseJobsListFragment extends ListFragment implements SwipeRefreshLa
         public void onComplete(Object result) {
             Message msg = m_handlerJobList.obtainMessage();
             try {
-                if (!(((JSONObject)result).getJSONArray("body").length() == 0 ? false : true)) {
+                if (!(((JSONObject) result).getJSONArray("body").length() == 0 ? false : true)) {
 //                    !Judge.isValidJsonValue("body", (JSONObject) result
 //                    Lgr.i("!Judge.isValidJsonValue",result.toString());
 //                    Looper.prepare();

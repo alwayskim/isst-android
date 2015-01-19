@@ -160,8 +160,8 @@ public class CampusActivityDetailActivity extends BaseActivity {
 
     private void showCampusActivityDetail() {
         mTxvDuration.setText(getResources().getString(R.string.note_event_duration)
-                + TSUtil.toHM(Long.parseLong(mCSTCampusEvent.startTime)) + "-"
-                + TSUtil.toHM(Long.parseLong(mCSTCampusEvent.expireTime)));
+                + TSUtil.toFull(Long.parseLong(mCSTCampusEvent.startTime)) + "--"
+                + TSUtil.toFull(Long.parseLong(mCSTCampusEvent.expireTime)));
         mTxvLocation.setText(
                 getResources().getString(R.string.note_event_location) + mCSTCampusEvent.location);
         mWebvContent.loadDataWithBaseURL(null, mCSTCampusEvent.content,

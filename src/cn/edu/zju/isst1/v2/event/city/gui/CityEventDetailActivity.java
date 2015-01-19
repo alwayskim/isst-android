@@ -288,8 +288,8 @@ public class CityEventDetailActivity extends BaseActivity {
 
     private void showDetail() {
         mViewHolder.durationTxv.setText(getResources().getString(R.string.note_event_duration)
-                + TSUtil.toHM(mCSTCityEvent.startTime) + "-"
-                + TSUtil.toHM(mCSTCityEvent.expireTime));
+                + TSUtil.toFull(mCSTCityEvent.startTime) + "--"
+                + TSUtil.toFull(mCSTCityEvent.expireTime));
         mViewHolder.locationTxv.setText(getResources().getString(R.string.note_event_location)
                 + mCSTCityEvent.location);
         mViewHolder.contentWebv.loadDataWithBaseURL(null, mCSTCityEvent.content,

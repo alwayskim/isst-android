@@ -95,7 +95,7 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mInflater = inflater;
-        return inflater.inflate(R.layout.list_fragment, container, false);
+        return inflater.inflate(R.layout.swipe_list_layout, container, false);
     }
 
     @Override
@@ -110,8 +110,8 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
     @Override
     protected void initComponent(View view) {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-                R.color.lightcoral);
+        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.white, R.color.deepskyblue,
+                R.color.white);
         mListView = (ListView) view.findViewById(R.id.simple_list);
         mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
         mListView.addFooterView(mFooter);

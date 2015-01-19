@@ -85,7 +85,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private int mCurrentPage;
 
-    private boolean mIsFirst;
+    private boolean mIsFirst = true;
 
     //better implementation is use Fragment#newInstance(args...) instead.
     protected BaseArchiveListFragment() {
@@ -97,7 +97,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         super.onCreate(savedInstanceState);
         isLoadMore = false;
         isMoreData = true;
-        mIsFirst = true;
+//        mIsFirst = true;
         mCurrentPage = 1;
         rHandler = new Handler();
     }
@@ -130,20 +130,33 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 //        mLoadMorePrgb.setVisibility(View.GONE);
 //        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
         ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (mIsFirst) {
-                    mListView.autoRefresh();
-                    mIsFirst = false;
-                }
-            }
-        });
+//        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//            @Override
+//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                if (mIsFirst) {
+//                    mListView.autoRefresh();
+//                    mIsFirst = false;
+//                }
+//            }
+//        });
 //        mListView.autoRefresh();
-        requestData();
+
+//        requestData();
         bindAdapter();
         setUpListener();
         initHandler();
+        if(mIsFirst) {
+//            mListView.autoRefresh();
+            rHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    requestData();
+                    mAdapter.notifyDataSetChanged();
+                    onLoad();
+                }
+            }, 1000);
+            mIsFirst = false;
+        }
     }
 
     @Override
@@ -256,6 +269,10 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
+//            if (mIsFirst) {
+//                mListView.autoRefresh();
+//                mIsFirst = false;
+//            }
         }
         ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
                 !isLoadMore) {
@@ -274,7 +291,9 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                         }
                     }
                     msg.what = response.getInt("status");
+                    resetLoadingState();
                     mHandler.sendMessage(msg);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -316,6 +335,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 //        } else {
 //            mLoadMoreHint.setText(R.string.footer_loading_hint);
 //        }
+        mListView.stopRefresh();
     }
 
     private void onLoad() {

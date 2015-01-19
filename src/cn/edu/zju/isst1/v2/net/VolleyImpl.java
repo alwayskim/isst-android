@@ -24,7 +24,7 @@ public class VolleyImpl {
         VolleyRequestManager.getInstance().addToRequestQueue(request);
     }
 
-    public static void imageRequst(String path, ImageView iv, int defaultImg) {
+    public synchronized static void imageRequst(String path, ImageView iv, int defaultImg) {
 
         VolleyRequestManager.getInstance().addLoadImageRequest(iv, path, defaultImg);
     }

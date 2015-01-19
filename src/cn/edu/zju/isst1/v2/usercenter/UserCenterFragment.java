@@ -194,24 +194,23 @@ public class UserCenterFragment extends Fragment {
         });
 
         //附近的人
+        mViewHolder.peopleNearbyView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //二维码签到
         mViewHolder.twoCodeView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                getActivity().startActivity(
-                        new Intent(getActivity(), MainActivity.class));
-            }
-        });
-
-        //二维码签到
-        mViewHolder.personalSettingvView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-//                getActivity().startActivity(
-//                        new Intent(getActivity(), UserInfoActivity.class));
+//             getActivity().startActivity(
+//                new Intent(getActivity(), MainActivity.class));
                 Toast.makeText(getActivity(), "该功能暂未实现", Toast.LENGTH_SHORT).show();
             }
         });
