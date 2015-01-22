@@ -43,7 +43,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
      * 的。绑定请求的结果通过 onBind 返回。
      */
 
-    private String URL = "http://10.82.60.35:8080/isst/api/messages/binds";
+    private String URL = "http://www.cst.zju.edu.cn/isst/api/messages/binds";
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
     @Override

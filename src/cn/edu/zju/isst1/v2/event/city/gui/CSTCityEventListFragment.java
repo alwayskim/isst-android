@@ -297,6 +297,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
                 public void onResponse(JSONObject result) {
                     super.onResponse(result);
                     Lgr.i(result.toString());
+
                     Message msg = mHandler.obtainMessage();
                     try {
                         msg.what = result.getInt("status");
