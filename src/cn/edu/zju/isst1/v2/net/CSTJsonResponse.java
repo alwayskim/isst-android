@@ -2,7 +2,6 @@ package cn.edu.zju.isst1.v2.net;
 
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -54,8 +53,7 @@ public class CSTJsonResponse extends CSTResponse<JSONObject> implements CSTRespo
             mErrorStatusCode = Constants.EXCEPTION_SOCKETTIMEOUT;
         } else if (error instanceof NetworkError) {
             mErrorStatusCode = Constants.NETWORK_NOT_CONNECTED;
-        }
-        else {
+        } else {
             mErrorStatusCode = Constants.EXCEPTION_UNKNOWN;
         }
     }

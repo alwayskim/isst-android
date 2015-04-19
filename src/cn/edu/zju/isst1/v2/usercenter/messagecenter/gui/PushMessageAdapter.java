@@ -37,7 +37,7 @@ public class PushMessageAdapter extends CursorAdapter {
         Lgr.i("Message Content", message.content);
         holder.titleTxv.setText(message.title);
         holder.contentTxv.setText(message.content);
-        holder.createdTimeTxv.setText(TSUtil.toFull(Long.parseLong(message.createdAt)));
+        holder.createdTimeTxv.setText(TSUtil.toMD(Long.parseLong(message.createdAt)));
     }
 
     protected ViewHolder getBindViewHolder(View view) {

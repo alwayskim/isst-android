@@ -31,6 +31,7 @@ import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.settings.CSTSettings;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
+import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
@@ -41,6 +42,7 @@ import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageDataDelegate;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageProvider;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.net.PushMessageRequest;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.net.PushMessageResponse;
+import pulltorefresh.widget.XListView;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
@@ -48,14 +50,14 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 /**
  * @author theasir
  */
-public class PushMessagesActivity extends BaseActivity implements View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class PushMessagesActivity extends BaseActivity implements
+        XListView.IXListViewListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private Handler mHandler;
 
-    private ListView mListView;
+//    private ListView mListView;
 
-    private LayoutInflater mInflater;
+//    private LayoutInflater mInflater;
 
     private CSTMessage mMessageList;
 
@@ -69,17 +71,21 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
 
     private boolean isMoreData = false;
 
-    private View mFooter;
+    private Handler rHandler;
 
-    private ProgressBar mLoadMorePrgb;
-
-    private TextView mLoadMoreHint;
+//    private View mFooter;
+//
+//    private ProgressBar mLoadMorePrgb;
+//
+//    private TextView mLoadMoreHint;
 
     private static final String MESSAGE_URL = "/api/messages";
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+//    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private XListView mListView;
 
     private PushMessageAdapter mAdapter;
 
@@ -89,6 +95,8 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.base_archive_list_fragment);
 
         mIsFirstTime = true;
+
+        rHandler = new Handler();
 
         CSTSettings.setPushActivityOn(true, this);
 
@@ -108,6 +116,19 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
         setUpListener();
 
         initHandler();
+
+        if (mIsFirstTime) {
+//            mListView.autoRefresh();
+            rHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    requestData();
+                    mAdapter.notifyDataSetChanged();
+                    onLoad();
+                }
+            }, 1000);
+            mIsFirstTime = false;
+        }
 
 
     }
@@ -138,43 +159,38 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
 
     private void initComponent() {
 
-        mInflater = LayoutInflater.from(this);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-                R.color.lightcoral);
-        mListView = (ListView) findViewById(R.id.simple_list);
-        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
-        mListView.addFooterView(mFooter);
-        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
-        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+//        mInflater = LayoutInflater.from(this);
+//        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
+//                R.color.lightcoral);
+        mListView = (XListView) findViewById(R.id.simple_list);
+//        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
+//        mListView.addFooterView(mFooter);
+//        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
+//        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
+//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loadmore_footer:
-                startLoadMore();
-                break;
-            default:
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.loadmore_footer:
+//                startLoadMore();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     public void startLoadMore() {
         isLoadMore = true;
-        mLoadMorePrgb.setVisibility(ProgressBar.VISIBLE);
-        mLoadMoreHint.setText(R.string.loading);
+//        mLoadMorePrgb.setVisibility(ProgressBar.VISIBLE);
+//        mLoadMoreHint.setText(R.string.loading);
         requestData();
     }
 
     public void resetLoadingState() {
-        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-        if (isLoadMore && !isMoreData) {
-            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
-        } else {
-            mLoadMoreHint.setText(R.string.footer_loading_hint);
-        }
+        mListView.stopRefresh();
     }
 
     public void requestData() {
@@ -182,7 +198,7 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-            mSwipeRefreshLayout.setRefreshing(true);
+//            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(this)) {
             PushMessageResponse pmResponse = new PushMessageResponse(this, !isLoadMore) {
@@ -203,6 +219,7 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
                     }
                     Message msg = mHandler.obtainMessage();
                     msg.what = Constants.STATUS_REQUEST_SUCCESS;
+                    resetLoadingState();
                     mHandler.sendMessage(msg);
                 }
 
@@ -230,8 +247,14 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setUpListener() {
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mFooter.setOnClickListener(this);
+//        mSwipeRefreshLayout.setOnRefreshListener(this);
+//        mFooter.setOnClickListener(this);
+//        mListView.setOnItemClickListener(this);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setAutoLoadEnable(true);
+        mListView.setXListViewListener(this);
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 
     private void initHandler() {
@@ -240,10 +263,14 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.STATUS_REQUEST_SUCCESS:
-                        mSwipeRefreshLayout.setRefreshing(false);
+//                        mSwipeRefreshLayout.setRefreshing(false);
+                        resetLoadingState();
                         break;
                     case STATUS_NOT_LOGIN:
                         UpDateLogin.getInstance().updateLogin(PushMessagesActivity.this);
+                        if (isLoadMore) {
+                            mCurrentPage--;
+                        }
                         requestData();
                     case NETWORK_NOT_CONNECTED:
                         CroMan.showAlert(PushMessagesActivity.this, R.string.network_not_connected);
@@ -251,7 +278,7 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
                         CSTHttpUtil.dispose(msg.what, PushMessagesActivity.this);
                         break;
                 }
-                resetLoadingState();
+//                resetLoadingState();
             }
         };
 
@@ -260,7 +287,34 @@ public class PushMessagesActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onRefresh() {
         isLoadMore = false;
-        requestData();
+        isMoreData = true;
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                requestData();
+                mAdapter.notifyDataSetChanged();
+                onLoad();
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onLoadMore() {
+        isLoadMore = true;
+        rHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startLoadMore();
+                mAdapter.notifyDataSetChanged();
+                onLoad();
+            }
+        }, 1000);
+    }
+
+    private void onLoad() {
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
+        mListView.setRefreshTime(TSUtil.getTime());
     }
 
     private void bindAdapter() {

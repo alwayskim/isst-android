@@ -139,6 +139,8 @@ public class LoadingActivity extends CSTBaseActivity {
                             } else {
                                 jump();
                             }
+                            Lgr.i("更新情况", Integer.toString(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) + " " +
+                                    ((CSTVersion) msg.obj).buildNum + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
                         } catch (NameNotFoundException e) {
                             e.printStackTrace();
                         }

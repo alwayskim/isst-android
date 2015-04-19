@@ -145,7 +145,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         bindAdapter();
         setUpListener();
         initHandler();
-        if(mIsFirst) {
+        if (mIsFirst) {
 //            mListView.autoRefresh();
             rHandler.postDelayed(new Runnable() {
                 @Override

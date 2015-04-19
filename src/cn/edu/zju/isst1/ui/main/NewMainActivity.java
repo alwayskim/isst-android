@@ -56,6 +56,7 @@ import cn.edu.zju.isst1.v2.event.city.gui.CSTCityEventListFragment;
 import cn.edu.zju.isst1.v2.login.gui.LoginActivity;
 import cn.edu.zju.isst1.v2.restaurant.gui.NewRestaurantListFragment;
 import cn.edu.zju.isst1.v2.splash.gui.LoadingActivity;
+import cn.edu.zju.isst1.v2.user.data.CSTUser;
 import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.usercenter.UserCenterFragment;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.gui.PushMessagesActivity;
@@ -429,6 +430,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         CSTCityEventDataDelegate.deleteAllCityEvent(this);
         CSTAlumniDataDelegate.deleteAllAlumni(this);
         CSTAddressListDataDelegate.deleteAllAlumni(this);
+        CSTUserDataDelegate.deleteAllUsers(this);
 
         CSTSettings.setAutoLogin(false, NewMainActivity.this);
         NewMainActivity.this.startActivity(new Intent(NewMainActivity.this,
@@ -461,9 +463,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
-//                NewMainActivity.this.startActivity(intent);
-                Toast.makeText(NewMainActivity.this, "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NewMainActivity.this, PushMessagesActivity.class);
+                NewMainActivity.this.startActivity(intent);
+//                Toast.makeText(NewMainActivity.this, "该功能暂未开放", Toast.LENGTH_SHORT).show();
             }
         });
     }
