@@ -206,7 +206,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), NewRestaurantDetailActivity.class);
-        intent.putExtra(ID, ((CSTRestaurant) view.getTag()).id);
+        intent.putExtra(ID, ((CSTRestaurant)((RestaurantListAdapter.ViewHolder) view.getTag()).nameTxv.getTag()).id);
         getActivity().startActivity(intent);
     }
 

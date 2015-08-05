@@ -33,15 +33,18 @@ public class RestaurantListAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        return inflater.inflate(R.layout.restaurant_list_item, parent, false);
+        View view = inflater.inflate(R.layout.restaurant_list_item, parent, false);
+        final ViewHolder holder = getBindViewHolder(view);
+        view.setTag(holder);
+        return view;
     }
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
         final CSTRestaurant restaurant = CSTRestaurantDataDelegate.getRestaurant(cursor);
         Lgr.i(restaurant.address);
-        view.setTag(restaurant);
-        final ViewHolder holder = getBindViewHolder(view);
+        final ViewHolder holder = (ViewHolder)view.getTag();
+        holder.nameTxv.setTag(restaurant);
         holder.nameTxv.setText(restaurant.name);
 
         holder.resIcon.setDefaultImageResId(R.drawable.moren_news);
