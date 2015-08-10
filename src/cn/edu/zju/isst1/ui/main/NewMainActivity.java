@@ -71,6 +71,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private final String mDrawerTitle = "导航";
 
+    private final String TAG = "NewMainActivity";
+
     private SharedPreferences preferences;
 
     private String mTitle;
@@ -119,6 +121,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         // 打开推送
         Lgr.i("Loading____pushSetting");
+        Lgr.i(TAG,"NewMainAcitvity.Oncreate()");
         PushSettings.enableDebugMode(getApplicationContext(), true);
 //        以apikey的方式登录，一般放在主Activity的onCreate中
         PushManager.startWork(getApplicationContext(),
@@ -147,6 +150,16 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         if (!hasShortCut(NewMainActivity.this) && FIRST_USE) {
             initAlerDialog();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Lgr.i(TAG,"NewMainActivity.onNewIntent(intent)");
+        if (getIntent().getBooleanExtra("push", false)) {
+            Intent i = new Intent(this, PushMessagesActivity.class);
+            startActivity(i);
         }
     }
 

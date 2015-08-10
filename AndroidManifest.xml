@@ -39,7 +39,6 @@
         android:theme="@style/MyTheme">
         <activity
             android:name=".v2.splash.gui.LoadingActivity"
-            android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,9 +52,10 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".ui.main.NewMainActivity"
+            android:launchMode="singleTask"
             android:logo="@drawable/menu_home"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".ui.job.JobDetailActivity" />
         <activity android:name=".v2.usercenter.myrecommend.RecommendDetailActivity" />
         <activity android:name=".ui.job.JobCommentListActivity" />
@@ -78,7 +78,9 @@
         <activity android:name=".v2.usercenter.setting.SettingActivity" />
         <activity android:name=".v2.usercenter.setting.FeedBackActivity" />
         <activity android:name=".v2.usercenter.myactivity.MyEventActivity" />
-        <activity android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity" />
+        <activity
+            android:name=".v2.usercenter.messagecenter.gui.PushMessagesActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".v2.usercenter.myexperience.MyExperienceActivity" />
 
 

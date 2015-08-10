@@ -44,6 +44,7 @@ import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
 import cn.edu.zju.isst1.v2.splash.data.CSTVersion;
 import cn.edu.zju.isst1.v2.splash.net.VersionResponse;
+import cn.edu.zju.isst1.v2.usercenter.messagecenter.gui.PushMessagesActivity;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
@@ -73,11 +74,20 @@ public class LoadingActivity extends CSTBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent().getBooleanExtra("push", false) && CSTSettings.isAutoLogin(this)) {
+            Intent intent = new Intent(this, NewMainActivity.class);
+            intent.putExtra("push",true);
+            startActivity(intent);
+            finish();
+        }
         setContentView(R.layout.loading_activity);
 
         initAlertDialog();
 
         initHandler();
+
+
+
 
         requestVersionInfo();
 
