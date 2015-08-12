@@ -1,6 +1,8 @@
 package cn.edu.zju.isst1.v2.gui;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -14,6 +16,14 @@ import android.view.ViewGroup;
  * Created by i308844 on 8/12/14.
  */
 public abstract class CSTBaseFragment extends Fragment {
+
+   protected Activity mContext;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +74,7 @@ public abstract class CSTBaseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mContext = null;
     }
 
     @Override

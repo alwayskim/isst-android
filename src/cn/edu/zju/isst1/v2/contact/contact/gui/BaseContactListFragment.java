@@ -1,5 +1,6 @@
 package cn.edu.zju.isst1.v2.contact.contact.gui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -111,16 +113,16 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     public static BaseContactListFragment getInstance(FilterType ft) {
         if (ft == FilterType.MY_CLASS) {
-            INSTANCE_MYCLASS.setM_ft(FilterType.MY_CLASS);
+            INSTANCE_MYCLASS.setFilterType(FilterType.MY_CLASS);
             return INSTANCE_MYCLASS;
         }
-        INSTANCE_MYCITY.setM_ft(FilterType.MY_CITY);
+        INSTANCE_MYCITY.setFilterType(FilterType.MY_CITY);
         return INSTANCE_MYCITY;
     }
 
 
-    public void setM_ft(FilterType m_ft) {
-        this.m_ft = m_ft;
+    public void setFilterType(FilterType filterType) {
+        this.m_ft = filterType;
     }
 
 //    @Override
@@ -142,6 +144,22 @@ public class BaseContactListFragment extends CSTBaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mAlumniList = new LinkedList<CSTAlumni>();
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getInt("type") == 0) {
+                m_ft = FilterType.MY_CLASS;
+                mAlumniList = CSTAddressListDataDelegate.getALumniList(mContext);
+            } else {
+                m_ft = FilterType.MY_CITY;
+                mAlumniList = CSTAlumniDataDelegate.getALumniList(mContext);
+            }
+        } else {
+            if (m_ft == FilterType.MY_CLASS) {
+                mAlumniList = CSTAddressListDataDelegate.getALumniList(mContext);
+            } else {
+                mAlumniList = CSTAlumniDataDelegate.getALumniList(mContext);
+            }
+        }
         Lgr.d("BaseContactListFragment", "——onCreate");
     }
 
@@ -149,6 +167,7 @@ public class BaseContactListFragment extends CSTBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Lgr.d("BaseContactListFragment", "——onCreateView");
+
         return inflater.inflate(R.layout.classmates_list_fragment, container, false);
     }
 
@@ -161,6 +180,15 @@ public class BaseContactListFragment extends CSTBaseFragment
 
 //        getLoaderManager().initLoader(0, null, this);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (m_ft == FilterType.MY_CLASS) {
+            outState.putInt("type", 0);
+        } else {
+            outState.putInt("type", 1);
+        }
     }
 
     @Override
@@ -202,7 +230,7 @@ public class BaseContactListFragment extends CSTBaseFragment
         clazzTvx = (TextView) view.findViewById(R.id.filter_show_txv);
         searchBtn = (ImageButton) view.findViewById(R.id.filter_show_search_btn);
         autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.filter_auto_list_txv);
-        Cursor mCursor = getActivity().getContentResolver().query(CSTUserProvider.CONTENT_URI,
+        Cursor mCursor = mContext.getContentResolver().query(CSTUserProvider.CONTENT_URI,
                 null, null, null, null);
         mCursor.moveToFirst();
         mUser = CSTUserDataDelegate.getUser(mCursor);
@@ -217,11 +245,6 @@ public class BaseContactListFragment extends CSTBaseFragment
             clazzTvx.setText(getCityName(mFilter.cityId));
         }
 
-        if (m_ft == FilterType.MY_CLASS) {
-            mAlumniList = CSTAddressListDataDelegate.getALumniList(getActivity());
-        } else {
-            mAlumniList = CSTAlumniDataDelegate.getALumniList(getActivity());
-        }
 
         initHandler();
 
@@ -265,20 +288,20 @@ public class BaseContactListFragment extends CSTBaseFragment
         if (jobTitle != null && sign != null) {
             if (jobTitle.equals("section") && sign.equals("section")) {
             } else {
-                Intent intent = new Intent(getActivity(), CSTContactDetailActivity.class);
+                Intent intent = new Intent(mContext, CSTContactDetailActivity.class);
                 intent.putExtra("alumni", (alumni));
-                getActivity().startActivity(intent);
+                mContext.startActivity(intent);
             }
         } else {
-            Intent intent = new Intent(getActivity(), CSTContactDetailActivity.class);
+            Intent intent = new Intent(mContext, CSTContactDetailActivity.class);
             intent.putExtra("alumni", (alumni));
-            getActivity().startActivity(intent);
+            mContext.startActivity(intent);
         }
     }
 
     private void bindAdapter() {
 //        mAdapter = new CSTContactListAdapter(getActivity(), null, m_ft);
-        mAdapter = new CSTSerachedAlumniAdapter(getActivity(), mAlumniList);
+        mAdapter = new CSTSerachedAlumniAdapter(mContext, mAlumniList);
         mListView.setAdapter(mAdapter);
         autoCompleteTextView.setAdapter(mAdapter);
         requestData();
@@ -294,7 +317,7 @@ public class BaseContactListFragment extends CSTBaseFragment
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),
+                Intent intent = new Intent(mContext,
                         ContactFilterActivity.class);
                 startActivityForResult(intent, 20);
             }
@@ -305,16 +328,16 @@ public class BaseContactListFragment extends CSTBaseFragment
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (getActivity() != null)
+                if (mContext != null)
                     switch (msg.what) {
                         case Constants.STATUS_REQUEST_SUCCESS:
                             mSwipeRefreshLayout.setRefreshing(false);
                             if (m_ft == FilterType.MY_CLASS) {
-                                mAlumniList = CSTAddressListDataDelegate.getALumniList(getActivity());
+                                mAlumniList = CSTAddressListDataDelegate.getALumniList(mContext);
                             } else {
-                                mAlumniList = CSTAlumniDataDelegate.getALumniList(getActivity());
+                                mAlumniList = CSTAlumniDataDelegate.getALumniList(mContext);
                             }
-                            mAdapter = new CSTSerachedAlumniAdapter(getActivity(),
+                            mAdapter = new CSTSerachedAlumniAdapter(mContext,
                                     mAlumniList);
                             mListView.setAdapter(mAdapter);
                             autoCompleteTextView.addTextChangedListener(new TextWatcher() {
@@ -342,11 +365,11 @@ public class BaseContactListFragment extends CSTBaseFragment
                             });
                             break;
                         case Constants.STATUS_NOT_LOGIN:
-                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            UpDateLogin.getInstance().updateLogin(mContext);
                             requestData();
                             break;
                         default:
-                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            CSTHttpUtil.dispose(msg.what, mContext);
                             break;
                     }
             }
@@ -355,8 +378,8 @@ public class BaseContactListFragment extends CSTBaseFragment
 
     private void requestData() {
         //TODO replace code in this scope with new implemented volley-base network request
-        if (NetworkConnection.isNetworkConnected(getActivity())) {
-            ContactResponse activityResponse = new ContactResponse(getActivity(),
+        if (NetworkConnection.isNetworkConnected(mContext)) {
+            ContactResponse activityResponse = new ContactResponse(mContext,
                     true, m_ft) {
                 @Override
                 public void onResponse(JSONObject result) {
@@ -411,7 +434,7 @@ public class BaseContactListFragment extends CSTBaseFragment
      * 初始化城市列表
      */
     private String getCityName(int cityId) {
-        List<CSTCity> mListCity = CSTCityDataDelegate.getCityList(this.getActivity());
+        List<CSTCity> mListCity = CSTCityDataDelegate.getCityList(this.mContext);
         if (!Judge.isNullOrEmpty(mListCity)) {
             for (CSTCity city : mListCity) {
                 if (cityId == city.id) {
@@ -615,12 +638,17 @@ public class BaseContactListFragment extends CSTBaseFragment
 
         @Override
         public int getCount() {
-            return alumniList.size();
+            if (alumniList != null) {
+                return alumniList.size();
+            }
+            return 0;
         }
 
         @Override
         public Object getItem(int position) {
-            return alumniList.get(position);
+            if (alumniList != null)
+                return alumniList.get(position);
+            return null;
         }
 
         @Override

@@ -189,8 +189,11 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return CSTRestaurantDataDelegate.getDataCursor(getActivity(), null, null, null,
+
+        return CSTRestaurantDataDelegate.getDataCursor(mContext, null, null, null,
                 CSTRestaurantProvider.Columns.ID.key + " DESC");
+
+
     }
 
     @Override
@@ -205,14 +208,16 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), NewRestaurantDetailActivity.class);
-        intent.putExtra(ID, ((CSTRestaurant)((RestaurantListAdapter.ViewHolder) view.getTag()).nameTxv.getTag()).id);
-        getActivity().startActivity(intent);
+        Intent intent = new Intent(mContext, NewRestaurantDetailActivity.class);
+        intent.putExtra(ID, ((CSTRestaurant) ((RestaurantListAdapter.ViewHolder) view.getTag()).nameTxv.getTag()).id);
+        mContext.startActivity(intent);
     }
 
     private void bindAdapter() {
-        mAdapter = new RestaurantListAdapter(getActivity(), null);
+
+        mAdapter = new RestaurantListAdapter(mContext, null);
         mListView.setAdapter(mAdapter);
+
     }
 
     private void setUpListener() {
@@ -235,12 +240,18 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 //                        mSwipeRefreshLayout.setRefreshing(false);
                         break;
                     case STATUS_NOT_LOGIN:
-                        UpDateLogin.getInstance().updateLogin(getActivity());
+
+                        UpDateLogin.getInstance().updateLogin(mContext);
                         requestData();
+
                     case NETWORK_NOT_CONNECTED:
-                        CroMan.showAlert(getActivity(), R.string.network_not_connected);
+
+                        CroMan.showAlert(mContext, R.string.network_not_connected);
+
                     default:
-                        CSTHttpUtil.dispose(msg.what, getActivity());
+
+                        CSTHttpUtil.dispose(msg.what, mContext);
+
                         break;
                 }
                 resetLoadingState();
@@ -256,8 +267,8 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             mCurrentPage = 1;
 //            mSwipeRefreshLayout.setRefreshing(true);
         }
-        if (NetworkConnection.isNetworkConnected(getActivity())) {
-            RestaurantResponse resResponse = new RestaurantResponse(getActivity(), !isLoadMore) {
+        if (NetworkConnection.isNetworkConnected(mContext)) {
+            RestaurantResponse resResponse = new RestaurantResponse(mContext, !isLoadMore) {
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);

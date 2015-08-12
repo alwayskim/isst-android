@@ -30,6 +30,8 @@ import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.baidu.android.pushservice.PushSettings;
 
+import java.util.ArrayList;
+
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.api.LogoutApi;
 import cn.edu.zju.isst1.db.DataManager;
@@ -77,6 +79,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private String mTitle;
 
+    private ArrayList<Fragment> backFragments;
+
     private boolean IS_EXIT = false;
 
     private Fragment mCurrentFragment;
@@ -112,8 +116,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_reside_menu_activity);
 
-        mCurrentFragment = null;
-
+        backFragments = new ArrayList<Fragment>();
         CSTSettings.setIsNewMainOn(true, NewMainActivity.this);
         setUpMenu();
         setUpActionbar();
@@ -121,21 +124,42 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         // 打开推送
         Lgr.i("Loading____pushSetting");
-        Lgr.i(TAG,"NewMainAcitvity.Oncreate()");
+        Lgr.i(TAG, "NewMainAcitvity.Oncreate()");
         PushSettings.enableDebugMode(getApplicationContext(), true);
 //        以apikey的方式登录，一般放在主Activity的onCreate中
         PushManager.startWork(getApplicationContext(),
                 PushConstants.LOGIN_TYPE_API_KEY, "Wu84DeRt2gFEzjDn0ErqxwSL");
 
         if (savedInstanceState == null) {
+            mCurrentFragment = null;
             mCurrentFragment = NewsFragment.getInstance();
             titleTxv.setText(R.string.menu_news);
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.main_fragment, mCurrentFragment, "fragment")
+                    .add(R.id.main_fragment, mCurrentFragment, "0")
                     .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
 
+        } else {
+
+            for (int i = 0; i < 14; i++) {
+                Fragment frag = getFragmentManager().findFragmentByTag(String.valueOf(i));
+                if (frag != null) {
+                    backFragments.add(frag);
+                }
+            }
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            for (int i = 0; i < backFragments.size(); i++) {
+                Fragment frag = backFragments.get(i);
+                if (frag instanceof NewsFragment) {
+                    fragmentTransaction.show(frag);
+                    mCurrentFragment = frag;
+                    titleTxv.setText(R.string.menu_news);
+                } else {
+                    fragmentTransaction.remove(frag);
+                }
+            }
+            fragmentTransaction.commit();
         }
 
         updateLogin();
@@ -154,9 +178,15 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("fragmentCode", Integer.valueOf(mCurrentFragment.getTag()));
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Lgr.i(TAG,"NewMainActivity.onNewIntent(intent)");
+        Lgr.i(TAG, "NewMainActivity.onNewIntent(intent)");
         if (getIntent().getBooleanExtra("push", false)) {
             Intent i = new Intent(this, PushMessagesActivity.class);
             startActivity(i);
@@ -269,52 +299,102 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 //        });
     }
 
+    public Fragment getCurrentFragment(int tag) {
+        switch (Integer.valueOf(tag)) {
+            case 0:
+                return NewsFragment.getInstance();
+
+            case 1:
+                return WikGridFragment.getInstance();
+
+            case 2:
+                return CSTCampusEventListFragment.getInstance();
+            case 3:
+                return NewRestaurantListFragment.getInstance();
+
+            case 4:
+                return StudyFragment.getInstance();
+
+            case 5:
+                return InternshipListFragment.getInstance();
+
+            case 6:
+                return EmploymentListFragment.getInstance();
+
+            case 7:
+                return RecommedListFragment.getInstance();
+
+            case 8:
+                return ExperienceFragment.getInstance();
+
+            case 9:
+                return BaseContactListFragment
+                        .getInstance(BaseContactListFragment.FilterType.MY_CLASS);
+
+            case 10:
+                return CastellanFragment.GetInstance();
+
+            case 11:
+                return CSTCityEventListFragment.getInstance();
+
+            case 12:
+                return BaseContactListFragment
+                        .getInstance(BaseContactListFragment.FilterType.MY_CITY);
+
+            case 13:
+                return UserCenterFragment.getInstance();
+
+            default:
+                return NewsFragment.getInstance();
+        }
+    }
+
     @Override
     public void onClick(View view) {
         resideMenu.closeMenu();
         if (view == itemNews) {
-            changeFragment(NewsFragment.getInstance());
+            changeFragment(NewsFragment.getInstance(), 0);
             titleTxv.setText(R.string.menu_news); //已加入刷新和加载更多
         } else if (view == itemWiki) {
-            changeFragment(WikGridFragment.getInstance());
+            changeFragment(WikGridFragment.getInstance(), 1);
             titleTxv.setText(R.string.menu_wiki);
         } else if (view == itemCampusEvent) {
-            changeFragment(CSTCampusEventListFragment.getInstance());
+            changeFragment(CSTCampusEventListFragment.getInstance(), 2);
             titleTxv.setText(R.string.menu_campus_event); //已加入刷新和加载更多
         } else if (view == itemConvenient) {
-            changeFragment(NewRestaurantListFragment.getInstance());
+            changeFragment(NewRestaurantListFragment.getInstance(), 3);
             titleTxv.setText(R.string.menu_convenient_service); //已加入刷新和加载更多
         } else if (view == itemStudy) {
-            changeFragment(StudyFragment.getInstance());
+            changeFragment(StudyFragment.getInstance(), 4);
             titleTxv.setText(R.string.menu_study);
         } else if (view == itemInternship) {
-            changeFragment(InternshipListFragment.getInstance());
+            changeFragment(InternshipListFragment.getInstance(), 5);
             titleTxv.setText(R.string.menu_internship);
         } else if (view == itemEmploy) {
-            changeFragment(EmploymentListFragment.getInstance());
+            changeFragment(EmploymentListFragment.getInstance(), 6);
             titleTxv.setText(R.string.menu_employment);
         } else if (view == itemRecommend) {
-            changeFragment(RecommedListFragment.getInstance());
+            changeFragment(RecommedListFragment.getInstance(), 7);
             titleTxv.setText(R.string.menu_recommend);
         } else if (view == itemExperience) {
-            changeFragment(ExperienceFragment.getInstance());
+            changeFragment(ExperienceFragment.getInstance(), 8);
             titleTxv.setText(R.string.menu_experience);
         } else if (view == itemContact) {
             changeFragment((BaseContactListFragment
-                    .getInstance(BaseContactListFragment.FilterType.MY_CLASS)));
+                    .getInstance(BaseContactListFragment.FilterType.MY_CLASS)), 9);
             titleTxv.setText(R.string.menu_contact);
         } else if (view == itemCityMaster) {
-            changeFragment(CastellanFragment.GetInstance());
+            changeFragment(CastellanFragment.GetInstance(), 10);
             titleTxv.setText(R.string.menu_city_master);
         } else if (view == itemCityEvent) {
-            changeFragment(CSTCityEventListFragment.getInstance());
+            changeFragment(CSTCityEventListFragment.getInstance(), 11);
             titleTxv.setText(R.string.menu_city_event); //已加入刷新和加载更多
         } else if (view == itemContactCity) {
             changeFragment((BaseContactListFragment
-                    .getInstance(BaseContactListFragment.FilterType.MY_CITY)));
+                    .getInstance(BaseContactListFragment.FilterType.MY_CITY)), 12);
             titleTxv.setText(R.string.menu_contact_city);
         } else if (view == itemUserCenter) {
-            changeFragment(UserCenterFragment.getInstance());
+            changeFragment(UserCenterFragment.getInstance(), 13);
             titleTxv.setText(R.string.menu_user_center);
         }
 //        resideMenu.closeMenu();
@@ -362,7 +442,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      *
      * @param targetFragment 目標fragement
      */
-    private void changeFragment(Fragment targetFragment) {
+    private void changeFragment(Fragment targetFragment, int tag) {
         resideMenu.clearIgnoredViewList();
 //        getFragmentManager()
 //                .beginTransaction()
@@ -377,7 +457,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         if (!targetFragment.isAdded()) {
 
             // 隐藏当前的fragment，add下一个到Activity中
-            transaction.hide(mCurrentFragment).add(R.id.main_fragment, targetFragment).commit();
+            transaction.hide(mCurrentFragment).add(R.id.main_fragment, targetFragment, String.valueOf(tag)).commit();
         } else {
 
             // 隐藏当前的fragment，显示下一个
