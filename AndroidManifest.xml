@@ -35,11 +35,12 @@
         android:name=".CSTApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="ISST"
         android:theme="@style/MyTheme">
         <activity
             android:name=".v2.splash.gui.LoadingActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,7 +50,9 @@
         <activity
             android:name=".v2.login.gui.LoginActivity"
             android:label="@string/login"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.NewMainActivity"
             android:launchMode="singleTask"

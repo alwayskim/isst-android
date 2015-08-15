@@ -20,7 +20,7 @@
         android:id="@+id/login_activity_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <EditText
@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/denglu_shangbankuang"
             android:ems="10"
             android:hint="@string/username_input_hint"
