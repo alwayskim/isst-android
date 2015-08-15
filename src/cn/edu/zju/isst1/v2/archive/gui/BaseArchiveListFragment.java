@@ -147,14 +147,14 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         initHandler();
         if (mIsFirst) {
 //            mListView.autoRefresh();
-            rHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            rHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     requestData();
                     mAdapter.notifyDataSetChanged();
                     onLoad();
-                }
-            }, 1000);
+//                }
+//            }, 1000);
             mIsFirst = false;
         }
     }

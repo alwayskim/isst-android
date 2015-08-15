@@ -77,6 +77,7 @@ public class CSTSearchedAlumniActivity extends BaseActivity
     private Handler mHandler;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

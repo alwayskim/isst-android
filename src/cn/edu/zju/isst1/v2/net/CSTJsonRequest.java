@@ -27,9 +27,6 @@ public class CSTJsonRequest extends CSTRequest<JSONObject> {
     public CSTJsonRequest(int method, String subUrl, Map<String, String> params,
                           CSTResponse<JSONObject> response) {
         super(method, BASE_URL + subUrl, params, response);
-        setRetryPolicy(new DefaultRetryPolicy(2000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override

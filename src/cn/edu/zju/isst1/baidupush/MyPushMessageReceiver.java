@@ -121,21 +121,20 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         Intent aIntent = new Intent();
 
         aIntent.putExtra("push", true);
-        if (!CSTSettings.isAutoLogin(context)) {
+//        if (!CSTSettings.isAutoLogin(context)) {
             aIntent.setClass(context, LoadingActivity.class);
-            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(aIntent);
-        } else if (CSTSettings.isPushActivityOn(context)) {
-        } else if (CSTSettings.isNewMainOn(context)) {
-            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            aIntent.setClass(context, PushMessagesActivity.class);
-            context.startActivity(aIntent);
-        } else {
-            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            aIntent.setClass(context, NewMainActivity.class);
-            context.startActivity(aIntent);
-        }
+//        } else if (CSTSettings.isPushActivityOn(context)) {
+//        } else if (CSTSettings.isNewMainOn(context)) {
+//            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            aIntent.setClass(context, PushMessagesActivity.class);
+//            context.startActivity(aIntent);
+//        } else {
+//            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            aIntent.setClass(context, NewMainActivity.class);
+//            context.startActivity(aIntent);
+//        }
 
     }
 
