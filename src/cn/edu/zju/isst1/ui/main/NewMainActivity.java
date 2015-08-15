@@ -48,6 +48,7 @@ import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.v2.archive.gui.ExperienceFragment;
 import cn.edu.zju.isst1.v2.archive.gui.NewsFragment;
 import cn.edu.zju.isst1.v2.archive.gui.StudyFragment;
+import cn.edu.zju.isst1.v2.archive.gui.WikiFragment;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAddressListDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.data.CSTAlumniDataDelegate;
 import cn.edu.zju.isst1.v2.contact.contact.gui.BaseContactListFragment;
@@ -164,30 +165,24 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         updateLogin();
         requestGlobalData();
-        if (getIntent().getBooleanExtra("push", false)) {
-            Intent intent = new Intent(this, PushMessagesActivity.class);
-            startActivity(intent);
-        }
-
         preferences = getSharedPreferences("first_use", MODE_PRIVATE);
         Boolean FIRST_USE = preferences.getBoolean("first_use", true);
 
         if (!hasShortCut(NewMainActivity.this) && FIRST_USE) {
             initAlerDialog();
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("fragmentCode", Integer.valueOf(mCurrentFragment.getTag()));
-        super.onSaveInstanceState(outState);
+        if (getIntent().getBooleanExtra("push", false)) {
+            Intent intent = new Intent(this, PushMessagesActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Lgr.i(TAG, "NewMainActivity.onNewIntent(intent)");
-        if (getIntent().getBooleanExtra("push", false)) {
+        if (intent.getBooleanExtra("push", false)) {
+            Lgr.i(TAG, "NewMainActivity.onNewIntent(intent) push");
             Intent i = new Intent(this, PushMessagesActivity.class);
             startActivity(i);
         }
@@ -305,7 +300,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 return NewsFragment.getInstance();
 
             case 1:
-                return WikGridFragment.getInstance();
+                return WikiFragment.getInstance();
 
             case 2:
                 return CSTCampusEventListFragment.getInstance();
@@ -356,7 +351,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             changeFragment(NewsFragment.getInstance(), 0);
             titleTxv.setText(R.string.menu_news); //已加入刷新和加载更多
         } else if (view == itemWiki) {
-            changeFragment(WikGridFragment.getInstance(), 1);
+            changeFragment(WikiFragment.getInstance(), 1);
             titleTxv.setText(R.string.menu_wiki);
         } else if (view == itemCampusEvent) {
             changeFragment(CSTCampusEventListFragment.getInstance(), 2);
