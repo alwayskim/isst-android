@@ -57,6 +57,9 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
 public class LoadingActivity extends CSTBaseActivity {
 
     private static final String VERSION_URL = "/api/android/version";
+    private static final String TAG = "LoadingActivity";
+    private static final int JUMP_DELAY = 99;
+
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
@@ -66,6 +69,9 @@ public class LoadingActivity extends CSTBaseActivity {
 
     private CSTVersion newVersion;
 
+    private boolean isPush;
+
+
     /*
      * (non-Javadoc)
      *
@@ -74,22 +80,18 @@ public class LoadingActivity extends CSTBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent().getBooleanExtra("push", false) && CSTSettings.isAutoLogin(this)) {
-            Intent intent = new Intent(this, NewMainActivity.class);
-            intent.putExtra("push",true);
-            startActivity(intent);
-            finish();
-        }
+
+        Lgr.i(TAG," oncreate() ");
         setContentView(R.layout.loading_activity);
+
+        isPush = getIntent().getBooleanExtra("push", false);
 
         initAlertDialog();
 
         initHandler();
 
-
-
-
         requestVersionInfo();
+
 
     }
 
@@ -147,7 +149,7 @@ public class LoadingActivity extends CSTBaseActivity {
                                     < ((CSTVersion) msg.obj).buildNum) {
                                 mAldUpdate.show();
                             } else {
-                                jump();
+                                mHandler.sendEmptyMessageDelayed(JUMP_DELAY,1000);
                             }
                             Lgr.i("更新情况", Integer.toString(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) + " " +
                                     ((CSTVersion) msg.obj).buildNum + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
@@ -157,9 +159,14 @@ public class LoadingActivity extends CSTBaseActivity {
                         break;
                     case NETWORK_NOT_CONNECTED:
                         CroMan.showAlert(LoadingActivity.this, R.string.network_not_connected);
+                        mHandler.sendEmptyMessageDelayed(JUMP_DELAY,1200);
+                        break;
+                    case JUMP_DELAY:
+                        jump();
                         break;
                     default:
                         CSTHttpUtil.dispose(msg.what, LoadingActivity.this);
+                        mHandler.sendEmptyMessageDelayed(JUMP_DELAY,1200);
                         break;
                 }
             }
@@ -200,11 +207,13 @@ public class LoadingActivity extends CSTBaseActivity {
     }
 
     private void jump() {
-        Lgr.i(this.getClass().getName() + " jump isAutoLogin? "
-                + CSTSettings.isAutoLogin(LoadingActivity.this));
+        Lgr.i(TAG," jump() ");
         if (CSTSettings.isAutoLogin(LoadingActivity.this)) {
-            LoadingActivity.this.startActivity(new Intent(LoadingActivity.this,
-                    NewMainActivity.class));
+            Intent intent = new Intent(LoadingActivity.this, NewMainActivity.class);
+            if (getIntent().getBooleanExtra("push", false)) {
+                intent.putExtra("push",true);
+            }
+            LoadingActivity.this.startActivity(intent);
 
         } else {
             LoadingActivity.this.startActivity(new Intent(LoadingActivity.this,

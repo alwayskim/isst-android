@@ -123,8 +123,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         aIntent.putExtra("push", true);
 //        if (!CSTSettings.isAutoLogin(context)) {
             aIntent.setClass(context, LoadingActivity.class);
-            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(aIntent);
 //        } else if (CSTSettings.isPushActivityOn(context)) {
 //        } else if (CSTSettings.isNewMainOn(context)) {
