@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,10 +56,9 @@ import static cn.edu.zju.isst1.constant.Constants.*;
  * Created by lqynydyxf on 2014/8/28.
  */
 public class NewRestaurantListFragment extends CSTBaseFragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, XListView.IXListViewListener,
-        AdapterView.OnItemClickListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
-    private XListView mListView;
+    private PullToRefreshListView listView;
 
     private int mCurrentPage = 1;
 
@@ -67,15 +68,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     private boolean isLoadMore;
 
-    private boolean isMoreData;
-
     private Handler rHandler;
-//
-//    private View mFooter;
-//
-//    private ProgressBar mLoadMorePrgb;
-//
-//    private TextView mLoadMoreHint;
 
     private boolean mIsFirst = true;
 
@@ -83,7 +76,6 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     private static NewRestaurantListFragment INSTANCE = new NewRestaurantListFragment();
 
-//    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Handler mHandler;
 
@@ -106,7 +98,6 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isLoadMore = false;
-        isMoreData = true;
         mIsFirst = true;
         mCurrentPage = 1;
         rHandler = new Handler();
@@ -130,62 +121,36 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     @Override
     protected void initComponent(View view) {
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-//                R.color.lightcoral);
-        mListView = (XListView) view.findViewById(R.id.simple_list);
-//        ViewTreeObserver observer = view.getViewTreeObserver();
-//        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-//            @Override
-//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//                if (mIsFirst) {
-//                    mListView.autoRefresh();
-//                    mIsFirst = false;
-//                }
-//            }
-//        });
-//        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
-//        mListView.addFooterView(mFooter);
-//        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
-//        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+        listView = (PullToRefreshListView) view.findViewById(R.id.base_archive_lv);
+        listView.setOnItemClickListener(this);
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // Update the LastUpdatedLabel
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(TSUtil.getTime());
+
+                // Do work to refresh the list here.
+                isLoadMore = false;
+                requestData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isLoadMore = true;
+                requestData();
+            }
+        });
 
         bindAdapter();
-        setUpListener();
         initHandler();
         if (mIsFirst) {
-            onRefresh();
+            listView.setRefreshing();
             mIsFirst = false;
         }
     }
 
-    @Override
-    public void onRefresh() {
-        isLoadMore = false;
-        isMoreData = true;
-//        mListView.setPullLoadEnable(true);
-        rHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                requestData();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
-            }
-        }, 1000);
-    }
 
-    @Override
-    public void onLoadMore() {
-        isLoadMore = true;
-        rHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startLoadMore();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
-            }
-        }, 1000);
-    }
+
 
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -216,19 +181,8 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     private void bindAdapter() {
 
         mAdapter = new RestaurantListAdapter(mContext, null);
-        mListView.setAdapter(mAdapter);
+        listView.setAdapter(mAdapter);
 
-    }
-
-    private void setUpListener() {
-        mListView.setOnItemClickListener(this);
-        mListView.setPullRefreshEnable(true);
-        mListView.setPullLoadEnable(true);
-        mListView.setAutoLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mListView.setRefreshTime(TSUtil.getTime());
-//        mSwipeRefreshLayout.setOnRefreshListener(this);
-//        mFooter.setOnClickListener(this);
     }
 
     private void initHandler() {
@@ -237,7 +191,6 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.STATUS_REQUEST_SUCCESS:
-//                        mSwipeRefreshLayout.setRefreshing(false);
                         break;
                     case STATUS_NOT_LOGIN:
 
@@ -254,7 +207,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
                         break;
                 }
-                resetLoadingState();
+                listView.onRefreshComplete();
             }
         };
 
@@ -272,25 +225,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);
-//                    Lgr.i(response.toString());
-//                    CSTRestaurantDataDelegate.deleteAllRestaurent(getActivity());
-//                    CSTRestaurant restaurant = (CSTRestaurant) CSTJsonParser.parseJson(response, new CSTRestaurant());
-//                    for (CSTRestaurant restaurant_demo : restaurant.itemList) {
-//                        CSTRestaurantDataDelegate.saveRestaurant(mContext, restaurant_demo);
-//                    }
-//                    Lgr.i(Integer.toString(restaurant.itemList.size()));
                     Message msg = mHandler.obtainMessage();
-                    if (isLoadMore) {
-                        try {
-                            isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-//                            if (!isMoreData) {
-//                                Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
-//                                mListView.setPullLoadEnable(false);
-//                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
                     msg.what = Constants.STATUS_REQUEST_SUCCESS;
                     mHandler.sendMessage(msg);
                 }
@@ -307,17 +242,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             paramsMap.put("page", "" + mCurrentPage);
             paramsMap.put("pageSize", "" + DEFAULT_PAGE_SIZE);
             paramsMap.put("keywords", null);
-//            String subUrlParams = null;
-//            try {
-//                subUrlParams = RESTAURANT_URL + (Judge.isNullOrEmpty(paramsMap) ? ""
-//                        : ("?" + BetterAsyncWebServiceRunner
-//                        .getInstance().paramsToString(paramsMap)));
-//                Lgr.i(subUrlParams);
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-//            CSTJsonRequest resRequest = new CSTJsonRequest(CSTRequest.Method.GET, subUrlParams,
-//                    null, resResponse);
+
             RestaurantRequest resRequest = new RestaurantRequest(CSTRequest.Method.GET,
                     RESTAURANT_URL, null,
                     resResponse).setPage(mCurrentPage).setPageSize(DEFAULT_PAGE_SIZE);
@@ -328,38 +253,5 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             mHandler.sendMessage(msg);
         }
     }
-//
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.loadmore_footer:
-//                startLoadMore();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
-    public void startLoadMore() {
-        isLoadMore = true;
-//        mLoadMorePrgb.setVisibility(ProgressBar.VISIBLE);
-//        mLoadMoreHint.setText(R.string.loading);
-        requestData();
-    }
-
-    public void resetLoadingState() {
-//        mSwipeRefreshLayout.setRefreshing(false);
-//        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-//        if (isLoadMore && !isMoreData) {
-//            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
-//        } else {
-//            mLoadMoreHint.setText(R.string.footer_loading_hint);
-//        }
-    }
-
-    private void onLoad() {
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
-        mListView.setRefreshTime(TSUtil.getTime());
-    }
 }

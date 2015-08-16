@@ -26,7 +26,7 @@ dependencies {
     compile files('libs/pushservice-4.2.0.63.jar')
     compile files('libs/nineoldandroids-library-2.4.0.jar')
     compile files('libs/zxing.jar')
-
+    compile project(':handmarkpulltorefresh')
 }
 
 android {

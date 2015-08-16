@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +50,7 @@ import pulltorefresh.widget.XListView;
  * Created by i308844 on 8/12/14.
  */
 public abstract class BaseArchiveListFragment extends CSTBaseFragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, XListView.IXListViewListener,
+        implements LoaderManager.LoaderCallbacks<Cursor>,
         AdapterView.OnItemClickListener {
 
     public static final String INTENT_ID = "id";
@@ -61,15 +63,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
-//    private LayoutInflater mInflater;
-
-    private XListView mListView;
-
-//    private View mFooter;
-//
-//    private ProgressBar mLoadMorePrgb;
-//
-//    private TextView mLoadMoreHint;
+    private PullToRefreshListView listView;
 
     private ArchiveListAdapter mAdapter;
 
@@ -118,75 +112,45 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     @Override
     protected void initComponent(View view) {
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-//        mSwipeRefreshLayout
-//                .setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-//                        R.color.lightcoral);
-        mListView = (XListView) view.findViewById(R.id.simple_list);
 
-//        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
-//        mListView.addFooterView(mFooter);
-//        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
-//        mLoadMorePrgb.setVisibility(View.GONE);
-//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
-        ViewTreeObserver observer = view.getViewTreeObserver();
-//        observer.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-//            @Override
-//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//                if (mIsFirst) {
-//                    mListView.autoRefresh();
-//                    mIsFirst = false;
-//                }
-//            }
-//        });
-//        mListView.autoRefresh();
-
-//        requestData();
-        bindAdapter();
-        setUpListener();
-        initHandler();
-        if (mIsFirst) {
-//            mListView.autoRefresh();
-//            rHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-                    requestData();
-                    mAdapter.notifyDataSetChanged();
-                    onLoad();
-//                }
-//            }, 1000);
-            mIsFirst = false;
-        }
-    }
-
-    @Override
-    public void onRefresh() {
-        isLoadMore = false;
-        isMoreData = true;
-//        mListView.setPullLoadEnable(true);
-        rHandler.postDelayed(new Runnable() {
+//        mListView = (XListView) view.findViewById(R.id.simple_list);
+        listView = (PullToRefreshListView) view.findViewById(R.id.base_archive_lv);
+        listView.setOnItemClickListener(this);
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void run() {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // Update the LastUpdatedLabel
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(TSUtil.getTime());
+
+                // Do work to refresh the list here.
+                isLoadMore = false;
                 requestData();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
             }
-        }, 1000);
-    }
 
-    @Override
-    public void onLoadMore() {
-        isLoadMore = true;
-        rHandler.postDelayed(new Runnable() {
             @Override
-            public void run() {
-                startLoadMore();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isLoadMore = true;
+                requestData();
             }
-        }, 1000);
+        });
 
+        bindAdapter();
+//        setUpListener();
+        initHandler();
+//        if (mIsFirst) {
+////            mListView.autoRefresh();
+////            rHandler.postDelayed(new Runnable() {
+////                @Override
+////                public void run() {
+//                    requestData();
+//                    mAdapter.notifyDataSetChanged();
+//                    onLoad();
+////                }
+////            }, 1000);
+//            mIsFirst = false;
+//        }
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -220,19 +184,9 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private void bindAdapter() {
         mAdapter = new ArchiveListAdapter(getActivity(), null);
-        mListView.setAdapter(mAdapter);
+        listView.setAdapter(mAdapter);
     }
 
-    private void setUpListener() {
-        mListView.setOnItemClickListener(this);
-//        mFooter.setOnClickListener(this);
-        mListView.setPullRefreshEnable(true);
-        mListView.setPullLoadEnable(true);
-        mListView.setAutoLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mListView.setRefreshTime(TSUtil.getTime());
-//        mSwipeRefreshLayout.setOnRefreshListener(this);
-    }
 
     private void initHandler() {
         mHandler = new Handler() {
@@ -241,7 +195,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 if (getActivity() != null) {
                     switch (msg.what) {
                         case Constants.STATUS_REQUEST_SUCCESS:
-                            resetLoadingState();
+//                            resetLoadingState();
                             break;
 
                         case Constants.STATUS_NOT_LOGIN:
@@ -256,6 +210,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                             CSTHttpUtil.dispose(msg.what, getActivity());
                             break;
                     }
+                    listView.onRefreshComplete();
 //                    mSwipeRefreshLayout.setRefreshing(false);
 //                    mLoadMorePrgb.setVisibility(View.GONE);
                 }
@@ -264,15 +219,10 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     }
 
     private void requestData() {
-//        if (NetworkConnection.isNetworkConnected(getActivity())) {
         if (isLoadMore) {
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-//            if (mIsFirst) {
-//                mListView.autoRefresh();
-//                mIsFirst = false;
-//            }
         }
         ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
                 !isLoadMore) {
@@ -285,13 +235,9 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 try {
                     if (isLoadMore) {
                         isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-//                        if (!isMoreData) {
-//                            Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
-//                            mListView.setPullLoadEnable(false);
-//                        }
                     }
                     msg.what = response.getInt("status");
-                    resetLoadingState();
+//                    resetLoadingState();
                     mHandler.sendMessage(msg);
 
                 } catch (JSONException e) {
@@ -313,34 +259,6 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 .setPageSize(DEFAULT_PAGE_SIZE);
 
         mEngine.requestJson(archiveRequest);
-//        }else{
-//            Message msg = mHandler.obtainMessage();
-//            msg.what = Constants.NETWORK_NOT_CONNECTED;
-//            mHandler.sendMessage(msg);
-//        }
     }
 
-    private void startLoadMore() {
-        isLoadMore = true;
-//        mLoadMorePrgb.setVisibility(View.VISIBLE);
-//        mLoadMoreHint.setText(R.string.loading);
-        requestData();
-    }
-
-    private void resetLoadingState() {
-//        mSwipeRefreshLayout.setRefreshing(false);
-//        mLoadMorePrgb.setVisibility(View.GONE);
-//        if (isLoadMore && !isMoreData) {
-//            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
-//        } else {
-//            mLoadMoreHint.setText(R.string.footer_loading_hint);
-//        }
-        mListView.stopRefresh();
-    }
-
-    private void onLoad() {
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
-        mListView.setRefreshTime(TSUtil.getTime());
-    }
 }
