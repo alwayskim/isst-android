@@ -8,12 +8,15 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,7 @@ import cn.edu.zju.isst1.v2.net.CSTStatusInfo;
 import cn.edu.zju.isst1.v2.user.data.CSTUser;
 import cn.edu.zju.isst1.v2.user.data.CSTUserDataDelegate;
 import cn.edu.zju.isst1.v2.user.data.CSTUserProvider;
+import cn.edu.zju.isst1.widget.NewSwipeRefreshLayout;
 import pulltorefresh.widget.XListView;
 
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
@@ -53,8 +57,7 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_REQUEST_SUCCESS;
  * Created by always on 25/08/2014.
  */
 public class CSTCityEventListFragment extends CSTBaseFragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, XListView.IXListViewListener,
-        AdapterView.OnItemClickListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
     private static CSTCityEventListFragment INSTANCE = new CSTCityEventListFragment();
 
@@ -84,7 +87,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     private Handler mHandler;
 
-    private XListView mListView;
+    private ListView listView;
 
     private Handler rHandler;
 
@@ -98,7 +101,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     private CityEventListAdapter mAdapter;
 
-//    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private NewSwipeRefreshLayout mSwipeRefreshLayout;
 
     public CSTCityEventListFragment() {
 
@@ -121,8 +124,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        mInflater = inflater;
-        return inflater.inflate(R.layout.list_fragment, container, false);
+        return inflater.inflate(R.layout.new_swipe_to_refresh, container, false);
     }
 
     @Override
@@ -130,12 +132,13 @@ public class CSTCityEventListFragment extends CSTBaseFragment
         super.onViewCreated(view, savedInstanceState);
 
         initComponent(view);
-
+        bindAdapter();
         getLoaderManager().initLoader(0, null, this);
-
         if (mIsFirst) {
             getCityId();
-            onRefresh();
+            isLoadMore = false;
+            mSwipeRefreshLayout.setRefreshing(true);
+            requestData();
             mIsFirst = false;
         }
     }
@@ -143,25 +146,41 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     @Override
     protected void initComponent(View view) {
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-//                R.color.lightcoral);
-        mListView = (XListView) view.findViewById(R.id.simple_list);
-//        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
-//        mListView.addFooterView(mFooter);
-//        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
-//        mLoadMorePrgb.setVisibility(View.GONE);
-//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
-//        requestData();
-        bindAdapter();
-        setUpListener();
+        listView = (ListView) view.findViewById(R.id.listview);
+        mSwipeRefreshLayout = (NewSwipeRefreshLayout) view.findViewById(R.id.fragment_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorScheme(R.color.red,
+                R.color.blueviolet, R.color.green, R.color.white);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!mSwipeRefreshLayout.isLoading()) {
+                    isLoadMore = false;
+                    requestData();
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
+
+        mSwipeRefreshLayout.setOnLoadListener(new NewSwipeRefreshLayout.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                isLoadMore = true;
+                requestData();
+            }
+        });
         initHandler();
+        listView.setOnItemClickListener(this);
     }
 
+    private void bindAdapter() {
+        mAdapter = new CityEventListAdapter(mContext, null);
+        listView.setAdapter(mAdapter);
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return CSTCityEventDataDelegate.getDataCursor(getActivity(), null, null, null,
+        return CSTCityEventDataDelegate.getDataCursor(mContext, null, null, null,
                 CSTCityEventProvider.Columns.UPDATEAT.key + " DESC");
     }
 
@@ -177,90 +196,40 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), CityEventDetailActivity.class);
+        Intent intent = new Intent(mContext, CityEventDetailActivity.class);
 
         intent.putExtra(EVENT_ID, ((CSTCityEvent) view.getTag()).id);
         intent.putExtra(CITY_ID, ((CSTCityEvent) view.getTag()).cityId);
         intent.putExtra(EVENT_TITLE, ((CSTCityEvent) view.getTag()).title);
-        getActivity().startActivity(intent);
-    }
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.loadmore_footer:
-//                startLoadMore();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
-    @Override
-    public void onRefresh() {
-        isLoadMore = false;
-        isMoreData = true;
-//        mListView.setPullLoadEnable(true);
-        rHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                requestData();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
-            }
-        }, 1000);
-    }
-
-    @Override
-    public void onLoadMore() {
-        isLoadMore = true;
-        rHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startLoadMore();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
-            }
-        }, 1000);
-    }
-
-    private void bindAdapter() {
-        mAdapter = new CityEventListAdapter(getActivity(), null);
-        mListView.setAdapter(mAdapter);
-    }
-
-    private void setUpListener() {
-        mListView.setOnItemClickListener(this);
-        mListView.setPullRefreshEnable(true);
-        mListView.setPullLoadEnable(true);
-        mListView.setAutoLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mListView.setRefreshTime(TSUtil.getTime());
-//        mFooter.setOnClickListener(this);
-//        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mContext.startActivity(intent);
     }
 
     private void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (getActivity() != null) {
+                if (mContext != null) {
                     switch (msg.what) {
                         case STATUS_REQUEST_SUCCESS:
-//                            mSwipeRefreshLayout.setRefreshing(false);
                             break;
                         case STATUS_NOT_LOGIN:
-                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            UpDateLogin.getInstance().updateLogin(mContext);
                             Lgr.i("CSTCityEventListFragment ----！------更新登录了-------！");
                             if (isLoadMore) {
                                 mCurrentPage--;
                             }
                             requestData();
                         default:
-                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            CSTHttpUtil.dispose(msg.what, mContext);
                             break;
                     }
-                    resetLoadingState();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mSwipeRefreshLayout.setLoading(false);
+                        }
+                    }, 1000);
                 }
             }
         };
@@ -268,7 +237,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
 
     private int getCityId() {
         ArrayList<CSTUser> users = new ArrayList<CSTUser>();
-        Cursor cursor = getActivity().getContentResolver()
+        Cursor cursor = mContext.getContentResolver()
                 .query(CSTUserProvider.CONTENT_URI, null, null, null, null);
         cursor.moveToFirst();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -290,8 +259,8 @@ public class CSTCityEventListFragment extends CSTBaseFragment
             mCurrentPage = 1;
 //            mSwipeRefreshLayout.setRefreshing(true);
         }
-        if (NetworkConnection.isNetworkConnected(getActivity())) {
-            CityEventResponse eventResponse = new CityEventResponse(getActivity(),
+        if (NetworkConnection.isNetworkConnected(mContext)) {
+            CityEventResponse eventResponse = new CityEventResponse(mContext,
                     !isLoadMore) {
                 @Override
                 public void onResponse(JSONObject result) {
@@ -334,29 +303,6 @@ public class CSTCityEventListFragment extends CSTBaseFragment
             msg.what = NETWORK_NOT_CONNECTED;
             mHandler.sendMessage(msg);
         }
-    }
-
-    private void startLoadMore() {
-        isLoadMore = true;
-//        mLoadMorePrgb.setVisibility(View.VISIBLE);
-//        mLoadMoreHint.setText(R.string.loading);
-        requestData();
-    }
-
-    private void resetLoadingState() {
-//        mSwipeRefreshLayout.setRefreshing(false);
-//        mLoadMorePrgb.setVisibility(View.GONE);
-//        if (isLoadMore && !isMoreData) {
-//            mLoadMoreHint.setText(R.string.footer_loading_hint_no_more_data);
-//        } else {
-//            mLoadMoreHint.setText(R.string.footer_loading_hint);
-//        }
-    }
-
-    private void onLoad() {
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
-        mListView.setRefreshTime(TSUtil.getTime());
     }
 
     public class CityEventListAdapter extends CursorAdapter {

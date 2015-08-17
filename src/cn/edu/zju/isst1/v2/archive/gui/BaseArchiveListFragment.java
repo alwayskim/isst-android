@@ -164,7 +164,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return CSTArchiveDataDelegate.getDataCursor(getActivity(),
+        return CSTArchiveDataDelegate.getDataCursor(mContext,
                 null,
                 CSTArchiveProvider.Columns.CATEGORY_ID.key + " = ?",
                 new String[]{
@@ -185,15 +185,15 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), ArchiveDetailActivity.class);
+        Intent intent = new Intent(mContext, ArchiveDetailActivity.class);
         intent.putExtra(INTENT_ID, ((CSTArchive) view.getTag()).id);
-        getActivity().startActivity(intent);
+        mContext.startActivity(intent);
     }
 
     protected abstract void setCategory();
 
     private void bindAdapter() {
-        mAdapter = new ArchiveListAdapter(getActivity(), null);
+        mAdapter = new ArchiveListAdapter(mContext, null);
         listView.setAdapter(mAdapter);
     }
 
@@ -202,13 +202,13 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (getActivity() != null) {
+                if (mContext != null) {
                     switch (msg.what) {
                         case Constants.STATUS_REQUEST_SUCCESS:
                             break;
 
                         case Constants.STATUS_NOT_LOGIN:
-                            UpDateLogin.getInstance().updateLogin(getActivity());
+                            UpDateLogin.getInstance().updateLogin(mContext);
                             Lgr.i("BaseArchiListFragment ----！------更新登录了-------！");
                             if (isLoadMore) {
                                 mCurrentPage--;
@@ -216,7 +216,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                             requestData();
                             break;
                         default:
-                            CSTHttpUtil.dispose(msg.what, getActivity());
+                            CSTHttpUtil.dispose(msg.what, mContext);
                             break;
                     }
                     new Handler().postDelayed(new Runnable() {
@@ -225,7 +225,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                             mSwipeRefreshLayout.setRefreshing(false);
                             mSwipeRefreshLayout.setLoading(false);
                         }
-                    }, 1500);
+                    }, 1000);
                 }
             }
         };
@@ -237,7 +237,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         } else {
             mCurrentPage = 1;
         }
-        ArchiveResponse archiveResponse = new ArchiveResponse(getActivity(), mCategory,
+        ArchiveResponse archiveResponse = new ArchiveResponse(mContext, mCategory,
                 !isLoadMore) {
             @Override
             public void onResponse(JSONObject response) {

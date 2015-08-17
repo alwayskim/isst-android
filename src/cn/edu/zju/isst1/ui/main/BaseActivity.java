@@ -172,7 +172,7 @@ public class BaseActivity extends FragmentActivity implements LoginSimulation,
             case EXCEPTION_IO:
             case EXCEPTION_JSON:
             case EXCEPTION_CLASSCAST:
-                CroMan.showAlert(BaseActivity.this, R.string.exception);
+//                CroMan.showAlert(BaseActivity.this, R.string.exception);
                 break;
 
             default:

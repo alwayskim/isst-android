@@ -215,7 +215,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                         mSwipeRefreshLayout.setRefreshing(false);
                         mSwipeRefreshLayout.setLoading(false);
                     }
-                }, 1500);
+                }, 1000);
             }
         };
 

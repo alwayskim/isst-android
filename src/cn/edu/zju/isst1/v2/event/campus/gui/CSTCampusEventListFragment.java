@@ -113,6 +113,12 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
 
         initComponent(view);
         getLoaderManager().initLoader(0, null, this);
+        if (mIsFirst) {
+            isLoadMore = false;
+            mSwipeRefreshLayout.setRefreshing(true);
+            requestData();
+            mIsFirst = false;
+        }
     }
 
     @Override
@@ -144,12 +150,6 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
         initHandler();
-        if (mIsFirst) {
-            isLoadMore = false;
-            mSwipeRefreshLayout.setRefreshing(true);
-            requestData();
-            mIsFirst = false;
-        }
     }
 
 
@@ -202,7 +202,7 @@ public class CSTCampusEventListFragment extends CSTBaseFragment
                             mSwipeRefreshLayout.setRefreshing(false);
                             mSwipeRefreshLayout.setLoading(false);
                         }
-                    },1500);
+                    },1000);
                 }
             }
         };
