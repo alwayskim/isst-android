@@ -117,7 +117,7 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
         mListView.addFooterView(mFooter);
         mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
         mLoadMorePrgb.setVisibility(View.GONE);
-        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
+//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
     }
 
     void setUpListener() {
@@ -225,14 +225,14 @@ public class CityEventParticipantsListFragment extends CSTBaseFragment implement
     private void startLoadMore() {
         isLoadMore = true;
         mLoadMorePrgb.setVisibility(View.VISIBLE);
-        mLoadMoreHint.setText(R.string.loading);
+//        mLoadMoreHint.setText(R.string.loading);
         requestData();
     }
 
     private void resetLoadingState() {
         mSwipeRefreshLayout.setRefreshing(false);
         mLoadMorePrgb.setVisibility(View.GONE);
-        mLoadMoreHint.setText(R.string.footer_loading_hint);
+//        mLoadMoreHint.setText(R.string.footer_loading_hint);
 
     }
 

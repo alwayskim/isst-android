@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
 import cn.edu.zju.isst1.v2.net.CSTNetworkEngine;
 import cn.edu.zju.isst1.v2.net.CSTRequest;
+import cn.edu.zju.isst1.widget.NewSwipeRefreshLayout;
 import pulltorefresh.widget.XListView;
 
 /**
@@ -59,11 +61,15 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     public static final String ARCHIVE_URL = "/api/archives/categories";
 
+    public static final String TAG = "BaseArchiveListFragment";
+
     protected ArchiveCategory mCategory;
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
-    private PullToRefreshListView listView;
+    private NewSwipeRefreshLayout mSwipeRefreshLayout;
+
+    ListView listView;
 
     private ArchiveListAdapter mAdapter;
 
@@ -100,7 +106,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        mInflater = inflater;
-        return inflater.inflate(R.layout.base_archive_list_fragment, container, false);
+        return inflater.inflate(R.layout.new_swipe_to_refresh, container, false);
     }
 
     @Override
@@ -108,47 +114,51 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
         super.onViewCreated(view, savedInstanceState);
         initComponent(view);
         getLoaderManager().initLoader(0, null, this);
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                listView.setRefreshing();
+//            }
+//        }, 500);
     }
 
     @Override
     protected void initComponent(View view) {
-
-//        mListView = (XListView) view.findViewById(R.id.simple_list);
-        listView = (PullToRefreshListView) view.findViewById(R.id.base_archive_lv);
-        listView.setOnItemClickListener(this);
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        listView = (ListView) view.findViewById(R.id.listview);
+        mSwipeRefreshLayout = (NewSwipeRefreshLayout) view.findViewById(R.id.fragment_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorScheme(R.color.red,
+                R.color.blueviolet, R.color.green, R.color.white);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                // Update the LastUpdatedLabel
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(TSUtil.getTime());
-
-                // Do work to refresh the list here.
-                isLoadMore = false;
-                requestData();
+            public void onRefresh() {
+                Log.i(TAG, "onRefresh()");
+                if (!mSwipeRefreshLayout.isLoading()) {
+                    isLoadMore = false;
+                    requestData();
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
+        });
 
+        mSwipeRefreshLayout.setOnLoadListener(new NewSwipeRefreshLayout.OnLoadListener() {
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onLoad() {
                 isLoadMore = true;
                 requestData();
             }
         });
-
         bindAdapter();
-//        setUpListener();
         initHandler();
-//        if (mIsFirst) {
-////            mListView.autoRefresh();
-////            rHandler.postDelayed(new Runnable() {
-////                @Override
-////                public void run() {
-//                    requestData();
-//                    mAdapter.notifyDataSetChanged();
-//                    onLoad();
-////                }
-////            }, 1000);
-//            mIsFirst = false;
-//        }
+        listView.setOnItemClickListener(this);
+        if (mIsFirst) {
+            Log.i(TAG, "first force set Refreshing");
+            isLoadMore = false;
+            mSwipeRefreshLayout.setRefreshing(true);
+            requestData();
+            mIsFirst = false;
+        }
     }
 
 
@@ -195,7 +205,6 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 if (getActivity() != null) {
                     switch (msg.what) {
                         case Constants.STATUS_REQUEST_SUCCESS:
-//                            resetLoadingState();
                             break;
 
                         case Constants.STATUS_NOT_LOGIN:
@@ -210,9 +219,13 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                             CSTHttpUtil.dispose(msg.what, getActivity());
                             break;
                     }
-                    listView.onRefreshComplete();
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                    mLoadMorePrgb.setVisibility(View.GONE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mSwipeRefreshLayout.setLoading(false);
+                        }
+                    }, 1500);
                 }
             }
         };

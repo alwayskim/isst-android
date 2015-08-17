@@ -177,10 +177,10 @@ public class BaseArchiveListFragment extends ListFragment implements
             }
         }, 0);
 
-//		if (m_bIsFirstTime) {
-////			requestData(LoadType.REFRESH);
-//			m_bIsFirstTime = false;
-//		}
+		if (m_bIsFirstTime) {
+    //			requestData(LoadType.REFRESH);
+			m_bIsFirstTime = false;
+		}
 
     }
 

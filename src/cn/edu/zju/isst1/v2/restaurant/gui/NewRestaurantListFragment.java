@@ -48,6 +48,7 @@ import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantDataDelegate;
 import cn.edu.zju.isst1.v2.restaurant.data.CSTRestaurantProvider;
 import cn.edu.zju.isst1.v2.restaurant.net.RestaurantRequest;
 import cn.edu.zju.isst1.v2.restaurant.net.RestaurantResponse;
+import cn.edu.zju.isst1.widget.NewSwipeRefreshLayout;
 import pulltorefresh.widget.XListView;
 
 import static cn.edu.zju.isst1.constant.Constants.*;
@@ -58,7 +59,9 @@ import static cn.edu.zju.isst1.constant.Constants.*;
 public class NewRestaurantListFragment extends CSTBaseFragment
         implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
-    private PullToRefreshListView listView;
+    private ListView listView;
+
+    private NewSwipeRefreshLayout mSwipeRefreshLayout;
 
     private int mCurrentPage = 1;
 
@@ -107,7 +110,7 @@ public class NewRestaurantListFragment extends CSTBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        mInflater = inflater;
-        return inflater.inflate(R.layout.base_archive_list_fragment, container, false);
+        return inflater.inflate(R.layout.new_swipe_to_refresh, container, false);
     }
 
     @Override
@@ -121,36 +124,41 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
     @Override
     protected void initComponent(View view) {
-        listView = (PullToRefreshListView) view.findViewById(R.id.base_archive_lv);
-        listView.setOnItemClickListener(this);
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                // Update the LastUpdatedLabel
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(TSUtil.getTime());
 
-                // Do work to refresh the list here.
-                isLoadMore = false;
-                requestData();
+
+        listView = (ListView) view.findViewById(R.id.listview);
+        mSwipeRefreshLayout = (NewSwipeRefreshLayout) view.findViewById(R.id.fragment_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorScheme(R.color.red,
+                R.color.blueviolet, R.color.green, R.color.white);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!mSwipeRefreshLayout.isLoading()) {
+                    isLoadMore = false;
+                    requestData();
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
-
+        });
+        mSwipeRefreshLayout.setOnLoadListener(new NewSwipeRefreshLayout.OnLoadListener() {
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onLoad() {
                 isLoadMore = true;
                 requestData();
             }
         });
-
-        bindAdapter();
+        mAdapter = new RestaurantListAdapter(mContext, null);
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
         initHandler();
         if (mIsFirst) {
-            listView.setRefreshing();
+            isLoadMore = false;
+            mSwipeRefreshLayout.setRefreshing(true);
+            requestData();
             mIsFirst = false;
         }
     }
-
-
-
 
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -178,12 +186,6 @@ public class NewRestaurantListFragment extends CSTBaseFragment
         mContext.startActivity(intent);
     }
 
-    private void bindAdapter() {
-
-        mAdapter = new RestaurantListAdapter(mContext, null);
-        listView.setAdapter(mAdapter);
-
-    }
 
     private void initHandler() {
         mHandler = new Handler() {
@@ -207,7 +209,13 @@ public class NewRestaurantListFragment extends CSTBaseFragment
 
                         break;
                 }
-                listView.onRefreshComplete();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setLoading(false);
+                    }
+                }, 1500);
             }
         };
 
@@ -218,7 +226,6 @@ public class NewRestaurantListFragment extends CSTBaseFragment
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-//            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(mContext)) {
             RestaurantResponse resResponse = new RestaurantResponse(mContext, !isLoadMore) {

@@ -4,21 +4,14 @@
     android:id="@+id/loadmore_footer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="30dp"
     android:gravity="center"
     android:orientation="horizontal">
 
     <ProgressBar
         android:id="@+id/footer_loading_progress"
+        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/footer_loading_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/footer_loading_hint"
-        android:textSize="@dimen/text_size_middle" />
 
 </LinearLayout>
