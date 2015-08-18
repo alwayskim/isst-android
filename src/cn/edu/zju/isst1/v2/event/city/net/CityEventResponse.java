@@ -23,11 +23,13 @@ public class CityEventResponse extends CSTJsonResponse {
 
     @Override
     public void onResponse(JSONObject response) {
-        CSTCityEvent event = (CSTCityEvent) CSTJsonParser
-                .parseJson(response, new CSTCityEvent());
-        if (clearDatabase) {
-            CSTCityEventDataDelegate.deleteAllCityEvent(mContext);
+        if (response != null) {
+            CSTCityEvent event = (CSTCityEvent) CSTJsonParser
+                    .parseJson(response, new CSTCityEvent());
+            if (clearDatabase) {
+                CSTCityEventDataDelegate.deleteAllCityEvent(mContext);
+            }
+            CSTCityEventDataDelegate.saveCityEventListValues(mContext, event);
         }
-        CSTCityEventDataDelegate.saveCityEventListValues(mContext, event);
     }
 }

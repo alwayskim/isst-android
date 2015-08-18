@@ -26,18 +26,20 @@ public class ContactResponse extends CSTJsonResponse {
 
     @Override
     public void onResponse(JSONObject response) {
-        CSTAlumni alumni = (CSTAlumni) CSTJsonParser.parseJson(response, new CSTAlumni());
-        if (clearDatabase) {
-            if (mFilterType == BaseContactListFragment.FilterType.MY_CITY) {
-                CSTAlumniDataDelegate.deleteAllAlumni(mContext);
-            } else {
-                CSTAddressListDataDelegate.deleteAllAlumni(mContext);
+        if (response != null) {
+            CSTAlumni alumni = (CSTAlumni) CSTJsonParser.parseJson(response, new CSTAlumni());
+            if (clearDatabase) {
+                if (mFilterType == BaseContactListFragment.FilterType.MY_CITY) {
+                    CSTAlumniDataDelegate.deleteAllAlumni(mContext);
+                } else {
+                    CSTAddressListDataDelegate.deleteAllAlumni(mContext);
+                }
             }
-        }
-        if (mFilterType == BaseContactListFragment.FilterType.MY_CITY) {
-            CSTAlumniDataDelegate.saveAlumniList(mContext, alumni);
-        } else {
-            CSTAddressListDataDelegate.saveAlumniList(mContext, alumni);
+            if (mFilterType == BaseContactListFragment.FilterType.MY_CITY) {
+                CSTAlumniDataDelegate.saveAlumniList(mContext, alumni);
+            } else {
+                CSTAddressListDataDelegate.saveAlumniList(mContext, alumni);
+            }
         }
     }
 }

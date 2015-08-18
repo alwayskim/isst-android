@@ -29,18 +29,20 @@ public class ArchiveResponse extends CSTJsonResponse {
 
     @Override
     public void onResponse(JSONObject response) {
-        CSTArchive archive = (CSTArchive) CSTJsonParser.parseJson(response, new CSTArchive());
-        if (archive.getStatusInfo().status != Constants.STATUS_REQUEST_SUCCESS) {
-            onErrorStatus(archive.getStatusInfo());
-            return;
+        if (response != null) {
+            CSTArchive archive = (CSTArchive) CSTJsonParser.parseJson(response, new CSTArchive());
+            if (archive.getStatusInfo().status != Constants.STATUS_REQUEST_SUCCESS) {
+                onErrorStatus(archive.getStatusInfo());
+                return;
+            }
+            if (isClearDatabase) {
+                CSTArchiveDataDelegate.delete(mContext,
+                        CSTArchiveProvider.Columns.CATEGORY_ID.key + " = ?",
+                        new String[]{
+                                "" + mCategory.id
+                        });
+            }
+            CSTArchiveDataDelegate.saveArchiveList(mContext, archive);
         }
-        if (isClearDatabase) {
-            CSTArchiveDataDelegate.delete(mContext,
-                    CSTArchiveProvider.Columns.CATEGORY_ID.key + " = ?",
-                    new String[]{
-                            "" + mCategory.id
-                    });
-        }
-        CSTArchiveDataDelegate.saveArchiveList(mContext, archive);
     }
 }

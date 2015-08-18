@@ -10,28 +10,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.android.volley.VolleyError;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import cn.edu.zju.isst1.R;
 import cn.edu.zju.isst1.constant.Constants;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.settings.CSTSettings;
 import cn.edu.zju.isst1.ui.main.BaseActivity;
 import cn.edu.zju.isst1.util.CroMan;
-import cn.edu.zju.isst1.util.TSUtil;
 import cn.edu.zju.isst1.v2.data.CSTJsonParser;
 import cn.edu.zju.isst1.v2.login.net.UpDateLogin;
 import cn.edu.zju.isst1.v2.net.CSTHttpUtil;
@@ -42,8 +34,7 @@ import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageDataDelegate;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.CSTMessageProvider;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.net.PushMessageRequest;
 import cn.edu.zju.isst1.v2.usercenter.messagecenter.net.PushMessageResponse;
-import pulltorefresh.widget.XListView;
-
+import cn.edu.zju.isst1.widget.NewSwipeRefreshLayout;
 import static cn.edu.zju.isst1.constant.Constants.NETWORK_NOT_CONNECTED;
 import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
 
@@ -51,13 +42,9 @@ import static cn.edu.zju.isst1.constant.Constants.STATUS_NOT_LOGIN;
  * @author theasir
  */
 public class PushMessagesActivity extends BaseActivity implements
-        XListView.IXListViewListener, LoaderManager.LoaderCallbacks<Cursor> {
+       LoaderManager.LoaderCallbacks<Cursor> {
 
     private Handler mHandler;
-
-//    private ListView mListView;
-
-//    private LayoutInflater mInflater;
 
     private CSTMessage mMessageList;
 
@@ -65,38 +52,28 @@ public class PushMessagesActivity extends BaseActivity implements
 
     private int DEFAULT_PAGE_SIZE = 20;
 
-    private boolean mIsFirstTime;
+    private boolean mIsFirst;
 
     private boolean isLoadMore = false;
 
     private boolean isMoreData = false;
 
-    private Handler rHandler;
-
-//    private View mFooter;
-//
-//    private ProgressBar mLoadMorePrgb;
-//
-//    private TextView mLoadMoreHint;
-
     private static final String MESSAGE_URL = "/api/messages";
 
     private CSTNetworkEngine mEngine = CSTNetworkEngine.getInstance();
 
-//    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private NewSwipeRefreshLayout mSwipeRefreshLayout;
 
-    private XListView mListView;
+    private ListView listView;
 
     private PushMessageAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_archive_list_fragment);
+        setContentView(R.layout.new_swipe_to_refresh);
 
-        mIsFirstTime = true;
-
-        rHandler = new Handler();
+        mIsFirst = true;
 
         CSTSettings.setPushActivityOn(true, this);
 
@@ -106,31 +83,14 @@ public class PushMessagesActivity extends BaseActivity implements
 
         initComponent();
 
-        if (mIsFirstTime) {
-            requestData();
-            mIsFirstTime = false;
-        }
-
         bindAdapter();
-
-        setUpListener();
-
         initHandler();
-
-        if (mIsFirstTime) {
-//            mListView.autoRefresh();
-            rHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    requestData();
-                    mAdapter.notifyDataSetChanged();
-                    onLoad();
-                }
-            }, 1000);
-            mIsFirstTime = false;
+        if (mIsFirst) {
+            isLoadMore = false;
+            mSwipeRefreshLayout.setRefreshing(true);
+            requestData();
+            mIsFirst = false;
         }
-
-
     }
 
     @Override
@@ -159,38 +119,29 @@ public class PushMessagesActivity extends BaseActivity implements
 
     private void initComponent() {
 
-//        mInflater = LayoutInflater.from(this);
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-//        mSwipeRefreshLayout.setColorScheme(R.color.deepskyblue, R.color.darkorange, R.color.darkviolet,
-//                R.color.lightcoral);
-        mListView = (XListView) findViewById(R.id.simple_list);
-//        mFooter = mInflater.inflate(R.layout.loadmore_footer, mListView, false);
-//        mListView.addFooterView(mFooter);
-//        mLoadMorePrgb = (ProgressBar) mFooter.findViewById(R.id.footer_loading_progress);
-//        mLoadMorePrgb.setVisibility(ProgressBar.GONE);
-//        mLoadMoreHint = (TextView) mFooter.findViewById(R.id.footer_loading_hint);
-    }
+        listView = (ListView) findViewById(R.id.listview);
+        mSwipeRefreshLayout = (NewSwipeRefreshLayout) findViewById(R.id.fragment_swipe_refresh_layout);
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.loadmore_footer:
-//                startLoadMore();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
-    public void startLoadMore() {
-        isLoadMore = true;
-//        mLoadMorePrgb.setVisibility(ProgressBar.VISIBLE);
-//        mLoadMoreHint.setText(R.string.loading);
-        requestData();
-    }
-
-    public void resetLoadingState() {
-        mListView.stopRefresh();
+        mSwipeRefreshLayout.setColorScheme(R.color.red,
+                R.color.blueviolet, R.color.green, R.color.white);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!mSwipeRefreshLayout.isLoading()) {
+                    isLoadMore = false;
+                    requestData();
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
+        mSwipeRefreshLayout.setOnLoadListener(new NewSwipeRefreshLayout.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                isLoadMore = true;
+                requestData();
+            }
+        });
     }
 
     public void requestData() {
@@ -198,7 +149,6 @@ public class PushMessagesActivity extends BaseActivity implements
             mCurrentPage++;
         } else {
             mCurrentPage = 1;
-//            mSwipeRefreshLayout.setRefreshing(true);
         }
         if (NetworkConnection.isNetworkConnected(this)) {
             PushMessageResponse pmResponse = new PushMessageResponse(this, !isLoadMore) {
@@ -219,7 +169,6 @@ public class PushMessagesActivity extends BaseActivity implements
                     }
                     Message msg = mHandler.obtainMessage();
                     msg.what = Constants.STATUS_REQUEST_SUCCESS;
-                    resetLoadingState();
                     mHandler.sendMessage(msg);
                 }
 
@@ -246,16 +195,6 @@ public class PushMessagesActivity extends BaseActivity implements
         }
     }
 
-    private void setUpListener() {
-//        mSwipeRefreshLayout.setOnRefreshListener(this);
-//        mFooter.setOnClickListener(this);
-//        mListView.setOnItemClickListener(this);
-        mListView.setPullRefreshEnable(true);
-        mListView.setPullLoadEnable(true);
-        mListView.setAutoLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mListView.setRefreshTime(TSUtil.getTime());
-    }
 
     private void initHandler() {
         mHandler = new Handler() {
@@ -263,8 +202,6 @@ public class PushMessagesActivity extends BaseActivity implements
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.STATUS_REQUEST_SUCCESS:
-//                        mSwipeRefreshLayout.setRefreshing(false);
-                        resetLoadingState();
                         break;
                     case STATUS_NOT_LOGIN:
                         UpDateLogin.getInstance().updateLogin(PushMessagesActivity.this);
@@ -278,48 +215,23 @@ public class PushMessagesActivity extends BaseActivity implements
                         CSTHttpUtil.dispose(msg.what, PushMessagesActivity.this);
                         break;
                 }
-//                resetLoadingState();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setLoading(false);
+                    }
+                }, 1000);
             }
         };
-
     }
 
-    @Override
-    public void onRefresh() {
-        isLoadMore = false;
-        isMoreData = true;
-        rHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                requestData();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
-            }
-        }, 1000);
-    }
 
-    @Override
-    public void onLoadMore() {
-        isLoadMore = true;
-        rHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startLoadMore();
-                mAdapter.notifyDataSetChanged();
-                onLoad();
-            }
-        }, 1000);
-    }
 
-    private void onLoad() {
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
-        mListView.setRefreshTime(TSUtil.getTime());
-    }
 
     private void bindAdapter() {
         mAdapter = new PushMessageAdapter(PushMessagesActivity.this, null);
-        mListView.setAdapter(mAdapter);
+        listView.setAdapter(mAdapter);
     }
 
     @Override

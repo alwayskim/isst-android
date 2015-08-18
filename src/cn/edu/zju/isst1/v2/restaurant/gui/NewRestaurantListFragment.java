@@ -197,11 +197,16 @@ public class NewRestaurantListFragment extends CSTBaseFragment
                     case STATUS_NOT_LOGIN:
 
                         UpDateLogin.getInstance().updateLogin(mContext);
+                        if (isLoadMore) {
+                            mCurrentPage--;
+                        }
                         requestData();
+                        break;
 
                     case NETWORK_NOT_CONNECTED:
 
                         CroMan.showAlert(mContext, R.string.network_not_connected);
+                        break;
 
                     default:
 

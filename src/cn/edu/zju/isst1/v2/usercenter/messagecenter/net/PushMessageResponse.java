@@ -25,10 +25,12 @@ public class PushMessageResponse extends CSTJsonResponse{
     @Override
     public void onResponse(JSONObject response) {
         super.onResponse(response);
-        CSTMessage message = (CSTMessage) CSTJsonParser.parseJson(response, new CSTMessage());
-        if (isClearDatabase) {
-            CSTMessageDataDelegate.deleteAllMessage(mContext);
+        if (response != null) {
+            CSTMessage message = (CSTMessage) CSTJsonParser.parseJson(response, new CSTMessage());
+            if (isClearDatabase) {
+                CSTMessageDataDelegate.deleteAllMessage(mContext);
+            }
+            CSTMessageDataDelegate.saveMessageList(mContext, message);
         }
-        CSTMessageDataDelegate.saveMessageList(mContext, message);
     }
 }

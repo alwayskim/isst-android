@@ -76,6 +76,9 @@ public class Judge {
 
     public static boolean isValidJsonValue(String key, JSONObject jsonObject)
             throws JSONException {
-        return jsonObject.has(key) && !isNullOrEmpty(jsonObject.get(key));
+        if (jsonObject != null) {
+            return jsonObject.has(key) && !isNullOrEmpty(jsonObject.get(key));
+        }
+        return false;
     }
 }

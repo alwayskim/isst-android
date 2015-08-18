@@ -69,7 +69,7 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
 
     private NewSwipeRefreshLayout mSwipeRefreshLayout;
 
-    ListView listView;
+    private ListView listView;
 
     private ArchiveListAdapter mAdapter;
 

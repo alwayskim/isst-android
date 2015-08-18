@@ -23,11 +23,13 @@ public class UserResponse extends CSTJsonResponse {
 
     @Override
     public void onResponse(JSONObject response) {
-        CSTUser user = (CSTUser) CSTJsonParser.parseJson(response, new CSTUser());
-        //TODO must not pass null or empty user
-        if (clearDatabase) {
-            CSTUserDataDelegate.deleteAllUsers(mContext);
+        if (response != null) {
+            CSTUser user = (CSTUser) CSTJsonParser.parseJson(response, new CSTUser());
+            //TODO must not pass null or empty user
+            if (clearDatabase) {
+                CSTUserDataDelegate.deleteAllUsers(mContext);
+            }
+            CSTUserDataDelegate.saveUser(mContext, user);
         }
-        CSTUserDataDelegate.saveUser(mContext, user);
     }
 }

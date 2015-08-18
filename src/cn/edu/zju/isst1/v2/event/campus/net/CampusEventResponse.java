@@ -23,10 +23,12 @@ public class CampusEventResponse extends CSTJsonResponse {
 
     @Override
     public void onResponse(JSONObject response) {
-        CSTCampusEvent event = (CSTCampusEvent) CSTJsonParser.parseJson(response, new CSTCampusEvent());
-        if (clearDatabase) {
-            CSTCampusEventDataDelegate.deleteAllCampusEvent(mContext);
+        if (response != null) {
+            CSTCampusEvent event = (CSTCampusEvent) CSTJsonParser.parseJson(response, new CSTCampusEvent());
+            if (clearDatabase) {
+                CSTCampusEventDataDelegate.deleteAllCampusEvent(mContext);
+            }
+            CSTCampusEventDataDelegate.saveCampusEventList(mContext, event);
         }
-        CSTCampusEventDataDelegate.saveCampusEventList(mContext, event);
     }
 }

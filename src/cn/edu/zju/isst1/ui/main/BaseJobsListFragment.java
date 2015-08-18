@@ -168,7 +168,7 @@ public class BaseJobsListFragment extends ListFragment {
                 if (m_jobCategory == JobCategory.RECOMMEND) {
                     intent = new Intent(getActivity(), RecommendDetailActivity.class);
                 }
-                intent.putExtra("id", m_listAchive.get(position - 1).getId());
+                intent.putExtra("id", m_listAchive.get(position).getId());
                 getActivity().startActivity(intent);
             }
         });
@@ -222,8 +222,11 @@ public class BaseJobsListFragment extends ListFragment {
                         }
                         m_adapterJobList.notifyDataSetChanged();
                         break;
-                    case STATUS_NOT_LOGIN:// TODO
+                    case STATUS_NOT_LOGIN:
                         ((NewMainActivity) getActivity()).updateLogin();
+                        if (isLoadMore) {
+                            m_nCurrentPage--;
+                        }
                         requestData(m_loadType);
                         break;
                     default:

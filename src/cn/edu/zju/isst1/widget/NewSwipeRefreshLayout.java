@@ -14,9 +14,7 @@ import android.widget.ListView;
 import cn.edu.zju.isst1.R;
 
 /**
- * 继承自SwipeRefreshLayout,从而实现滑动到底部时上拉加载更多的功能.
- *
- * @author mrsimple
+ * 继承自SwipeRefreshLayout,从而实现滑动到底部时上拉加载更多的功能.不设置OnLoadListener取消上拉加载功能
  */
 
 public class NewSwipeRefreshLayout extends SwipeRefreshLayout implements AbsListView.OnScrollListener {
@@ -59,6 +57,8 @@ public class NewSwipeRefreshLayout extends SwipeRefreshLayout implements AbsList
      */
     private boolean isLoading = false;
 
+    private static final String TAG = "NewSwipeRefreshLayout";
+
     /**
      * @param context
      */
@@ -96,7 +96,7 @@ public class NewSwipeRefreshLayout extends SwipeRefreshLayout implements AbsList
                 mListView = (ListView) childView;
                 // 设置滚动监听器给ListView, 使得滚动的情况下也可以自动加载
                 mListView.setOnScrollListener(this);
-                Log.d(VIEW_LOG_TAG, "### 找到listview");
+                Log.d(TAG, "找到listview");
             }
         }
     }
@@ -122,6 +122,7 @@ public class NewSwipeRefreshLayout extends SwipeRefreshLayout implements AbsList
 
             case MotionEvent.ACTION_UP:
                 // 抬起
+                mLastY = (int) event.getRawY();
                 if (canLoad()) {
                     loadData();
                 }
@@ -139,6 +140,7 @@ public class NewSwipeRefreshLayout extends SwipeRefreshLayout implements AbsList
      * @return
      */
     private boolean canLoad() {
+        Log.d(TAG, "canLoad .Distace:" + (mYDown - mLastY) + "  isPullUp:" + isPullUp());
         return isBottom() && !isLoading && isPullUp() && !isRefreshing();
     }
 
@@ -159,7 +161,7 @@ public class NewSwipeRefreshLayout extends SwipeRefreshLayout implements AbsList
      * @return
      */
     private boolean isPullUp() {
-        return (mYDown - mLastY) >= mTouchSlop;
+        return (mYDown - mLastY) >= mTouchSlop * 2.5;
     }
 
     /**
