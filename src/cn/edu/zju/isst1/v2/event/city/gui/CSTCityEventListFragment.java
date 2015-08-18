@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cn.edu.zju.isst1.R;
+import cn.edu.zju.isst1.constant.Constants;
 import cn.edu.zju.isst1.net.NetworkConnection;
 import cn.edu.zju.isst1.util.Lgr;
 import cn.edu.zju.isst1.util.TSUtil;
@@ -268,18 +269,7 @@ public class CSTCityEventListFragment extends CSTBaseFragment
                     Lgr.i(result.toString());
 
                     Message msg = mHandler.obtainMessage();
-                    try {
-                        msg.what = result.getInt("status");
-                        if (isLoadMore) {
-                            isMoreData = result.getJSONArray("body").length() == 0 ? false : true;
-//                            if (!isMoreData) {
-//                                Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
-//                                mListView.setPullLoadEnable(false);
-//                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    msg.what = Constants.STATUS_REQUEST_SUCCESS;
                     mHandler.sendMessage(msg);
                 }
 

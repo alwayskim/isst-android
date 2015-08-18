@@ -244,18 +244,8 @@ public abstract class BaseArchiveListFragment extends CSTBaseFragment
                 super.onResponse(response);
                 Lgr.i("Archive:  ", response.toString());
                 Message msg = mHandler.obtainMessage();
-
-                try {
-                    if (isLoadMore) {
-                        isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-                    }
-                    msg.what = response.getInt("status");
-//                    resetLoadingState();
-                    mHandler.sendMessage(msg);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                msg.what = Constants.STATUS_REQUEST_SUCCESS;
+                mHandler.sendMessage(msg);
             }
 
             @Override

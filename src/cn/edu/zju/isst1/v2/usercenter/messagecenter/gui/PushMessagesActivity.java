@@ -155,18 +155,18 @@ public class PushMessagesActivity extends BaseActivity implements
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);
-                    mMessageList = (CSTMessage) CSTJsonParser
-                            .parseJson(response, new CSTMessage());
-                    for (CSTMessage message : mMessageList.itemList) {
-                        CSTMessageDataDelegate.saveMessage(mContext, message);
-                    }
-                    if (isLoadMore) {
-                        try {
-                            isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+//                    mMessageList = (CSTMessage) CSTJsonParser
+//                            .parseJson(response, new CSTMessage());
+//                    for (CSTMessage message : mMessageList.itemList) {
+//                        CSTMessageDataDelegate.saveMessage(mContext, message);
+//                    }
+//                    if (isLoadMore) {
+//                        try {
+//                            isMoreData = response.getJSONArray("body").length() == 0 ? false : true;
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                     Message msg = mHandler.obtainMessage();
                     msg.what = Constants.STATUS_REQUEST_SUCCESS;
                     mHandler.sendMessage(msg);
